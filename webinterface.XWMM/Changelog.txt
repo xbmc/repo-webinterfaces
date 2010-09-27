@@ -1,0 +1,15 @@
+
+
+XWMM Change log
+
+1.8.0 : 
+- Added actor management
+
+1.8.1 : 
+- Improved music interface
+
+1.9.0 : 
+- Removed cache folder (not required anymore)
+- Added addon.xml and icon.png for addon support
+
+		
