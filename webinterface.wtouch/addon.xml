@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.wtouch"
-  version="0.2.9.3"
+  version="0.3"
   name="wTouch"
   provider-name="peprasetya">
   <requires>

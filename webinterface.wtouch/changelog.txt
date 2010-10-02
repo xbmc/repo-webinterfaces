@@ -1,5 +1,12 @@
+v 0.3 (20100929)
+- Implements icons from  Everaldo Coelho's Crystal Project Icons
+- Browse Music Library now can find by genre first.
+- Little tweak on media info bar, fix when use mobile safari (not installed as Web Application) on landscape mode.
+- Fix overflow cover art.
+- Fix centering icons in Browse menu.
+- Adding installation instruction under Help menu.
+
 v 0.2.9.3 (20100917)
-- Client side sorting for Movies, TV Shows, Artists, Albums
 - Fix addon.xml to be compatible with XBMC addons repository
 - Browse Music have suffle option as first item to suffle the songs on the directory (use playlist). Selecting one song still play only the song directly (not use playlist).
 - Add Browse Music Library, now support for browse by artists, albums, and songs directly.

@@ -46,15 +46,15 @@ var action=0;
 var timeoutId;
 var longerExecute=false;
 
-function sendCommand(cmd)
+function sendCommand(cmd,callback)
 {
   action=0;
   var httpRequest = new XMLHttpRequest();
-  httpRequest.onreadystatechange = function() 
+  if (callback) httpRequest.onreadystatechange = function()
   {
     if (httpRequest.readyState == 4 && httpRequest.status == 200) 
     {
-      var resp=httpRequest.responseText;
+      callback(httpRequest);
     }
   };
   httpRequest.open('GET',"/xbmcCmds/xbmcHttp?command="+cmd, true);
@@ -318,7 +318,7 @@ function jsonRequest(method,params,callback)
 
 function createItem(func,txt,img)
 {
-  return '<li>'+(img?'<img src="'+img+'" style="width:30px;float:left;vertical-align: middle;">':'')+'<span rel="#" onclick="'+func+';return false;">'+txt+'</span>';
+  return '<li><div class="itemicon"><div class="cell">'+(img?'<img src="'+img+'">':'')+'</div></div><span rel="#" onclick="'+func+';return false;">'+txt+'</span>';
 }
 
 var content;
@@ -326,11 +326,11 @@ function browseRoot()
 {
   if (!content) content=document.getElementById('content');
   var buf="<ul>";
-  buf+=createItem('browseVideo()','Video');
-  buf+=createItem('browseMovies()','Movies');
-  buf+=createItem('browseTVShow()','TVShow');
-  buf+=createItem('browseMusic()','Music');
-  buf+=createItem('browseLibrary()','Music Library');
+  buf+=createItem('browseVideo()','Video','FolderVideo.png');
+  buf+=createItem('browseMovies()','Movies','FolderVideo.png');
+  buf+=createItem('browseTVShow()','TVShow','FolderVideo.png');
+  buf+=createItem('browseMusic()','Music','FolderMusic.png');
+  buf+=createItem('browseLibrary()','Music Library','FolderMusic.png');
   content.innerHTML=buf;
 }
 
@@ -515,30 +515,37 @@ function browseLibrary()
   addHistory(8,"Library");
   var buf="<ul>";
   window.scrollTo(0, 1);
-  //buf+=createItem('browseGenres()','Genres');
+  buf+=createItem('browseGenres()','Genres');
   buf+=createItem('browseArtists()','Artists');
   buf+=createItem('browseAlbums()','Albums');
   buf+=createItem('browseSongs()','Songs');
   //buf+=createItem('browseCompilations()','Compilations');
   content.innerHTML=buf;
+  sendCommand('SetResponseFormat()');
 }
 
 function browseGenres()
 {
   addHistory(9,"Genres");
-  var buf="<ul>";
+  var buf="";
   window.scrollTo(0, 1);
-  jsonRequest('AudioLibrary.GetGenres', '',function(httpRequest)
+  sendCommand('querymusicdatabase(select idGenre, strGenre FROM genre order by strGenre)',function(httpRequest)
   {
-    var resp=JSON.parse(httpRequest.responseText)["result"]["genres"];
-    content.innerHTML=buf;
+    var resp=httpRequest.responseXML;
+    var fields=resp.getElementsByTagName('field');
+    if (fields.length>0)
+    for (var i=0;i<fields.length;i+=2)
+    {
+      buf+=createItem("browseArtists('genreid','"+fields[i].textContent+"')",fields[i+1].textContent,"Personal.png");
+    }
+    content.innerHTML="<ul>"+buf;
   });
 }
 
 function browseArtists(ruleName,value)
 {
   addHistory(10,"Artists",ruleName,value);
-  var buf="<ul>";
+  var buf="";
   window.scrollTo(0, 1);
   var param='';
   if (ruleName) param='"'+ruleName+'": '+value+'';
@@ -549,7 +556,7 @@ function browseArtists(ruleName,value)
     for (var idx in resp)
     {
       var item=resp[idx];
-      buf+=createItem("browseAlbums('artistid','"+item["artistid"]+"')",item["label"],(item["thumbnail"])?'/vfs/'+item["thumbnail"]:"DefaultFolder.png");
+      buf+=createItem("browseAlbums('artistid','"+item["artistid"]+"')",item["label"],(item["thumbnail"])?'/vfs/'+item["thumbnail"]:"Personal.png");
     }
     if (ruleName) buf=createItem("browseAlbums('"+ruleName+"',"+value+")","* All Albums","")+buf;
     content.innerHTML="<ul>"+buf;
@@ -570,7 +577,7 @@ function browseAlbums(ruleName,value)
     for (var idx in resp)
     {
       var item=resp[idx];
-      buf+=createItem("browseSongs('albumid','"+item["albumid"]+"')",item["label"],(item["thumbnail"])?'/vfs/'+item["thumbnail"]:"DefaultFolder.png");
+      buf+=createItem("browseSongs('albumid','"+item["albumid"]+"')",item["label"],(item["thumbnail"])?'/vfs/'+item["thumbnail"]:"FolderMusic.png");
     }
     if (ruleName) buf=createItem("browseSongs('"+ruleName+"',"+value+")","* All Songs","")+buf;
     content.innerHTML="<ul>"+buf;
@@ -592,7 +599,7 @@ function browseSongs(ruleName,value)
       var item=resp[idx];
       buf+=createItem("play('songid','"+item["songid"]+"')",item["label"],(item["thumbnail"])?'/vfs/'+item["thumbnail"]:"DefaultFolder.png");
     }
-    if (ruleName) buf=createItem("shuffle('"+ruleName+"',"+value+")","Shuffle...","DefaultFolder.png")+buf;
+    if (ruleName) buf=createItem("shuffle('"+ruleName+"',"+value+")","Shuffle...","Services.png")+buf;
     content.innerHTML=buf;
   });
 }
@@ -631,8 +638,16 @@ var timerId=0;
 
 function refreshTime()
 {
-  leftStat.innerText=formatSecond(++currentTime);
-  rightStat.innerText=formatSecond(totalTime-currentTime);
+  if (currentTime<totalTime)
+  {
+    leftStat.innerText=formatSecond(++currentTime);
+    rightStat.innerText=formatSecond(totalTime-currentTime);
+  } else
+  {
+    clearInterval(timerId);
+    timerId=0;
+    nowPlaying();
+  }
 }
 
 function nowPlaying()
@@ -732,7 +747,7 @@ function nowPlaying()
   position: absolute; 
   left: 35px;
   top: 12px;
-  height: 22px;
+  height: 27px;
   right: 30px;
   width: auto;
   color: #000;
@@ -743,22 +758,44 @@ function nowPlaying()
   white-space: nowrap;
   text-decoration: none;
 }
+
+#content li .itemicon 
+{
+  width:30px;
+  float:left;
+  vertical-align: middle;
+  height: 100%;
+  display: table;
+}
+
+#content li .itemicon .cell
+{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+#content li .itemicon .cell img 
+{
+  width: 100%;
+}
+
 </style>
 </head>
-<body onorientationchange="updateOrientation();" onload="updateOrientation();setTimeout(function() { window.scrollTo(0, 1) }, 100);nowPlaying();setInterval(nowPlaying,15000);" style="margin: 0;background:#000000 no-repeat center center;font-family: Helvetica;">
+<body onorientationchange="updateOrientation();" onload="setTimeout(updateOrientation(), 100);nowPlaying();setInterval(nowPlaying,15000);" style="margin: 0;background:#000000 no-repeat center center;font-family: Helvetica;">
 <div id="toolbar" style="position:absolute;left:0px;top:0px;width:100%;-webkit-transition: all 3000ms linear;background:#6d84a2 url('toolbar.png') repeat-x;z-index:50;min-height:40px;max-height:40px;height:40px;">
 <input name="Keyboard" value="" onkeypress="sendCommand('SendKey('+(61696+event.keyCode)+')');" onfocus="this.value='';this.style.background='white'" onblur="this.value='';this.style.background='url(key.png) no-repeat'" style="width:60px;height:30px;margin:5px;padding:0;font-size:14px;background: url('key.png') no-repeat;border: none;float:left;">
 <input type="button" value="Browse" onclick="openBrowser(true)" style="float:left;margin:5px;min-height:30px;-webkit-appearance:square-button;border: 1px solid;">
 <input type="button" value="Help!" onclick="openHelp(true)" style="float:right;margin:5px;min-height:30px;-webkit-appearance:square-button;border: 1px solid;"><div id="status" style="color:white;"></div>
 </div>
 
-<div id="touchpanel" align="center" style="min-height: 100%;-webkit-user-select: none;" ontouchstart="touchStart(event);" ontouchmove="touchMove(event);" ontouchend="touchEnd(event);" ontouchcancel="touchCancel(event);">
+<div id="touchpanel" align="center" style="min-height: 100%;-webkit-user-select: none;overflow: hidden;" ontouchstart="touchStart(event);" ontouchmove="touchMove(event);" ontouchend="touchEnd(event);" ontouchcancel="touchCancel(event);">
 <img id="cvr" src="splash.png" height="0">
 </div>
-<div id="nowplaystat" style="position:absolute;z-index:10;bottom:0;width:100%;height:30px;padding:10px 0;visibility:hidden;background:url(glass.png) repeat-x" onclick="sendCommand('SendKey(0XF14D)')">
-<div id="titlestatus" align="center" style="position:absolute;left:0;right:0;overflow:hidden;height:20px;text-overflow: ellipsis;white-space: nowrap;"></div>
-<span id="leftstatus" style="position:absolute;left:0;bottom:0;"></span>
-<span id="rightstatus" style="position:absolute;right:0;text-align:right;bottom:0;"></span>
+<div id="nowplaystat" style="position:relative;z-index:10;bottom:45px;width:100%;height:50px;padding:10px 0;visibility:hidden;background:url(glass.png) repeat-x" onclick="sendCommand('SendKey(0XF14D)')">
+<div id="titlestatus" align="center" style="position:absolute;left:0;right:0;top:5px;overflow:hidden;height:20px;text-overflow: ellipsis;white-space: nowrap;"></div>
+<span id="leftstatus" style="position:absolute;left:0;bottom:25px;"></span>
+<span id="rightstatus" style="position:absolute;right:0;text-align:right;bottom:25px;"></span>
 </div>
 
 <div id="help" style="position:absolute;width:100%;-webkit-transition: all 3000ms linear;left:0px;top:0px;visibility:hidden;display:none;background-color:#ccc;z-index:100;min-height:100%;">
@@ -773,9 +810,13 @@ function nowPlaying()
   <li>Tap on keyboard icon to open Soft-Keyboard.
   <li>Tap on media info (bottom panel) to show Player Control.(key M)
 </ul>
-<ul>
-  <li>XBMC wTouch Version 0.2.9.3
-  <li>by Paulus E. Prasetya (peprasetya@gmail.com)
+<ul>Installation Instruction:
+  <li>Tap the plus (+) sign on the bottom navigation bar on your mobile safari.
+  <li>Select "Add to Home Screen"
+  <li>Put your desired icon name
+</ul>
+XBMC wTouch Version 0.3 <br>
+by Paulus E. Prasetya (peprasetya@gmail.com)
 </div>
 
 <div id="browser" style="position:absolute;width:100%;left:0px;top:0px;visibility:hidden;display:none;background-color:#fff;z-index:100;min-height:100%;">
