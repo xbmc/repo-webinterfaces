@@ -16,7 +16,7 @@ var MoviePicture = new Ext.form.FieldSet({
 	cls: 'center-align'
 });
 
-
+var genreRequest;
 var genreRecord = Ext.data.Record.create([
    {name: 'idGenre', mapping: 'field:nth(1)'},		
    {name: 'strGenre', mapping: 'field:nth(2)'}

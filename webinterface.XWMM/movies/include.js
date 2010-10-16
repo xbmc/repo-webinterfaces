@@ -82,6 +82,7 @@ function updateXBMCAll() {
 
 function LoadAllMoviesdetails(){
 	//storeMovieDetails.load();
+	//storegenre.load();
 	storeVideoFlags.load();
 	storeAudioFlags.load();
 }
@@ -106,11 +107,11 @@ function updateAllForms(r) {
 
 function GetMovieDetails(r){
 
-	setXBMCResponseFormat();
-	
-	var conn = new Ext.data.Connection();
-	conn.request({
-		url: "/xbmcCmds/xbmcHttp?command=queryvideodatabase(select c01, c02, c03, c04, c05, c06, c07, c09, c10, c11, c15, c18, c12, c19,  c20, c08 from movie where idMovie="+r.data.idMovie+")",
+	var inputUrl = '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select c01, c02, c03, c04, c05, c06, c07, c09, c10, c11, c15, c18, c12, c19,  c20, c08 from movie where idMovie='+r.data.idMovie+')';
+	Ext.Ajax.request({
+		url: inputUrl,
+		method: 'GET',
+		async: false,
 		success: function(resp,opt) {		
 			Ext.getCmp('cover').updateSrc(r);
 			XBMCgetMoviesFields(resp,r);	
@@ -119,10 +120,10 @@ function GetMovieDetails(r){
 			updateAllForms(r);
 			r.data.details = true;
 		},
-		failure: function(resp,opt) {
-		
-		}
-	})
+		failure: function(t){},
+		timeout: 2000
+	});	
+
 }
 
 function updateXBMCMovieDetails() {
@@ -193,6 +194,7 @@ function GetMovieGenres(record){
 			Ext.Ajax.request({
 				url: inputUrl,
 				method: 'GET',
+				async: false,
 				success: function (t){
 						var responseArr = TrimXbmcXml(t);
 						responseArr = responseArr.split("<record>");
@@ -225,6 +227,7 @@ function checkSet(val) {
 
 function updateGenreGrid(t){
 
+	
 	Genregrid.getSelectionModel().clearSelections(false);
 	Genregrid.getSelectionModel().selectRows(t, true);
 

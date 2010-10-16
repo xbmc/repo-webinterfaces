@@ -28,9 +28,6 @@ var storeMovie = new Ext.data.GroupingStore({
           // records will have a "record" tag
 		root:'data'	       
        }, MovieRecord),
-	listeners: {
-        beforeload: function(){ setXBMCResponseFormat() }
-    },
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select movie.idMovie, strFilename, strGenre, c00, strPath, c14, movie.idFile, playCount, sets.idSet, strSet FROM movie JOIN files ON (movie.idFile = files.idFile) Join path ON (files.idPath = path.idPath) LEFT OUTER Join genrelinkmovie ON (genrelinkmovie.idMovie = movie.idMovie) LEFT OUTER JOIN genre ON (genrelinkmovie.idGenre = genre.idGenre) LEFT OUTER JOIN setlinkmovie ON movie.idMovie = setlinkmovie.idMovie LEFT OUTER JOIN sets ON setlinkmovie.idSet = sets.idSet)' 
 });
 
@@ -40,6 +37,7 @@ Moviegrid = new Ext.grid.GridPanel({
 	id: 'Moviegrid',
 	enableDragDrop: false,
 	stripeRows: true,
+	loadMask: true,
 	viewconfig: {forceFit: true},
 	view: new Ext.grid.GroupingView({
 		forceFit:true,

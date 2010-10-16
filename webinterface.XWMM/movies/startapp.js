@@ -8,7 +8,8 @@
 Ext.onReady(function() {
 
 	//Load existing genres
-	storegenre.load();
+	
+	//storegenre.load();
 	LoadAllMoviesdetails();
 	MovieSetStore.load();
 
@@ -78,10 +79,33 @@ Ext.onReady(function() {
     });
 	
 	//Start Application with Main Panel
-	var App = new Movie.Mainpanel({
-		renderTo: Ext.getBody()
-	});
+
+	// storegenre.on( 'load', function( store, records, options ) {
+		// console.log( 'succesfully loaded' );
+		
+	// } ); 
 	
+	setXBMCResponseFormat();
+	storegenre.load();
+
+	var inputUrl = '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idGenre, strGenre FROM genre)';
+	Ext.Ajax.request({
+		url: inputUrl,
+		method: 'GET',
+		async: false,
+		success: function (t){
+			genreRequest = t.responseText
+		},
+		failure: function(t){},
+		timeout: 2000
+	});
+
+
+	
+	 var App = new Movie.Mainpanel({
+		 renderTo: Ext.getBody()
+	 });
+	 	
 	// We can retrieve a reference to the data store
 	// via the StoreMgr by its storeId
 	Ext.QuickTips.init();

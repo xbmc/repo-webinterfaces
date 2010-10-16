@@ -1,5 +1,5 @@
 
-var myVersion = '1.9.0'
+var myVersion = '1.9.1'
 
 var videoFlagsRecord = Ext.data.Record.create([
    {name: 'idFile', mapping: 'field:nth(1)'},		

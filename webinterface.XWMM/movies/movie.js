@@ -49,8 +49,8 @@ var MovieCover = new Ext.Container ({
 				path=""
 			}
 			thumbCrc = FindCRC(path+file);
-			this.el.dom.src = '../../vfs/special://masterprofile/Thumbnails/Video/'+thumbCrc.substring(0,1)+'/'+thumbCrc+'.tbn';
-			r.data.cover = this.el.dom.src
+			r.data.cover = 'special://masterprofile/Thumbnails/Video/'+thumbCrc.substring(0,1)+'/'+thumbCrc+'.tbn';
+			this.el.dom.src = '../../vfs/'+ r.data.cover;
 			// copyXBMCVideoThumb(thumbCrc, r, this);
 		}
 	}
@@ -303,7 +303,8 @@ Movie.Mainpanel = Ext.extend(Ext.Panel, {
 		else{ 
 			updateGenreGrid(r.data.genres);
 			storeActor.load();
-			updateAllForms(r)};
+			updateAllForms(r)
+		};
 		
 		
 	}
