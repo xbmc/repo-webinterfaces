@@ -74,7 +74,7 @@ function myExpend(node, event) {
 		if (node.attributes.leaf == false) {
 			node.attributes.scansub = true;
 			var mypath = normalizeString(node.attributes.data);
-			var myParams = '{\"jsonrpc\": \"2.0\", \"method\": \"Files.GetDirectory\", \"params\": {\"type\": \"video\", \"directory\": \"'+mypath+'\"}, \"id\": 1}';
+			var myParams = '{\"jsonrpc\": \"2.0\", \"method\": \"Files.GetDirectory\", \"params\": {\"type\": \"files\", \"directory\": \"'+mypath+'\"}, \"id\": 1}';
 			var tempStr = xbmcJsonRPC(myParams);
 			if (tempStr.directories != undefined) {
 				for (var i = 0; i < tempStr.directories.length; i++) {
@@ -166,9 +166,7 @@ var storeFiles = new Ext.data.Store({
 	reader: new Ext.data.JsonXBMCReader({
 			root:'data'	       
        }, filesRecord),
-	listeners: {
-			beforeload: function(){ setXBMCResponseFormat() }
-		},
+
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, idPath, strFilename, playCount FROM files)'
 });
 
@@ -177,9 +175,6 @@ var storePath = new Ext.data.Store({
 	reader: new Ext.data.JsonXBMCReader({
 			root:'data'	       
        }, pathRecord),
-	listeners: {
-			beforeload: function(){ setXBMCResponseFormat() }
-		},
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idPath, strPath, strContent, strScraper FROM path)'
 });
 

@@ -14,12 +14,10 @@ var MovieSetRecord = Ext.data.Record.create([
 
 var MovieSetStore = new Ext.data.GroupingStore({
 	sortInfo: {field: 'strSet', direction: "ASC"},
+	id: 'moviesetstore',
 	reader: new Ext.data.JsonXBMCReader({
 		root:'data'	       
        }, MovieSetRecord),
-	listeners: {
-        beforeload: function(){ setXBMCResponseFormat() }
-    },
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idSet, strSet FROM sets)' 
 });
 
@@ -37,12 +35,10 @@ var MoviesInSetRecord = Ext.data.Record.create([
 
 var MoviesInSetStore = new Ext.data.GroupingStore({
 	sortInfo: {field: 'c00', direction: "ASC"},
+	id: 'moviesinsetstore',
 	reader: new Ext.data.JsonXBMCReader({
 		root:'data'	       
        }, MoviesInSetRecord),
-	listeners: {
-        beforeload: function(){ setXBMCResponseFormat() }
-    },
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select movie.idMovie, c00 FROM setlinkmovie JOIN movie ON setlinkmovie.idMovie = movie.idMovie WHERE idSet = -1)' 
 });
 

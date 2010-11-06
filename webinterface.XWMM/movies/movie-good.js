@@ -4,6 +4,7 @@
 
 Ext.ns('Movie');
 
+
 var Stars = new Ext.Container ({
 	id: 'movierating',
 	border: 0,
@@ -22,41 +23,12 @@ var Stars = new Ext.Container ({
 	}
 });
 
-var MovieFanart = new Ext.Container ({
-	id: 'fanart',
-	border: 0,
-	width: 295,
-	height:165,
-	autoEl: {tag: 'img', src: "../images/defaultMovieFanart.jpg", qtip:'Double-click to change'},
-		refreshMe : function(){
-		this.el.dom.src =  this.el.dom.src + '?dc=' + new Date().getTime();
-	},
-	updateSrc :function(r){
-		if (r.data.details)	{
-			this.el.dom.src = '../../vfs/'+r.data.fanart
-		}
-		else {	
-			var file = r.data.strFilename;
-			var path = r.data.strPath;
-			if (file.substr(0,6) == 'stack:'){	//it is a stack
-				file = file.replace(/stack:\/\//g, "");
-				var tempArr = file.split(" , ");
-				file = tempArr[0];
-				path=""
-			}
-			thumbCrc = FindCRC(path+file);
-			r.data.fanart = 'special://masterprofile/Thumbnails/Video/Fanart/'+thumbCrc+'.tbn';
-			this.el.dom.src = '../../vfs/'+ r.data.fanart;
-		}
-	}
-});
-
 var MovieCover = new Ext.Container ({
 	id: 'cover',
 	cls: 'center-align',
 	border: 0,
-	width: 250,
-	height:375,
+	width: 300,
+	height:400,
 	autoEl: {tag: 'img', src: "../images/defaultMovieCover.jpg", qtip:'Double-click to change'},
 	refreshMe : function(){
 		this.el.dom.src =  this.el.dom.src + '?dc=' + new Date().getTime();
@@ -163,130 +135,105 @@ var MoviedetailPanel = new Ext.FormPanel({
 			updateGenreGrid(currentRecord.data.genres)
 		}
 	}],    
-	
-	layout:'table',
-	layoutConfig: {columns:3},
-	defaults: {frame:true, width:220, height: 120, labelWidth: 60},
-	items:[{
-		width: 300,
-		height : 90,
-		layout: 'form',
-		defaults: {	xtype:'textfield',
-			width: 220,
-			listeners:{'change' : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
-		},
-		items: [{
-			fieldLabel: 'Title',
-			name: 'Movietitle',
-			XBMCName: 'c00',
-			allowBlank: false
-		},{
-			fieldLabel: 'Sort Title',
-			name: 'sortTitle',
-			XBMCName: 'c10'
-
-		},{
-			fieldLabel: 'Genres',
-			name: 'Moviegenres',
-			XBMCName: 'c14',
-			id:'moviegenres',
-			readOnly: true
-
-		}]
-	},{	
-		layout: 'form',
-		width:160,
-		height: 90,
-		defaults: {	xtype:'textfield',
-			width: 80,
-			listeners:{'change' : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
-		},
-		labelWidth: 60,
+	items: [{
+		layout:'column',
+		frame:true,
+		labelWidth:50,
+		bodyStyle:'padding:5px',
 		items:[{
-			fieldLabel: 'Release',
-			XBMCName: 'c07',
-			name: 'MovieRelease'
-		},{	
-			fieldLabel: 'Rating',
-			name: 'MovieRating',
-			XBMCName: 'c05'
-		},{
-			fieldLabel: 'Duration',
-			XBMCName: 'c11',
-			name: 'MovieRuntime'
-		}]
-	},{
-		rowspan:2,
-		width:255,
-		height: 410,
-		items: [Stars, MovieCover]
-	},{
-		layout : 'form',
-		width: 460,
-		height: 320,
-        colspan:2,
-		defaults: {	xtype:'textfield', width: 370},
-		items: [{
-			xtype:'textarea',
-			name:'Moviedescr',
-			XBMCName: 'c01',
-			fieldLabel:'Description',
-			height: 95
-		},{
-			xtype:'textarea',
-			height: 34,
-			name:'MovieOutline',
-			XBMCName: 'c02',
-			fieldLabel:'Abstract'
-		},{
-			xtype:'textarea',
-			name:'MovieTagline',
-			XBMCName: 'c03',
-			fieldLabel:'Tag Line',
-			height: 34
-		},{	
-			fieldLabel: 'Director',
-			XBMCName: 'c15',
-			name: 'MovieDirector'
-		},{
-			fieldLabel: 'Viewers',
-			XBMCName: 'c12',
-			name: 'MovieViewers'
-		},{
-			fieldLabel: 'Studio',
-			XBMCName: 'c18',
-			name: 'MovieStudio'
-		},{	
-			fieldLabel: 'Trailer',
-			id: 'trailer',
-			XBMCName: 'c19',
-			name: 'MovieTrailer'
-		},{
-			xtype: 'button',
-			text: 'View Trailer',
-			handler: function(){
-				if (Ext.getCmp('trailer').getValue() != '') {
-				//var w = (window.open(urlstring, wname, wfeatures, false));
-						window.open(Ext.getCmp('trailer').getValue(),'')
-				}
+			columnWidth:0.56,
+			layout: 'form',
+			labelWidth: 65,
+			defaults: {	xtype:'textfield',
+				width: 300,
+				listeners:{'change' : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
 			},
-			width: 60
+			items: [{
+				fieldLabel: 'Title',
+				name: 'Movietitle',
+				XBMCName: 'c00',
+				allowBlank: false
+			},{
+				fieldLabel: 'Sort Title',
+				name: 'sortTitle',
+				XBMCName: 'c10'
+			},{
+				fieldLabel: 'Release',
+				XBMCName: 'c07',
+				name: 'MovieRelease'
+			},{
+				fieldLabel: 'Genres',
+				name: 'Moviegenres',
+				XBMCName: 'c14',
+				id:'moviegenres',
+				readOnly: true
+			},{
+				xtype:'textarea',
+				height: 130,
+				name:'Moviedescr',
+				XBMCName: 'c01',
+				fieldLabel:'Description'
+			},{
+				xtype:'textarea',
+				height: 34,
+				name:'MovieOutline',
+				XBMCName: 'c02',
+				fieldLabel:'Abstract'
+			},{
+				xtype:'textarea',
+				name:'MovieTagline',
+				XBMCName: 'c03',
+				fieldLabel:'Tag Line',
+				height: 34
+			},{
+				fieldLabel: 'Duration',
+				XBMCName: 'c11',
+				name: 'MovieRuntime'
+			},{
+				fieldLabel: 'Director',
+				XBMCName: 'c15',
+				name: 'MovieDirector'
+			},{
+				fieldLabel: 'Viewers',
+				XBMCName: 'c12',
+				name: 'MovieViewers'
+			},{
+				fieldLabel: 'Studio',
+				XBMCName: 'c18',
+				name: 'MovieStudio'
+			},{	
+				fieldLabel: 'Rating',
+				name: 'MovieRating',
+				XBMCName: 'c05'
+			},{
+				fieldLabel: 'Trailer',
+				id: 'trailer',
+				XBMCName: 'c19',
+				name: 'MovieTrailer'
+			},{
+				xtype: 'button',
+				text: 'View Trailer',
+				handler: function(){
+					if (Ext.getCmp('trailer').getValue() != '') {
+					//var w = (window.open(urlstring, wname, wfeatures, false));
+
+						window.open(Ext.getCmp('trailer').getValue(),'')
+					}
+				},
+				width: 60
+			}]
+
+		},{ 
+			columnWidth:0.44,
+			defaults:{xtype:'container'},
+			items: [
+				Stars,
+				MovieCover,
+				FlagsPanel	
+			]
+
 		}]
-	},{
-		frame : false,
-		width: 300,
-		height: 120,
-		items: [MovieFanart]
-	},{
-		width: 160,
-		//frame : false,
-		items: [AudioFlagsPanel]
-		// height : 200
-	},{
-		width : 255,
-		//frame : false,
-		items: [VideoFlagsPanel]
-		// heigth :
+
 	}]
 })
 
@@ -304,7 +251,7 @@ Movie.Mainpanel = Ext.extend(Ext.Panel, {
 		items: [{		
 			xtype: 'panel',
 			region:'east',
-			//margins:'5 5 5 5',
+			margins:'5 5 5 5',
 			split:true,
 			width: 225,
 			items: [{

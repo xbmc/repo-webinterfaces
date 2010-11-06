@@ -48,6 +48,7 @@ var GenrecolModel = new Ext.grid.ColumnModel([
 ]);
 
 var storegenre = new Ext.data.Store({
+	id: 'storegenre',
 	sortInfo: {field: 'strGenre', direction: "ASC"},
 	reader: new Ext.data.JsonXBMCReader({
 		root:'data'	       

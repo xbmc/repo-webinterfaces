@@ -15,9 +15,6 @@ var storeActor = new Ext.data.Store({
 	reader: new Ext.data.JsonXBMCReader({
 		root:'data'	       
 		}, actorRecord),
-	listeners: {
-        beforeload: function(){ setXBMCResponseFormat() }
-    },
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT strActor, strRole FROM actorlinktvshow JOIN actors ON (actorlinktvshow.idActor = actors.idActor) where idShow =-1)' 
 	
 });

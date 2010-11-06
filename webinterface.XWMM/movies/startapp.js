@@ -7,12 +7,6 @@
 
 Ext.onReady(function() {
 
-	//Load existing genres
-	
-	//storegenre.load();
-	LoadAllMoviesdetails();
-	MovieSetStore.load();
-
 	menuBar.add({
 			xtype: 'tbspacer'
 		},{
@@ -59,14 +53,14 @@ Ext.onReady(function() {
 			value: '',
 			style: 'background: #F0F0F9;'
 	});
-
 	
 	menuBar.add({
         text: 'X',
         tooltip: 'Clear quicksearch',
         handler: function() {
-            if (searchBox.getValue().length!=0) {
-                searchBox.setValue('');
+			var item = Ext.getCmp('searchBox');
+            if (item.getValue().length!=0) {
+                item.setValue('');
                 storeMovie.clearFilter();
             }
         }
@@ -78,128 +72,128 @@ Ext.onReady(function() {
 			text: myVersion
     });
 	
-	//Start Application with Main Panel
-
-	// storegenre.on( 'load', function( store, records, options ) {
-		// console.log( 'succesfully loaded' );
-		
-	// } ); 
-	
 	setXBMCResponseFormat();
-	storegenre.load();
 
-	var inputUrl = '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idGenre, strGenre FROM genre)';
-	Ext.Ajax.request({
-		url: inputUrl,
-		method: 'GET',
-		async: false,
-		success: function (t){
-			genreRequest = t.responseText
-		},
-		failure: function(t){},
-		timeout: 2000
-	});
+	var storesToLoad = [
+	   {store : 'storevideoflags', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strVideoCodec, fVideoAspect, iVideoWidth, iVideoHeight from streamdetails where iStreamType=0)'},
+	   {store : 'storeaudioflags', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strAudioCodec, iAudioChannels from streamdetails where iStreamType=1)'},
+	   {store : 'moviesetstore', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idSet, strSet FROM sets)'},
+	   {store : 'storegenre', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idGenre, strGenre FROM genre)'}
+	];
 
-
+	loadStartupStores = function(record, options, success){
+		 var task = storesToLoad.shift();  //From the top
+		 if(task){
+			if(success !== false){
+			  task.callback = arguments.callee   //let's do this again
+			  var store = Ext.StoreMgr.lookup(task.store);
+			  store ? store.load(task) : complain('bad store specified');
+			} else { 
+			  complain( );
+			}
+		 } else {startMyApp()}
+	};
 	
-	 var App = new Movie.Mainpanel({
-		 renderTo: Ext.getBody()
-	 });
+	 loadStartupStores();
 	 	
-	// We can retrieve a reference to the data store
-	// via the StoreMgr by its storeId
-	Ext.QuickTips.init();
-	storeMovie.load();
-	
-	
 	//Moviegrid.on('contextmenu', gridContextHandler);
 	
-	// begin search config
-    var searchStore = new Ext.data.SimpleStore({
-        fields: ['query'],
-	data: []
-    });
-    var searchBox = new Ext.form.ComboBox({
-        store: searchStore,
-        displayField: 'query',
-        typeAhead: false,
-        mode: 'local',
-        triggerAction: 'all',
-		applyTo: 'quicksearch',
-        hideTrigger: true
-    });
+	function startMyApp() {
+		var App = new Movie.Mainpanel({
+			renderTo: Ext.getBody()	 
+		});
+		Ext.QuickTips.init();
+		storeMovie.load();
+		
+		// begin search config
+		var searchStore = new Ext.data.SimpleStore({
+			fields: ['query'],
+		data: []
+		});
+		
+		var searchBox = new Ext.form.ComboBox({
+			id: 'searchBox',
+			store: searchStore,
+			displayField: 'query',
+			typeAhead: false,
+			mode: 'local',
+			triggerAction: 'all',
+			applyTo: 'quicksearch',
+			hideTrigger: true
+		});
 
-    var searchRec = Ext.data.Record.create([
-        {name: 'query', type: 'string'}
-    ]);
+		var searchRec = Ext.data.Record.create([
+			{name: 'query', type: 'string'}
+		]);
 
 
-    var onFilteringBeforeQuery = function(e) {
-	//grid.getSelectionModel().clearSelections();
-        if (this.getValue().length==0) {
-                    storeMovie.clearFilter();
-                } else {
-                    var value = this.getValue().replace(/^\s+|\s+$/g, "");
-                    if (value=="")
-                        return;
-                    storeMovie.filterBy(function(r) {
-                        valueArr = value.split(/\ +/);
-                        for (var i=0; i<valueArr.length; i++) {
-                            re = new RegExp(Ext.escapeRe(valueArr[i]), "i");
-                            if (re.test(r.data['Movietitle'])==false
-                                //&& re.test(r.data['light'])==false) {
-								) {
-                                return false;
-                            };
-                        }
-                        return true;
-                    });
-                }
-    };
-    var onQuickSearchBeforeQuery = function(e) {
-        if (this.getValue().length==0) {
-        } else {
-            var value = this.getValue().replace(/^\s+|\s+$/g, "");
-            if (value=="")
-                return;
-            searchStore.clearFilter();
-            var vr_insert = true;
-            searchStore.each(function(r) {
-                if (r.data['query'].indexOf(value)==0) {
-                    // backspace
-                    vr_insert = false;
-                    return false;
-                } else if (value.indexOf(r.data['query'])==0) {
-                    // forward typing
-                    searchStore.remove(r);
-                }
-            });
-            if (vr_insert==true) {
-                searchStore.each(function(r) {
-                    if (r.data['query']==value) {
-                        vr_insert = false;
-                    }
-                });
-            }
-            if (vr_insert==true) {
-                var vr = new searchRec({query: value});
-                searchStore.insert(0, vr);
-            }
-            var ss_max = 4; // max 5 query history, starts counting from 0; 0==1,1==2,2==3,etc
-            if (searchStore.getCount()>ss_max) {
-                var ssc = searchStore.getCount();
-                var overflow = searchStore.getRange(ssc-(ssc-ss_max), ssc);
-                for (var i=0; i<overflow.length; i++) {
-                    searchStore.remove(overflow[i]);
-                }
-            }
+		var onFilteringBeforeQuery = function(e) {
+		//grid.getSelectionModel().clearSelections();
+			if (this.getValue().length==0) {
+						storeMovie.clearFilter();
+					} else {
+						var value = this.getValue().replace(/^\s+|\s+$/g, "");
+						if (value=="")
+							return;
+						storeMovie.filterBy(function(r) {
+							valueArr = value.split(/\ +/);
+							for (var i=0; i<valueArr.length; i++) {
+								re = new RegExp(Ext.escapeRe(valueArr[i]), "i");
+								if (re.test(r.data['Movietitle'])==false
+									//&& re.test(r.data['light'])==false) {
+									) {
+									return false;
+								};
+							}
+							return true;
+						});
+					}
+		};
+		
+		var onQuickSearchBeforeQuery = function(e) {
+			if (this.getValue().length==0) {
+			} else {
+				var value = this.getValue().replace(/^\s+|\s+$/g, "");
+				if (value=="")
+					return;
+				searchStore.clearFilter();
+				var vr_insert = true;
+				searchStore.each(function(r) {
+					if (r.data['query'].indexOf(value)==0) {
+						// backspace
+						vr_insert = false;
+						return false;
+					} else if (value.indexOf(r.data['query'])==0) {
+						// forward typing
+						searchStore.remove(r);
+					}
+				});
+				if (vr_insert==true) {
+					searchStore.each(function(r) {
+						if (r.data['query']==value) {
+							vr_insert = false;
+						}
+					});
+				}
+				if (vr_insert==true) {
+					var vr = new searchRec({query: value});
+					searchStore.insert(0, vr);
+				}
+				var ss_max = 4; // max 5 query history, starts counting from 0; 0==1,1==2,2==3,etc
+				if (searchStore.getCount()>ss_max) {
+					var ssc = searchStore.getCount();
+					var overflow = searchStore.getRange(ssc-(ssc-ss_max), ssc);
+					for (var i=0; i<overflow.length; i++) {
+						searchStore.remove(overflow[i]);
+					}
+				}
+		}
+		};
+		
+		searchBox.on("beforequery", onQuickSearchBeforeQuery);
+		searchBox.on("beforequery", onFilteringBeforeQuery);
+		searchBox.on("select", onFilteringBeforeQuery); 
+		// end search
 	}
-    };
-    searchBox.on("beforequery", onQuickSearchBeforeQuery);
-    searchBox.on("beforequery", onFilteringBeforeQuery);
-    searchBox.on("select", onFilteringBeforeQuery); 
-	// end search
-	
-
 	
 }); 

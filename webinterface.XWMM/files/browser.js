@@ -8,7 +8,9 @@
 
 Ext.onReady(function() {
 
-	// costumize menu
+	// customize menu
+	//Ext.StoreMgr.get('scraperstore').load({data: scraperList});
+
 	menuBar.add({			
 			xtype: 'tbfill'
 		},{
@@ -16,15 +18,14 @@ Ext.onReady(function() {
     });
 	
 	setXBMCResponseFormat();
-	
+	parseScrapers();
 	var str = '';
 	var myjson = '';
 
-		var storesToLoad = [
+	var storesToLoad = [
 	   {store : 'storepath', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idPath, strPath, strContent, scanRecursive, useFolderNames, noUpdate strScraper FROM path)' },
 	   {store : 'storefiles', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, idPath, strFilename, playCount FROM files)' }
 	];
-
 
 	loadStartupStores = function(record, options, success){
 		 var task = storesToLoad.shift();  //From the top
@@ -36,14 +37,17 @@ Ext.onReady(function() {
 			} else { 
 			  complain( );
 			}
-		 } else {
+		 } else {		
 			runtree();
 		 }
 	};
 	loadStartupStores();
 	
+	scraperStore.loadData(scraperList);
+	
 function runtree() {
 	
+
 	var treegrid = new Ext.ux.tree.TreeGrid({
         title: 'XBMC File browser',
 		region: 'west',
@@ -67,7 +71,7 @@ function runtree() {
 		columns:[{
             header: 'Sources',
             dataIndex: 'text',
-            width: 450
+            width: 400
 		},{
 			header: '',
 			dataIndex: 'watched',
@@ -108,7 +112,7 @@ function runtree() {
 		},{
             header: 'Scraper',
 			dataIndex: 'xbmcScraper',
-            width: 75
+            width: 120
 		}]
 	});
 	
@@ -187,6 +191,8 @@ function runtree() {
 	
 	getStacks();
 
+	
+	
 	var myVideoShares = getShares('video');
 	
 	

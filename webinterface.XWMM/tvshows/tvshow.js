@@ -32,12 +32,12 @@ var TVShowstars = new Ext.Container ({
 	autoEl: {tag: 'img', src: "../images/stars/0.png"},
 	updateSrc :function(r){
 		if (r.data.details)	{
-			this.el.dom.src = r.data.ShowRating
+			this.el.dom.src = r.data.ShowStars
 		}
 		else {
 			var value = Math.round(r.data.ShowRating);
-			r.data.ShowRating =  '../images/stars/'+value+'.png';
-			this.el.dom.src = r.data.ShowRating;
+			r.data.ShowStars =  '../images/stars/'+value+'.png';
+			this.el.dom.src = r.data.ShowStars;
 		}
 	}
 });
@@ -45,8 +45,8 @@ var TVShowstars = new Ext.Container ({
 var EpisodeStars = new Ext.Container ({
 	id: 'episoderating',
 	border: 0,
-	width: 96,
-	height:27,
+	width: 72,
+	height:20,
 	autoEl: {tag: 'img', src: "../images/stars/0.png"},
 		updateSrc :function(r){
 		if (r.data.details)	{
@@ -70,12 +70,14 @@ var TVShowCover = new Ext.Container ({
 	autoEl: {tag: 'img', src: "../images/nobanner.png"},
 	updateSrc :function(r){
 		if (r.data.details)	{
-			this.el.dom.src = r.data.ShowCover
+			this.el.dom.src = '../../vfs/'+ r.data.cover;
 		}
 		else {	
 			thumbCrc = FindCRC(r.data.ShowPath);
-			this.el.dom.src = '../../vfs/special://masterprofile/Thumbnails/Video/'+thumbCrc.substring(0,1)+'/'+thumbCrc+'.tbn';
-			r.data.cover = this.el.dom.src
+			r.data.cover = 'special://masterprofile/Thumbnails/Video/'+thumbCrc.substring(0,1)+'/'+thumbCrc+'.tbn';
+			this.el.dom.src = '../../vfs/'+ r.data.cover;
+			// this.el.dom.src = '../../vfs/special://masterprofile/Thumbnails/Video/'+thumbCrc.substring(0,1)+'/'+thumbCrc+'.tbn';
+			// r.data.cover = this.el.dom.src
 			//copyXBMCVideoThumb(thumbCrc,r, this, "cover");			
 		}
 	}
@@ -85,8 +87,8 @@ var SeasonCover = new Ext.Container ({
 	id: 'seasoncover',
 	cls: 'center-align',
 	border: 0,
-	width: 200,
-	height:289,
+	width: 160,
+	height:231,
 	autoEl: {tag: 'img', src: "../images/defaultMovieCover.jpg"},
 	updateSrc :function(r, season){
 		
@@ -206,7 +208,7 @@ var TVShowdetailPanel = new Ext.FormPanel({
 	}]
 })
 
-var EpisodedetailPanel = new Ext.FormPanel({
+var EpisodedetailPanel2 = new Ext.FormPanel({
 	region: 'center',
 	id: 'episodedetailPanel',
 	trackResetOnLoad: true,
@@ -235,7 +237,6 @@ var EpisodedetailPanel = new Ext.FormPanel({
 				name: 'EpisodeAired',
 				XBMCName: 'c05',
 				width: 215
-				//readOnly: true
 			},{
 				xtype:'textarea',
 				fieldLabel: 'Description',
@@ -253,7 +254,7 @@ var EpisodedetailPanel = new Ext.FormPanel({
 				name: 'EpisodeRating',
 				XBMCName: 'c03',
 				width: 215
-			},FlagsPanel
+			}, AudioFlagsPanel, VideoFlagsPanel 
 			]
 
 		},{ 
@@ -265,6 +266,66 @@ var EpisodedetailPanel = new Ext.FormPanel({
 			]
 		}]
 
+	}]
+})
+
+var EpisodedetailPanel = new Ext.FormPanel({
+	//width: 600,
+	region: 'center',
+	id: 'episodedetailPanel',
+	trackResetOnLoad : true,
+	title: "<div align='center'>Movie details</div>",
+	defaults:{hideLabels:true, border:false}, 
+	layout:'table',
+	layoutConfig: {columns:2},
+	defaults: {frame:true, labelWidth: 60},
+	items:[{
+		layout: 'form',
+		width : 370,
+		defaults: {	xtype:'textfield',
+			width: 275,
+			listeners:{'change' : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
+		},
+		items: [{
+			fieldLabel: 'Title',
+			name: 'EpisodeTitle',
+			XBMCName: 'c00',
+			allowBlank: false
+		},{
+			fieldLabel: 'Aired',
+			name: 'EpisodeAired',
+			XBMCName: 'c05'
+		},{
+			xtype:'textarea',
+			fieldLabel: 'Description',
+			name: 'EpisodeDescr',
+			XBMCName: 'c01',
+			height: 145
+		},{
+			fieldLabel: 'Director',
+			name: 'EpisodeDirector',
+			XBMCName: 'c10'
+		},{
+			fieldLabel: 'Rating',
+			name: 'EpisodeRating',
+			XBMCName: 'c03'
+		}]
+	},{
+		//rowspan:2,
+		width:170,
+		//height: 260,
+		items: [EpisodeStars, SeasonCover]
+	},{
+		//width: 160,
+		//frame : false,
+		items: [VideoFlagsPanel]
+		
+		// height : 200
+	},{
+		//width : 255,
+		//frame : false,
+		items: [AudioFlagsPanel]
+		// heigth :
 	}]
 })
 
@@ -283,17 +344,14 @@ tvShowGrid = new Ext.grid.GridPanel({
 	split: true,
 	store: new TVShow.Store({
 	storeId: 'gridtvshowstore',
-		listeners: {
-			beforeload: function(){ setXBMCResponseFormat() }
-		},
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select tvshow.idShow, tvshow.c00, tvshow.c08, counts.totalcount, counts.watchedcount, counts.totalcount=counts.watchedcount from tvshow join tvshowlinkpath on tvshow.idShow=tvshowlinkpath.idShow join path on path.idpath=tvshowlinkpath.idPath left outer join (    select tvshow.idShow as idShow,count(1) as totalcount,count(files.playCount) as watchedcount from tvshow     join tvshowlinkepisode on tvshow.idShow = tvshowlinkepisode.idShow JOIN episode on episode.idEpisode = tvshowlinkepisode.idEpisode     join files on files.idFile = episode.idFile     group by tvshow.idShow) counts on tvshow.idShow = counts.idShow)'
 	})
 });
 
-
 EpisodeGrid = new Ext.grid.GridPanel({
 	cm: episodecolModel,
 	id: 'episodegrid',
+	loadMask: true,
 	title: 'Episodes List',
 	enableDragDrop: false,
 	viewconfig: {forceFit: true},
@@ -311,15 +369,26 @@ EpisodeGrid = new Ext.grid.GridPanel({
             gridContextMenu.showAt(e.getXY());    
             e.stopEvent();
             return false;
-        }}	
+        }}
 	},
 	split: true,
 	store: new TVShow.EpiStore({
 		storeId: 'gridepisodestore',
-		listeners: {
-			beforeload: function(){ setXBMCResponseFormat() }
+		listeners:{
+			load: function() {
+				if (currentRecord.data.details == undefined){
+					GetTvshowGenres(currentRecord);
+					GettvShowDetails(currentRecord);
+				}
+				else {
+					updateTvShowForms(currentRecord);
+					updateGenreGrid(currentRecord.data.selectedGenre);
+					Ext.getCmp('filedetailPanel').getForm().loadRecord(currentRecord);
+				}
+				storeActor.proxy.conn.url = "/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT strActor, strRole FROM actorlinktvshow JOIN actors ON (actorlinktvshow.idActor = actors.idActor) where idShow ="+currentRecord.data.idShow+")";
+				storeActor.load();
+			}
 		},
-		//url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT episode.idEpisode, episode.c00, episode.c12, episode.c13 FROM episode JOIN tvshowlinkepisode ON (episode.idEpisode = tvshowlinkepisode.idEpisode) where tvshowlinkepisode.idShow=-1)' 
 		url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT idEpisode, c00, c12, c13, playCount FROM episodeview WHERE idShow=-1)' 
 	})
 });
@@ -343,7 +412,6 @@ var fileDetailsPanel = new Ext.FormPanel({
 		XBMCName: 'c05'
 	}]
 })
-
 
 //Main Panel
 TVShow.Mainpanel = Ext.extend(Ext.Panel, {
@@ -422,31 +490,18 @@ TVShow.Mainpanel = Ext.extend(Ext.Panel, {
 	},
 
 	tvShowSelect: function(sm, rowIdx, r) {
-		
+
 		TVShowdetailPanel.setTitle("<div align='center'>"+r.data.ShowTitle+" ( "+r.data.totalCount+" Episodes / "+r.data.watchedCount+" watched )</div>");
 		selectedMovie = r.data.idShow;
 		currentRecord = r;
-		
-		Ext.StoreMgr.get('gridepisodestore').proxy.conn.url = "/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT episode.idEpisode, episode.c00, episode.c12, episode.c13 FROM episode JOIN tvshowlinkepisode ON (episode.idEpisode = tvshowlinkepisode.idEpisode) where tvshowlinkepisode.idShow="+r.data.idShow+")";
-		//Ext.StoreMgr.get('gridepisodestore').proxy.conn.url= "/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idEpisode, c00, c12, c13, playCount FROM episodeview WHERE idShow="+r.data.idShow+")"; 
 
+		//Ext.StoreMgr.get('gridepisodestore').proxy.conn.url = "/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT episode.idEpisode, episode.c00, episode.c12, episode.c13, episode.playCount FROM episode JOIN tvshowlinkepisode ON (episode.idEpisode = tvshowlinkepisode.idEpisode) where tvshowlinkepisode.idShow="+r.data.idShow+")";
+		Ext.StoreMgr.get('gridepisodestore').proxy.conn.url= "/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idEpisode, c00, c12, c13, playCount FROM episodeview WHERE idShow="+r.data.idShow+")"; 
 		Ext.StoreMgr.get('gridepisodestore').load();
-
-		EpisodedetailPanel.getForm().reset();
-		EpisodedetailPanel.setTitle("<div align='center'>Select Episode</div>");
-
-		if (r.data.details == undefined){
-			GetTvshowGenres(r);
-			GettvShowDetails(r);
-		}
-		else {
-			updateTvShowForms(r);
-			updateGenreGrid(r.data.selectedGenre);
-			Ext.getCmp('filedetailPanel').getForm().loadRecord(r);
-		}
 		
-		storeActor.proxy.conn.url = "/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT strActor, strRole FROM actorlinktvshow JOIN actors ON (actorlinktvshow.idActor = actors.idActor) where idShow ="+r.data.idShow+")";
-		storeActor.load();
+		//EpisodedetailPanel.getForm().reset();
+		EpisodedetailPanel.setTitle("<div align='center'>Select Episode</div>");
+			
 	},
 	
 	episodeSelect: function(sm, rowIdx, r) {		

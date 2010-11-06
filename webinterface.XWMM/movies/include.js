@@ -93,7 +93,7 @@ function updateAllForms(r) {
 	Ext.getCmp('filedetailPanel').getForm().loadRecord(r);
 
 	Ext.getCmp('movierating').updateSrc(r);
-	
+	Ext.getCmp('fanart').updateSrc(r);
 	Ext.getCmp('cover').updateSrc(r);
 	
 	

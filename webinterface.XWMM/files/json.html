@@ -13,6 +13,8 @@
 
 Ext.onReady(function() {
 	
+	var ScraperList = [];
+	
 	function xbmcJsonRPC(params) {
 		var inputUrl = '/jsonrpc'
 		var myjson = '';
@@ -30,6 +32,8 @@ Ext.onReady(function() {
 		return myjson.result;
 	}
 
+	
+		
 	//get Season (tvshows)
 	var myParams = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetSeasons", \"params\": {\"tvshowid\": 1}, "id": 1}';
 	
@@ -40,15 +44,23 @@ Ext.onReady(function() {
 	//var myParams = '{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "id": 1}';
 	
 	// get shares
-	//var myParams = '{"jsonrpc": "2.0", "method": "Files.GetShares", "params": {"type": "video"}, "id": 1}';
+	var myParams = '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": {"media": "video"}, "id": 1}';
 	
 	//get directory
-	//var myParams = '{\"jsonrpc\": \"2.0\", \"method\": \"Files.GetDirectory\", \"params\": {\"type\": \"video\", \"directory\": \"multipath://G%3a%5cVideos%5cArchive%5c/G%3a%5cVideos%5cBurn%5c/\"}, \"id\": 1}';
+	//var myParams = '{\"jsonrpc\": \"2.0\", \"method\": \"Files.GetDirectory\", \"params\": {\"type\": \"files\", \"directory\": \"special://home/addons"}, \"id\": 1}';
+	
+	//Get RootDirectory
+	//var myParams = '{\"jsonrpc\": \"2.0\", \"method\": \"Files.GetRootDirectory\", \"params\": {\"type\": \"files\", \"directory\": \"special://home/addons"}, \"id\": 1}';
+
+	
+	
 	var myShares = xbmcJsonRPC(myParams);
-	for (var i=0; i<myShares.directories.length; i++) {
-		console.log(myShares.directories[i].label,' -- ',myShares.directories[i].file);
-	}
+	//for (var i=0; i<myShares.directories.length; i++) {
+	//	console.log(myShares.directories[i].label,' -- ',myShares.directories[i].file);
+	//}
 	console.log(myShares);
+
+	
 
 		
 });

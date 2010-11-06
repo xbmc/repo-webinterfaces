@@ -511,7 +511,7 @@ function XBMCEpisodegetFields(t, r) {
 	//temp = TrimXbmcXml(t); should be used
 	r.data.EpisodeTitle = temp[1];
 	r.data.EpisodeDescr = temp[2];
-	r.data.EpisodeRating = temp[3];
+	r.data.EpisodeRating = temp[3].slice(0,3);
 	r.data.EpisodeWriter = temp[4];
 	r.data.EpisodeAired = temp[5];
 	r.data.EpisodeDirector = temp[6];

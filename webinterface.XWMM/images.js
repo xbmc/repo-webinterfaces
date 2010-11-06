@@ -55,9 +55,10 @@ function ChangeImages(record) {
 		var selNode = viewFanarts.getSelectedRecords();
 		var currentMovie = Ext.getCmp('Moviegrid').getSelectionModel().getSelected();
 		// selNode contains only one item
-		downloadXBMCFile(selNode[0].data.url, currentMovie.data.cover.replace('Video', 'Video/Fanart'));
+		downloadXBMCFile(selNode[0].data.url, currentMovie.data.fanart);
+		//console.log(currentMovie.data);
 		//update main Movie form
-		//Ext.getCmp('cover').refreshMe();
+		Ext.getCmp('fanart').refreshMe();
 		loadingMask.hide();
 		
 	}

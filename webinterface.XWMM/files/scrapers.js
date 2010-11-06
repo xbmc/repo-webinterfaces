@@ -1,25 +1,66 @@
+	function xbmcJsonRPC(params) {
+		var inputUrl = '/jsonrpc'
+		var myjson = '';
+		Ext.Ajax.request({
+			url: inputUrl,
+			params : params,
+			method: "POST",
+			async: false,
+			success: function (t){
+				myjson = Ext.util.JSON.decode(t.responseText);
+				},
+			failure: function(t){},
+				timeout: 2000
+		});	
+		return myjson.result;
+	}
 
-var scraperList = [
-    ['imdb.xml', 'en', 'imdb.png', 'movies'],
-    ['tvdb.xml', 'multi', 'tvdb.png', 'tvshows'],
-	['adultcdmovies.xml', 'en', 'adultcdmovies.jpg', 'movies'],
-	['amazonuk.xml', 'en', 'amazonuk.png', 'movies'],
-	['amazonus.xml', 'men', 'amazonus.png', 'movies'],
-	['asiandb.xml', 'en', 'asiandb.gif', 'movies'],
-	['cinefacts.xml', 'de', 'cinefacts.png', 'movies'],
-	['culturalia.xml', 'es', 'culturalia.gif', 'movies'],
-	['daum.xml', 'ko', 'daum.png', 'movies'],
-	['Excalibur.xml', 'en', 'excalibur.jpg', 'movies'],	
-	['fdbpl.xml', 'pl', 'fdbpl.png', 'movies'],
-	['filmaffinity.xml', 'es', 'filmaffinity.gif', 'movies'],
-	['filmdelta.xml', 'sv', 'filmdelta.png', 'movies'],
-	['imdb tv.xml', 'en', 'imdb.png', 'tvshows'],
-	['KinoPoisk.xml', 'ru', 'KinoPoisk.gif', 'movies'],
-	['mymoviesdk.xml', 'multi', 'mymoviesdk.png', 'movies'],
-	['getlib.xml', 'zh', 'getlib.gif', 'movies'],
-	['tvcom.xml', 'en', 'tvcom.png', 'tvshows'],
-    ['cine-passion.xml', 'fr', 'cine-passion.png', 'movies']
-];
+function getAddonList(myDir) {
+	for (var i=0; i<myDir.directories.length; i++) {
+		if (myDir.directories[i].label.match("metadata") == "metadata") {
+			var mytest = '{\"jsonrpc\": \"2.0\", \"method\": \"Files.GetDirectory\", \"params\": {\"type\": \"files\", \"directory\": \"'+myDir.directories[i].file+'"}, \"id\": 1}';				
+			//IsScraper('/vfs/'+myDir.directories[i].file+'addon.xml')
+				Ext.Ajax.request({
+					url: '/vfs/'+myDir.directories[i].file+'addon.xml',
+					method: 'GET',
+					async: false,
+					success: function (t){
+						parseAddonXML(t.responseXML, myDir.directories[i].file)
+					},
+					failure: function(t){},
+					timeout: 2000
+				});
+			}
+		}
+	//console.log(scraperList);
+}
+	
+function parseAddonXML(string, path) {
+		xmlDoc = string
+		var addonCategory = xmlDoc.getElementsByTagName("extension")[0].attributes[0].value;
+		var addonId = xmlDoc.getElementsByTagName("addon")[0].attributes[0].value;
+		var addonLang = xmlDoc.getElementsByTagName("extension")[0].attributes[1].value;
+		var addonImg = '../../../vfs/'+path+'icon.png';
+
+		if (addonCategory.match("scraper.movies") == "scraper.movies") {
+			scraperList.push([addonId,addonLang,addonImg,'movies']);
+		}
+		if (addonCategory.match("scraper.tvshows") == "scraper.tvshows") {
+			scraperList.push([addonId,addonLang,addonImg,'tvshows']);
+		}
+		
+	}
+
+function parseScrapers() {
+	
+	var myParams = '{\"jsonrpc\": \"2.0\", \"method\": \"Files.GetDirectory\", \"params\": {\"type\": \"files\", \"directory\": \"special://home/addons"}, \"id\": 1}';
+	var myShares = xbmcJsonRPC(myParams);
+
+	getAddonList(myShares);
+}
+
+var scraperList = [];
+
 
 var combo = new Ext.form.ComboBox({
 	triggerAction: 'all',
@@ -64,29 +105,31 @@ function inheritContent(node) {
 	return myXbmcContent;
 }
 
-var ScraperGrid = new Ext.grid.GridPanel({
-	height: 500,
-    store: new Ext.data.SimpleStore({
+var scraperStore = new Ext.data.SimpleStore({
+		id: 'scraperstore',
         fields: ['scraper', 'language','image', 'content'],
         data: scraperList,
-		autoLoad: true
-    }),
+		listeners: {
+			load: function() {
+				//parseScrapers();
+			}
+		},
+    })
+
+var ScraperGrid = new Ext.grid.GridPanel({
+	height: 500,
+	store : scraperStore,
 	sm: new Ext.grid.RowSelectionModel({
 		singleSelect: true,
 		listeners: {
 			rowselect: function(sm, rowIdx, r) {
 				scraperImage.updateSrc(r);
-			}
+			},
+			beforeshow: function(sm, rowIdx, r) {
+				console.log('show');
+			},
 		}
 	}),
-	// listeners: {
-		// selectionchange: function(sm, rowIdx, r) {
-				// scraperImage.updateSrc(r);
-			// //movieGenreChange(sm);
-			// //var bt = Ext.getCmp('savebutton');
-			// //bt.enable();
-			// }
-	// },
 	viewConfig: {forceFit: true},
     columns: [
         {header: 'Scraper', dataIndex: 'scraper', width: 80},

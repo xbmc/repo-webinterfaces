@@ -1,5 +1,5 @@
 
-var myVersion = '1.9.1'
+var myVersion = '1.9.2'
 
 var videoFlagsRecord = Ext.data.Record.create([
    {name: 'idFile', mapping: 'field:nth(1)'},		
@@ -77,22 +77,18 @@ var menuBar = new Ext.Toolbar({
 })
 
 var storeVideoFlags = new Ext.data.Store({
+	id: 'storevideoflags',
 	reader: new Ext.data.JsonXBMCReader({
 			root:'data'	       
        }, videoFlagsRecord),
-	listeners: {
-        beforeload: function(){ setXBMCResponseFormat() }
-    },
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strVideoCodec, fVideoAspect, iVideoWidth, iVideoHeight from streamdetails where iStreamType=0)' 
 });
 
 var storeAudioFlags = new Ext.data.Store({
+	id: 'storeaudioflags',
 	reader: new Ext.data.JsonXBMCReader({
 			root:'data'	       
        }, audioFlagsRecord),
-	listeners: {
-        beforeload: function(){ setXBMCResponseFormat() }
-    },
 	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strAudioCodec, iAudioChannels from streamdetails where iStreamType=1)' 
 });
 
@@ -139,7 +135,7 @@ function copyXBMCVideoThumb(thumb, r, element, type) {
 	var temp = '';
 	Ext.Ajax.request({
 		url: inputUrl,
-		async: false,
+		//async: false,
 		method: 'GET',
 		success: function (t){
 			// if (type == 'season') {
@@ -169,7 +165,7 @@ var currentMovie;
 var DetailsFlag;
 var detailPanel;
 
-var FlagsPanel = new Ext.Panel({
+var VideoFlagsPanel = new Ext.Panel({
 	border: false,
 	defaults:{xtype:'container', width: 64, height: 44},
 	items: [{
@@ -183,16 +179,24 @@ var FlagsPanel = new Ext.Panel({
 		width:48,
 		height:31,
 		autoEl: {tag: 'img', src: "../images/flags/default.png"}
-	},{
+	}]
+});
+
+var AudioFlagsPanel = new Ext.Panel({
+	border: false,
+	defaults:{xtype:'container', width: 64, height: 44},
+	items: [{
 		id: 'audiocodec',
 		autoEl: {tag: 'img', src: "../images/flags/defaultsound.png"}
 	},{
 		id: 'audiochannels',
-		width:38,
-		height:29,
+		// width:38,
+		// height:29,
 		autoEl: {tag: 'img', src: "../images/flags/0c.png"}
 	}]
 });
+
+
 
 function findResolution(iWidth) {
 

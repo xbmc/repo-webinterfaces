@@ -14,11 +14,6 @@ var DetailsFlag;
 var genresFlag;
 var detailPanel;
 
-function LoadAllshowsdetails(){
-
-	storeVideoFlags.load();
-	storeAudioFlags.load()
-}
 
 var gridContextMenu = new Ext.menu.Menu({
 	items: [
@@ -127,28 +122,27 @@ function updateEpisodeForms(r) {
 
 function GettvShowDetails(r){
 
-	setXBMCResponseFormat();
+	//setXBMCResponseFormat();
 
-	var conn = new Ext.data.Connection();
-		conn.request({
-			url: "/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT c01, c04, c05, c06, c08, c11, c12, c14, strPath FROM tvshow JOIN tvshowlinkpath ON (tvshow.idShow = tvshowlinkpath.idShow) JOIN path ON (tvshowlinkpath.idPath = path.idPath) WHERE tvshow.idShow="+r.data.idShow+")",
-
-			success: function(resp,opt) {
-				XBMCTVShowgetFields(resp, r);
-		
-				currentShowPath = r.data.ShowPath;
-				
-				updateTvShowForms(r);
-				r.data.details = true			
-			},
-			failure: function(resp,opt) {		
-			}
-		});
+	var inputUrl = '/xbmcCmds/xbmcHttp?command=queryvideodatabase(SELECT c01, c04, c05, c06, c08, c11, c12, c14, strPath FROM tvshow JOIN tvshowlinkpath ON (tvshow.idShow = tvshowlinkpath.idShow) JOIN path ON (tvshowlinkpath.idPath = path.idPath) WHERE tvshow.idShow='+r.data.idShow+')';
+	Ext.Ajax.request({
+		url: inputUrl,
+		method: 'GET',
+		async: false,
+		success: function(resp,opt) {
+			XBMCTVShowgetFields(resp, r);
+			currentShowPath = r.data.ShowPath;			
+			updateTvShowForms(r);
+			r.data.details = true			
+		},
+		failure: function(resp,opt) {},
+		timeout: 2000
+	});
 }
 
 function GetepisodeDetails(r) {
 
-	setXBMCResponseFormat();
+	//setXBMCResponseFormat();
 
 	var conn = new Ext.data.Connection();
 	conn.request({
@@ -181,24 +175,22 @@ function updateXBMCGenreTvshow(){
 		url: inputUrl,
 		method: 'GET',
 		async: false,
-		success: function (t){
-					
-			},
+		success: function (t){},
 		failure: function(t){},
 		timeout: 2000
 	});	
 	// insert selected genres 
-					for (var i = 0; i < modifiedGenre.length; i++){
-					var inputUrl = '/xbmcCmds/xbmcHttp?command=execvideodatabase(INSERT INTO genrelinktvshow (idGenre, idShow) VALUES ('+modifiedGenre[i].data.idGenre+','+idShow+'))';
-					Ext.Ajax.request({
-						url: inputUrl,
-						method: 'GET',
-						async: false,
-						success: function (t){},
-						failure: function(t){},
-						timeout: 2000
-					});
-				}
+	for (var i = 0; i < modifiedGenre.length; i++){
+		var inputUrl = '/xbmcCmds/xbmcHttp?command=execvideodatabase(INSERT INTO genrelinktvshow (idGenre, idShow) VALUES ('+modifiedGenre[i].data.idGenre+','+idShow+'))';
+		Ext.Ajax.request({
+			url: inputUrl,
+			method: 'GET',
+			//async: false,
+			success: function (t){},
+			failure: function(t){},
+			timeout: 2000
+		});
+	}
 }
 
 // Query XBMC DB genrelinktvshow
@@ -209,6 +201,7 @@ function GetTvshowGenres(record){
 			Ext.Ajax.request({
 				url: inputUrl,
 				method: 'GET',
+				async: false,
 				success: function (t){
 						var responseArr = TrimXbmcXml(t);
 						responseArr = responseArr.split("<record>");
