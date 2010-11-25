@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.XWMM"
-  version="1.9.2"
+  version="1.9.3"
   name="XWMM"
   provider-name="slash">
   <requires>

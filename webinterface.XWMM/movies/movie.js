@@ -154,7 +154,6 @@ var MoviedetailPanel = new Ext.FormPanel({
 		id: 'savebutton',
 		handler: function(){	
 			updateXBMCAll();
-			//Moviegrid.getView().refresh();
 			this.disable();
 		}
 	},{
@@ -173,7 +172,7 @@ var MoviedetailPanel = new Ext.FormPanel({
 		layout: 'form',
 		defaults: {	xtype:'textfield',
 			width: 220,
-			listeners:{'change' : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
+			listeners:{change : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
 		},
 		items: [{
 			fieldLabel: 'Title',
@@ -199,7 +198,7 @@ var MoviedetailPanel = new Ext.FormPanel({
 		height: 90,
 		defaults: {	xtype:'textfield',
 			width: 80,
-			listeners:{'change' : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
+			listeners:{change : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
 		},
 		labelWidth: 60,
 		items:[{
@@ -225,7 +224,10 @@ var MoviedetailPanel = new Ext.FormPanel({
 		width: 460,
 		height: 320,
         colspan:2,
-		defaults: {	xtype:'textfield', width: 370},
+		defaults: {	xtype:'textfield', 
+			width: 370,
+			listeners:{change : function(){DetailsFlag = true; Ext.getCmp('savebutton').enable()}}
+		},
 		items: [{
 			xtype:'textarea',
 			name:'Moviedescr',
@@ -335,6 +337,9 @@ Movie.Mainpanel = Ext.extend(Ext.Panel, {
 		// add double-click event to cover object
 		var element = MovieCover.getEl();
 		element.on('dblclick', function(){ChangeImages(currentRecord)});
+		
+		var element2 = MovieFanart.getEl();
+		element2.on('dblclick', function(){ChangeImages(currentRecord)});
 	},
 
 	onRowSelect: function(sm, rowIdx, r) {

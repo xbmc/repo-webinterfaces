@@ -1,5 +1,4 @@
 
-
 var coverTpl = new Ext.XTemplate(
 	'<tpl for=".">',
     '<div class="thumb-wrap" id="{title}">',
@@ -16,10 +15,7 @@ var fanartTpl = new Ext.XTemplate(
     '</tpl>'
 );
 
-
 	window.loadingMask = new Ext.LoadMask(Ext.getBody(), {msg:"Downloading file, please wait..."});
-
-	 
 
 function ChangeImages(record) {
 
@@ -119,6 +115,66 @@ function ChangeImages(record) {
 			title:'Simple DataView',
 			items: [viewCovers, viewFanarts]
 	})
+
+	var preview = new Ext.Container ({
+	id: 'preview',
+	border: 0,
+	autoEl: {tag: 'img', src: "../images/defaultMovieFanart.jpg"},
+	updateSrc :function(v){
+		this.el.dom.src = v
+	}
+});
+	
+	var fp = new Ext.FormPanel({
+        fileUpload: true,
+        width: 500,
+		height: 300,
+        frame: true,
+        title: 'Upload Form',
+        //autoHeight: true,
+        labelWidth: 100,
+		defaults: {width: 200},
+        items: [{
+            xtype: 'textfield',
+			id: 'myUrl',
+            fieldLabel: 'From URL'
+        },{
+			xtype: 'textfield',
+			id:'myLocal',
+			inputType: 'file',
+			fieldLabel: 'From Local'
+        }, preview],
+		buttons: [{
+			text: 'Close',
+			handler: function(){
+				uploadWin.hide();
+			}
+		},{
+			text: 'Preview',
+			handler: function(){
+				if (Ext.getCmp('myUrl').getValue() != ""){
+					var v = Ext.getCmp('myUrl').getValue();
+				}
+				else {
+					var v = Ext.getCmp('myLocal').getValue();
+					console.log(Ext.getCmp('myLocal').files[0].getAsBinary());
+				}
+					preview.updateSrc(v);
+					fp.getForm().submit({url: '../test'})
+				
+			}
+		}]
+    });
+	
+	var uploadWin = new Ext.Window({
+	    layout:'fit',
+		width:500,
+		height:300,
+		closeAction:'hide',
+		plain: true,
+		items: [fp]
+	});
+	
 
 	var winImages = new Ext.Window({
 		layout:'fit',
