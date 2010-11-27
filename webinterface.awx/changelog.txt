@@ -1,0 +1,63 @@
+0.3.2:
+ - Fixed: The position of the find-box will not be recalculated if window-size has changed.
+
+0.3.1:
+ - Added: UI/Skin "light" (see settings-dialog)
+ - Added: (Un-)Shuffle-Button
+ - Added: "Play/Enqueue" folders in Filesystem-Viewer
+ - Added: Multi-language-support
+ - Added: Language: German
+ - Changed: Reduced the number of periodic requests
+ - Changed: Replaced absolute paths with relative paths
+ - Changed: TV Show's name will be shown in TV Show list
+ - Changed: Show "Search Result"-Caption when search results are displayed
+ - Fixed: If playlist is empty the Currently-Playing-Box will be hidden even if media is playing
+
+0.3.0:
+ - Added: Setting to toggle LazyLoad
+ - Added: Setting for the timeout-value
+ - Added: Information-button for tv shows
+ - Changed: Code-Base partially rewritten and divided into several scripts/libs
+ - Changed: Progress slider can be used to seek the currently playing file
+ - Changed: Breadcrumbs/Location Bar is clickable
+ - Fixed: Several css- and image-issues
+ - Fixed: The image of items without thumbs is set to /vfs/undefined
+ - Fixed: Files added to a playlist are shown in playlists as "undefined"
+ - Fixed: File-Playback issues on Windows
+
+0.2.6:
+ - Added: Shortcuts for Context-Menu-Buttons (Close, Back, Clear, Search)
+ - Changed: Text is now automatically selected if search-input gets focus
+ - Changed: Files starting with "addons://" are ignored in file lists (windows only)
+ - Changed: Prevent error-box if no player is active and control-buttons are clicked
+ - Changed: Increased timeout-limit to 10sec
+ - Changed: Search is not started before the Enter-Key was pressed
+ - Fixed: Problems with windows-paths
+ - Fixed: Album-songs are not added to the playlist in tracknumber-order
+ - Fixed: Errors if no albums/artists exist
+
+0.2.5:
+ - Added: Filter/Search-Button for albums/movies/tv shows
+ - Added: Button to clear the playlists
+ - Changed: Movies are sorted alphabetically
+ - Fixed: Thumbnail-URLs are not uri-encoded
+ - Fixed: Missing error-handler for thumbnails
+ - Fixed: Problems with context menus if using more than 1 menu-entry
+ - Fixed: Thumbnails which are visible after window-resize are not loaded until the user scrolls.
+
+0.2.4:
+ - Added: Show shares in file-section
+ - Changed: Moved item-buttons from the right to the left
+ - Changed: Hide not implemented picture-section
+ - Changed: Movies without id will be ignored (e.g. Movie Sets - they are not supported by the API)
+ - Fixed: Webinterface hangs on startup if no tv show exist
+ - Fixed: needless SetVolume-Requests
+
+0.2.3:
+ - Added: Queued Lazy Loader for Thumbs
+ - Added: Auto-detect TV-Show-Thumb-Type (Banner or Poster)
+ - Added: System Control Dialog (Exit XBMC, Shutdown, Suspend, Reboot)
+ - Added: Settings-Dialog for Album-Order
+ - Added: Settings-Management via Cookies
+ - Changed: Design
+ - Fixed: Design-bugs in miscellaneous browsers

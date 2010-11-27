@@ -1,0 +1,710 @@
+/*
+ *  AWX - Ajax based Webinterface for XBMC
+ *  Copyright (C) 2010  MKay
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+html, body {
+	height: 100%;
+	background-color: #fff;
+	padding: 0;
+	margin: 0;
+	color: #000;
+	font-family: sans-serif;
+	font-size: 12px;
+}
+
+#header {
+	height: 110px;
+	background: #fff url('../images/logo.png') no-repeat 20px 10px;
+	padding-left: 170px;
+}
+
+#navigation {
+	position: absolute;
+	top: 110px;
+	left:0;
+	height: 32px;
+	width: 100%;
+	background: url('../images/menu_bg.png') repeat-x 0 5px;
+	z-index: 100;
+}
+
+#navigation ul.mkfMenu, ul.systemMenu, ul.mkfLocationBar, ul.mkfPageContextMenu {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#navigation ul.mkfMenu > li, ul.systemMenu > li {
+	float: left;
+	height: 25px;
+	line-height: 25px;
+	margin: 6px 0 0 10px;
+	/*margin-left: 10px;*/
+	position: relative;
+}
+
+ul.systemMenu > li {
+	float: right;
+	margin: 6px 10px 0 0;
+}
+
+#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a {
+	display: block;
+	height: 100%;
+	padding: 0 10px;
+	text-decoration: none;
+	color: #4b4b4b;
+}
+
+/* MOUSEOVER */
+#navigation ul.mkfMenu > li.mouseover, #navigation ul.mkfMenu > li.mouseover > a,
+ul.systemMenu > li.mouseover, ul.systemMenu > li.mouseover > a {
+	background: url('../images/menu_btn_corners.png') no-repeat;
+	height: 32px;
+}
+#navigation ul.mkfMenu > li.mouseover,
+ul.systemMenu > li.mouseover {
+	margin-top: 0;
+	background-color: #4b4b4b;
+	background-position: 0 -32px;
+	line-height: 32px;
+}
+#navigation ul.mkfMenu > li.mouseover > a,
+ul.systemMenu > li.mouseover > a {
+	background-position: right 0;
+	color: #fff;
+}
+
+/* SUBMENU */
+#navigation ul.mkfMenu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 32px;
+	left: 0; /* for IE 7 */
+	width: 150px;
+	background: url('../images/menu_sub_bottom.png') no-repeat left bottom;
+	padding-bottom: 5px;
+}
+#navigation ul.mkfMenu ul > li {
+	margin: 0;
+	padding: 0;
+}
+#navigation ul.mkfMenu ul > li > a {
+	color: #fff;
+	display: block;
+	padding-left: 10px;
+	background-color: #4b4b4b;
+	text-decoration: none;
+	height: 25px;
+	line-height: 25px;
+}
+#navigation ul.mkfMenu ul > li > a:hover {
+	color: #000;
+	background-color: #a0e312;
+}
+
+/* MENU ICON */
+#navigation ul.mkfMenu > li > a span.icon,
+ul.systemMenu > li > a span.icon {
+	float: left;
+	height: 16px;
+	width: 16px;
+	margin: 4px 5px 0 0;
+	background: url('../images/menu_icons.png') no-repeat;
+}
+#navigation ul.mkfMenu > li.mouseover > a span.icon,
+ul.systemMenu > li.mouseover > a span.icon {
+	margin: 8px 5px 0 0;
+}
+#navigation ul.mkfMenu > li > a span.music { background-position: 0 0; }
+#navigation ul.mkfMenu > li.mouseover > a .music, #navigation ul.mkfMenu > li.activeMenuItem > a .music { background-position: 0 -16px; }
+#navigation ul.mkfMenu > li > a span.videos { background-position: -16px 0; }
+#navigation ul.mkfMenu > li.mouseover > a .videos, #navigation ul.mkfMenu > li.activeMenuItem > a .videos { background-position: -16px -16px; }
+ul.systemMenu > li > a span.settings { background-position: -32px 0; }
+ul.systemMenu > li.mouseover > a .settings, ul.systemMenu > li.activeMenuItem > a .settings { background-position: -32px -16px; }
+ul.systemMenu > li > a span.exit { background-position: -48px 0; }
+ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .exit { background-position: -48px -16px; }
+
+/* LOCATION */
+#statusLine {
+	position: absolute;
+	top: 142px;
+	left:0;
+	height: 25px;
+	width: 100%;
+	border-bottom: 1px solid #bababa;
+	background-color: #f2f2f2;
+}
+
+ul.mkfLocationBar li, ul.mkfPageContextMenu li {
+	float: left;
+	height: 25px;
+	line-height: 25px;
+	margin-left: 10px;
+}
+
+#location a {
+	text-decoration: none;
+	color: #4b4b4b;
+}
+
+#location a:hover {
+	color: #7ac800;
+}
+
+/* CONTEXTMENU */
+ul.mkfPageContextMenu li {
+	float: right;
+	margin: 0 10px 0 0;
+}
+
+#content {
+	position: absolute;
+	top:168px;
+	left:0;
+	right:0;
+	bottom:0;
+	overflow: auto;
+	z-index: 50;
+	padding: 10px;
+}
+
+#content .mkfPage .pageContent div.pageContentWrapper {
+	min-height: 32px;
+}
+
+.loading {
+	background: url('../images/loading.gif') no-repeat top left;
+}
+
+img.thumb {
+	border: 1px solid #575757;
+	height: 125px;
+	width: 125px;
+}
+img.thumbPoster { height: 185px; width: 125px; }
+img.thumbBanner { width: 379px; height: 70px; }
+
+div.thumbWrapper {
+	float: left;
+	height: 178px;
+	width: 129px;
+	overflow: hidden;
+	margin: 5px;
+	padding: 5px;
+	position: relative;
+	border: 1px solid #d8d8d8;
+	background-color: #eaece6;
+	text-align: center;
+}
+
+div.thumbPosterWrapper {
+	height: 238px;
+	width: 129px;
+}
+div.thumbBannerWrapper {
+	height: 95px;
+	width: 383px;
+}
+
+div.thumbWrapper:hover {
+	border: 1px solid #7ac800;
+	background-color: #eaffc9;
+}
+
+div.thumbWrapper div.linkWrapper {
+	position: absolute;
+	top: 10px;
+	left: 5%;
+	width: 90%;
+	display: none;
+}
+div.thumbWrapper:hover div.linkWrapper {
+	display: block;
+}
+
+div.thumbWrapper a {
+	display: block;
+	background-color: #343434;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;
+	border: 1px solid #a4a4a4;
+	color: #fff;
+	text-decoration: none;
+	padding: 2px 7px;
+	font-size: 14px;
+	margin-bottom: 1px;
+}
+
+div.thumbWrapper a:hover {
+	color: #7ac800;
+}
+
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
+	color: #4b4b4b;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+}
+
+div.thumbWrapper div.albumArtist {
+	color: #4b4b4b;
+	font-size: 11px;
+	text-align: center;
+}
+
+div.findKeywords {
+	display: none;
+}
+
+#contextMenu ul a {
+	display: block;
+	height: 22px;
+	width: 22px;
+	background: url('../images/context_buttons.png') no-repeat;
+	margin-top: 2px;
+}
+
+#contextMenu ul a.close { background-position: top left; }
+#contextMenu ul a.back { background-position: -22px 0; }
+#contextMenu ul a.clear { background-position: -44px 0; }
+#contextMenu ul a.find { background-position: -66px 0; }
+#contextMenu ul a.close:hover { background-position: bottom left; }
+#contextMenu ul a.back:hover { background-position: -22px -22px; }
+#contextMenu ul a.clear:hover { background-position: -44px -22px; }
+#contextMenu ul a.find:hover { background-position: -66px -22px; }
+
+div.mkfOverlay div.dialog a.close {
+	float: right;
+	height: 22px;
+	width: 22px;
+	background: url('../images/context_buttons.png') no-repeat top left;
+}
+
+div.mkfOverlay div.dialog a.close:hover {
+	background-position: bottom left;
+}
+
+div.mkfOverlay div.loading { background-image: url('../../images/dialog_loading.gif'); background-repeat: no-repeat; }
+
+div.mkfOverlay div.dialog span.label {
+	float: left;
+	width: 100px;
+	text-align: right;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+div.mkfOverlay div.dialog span.value,
+div.mkfOverlay div.dialog span.valuePoster,
+div.mkfOverlay div.dialog span.valueBanner {
+	float: right;
+	width: 250px;
+	overflow: hidden;
+}
+div.mkfOverlay div.dialog span.valueBanner {
+	width: 370px;
+}
+
+div.mkfOverlay div.dialog h1.underline {
+	text-decoration: underline;
+}
+
+div.mkfOverlay div.dialog div.test {
+	display:block;
+	clear: right;
+}
+
+div.mkfOverlay div.dialog p.plot {
+	clear: both;
+	padding-top: 10px;
+}
+
+div.mkfOverlay div.dialog img.dialogThumb,
+div.mkfOverlay div.dialog img.dialogThumbPoster {
+	float: left;
+	margin: 0 10px 10px 0;
+}
+
+div.mkfOverlay div.dialog img.dialogThumbBanner {
+	display: block;
+	margin: 0 auto;
+}
+
+fieldset {
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	border-width: 0px;
+	background-color: #808080;
+	margin-bottom: 10px;
+}
+
+fieldset.ui_settings {
+	float: left;
+	margin-right: 10px;
+}
+
+legend {
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	border-width: 0px;
+	background-color: #606060;
+	padding: 5px 10px;
+}
+
+div.formHint {
+	clear: both;
+	color: #606060;
+	margin-top: 10px;
+}
+
+a.formButton {
+	display: inline-block;
+	background: url('../images/button_bg.png') repeat-x 0 0;
+	height: 20px;
+	line-height: 20px;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	border: 1px solid #BBBBBB;
+	text-decoration: none;
+	color: #fff;
+	padding: 0 10px;
+}
+a.formButton:hover {
+	background-position: 0 -25px;
+}
+
+.expertHelp, .save {
+	float: right;
+}
+
+#messageLog {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding-right: 20px;
+	z-index: 900;
+}
+#messageLog div.mkfMessage {
+	margin-top: 10px;
+	background-color: #fff;
+	width: 200px;
+	padding: 10px 10px 10px 10px;
+	min-height: 32px;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	background: rgb(41, 41, 41);
+	background: rgba(41, 41, 41, 0.9);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5292929, endColorstr=#E5292929);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5292929, endColorstr=#E5292929)";
+}
+#messageLog div.text {
+	padding-left: 42px;
+	font-size: 13px;
+	color: #fff;
+}
+#messageLog div.icon {
+	width: 32px;
+	height: 32px;
+	float: left;
+}
+#messageLog div.loading { background-image: url('../../images/dialog_loading.gif'); }
+#messageLog div.success,
+#messageLog div.error { background-image: url('../images/messagelog.png'); }
+#messageLog div.error { background-position: -32px 0; }
+
+div.findBox {
+	position: absolute;
+	width: auto;
+	background: #EAECE6;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	border: 1px solid #7c7c7c;
+	z-index: 80;
+}
+
+div.findBox input { width: 140px; margin: 5px; }
+
+div.movieRating0, div.movieRating1, div.movieRating2, div.movieRating3, div.movieRating4, div.movieRating5, div.movieRating6, div.movieRating7, div.movieRating8, div.movieRating9, div.movieRating10  {
+	filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;
+	background: url('../images/ratings_big.png') no-repeat;
+	width: 115px;
+	margin-top:15px;
+}
+div.movieRating0 { height: 71px; background-position: 0 0; }
+div.movieRating1 { height: 69px; background-position: 0 -71px; }
+div.movieRating2 { height: 70px; background-position: 0 -140px; }
+div.movieRating3 { height: 71px; background-position: 0 -210px; }
+div.movieRating4 { height: 69px; background-position: 0 -281px; }
+div.movieRating5 { height: 70px; background-position: 0 -350px; }
+div.movieRating6 { height: 71px; background-position: 0 -420px; }
+div.movieRating7 { height: 69px; background-position: 0 -491px; }
+div.movieRating8 { height: 71px; background-position: 0 -560px; }
+div.movieRating9 { height: 71px; background-position: 0 -631px; }
+div.movieRating10 { height: 71px; background-position: 0 -702px; }
+
+div.smallRating0, div.smallRating1, div.smallRating2, div.smallRating3, div.smallRating4, div.smallRating5, div.smallRating6, div.smallRating7, div.smallRating8, div.smallRating9, div.smallRating10  {
+	background: url('../images/ratings_small.png') no-repeat;
+	height: 16px;
+	width: 160px;
+}
+div.smallRating0 { background-position: 0 0; }
+div.smallRating1 { background-position: 0 -16px; }
+div.smallRating2 { background-position: 0 -32px; }
+div.smallRating3 { background-position: 0 -48px; }
+div.smallRating4 { background-position: 0 -64px; }
+div.smallRating5 { background-position: 0 -80px; }
+div.smallRating6 { background-position: 0 -96px; }
+div.smallRating7 { background-position: 0 -112px; }
+div.smallRating8 { background-position: 0 -128px; }
+div.smallRating9 { background-position: 0 -144px; }
+div.smallRating10 { background-position: 0 -160px; }
+
+ul.fileList {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid #ABABAB;
+}
+ul.fileList li {
+	display: block;
+	border-bottom: 1px solid #ABABAB;
+}
+ul.fileList li.even {
+	background-color: #eaffc9;
+}
+ul.fileList a {
+	display: block;
+	text-decoration: none;
+	padding: 10px 5px;
+	color: #4b4b4b;
+}
+ul.fileList li a:hover {
+	background-color: #d8ff9b;
+}
+
+div.folderLinkWrapper a.button {
+	float: left;
+}
+div.folderLinkWrapper a.button:hover {
+	background-color: transparent;
+}
+
+div.folderLinkWrapper a.song,
+div.folderLinkWrapper a.playlistItem,
+div.folderLinkWrapper a.episode { padding-left: 35px; }
+div.folderLinkWrapper a.folder,
+div.folderLinkWrapper a.file { padding-left: 60px; }
+
+span.miniIcon {
+	display: block; height: 16px; width: 16px;
+	background: url('../images/mini_buttons.png') no-repeat;
+}
+span.enqueue { background-position: left top; }
+span.play { background-position: right top; }
+span.remove { background-position: -16px 0; }
+div.folderLinkWrapper a.button:hover span.enqueue { background-position:left bottom; }
+div.folderLinkWrapper a.button:hover span.play { background-position: right bottom; }
+div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -16px; }
+
+div.mkfOverlay div.dialogSystemControl {
+	width: 245px;
+}
+
+div.systemControls {
+	height: 50px;
+}
+
+a.exitXBMC, a.shutdown, a.suspend, a.reboot {
+	float: left;
+	margin-right: 15px;
+	height: 42px;
+	width: 42px;
+	background: url('../images/system_buttons.png') no-repeat;
+}
+
+a.shutdown { background-position: 0 -42px; }
+a.exitXBMC { background-position: -42px -42px; margin-left: 15px; }
+a.suspend { background-position: -84px -42px; }
+a.reboot { background-position: -126px -42px; }
+
+a.shutdown:hover { background-position: 0 0; }
+a.exitXBMC:hover { background-position: -42px 0; }
+a.suspend:hover { background-position: -84px 0; }
+a.reboot:hover { background-position: -126px 0; }
+
+br.clear { clear:both; }
+
+#content .mkfMenu {
+	list-style-type: none;
+	padding: 0;
+	margin: 0 auto;
+	width: 552px;
+}
+
+#content .mkfMenu li a {
+	float: left;
+	width: 128px;
+	padding: 128px 0 5px 0;
+	margin-right: 10px;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	background: #9B9B9B url('../images/big_buttons.png') no-repeat;
+}
+#content .mkfMenu li a:hover {
+	background-color: #A0E312;
+}
+#content .mkfMenu li.artists a { background-position: -512px 0; }
+#content .mkfMenu li.playlist a { background-position: -128px 0; }
+#content .mkfMenu li.audiofiles a { background-position: -256px 0; }
+#content .mkfMenu li.movies a { background-position: -384px 0; }
+#content .mkfMenu li.albums a { background-position: -640px 0; }
+
+#controls {
+	background: #EAECE6 url('../images/volume.png') no-repeat 20px 10px;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	border: 1px solid #7c7c7c;
+	margin-top: 20px;
+	height: 70px;
+	width: 180px;
+	padding: 0 10px 0 10px;
+	float: left;
+	margin-right: 10px;
+}
+
+#controls a.button {
+	background: url('../images/buttons.png') no-repeat;
+	width: 30px;
+	height: 30px;
+	float: left;
+	margin-right: 6px;
+}
+
+#controls a.play { background-position: -90px 0px; }
+#controls a.stop { background-position: 0px 0px; }
+#controls a.prev { background-position: -60px 0px; }
+#controls a.next { background-position: -30px 0px; }
+#controls a.shuffle { background-position: -120px 0px; }
+#controls a.unshuffle { background-position: -150px 0px; }
+
+#controls a.play:hover { background-position: -90px -30px; }
+#controls a.stop:hover { background-position: 0px -30px; }
+#controls a.prev:hover { background-position: -60px -30px; }
+#controls a.next:hover { background-position: -30px -30px; }
+#controls a.shuffle:hover { background-position: -120px -30px; }
+#controls a.unshuffle:hover { background-position: -150px -30px; }
+
+div.ui-slider {
+	position: relative;
+	background-color: #4b4b4b;
+	border: 1px solid #4B4B4B;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+}
+div.ui-slider-horizontal {
+	height: 10px;
+}
+div.ui-slider-vertical {
+	height: 140px;
+	width: 10px;
+}
+div.ui-slider-range {
+	position: absolute;
+	background-color: #a0e312;
+	-moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+}
+div.ui-slider-horizontal div.ui-slider-range {
+	height: 10px;
+}
+div.ui-slider-vertical div.ui-slider-range {
+	width: 10px;
+	bottom: 0;
+}
+a.ui-slider-handle {
+	display: block;
+	position: absolute;
+}
+div.ui-slider-horizontal a.ui-slider-handle {
+	height: 10px;
+	width: 6px;
+	margin-left: -3px;
+	top: 0px;
+}
+div.ui-slider-vertical a.ui-slider-handle {
+	height: 6px;
+	width: 10px;
+	margin-bottom: -3px;
+	bottom: 0px;
+}
+
+#volumeSlider {
+	margin: 10px 0 10px 40px;
+}
+
+#currentlyPlaying {
+	background-color: #EAECE6;
+	-moz-border-radius-topright: 5px; -moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+	-webkit-border-top-right-radius: 5px; -webkit-border-bottom-right-radius: 5px;
+	border: 1px solid #7c7c7c;
+	height: 100px;
+	position: absolute;
+	left: 400px;
+	top: 6px;
+	right: 6px;
+}
+.currentlyPlayingThumbWrapper {
+	float: left;
+	border-right: 1px solid #7c7c7c;
+	height: 100px;
+	background-color: #4b4b4b;
+	overflow: hidden;
+}
+span.currentlyPlaying {
+	display: block; font-weight: bold; 
+	color: #A0E312; font-size: 13px;
+}
+.currentlyPlayingInfo {
+	padding: 10px 10px 10px 110px;
+}
+.time { float: left; }
+.duration { float: right; }
+.title { display: block; }
+
+.statusPaused, .statusShuffle {
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	height: 35px;
+	width: 35px;
+	background: url('../images/status.png') no-repeat;
+}
+
+.statusShuffle {
+	right: 55px;
+	background-position: top right;
+}
+.playingSliderWrapper {
+	margin: 5px 0 0 0;
+}
+#preload {
+	display: none;
+}
+
+h1.findBoxTitle {
+	font-size: 14px;
+	color: #4b4b4b;
+	margin: 10px;
+}

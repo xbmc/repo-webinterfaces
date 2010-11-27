@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="webinterface.awx"
+  version="0.3.2"
+  name="AWX"
+  provider-name="MKay">
+  <requires>
+    <import addon="xbmc.gui" version="2.11"/>
+  </requires>
+  <extension
+    point="xbmc.gui.webinterface"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">AWX - Ajax based Webinterface for XBMC</summary>
+    <description lang="en">You can use this webinterface to control the Audio/Video-Section of XBMC: play/pause/stop/skip, show artists/albums/movies/tv shows and play them or add them to the playlist. It's designed for use on PCs or laptops with a browser like FireFox which supports JavaScript.
+
+Minimum requirements: XBMC 10.0-beta3 (tested on Ubuntu Karmic Koala)
+Tested Browsers:
+   - FireFox 3.6 (on Ubuntu Lucid Lynx and Windows XP)
+   - Chromium 6.0.472.62 (on Ubuntu Lucid Lynx)
+   - Opera 10.62 (on Ubuntu Lucid Lynx and Windows XP)
+   - Safari 5.02 (on Windows XP)
+   - Internet Explorer 8 (does not support round edges)
+Not supported: Internet Explorer 6
+
+Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser.</description>
+    <summary lang="de">AWX - Ajax basiertes Webinterface fuer XBMC</summary>
+    <description lang="de">Mit diesem Webinterface laesst sich die Audio- und Video-Sektion von XBMC steuern: play/pause/stop/skip, sowie Anzeigen/Abspielen von Interpreten/Alben/Filmen/Serien. Es wurde fuer den Einsatz an einem PC oder Laptop mit einem JavaScript-faehigen Browser wie FireFox entwickelt.
+
+Mindestvoraussetzung: XBMC 10.0-beta3 (getestet mit Ubuntu Karmic Koala)
+Getestete Browser:
+   - FireFox 3.6 (Ubuntu Lucid Lynx and Windows XP)
+   - Chromium 6.0.472.62 (Ubuntu Lucid Lynx)
+   - Opera 10.62 (Ubuntu Lucid Lynx and Windows XP)
+   - Safari 5.02 (Windows XP)
+   - Internet Explorer 8 (does not support round edges)
+Nicht unterstuetzt: Internet Explorer 6
+
+Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/aktualisierte Webinterface in Ihrem Browser laden.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
