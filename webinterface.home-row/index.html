@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Row XBMC</title>
+    <meta name="viewport" content="initial-scale = 1.0, width = 640px"/>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/type-xbmc.css">
+    <link rel="stylesheet" href="css/yui.css">
+    <script type="text/javascript" src="js/yui.js"></script>
+    <script type="text/javascript" src="js/type-xbmc.js"/></script>
+</head>
+<body>
+    <div class="type-xbmc">
+        <div class="search-bar">
+            <form class="search-form" action="#">
+                <span class="back">&laquo; </span>
+                <span class="search-group">
+                    <span class="info-box">Start typing to refine results. Hit enter to open item. You can use up  and down arrows to help select. Hit backspace to go back.</span>
+                    <input class="search-box" value=""/>
+                </span>
+            </form>
+        </div>
+        <div class="results-box">
+            <ul class="results">
+            </ul>
+        </div>
+        <div class="status-bar">
+            <div class="status">
+                <a class="status button">Waiting</a>
+            </div>
+            <div class="tools">
+                <div class="emulator hide">
+                    <a class="kb-emulator button">Keyboard Emulator</a>
+                </div>
+                <div class="play-controls">
+                    <a class="previous button" alt="Previous">&#124;&lt;</a>
+                    <a class="play-pause button" alt="Play/Pause">&gt;/&#124;&#124;</a>
+                    <a class="stop button" alt="Stop!">&#9744;</a>
+                    <a class="next button" alt="Next">&gt;&#124;</a>
+                </div>
+                <div class="play-controls">
+                    <a class="skip-back button" alt="Large Skip Back">&laquo;&laquo;</a>
+                    <a class="skip-back-short button" alt="Skip Back">&laquo;</a>
+                    <a class="skip-forward-short button" alt="Skip Forward">&raquo;</a>
+                    <a class="skip-forward button" alt="Large Skip Forward">&raquo;&raquo;</a>
+                </div>
+            </div>
+            <div class="media">
+                <p class="icon column">
+                    <img class="icon">
+                </p>
+                <div class="info column">
+                    <p class="label">Show Name</p>
+                    <p class="time">
+                        <span class="progress">00:00</span> / 
+                        <span class="duration">24:00</span>
+                         Finish time: <span class="finish-time"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="templates">
+            <li class="item">
+                <p class="thumb">
+                        <img class="tumb-img">
+                </p>
+                <p class="title">
+                </p>
+            </li>
+        </div>
+    </div>
+</body>
+</html>

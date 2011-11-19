@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="webinterface.home-row"
+  version="0.1.1"
+  name="Home Row"
+  provider-name="Soljin">
+  <requires>
+    <import addon="xbmc.gui" version="2.11"/>
+  </requires>
+  <extension
+    point="xbmc.gui.webinterface"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Home Row - Fast keystroke based web interface for XBMC</summary>
+    <description lang="en">Should work with any browser that supports JS. If it looks funny or runs slow get a better browser.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
