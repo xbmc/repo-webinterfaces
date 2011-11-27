@@ -1,4 +1,4 @@
-YUI().use("json","io","transition", "node", "substitute", function(Y){
+YUI().use("json","io","transition", "node", "substitute", "history", function(Y){
     var TypeXBMC = function(el){
         var root = el,
             searchBar = root.one(".search-bar"),
@@ -11,7 +11,10 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
             statusBar = root.one(".status-bar"),
             media = root.one(".media"),
             status = root.one(".status"),
-            tools = root.one(".tools");
+            tools = root.one(".tools"),
+            breadCrumbs = root.one(".bread-crumbs"),
+            crumbTemplate = breadCrumbs.one(".home").removeClass("home"),
+            historyManager = new Y.HistoryHash();
             
         var baseJSON = {
                 jsonrpc: "2.0",
@@ -169,9 +172,16 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
                                     list:null,
                                     inherit:["albumid"],
                                     commands:{
-                                        play:{
-                                            command:"XBMC.Play",
+                                        queueAndPlay:{
+                                            command:"AudioPlaylist.Play",
+                                            params:["songid"]
+                                        },
+                                        queue:{
+                                            command:"AudioPlaylist.Add",
                                             params:["file"]
+                                        },
+                                        clearQueue:{
+                                            command:"AudioPlaylist.Clear"
                                         }
                                     }
                                 }
@@ -203,9 +213,16 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
                                 list:null,
                                 inherit:["albumid"],
                                 commands:{
-                                    play:{
-                                        command:"XBMC.Play",
+                                    queueAndPlay:{
+                                        command:"AudioPlaylist.Play",
+                                        params:["songid"]
+                                    },
+                                    queue:{
+                                        command:"AudioPlaylist.Add",
                                         params:["file"]
+                                    },
+                                    clearQueue:{
+                                        command:"AudioPlaylist.Clear"
                                     }
                                 }
                             }
@@ -303,7 +320,7 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
             Y.on("resize",resize);
             
             backBox.on("click",function(){
-                back(nodes[nodes.length-2]);
+                history.back();
             });
             
             infoBox.on("click",function(){
@@ -319,6 +336,19 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
             tools.on("click", clickTool);
             
             form.on("submit",submit);
+
+            historyManager.on("history:change", function(e){
+                if(e.changed.nodeIndex){
+                    var idx = e.changed.nodeIndex.newVal;
+                    if(e.src != Y.HistoryBase.SRC_ADD){
+                        if(nodes[idx]){
+                            back(nodes[idx], true);
+                        }else if(idx != 0){
+                            back(nodes[nodes.length -1]);
+                        }
+                    }
+                }
+            })
             
             open(navTree);
             
@@ -461,12 +491,15 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
             }else
             if(selectedSubNode.commands.play){
                 play(selectedSubNode);
+            }else
+            if(selectedSubNode.commands.queueAndPlay){
+                queueAndPlay(currentNode.list, selectedSubNode);
             }
         };
         
         var keyDown = function(e){
             if(input.get("value") === "" && e.keyCode == 8 && nodes.length > 1){
-                back(nodes[nodes.length-2]);
+                history.back();
             }
             if(e.keyCode == 38 || e.keyCode == 40){
                 e.preventDefault();
@@ -497,15 +530,36 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
             
         };
         
-        var back = function(item){
+        var back = function(item, noUpdate){
             nodes.splice(Y.Array.indexOf(nodes,item),nodes.length);
-            open(item);
+            open(item, noUpdate);
         };
         
-        var open = function(item){
+        var open = function(item, noUpdate){
             bark("Opening: "+(item.title || item.label || item.name));
             nodes.push(item);
             currentNode = item;
+
+            breadCrumbs.empty();
+            var hash = ""
+            Y.Array.each(nodes, function(node){
+                var crumbEl = crumbTemplate.cloneNode(true)
+                    .set("text", node.label || node.name || "none");
+                crumbEl.on("click", function(){
+                   back(node);
+                });
+                breadCrumbs.append(crumbEl);
+                hash += crumbEl.get("text")+"-";
+            });
+            if(!noUpdate){
+                historyManager.add({
+                    url:hash
+                        .replace(" ","_")
+                        .replace(/-$/,""),
+                    nodeIndex:nodes.length-1
+                });
+            }
+
             if(item.list){
                 bark("Opened: "+(item.title || item.label || item.name));
                 renderItems(item.list);
@@ -555,7 +609,7 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
         var play = function(item){
             bark("Playing: "+(item.title || item.label || item.name));
             var jsonObj = prepCommand(item.commands.play.command,gatherParams(item, item.commands.play));
-            
+
             Y.io("/jsonrpc",{
                 data:Y.JSON.stringify(jsonObj),
                 method:"POST"
@@ -565,6 +619,65 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
             input.focus();
             filter("");
         };
+
+        var queueAndPlay = function(nodesToQueue, nodeToPlay){
+            var i=0,
+                playIdx =0,
+                jsonObj;
+
+            var queueNext = function(){
+                var item = nodesToQueue[i];
+                if(item){
+                    playIdx = item == nodeToPlay ? i : playIdx;
+                    item[item.commands.queueAndPlay.params[0]] = i;
+                    queueFile(item, queueNext);
+                    i++;
+                }else{
+                    bark("Playing "+getTitle(nodeToPlay));
+
+                    jsonObj = prepCommand(
+                        nodeToPlay.commands.queueAndPlay.command,
+                        gatherParams(nodeToPlay,nodeToPlay.commands.queueAndPlay)
+                    );
+
+                    jsonObj.params = nodeToPlay[nodeToPlay.commands.queueAndPlay.params[0]]
+
+                    Y.io("/jsonrpc",{
+                        data:Y.JSON.stringify(jsonObj),
+                        method:"POST"
+                    });
+                }
+            };
+
+            if(nodeToPlay.commands.clearQueue){
+                bark("Clearing Queue")
+                jsonObj = prepCommand(nodeToPlay.commands.clearQueue.command);
+
+                Y.io("/jsonrpc",{
+                    data:Y.JSON.stringify(jsonObj),
+                    method:"POST",
+                    on:{success:function(){
+                        queueNext();
+                    }
+                }});
+            }else{
+                queueNext();
+            }
+        };
+
+        var queueFile = function(item, cb){
+            bark("Queueing Item");
+            cb = cb || function(){};
+            var jsonObj = prepCommand(item.commands.queue.command,gatherParams(item, item.commands.queue));
+
+            Y.io("/jsonrpc",{
+                data:Y.JSON.stringify(jsonObj),
+                method:"POST",
+                on:{success:function(){
+                    cb();
+                }
+            }});
+        }
         
         var info = function(){
             
@@ -600,6 +713,10 @@ YUI().use("json","io","transition", "node", "substitute", function(Y){
             
             return jsonObj;
         };
+
+        var getTitle = function(item){
+            return item.title || item.label || item.name;
+        }
         
         var getData = function(command, params, fields, cb){
             cb = cb || function(){};

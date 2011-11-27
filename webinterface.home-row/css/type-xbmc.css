@@ -16,7 +16,7 @@ body{
 }
 
 .status-bar{
-    border:2px solid grey;
+    border:2px solid gray;
     background:rgba(255,255,255,0.4);
     width:100%;
     left:0;
@@ -106,54 +106,60 @@ img.icon{
 }
 
 .search-bar{
-    border:2px solid grey;
+    border:2px solid gray;
     background:rgba(255,255,255,0.4);
     width:100%;
     position:fixed;
+    padding: 10px 20px;
     z-index:1;
 }
 
-.search-form{
-    position:relative;
-    width:94%;
-    margin:20px;
-    height:35px;
-    padding:0px 1%;
-    overflow:hidden;
-    color:white;
-    line-height:35px;
-    font-size:16px;
+.search-bar li{
+    display: inline-block;
+    list-style: none;
+}
+
+.bread-crumbs{
+    padding: 0 10px;
 }
 
 .back{
-    position:absolute;
-    width:2%;
-    overflow:hidden;
-    display:block;
     cursor:pointer;
     text-align: center;
 }
 
 .search-group{
-    position:absolute;
-    width:100%;
-    left:4%;
 }
 
 .info-box{
     position:absolute;
-    left:1%;
+    right:0;
+    top:35px;
     color:gray;
+    display:none;
+    width:200px;
+    padding: 20px;
+    background: white;
+    border: 1px solid gray;
+    line-height: 20px;
+}
+
+.help.button{
+    position: relative;
+    margin-left: 5px
+}
+
+.help.button:hover .info-box{
+    display: block;
 }
 
 .search-box{
-    height:35px;
-    line-height:35px;
+    height:30px;
     font-size:16px;
     color:rgb(50,50,50);
     border:none;
-    width:94%;
-    padding:0 1%;
+    padding: 0 10px;
+    width:185px;
 }
 
 .search-box.on{
@@ -165,7 +171,7 @@ img.icon{
 }
 
 .results-box{
-    padding:78px 0px 76px 0px;
+    padding:54px 0px 76px 0px;
 }
 
 .results{

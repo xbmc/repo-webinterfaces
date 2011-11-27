@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.home-row"
-  version="0.1.1"
+  version="0.1.3"
   name="Home Row"
   provider-name="Soljin">
   <requires>
@@ -11,7 +11,7 @@
     point="xbmc.gui.webinterface"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Home Row - Fast keystroke based web interface for XBMC</summary>
-    <description lang="en">Should work with any browser that supports JS. If it looks funny or runs slow get a better browser.</description>
+    <description lang="en">Home Row focuses on speed by using a quick refine text field to filter items and then select them by hitting enter. You can use the up and down arrows to select items while focused on the field. It is also touch and mobile friendly. It has a hash based history system but doesn't support deep linking. It's entirely HTTP based so, it's easy to route and proxy pass. It should work with any browser that supports JS. If it looks funny or runs slow, get a better browser.</description>
     <platform>all</platform>
   </extension>
 </addon>

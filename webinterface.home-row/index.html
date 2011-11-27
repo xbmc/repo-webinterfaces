@@ -7,19 +7,26 @@
     <link rel="stylesheet" href="css/type-xbmc.css">
     <link rel="stylesheet" href="css/yui.css">
     <script type="text/javascript" src="js/yui.js"></script>
-    <script type="text/javascript" src="js/type-xbmc.js"/></script>
+    <script type="text/javascript" src="js/type-xbmc.js"></script>
 </head>
 <body>
     <div class="type-xbmc">
-        <div class="search-bar">
-            <form class="search-form" action="#">
-                <span class="back">&laquo; </span>
-                <span class="search-group">
-                    <span class="info-box">Start typing to refine results. Hit enter to open item. You can use up  and down arrows to help select. Hit backspace to go back.</span>
+        <ul class="search-bar">
+            <li class="back button">&laquo; </li>
+            <li>
+                <ul class="bread-crumbs">
+                    <li class="home button">home</li>
+                </ul>
+            </li>
+            <li class="search-group">
+                <form class="search-form" action="#">
                     <input class="search-box" value=""/>
-                </span>
-            </form>
-        </div>
+                </form>
+            </li>
+            <li class="help button">
+                ? <span class="info-box">Start typing to refine results. Hit enter to open item. You can use up  and down arrows to help select. Hit backspace to go back.</span>
+            </li>
+        </ul>
         <div class="results-box">
             <ul class="results">
             </ul>
