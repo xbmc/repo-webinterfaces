@@ -1,19 +1,12 @@
 
-var myVersion = '1.9.3'
+var myVersion = '2.0.2'
 
-var videoFlagsRecord = Ext.data.Record.create([
-   {name: 'idFile', mapping: 'field:nth(1)'},		
-   {name: 'strVideoCodec', mapping: 'field:nth(2)'},
-   {name: 'fVideoAspect', mapping: 'field:nth(3)'},	
-   {name: 'iVideoWidth', mapping: 'field:nth(4)'},
-   {name: 'iVideoHeight', mapping: 'field:nth(5)'}
-]);
+function mergeJson(object1, object2) {
+	var i;
+	for (i in object2)	
+		object1[i]=object2[i];
+}
 
-var audioFlagsRecord = Ext.data.Record.create([
-   {name: 'idFile', mapping: 'field:nth(1)'},		
-   {name: 'strAudioCodec', mapping: 'field:nth(2)'},
-   {name: 'iAudioChannels', mapping: 'field:nth(3)'}
-]);
 
 var menuBar = new Ext.Toolbar({
 	region: "north",
@@ -70,27 +63,9 @@ var menuBar = new Ext.Toolbar({
 			text: 'Files',
 			width: 60,
 			handler: function(){window.location = '../files/index.html'}
-
-	
 	}]
-
 })
 
-var storeVideoFlags = new Ext.data.Store({
-	id: 'storevideoflags',
-	reader: new Ext.data.JsonXBMCReader({
-			root:'data'	       
-       }, videoFlagsRecord),
-	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strVideoCodec, fVideoAspect, iVideoWidth, iVideoHeight from streamdetails where iStreamType=0)' 
-});
-
-var storeAudioFlags = new Ext.data.Store({
-	id: 'storeaudioflags',
-	reader: new Ext.data.JsonXBMCReader({
-			root:'data'	       
-       }, audioFlagsRecord),
-	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strAudioCodec, iAudioChannels from streamdetails where iStreamType=1)' 
-});
 
 Number.prototype.unsign = function(bytes) {
   return this >= 0 ? this : this - Number.MIN_VALUE*2;
@@ -104,7 +79,6 @@ function parseXBMCXml(xmlString) {
 	var x = tempTable.pop();
 	return tempTable;
 }
-
 
 // Credit to Fiasco from the xbmc forum
 function FindCRC(data) {
@@ -167,11 +141,15 @@ var detailPanel;
 
 var VideoFlagsPanel = new Ext.Panel({
 	border: false,
-	defaults:{xtype:'container', width: 64, height: 44},
+	defaults:{xtype:'container'},
 	items: [{
 		id: 'videocodec',
+		width:84,
+		height:31,
 		autoEl: {tag: 'img', src: "../images/flags/default.png"}
 	},{
+		width:84,
+		height:31,
 		id: 'resolution',
 		autoEl: {tag: 'img', src: "../images/flags/defaultscreen.png"}
 	},{
@@ -190,29 +168,25 @@ var AudioFlagsPanel = new Ext.Panel({
 		autoEl: {tag: 'img', src: "../images/flags/defaultsound.png"}
 	},{
 		id: 'audiochannels',
-		// width:38,
-		// height:29,
 		autoEl: {tag: 'img', src: "../images/flags/0c.png"}
 	}]
 });
-
-
 
 function findResolution(iWidth) {
 
 if (iWidth == 0)
 	return "defaultscreen";
 else if (iWidth < 721)
-    return "480p";
+    return "480";
   // 960x540
 else if (iWidth < 961)
-    return "540p";
+    return "540";
   // 1280x720
 else if (iWidth < 1281)
-    return "720p";
+    return "720";
   // 1920x1080
 else 
-    return "1080p";
+    return "1080";
 
 }
 
@@ -227,39 +201,12 @@ else if (vAspect < 1.8)
 	return "1.78";
 else if (vAspect < 1.9)
 	return "1.85";
-else if (vAspect < 2.36)
+else if (vAspect < 2.3)
+	return "2.20";
+else 
 	return "2.35";
-else
-	return "2.39";
 }
 
-function GetVideoStreams(record){
-	var index = storeVideoFlags.find('idFile',record.data.idFile,0,false,false);
-	if (index == -1){
-		record.data.strVideoCodec = "default";
-		record.data.fVideoAspect = 0;
-		record.data.iVideoWidth = 0;
-	}
-	else {
-		var mydetails = storeVideoFlags.getAt(index);
-		record.data.strVideoCodec = mydetails.data.strVideoCodec;
-		record.data.fVideoAspect = mydetails.data.fVideoAspect;
-		record.data.iVideoWidth = mydetails.data.iVideoWidth;
-	}
-};
-
-function GetAudioStreams(record) {
-	var index = storeAudioFlags.find('idFile',record.data.idFile,0,false,false);
-	if (index == -1){
-		record.data.strAudioCodec = "defaultsound";
-		record.data.iAudioChannels = 0;
-	}
-	else {
-		var mydetails = storeAudioFlags.getAt(index);
-		record.data.strAudioCodec = mydetails.data.strAudioCodec;
-		record.data.iAudioChannels = mydetails.data.iAudioChannels;
-	}
-}
 
 var savingMessage = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
 

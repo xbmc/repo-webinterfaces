@@ -1,11 +1,4 @@
 
-
-// -----------------------------------------
-// movie.js
-// last modified : 31-12-2009
-// 
-//------------------------------------------ 
-
 Ext.ns('Movie');
 
 var MovieRecord = Ext.data.Record.create([
@@ -18,7 +11,8 @@ var MovieRecord = Ext.data.Record.create([
    {name: 'idFile', mapping: 'field:nth(7)'},
    {name: 'watched', mapping: 'field:nth(8)'},
    {name: 'idSet', mapping: 'field:nth(9)'},
-   {name: 'strSet', mapping: 'field:nth(10)'}
+   {name: 'strSet', mapping: 'field:nth(10)'},
+   {name: 'MovieRelease', mapping: 'field:nth(11)'}
 ]);
 
 var storeMovie = new Ext.data.GroupingStore({
@@ -28,8 +22,10 @@ var storeMovie = new Ext.data.GroupingStore({
           // records will have a "record" tag
 		root:'data'	       
        }, MovieRecord),
-	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select movie.idMovie, strFilename, strGenre, c00, strPath, c14, movie.idFile, playCount, sets.idSet, strSet FROM movie JOIN files ON (movie.idFile = files.idFile) Join path ON (files.idPath = path.idPath) LEFT OUTER Join genrelinkmovie ON (genrelinkmovie.idMovie = movie.idMovie) LEFT OUTER JOIN genre ON (genrelinkmovie.idGenre = genre.idGenre) LEFT OUTER JOIN setlinkmovie ON movie.idMovie = setlinkmovie.idMovie LEFT OUTER JOIN sets ON setlinkmovie.idSet = sets.idSet)' 
+	url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select movie.idMovie, strFilename, strGenre, c00, strPath, c14, movie.idFile, playCount, sets.idSet, strSet, c07 FROM movie JOIN files ON (movie.idFile = files.idFile) Join path ON (files.idPath = path.idPath) LEFT OUTER Join genrelinkmovie ON (genrelinkmovie.idMovie = movie.idMovie) LEFT OUTER JOIN genre ON (genrelinkmovie.idGenre = genre.idGenre) LEFT OUTER JOIN setlinkmovie ON movie.idMovie = setlinkmovie.idMovie LEFT OUTER JOIN sets ON setlinkmovie.idSet = sets.idSet)' 
 });
+
+storeMovie.load();
 
 // grid with list of movies
 Moviegrid = new Ext.grid.GridPanel({

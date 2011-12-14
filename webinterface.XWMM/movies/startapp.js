@@ -1,8 +1,6 @@
 
 // -----------------------------------------
 // startapp.js
-// last modified : 04-08-2010
-// Lunch the Movie interface
 //------------------------------------------ 
 
 Ext.onReady(function() {
@@ -74,38 +72,23 @@ Ext.onReady(function() {
 	
 	setXBMCResponseFormat();
 
-	var storesToLoad = [
-	   {store : 'storevideoflags', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strVideoCodec, fVideoAspect, iVideoWidth, iVideoHeight from streamdetails where iStreamType=0)'},
-	   {store : 'storeaudioflags', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idFile, strAudioCodec, iAudioChannels from streamdetails where iStreamType=1)'},
-	   {store : 'moviesetstore', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idSet, strSet FROM sets)'},
-	   {store : 'storegenre', url: '/xbmcCmds/xbmcHttp?command=queryvideodatabase(select idGenre, strGenre FROM genre)'}
-	];
+	MovieSetStore.load();
+	
+	startMyApp()
 
-	loadStartupStores = function(record, options, success){
-		 var task = storesToLoad.shift();  //From the top
-		 if(task){
-			if(success !== false){
-			  task.callback = arguments.callee   //let's do this again
-			  var store = Ext.StoreMgr.lookup(task.store);
-			  store ? store.load(task) : complain('bad store specified');
-			} else { 
-			  complain( );
-			}
-		 } else {startMyApp()}
-	};
-	
-	 loadStartupStores();
-	 	
-	//Moviegrid.on('contextmenu', gridContextHandler);
-	
 	function startMyApp() {
+	
+
 		var App = new Movie.Mainpanel({
 			renderTo: Ext.getBody()	 
 		});
-		Ext.QuickTips.init();
+		
 		storeMovie.load();
 		
+		Ext.QuickTips.init();
+		
 		// begin search config
+
 		var searchStore = new Ext.data.SimpleStore({
 			fields: ['query'],
 		data: []
@@ -125,7 +108,6 @@ Ext.onReady(function() {
 		var searchRec = Ext.data.Record.create([
 			{name: 'query', type: 'string'}
 		]);
-
 
 		var onFilteringBeforeQuery = function(e) {
 		//grid.getSelectionModel().clearSelections();
@@ -165,26 +147,26 @@ Ext.onReady(function() {
 						return false;
 					} else if (value.indexOf(r.data['query'])==0) {
 						// forward typing
-						searchStore.remove(r);
+						searchStore.remove(r)
 					}
 				});
 				if (vr_insert==true) {
 					searchStore.each(function(r) {
 						if (r.data['query']==value) {
-							vr_insert = false;
+							vr_insert = false
 						}
 					});
 				}
 				if (vr_insert==true) {
 					var vr = new searchRec({query: value});
-					searchStore.insert(0, vr);
+					searchStore.insert(0, vr)
 				}
 				var ss_max = 4; // max 5 query history, starts counting from 0; 0==1,1==2,2==3,etc
 				if (searchStore.getCount()>ss_max) {
 					var ssc = searchStore.getCount();
 					var overflow = searchStore.getRange(ssc-(ssc-ss_max), ssc);
 					for (var i=0; i<overflow.length; i++) {
-						searchStore.remove(overflow[i]);
+						searchStore.remove(overflow[i])
 					}
 				}
 		}
@@ -192,7 +174,7 @@ Ext.onReady(function() {
 		
 		searchBox.on("beforequery", onQuickSearchBeforeQuery);
 		searchBox.on("beforequery", onFilteringBeforeQuery);
-		searchBox.on("select", onFilteringBeforeQuery); 
+		searchBox.on("select", onFilteringBeforeQuery) 
 		// end search
 	}
 	
