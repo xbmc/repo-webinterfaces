@@ -1,0 +1,56 @@
+v 0.4.1 (20120111)
+- Sort songs by track if only opened by select an album
+- Removed unused functions.
+
+v 0.4 (20111223)
+- Adapt JSON change in Eden, to support the new version.
+- Fix HTML & CSS Struture in  cover display and media info bar.
+- Fix the back button in keyboard.
+- Fix keycode usage for the arrow keys and media info bar.
+- Add support for Gyroscope for arraw keys and pause media.
+- Remove json.js, as already supported in iOS 5.
+
+v 0.3 (20100929)
+- Implements icons from  Everaldo Coelho's Crystal Project Icons
+- Browse Music Library now can find by genre first.
+- Little tweak on media info bar, fix when use mobile safari (not installed as Web Application) on landscape mode.
+- Fix overflow cover art.
+- Fix centering icons in Browse menu.
+- Adding installation instruction under Help menu.
+
+v 0.2.9.3 (20100917)
+- Fix addon.xml to be compatible with XBMC addons repository
+- Browse Music have suffle option as first item to suffle the songs on the directory (use playlist). Selecting one song still play only the song directly (not use playlist).
+- Add Browse Music Library, now support for browse by artists, albums, and songs directly.
+- Drop default.asp, so XBMC 09xx and before, will not work anymore (it's only touch/gesture remote).
+- Resizing Cover Art/Thumbnail now detect the screen resolution.
+
+v 0.2.9.2 (20100916)
+- Change icon and splash screen to match with the new XBMC splash screen.
+- Change the background of media info.
+- Tap on media info will showing Player Control in XBMC. Previously, the Player Control can be shown with single tap (enter key), but it changed that Player Control shown by key M.
+- Fix css issue for title on media info, that may cap the text.
+- Change sensitivity for swipe left and right, this should make the swipe left then back (ESC) and vice versa (TAB) perform better.
+- Copying json.js and Default*.png images from poc to wtouch directory as the change on webinterface inside xbmc use addons system.
+- Fixing the display of the Cover Art/Thumbnail. Now the image is automatically resized based on iphone screen size. (480*320 resolution)
+
+v 0.2.9.1 (20100518)
+- Empower the new JSON-RPC for more feature.
+- Main display become "Now Playing" screen showing the Cover Art/Thumbnail of the media.
+- Also showing the title of the media on media info/status bar and current time also remaining time.
+- New Browse button, to browse the media and let XBMC play the selected media.
+Known Limitation:
+- Cover Art/Thumbnail of the Now Playing image is not resizable. So if your Cover Art/Thumbnail of media is too big or too small it may inconvenience shown in wTouch.
+- Displayed current time may not actual time, but it synced for every 15 seconds. So between the time the time may not shown correctly.
+- As I'm using default images from poc web in XBMC, the images may not fit well, as the default poc web is use black background, while the Browse Media of wTouch use white background.
+- Music just accesible by browse the media folders.
+
+v 0.2 (20100510)
+- Fixing Swipe left then right, mimicking escape key (Back)
+- Fixing Swipe right then left, mimicking tab key (Toggle GUI)
+
+v 0.1 (20100506)
+- First build
+- Enable swiping on wTouch panel as sending keys arrow to XBMC
+- Tap once as Enter key
+- Defining gesture swipe left then back right and vice verso for escape key and tab key

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="webinterface.wtouch"
+  version="0.4"
+  name="wTouch"
+  provider-name="peprasetya">
+  <requires>
+    <import addon="xbmc.gui" version="2.11"/>
+  </requires>
+  <extension
+    point="xbmc.gui.webinterface"/>
+  <extension point="xbmc.addon.metadata">
+    <summary>Gesture Remote Control for touch based webkit browser.</summary>
+    <description>wTouch give you to remote XBMC with your touch based webkit browser, like iOS and Android devices. It use your gestures by swiping fingers on your devices, so you will keep focus on your TV/Display rather than going back and forward between your TV/Display and your devices to find the exact buttons to be pressed/touch.
+With Gyroscope enabled devices and supported by it's browser, you can tap and hold then conduct the XBMC with your device.</description>
+    <platform>all</platform>
+  </extension>
+</addon>

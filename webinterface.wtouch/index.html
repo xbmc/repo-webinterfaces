@@ -1,0 +1,919 @@
+<html manifest="cache.appcache">
+<head>
+<title>wTouch Remote</title>
+<meta name="viewport" content="initial-scale=1.0 maximum-scale=1.0 user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="apple-touch-icon" href="icon.png"/>
+<link rel="apple-touch-startup-image" href="splash.png"/>
+<script>
+var thresholdX=60;
+var thresholdY=40;
+var thresholdAlpha=20;
+var thresholdBeta=5;
+var thresholdGamma=10;
+var multipleX=false;
+var multipleY=true;
+var shakeTreshold=19.45;
+
+var cvrImage;
+
+function winSize()
+{
+ heightStyle.style['height']=window.innerHeight+"px";
+}
+
+
+function updateOrientation()
+{
+  if (gyroAct>0) return false;
+  window.scrollTo(0, 1);
+  winSize();
+  if (window.orientation==0)
+  {
+    //updateStatus("View Portrait");
+  } else
+  {
+    //updateStatus("View Landscape");
+  }
+}
+
+var click;
+
+var firstX;
+var firstY;
+var speedX;
+var speedY;
+var lastX;
+var lastY;
+var moved=false;
+var numTouch=0;
+var baseThresholdX;
+var baseThresholdY;
+var action=0;
+var timeoutId;
+var actioned=false;
+
+var curAlpha=-1;
+var curBeta=-1;
+var curGamma=-1;
+var baseAlpha=-1;
+var baseBeta=-1;
+var baseGamma=-1;
+var gyroAct=0;
+
+var heightStyle;
+var rule;
+var playerId=-1;
+
+function sendCommand(cmd,callback)
+{
+  action=0;
+  actioned=true;
+  var httpRequest = new XMLHttpRequest();
+  if (callback) httpRequest.onreadystatechange = function()
+  {
+    if (httpRequest.readyState == 4 && httpRequest.status == 200) 
+    {
+      callback(httpRequest);
+    }
+  };
+  httpRequest.open('GET',"/xbmcCmds/xbmcHttp?command="+cmd, true);
+  httpRequest.send();
+}
+
+function sendSelect(){sendCommand("SendKey(0XF00D)");}
+function sendEscape(){sendCommand("SendKey(0XF01B)");}
+function sendTab(){sendCommand("Action(18)");}
+function sendArrowUp(){sendCommand("SendKey(0XF080)");}//sendInput('Up');}//sendCommand("SendKey(0XF026)");}
+function sendArrowDown(){sendCommand("SendKey(0XF081)");}//sendInput('Down');}//sendCommand("SendKey(0XF028)");}
+function sendArrowRight(){sendCommand("SendKey(0XF083)");}//sendInput('Right');}//sendCommand("SendKey(0XF027)");}
+function sendArrowLeft(){sendCommand("SendKey(0XF082)");}//sendInput('Left');}//sendCommand("SendKey(0XF025)");}
+function sendKeyC(){sendCommand("SendKey(0XF043)");}
+function sendKeyM(){sendCommand('SendKey(0XF04D)');}
+
+function touchStart(event) 
+{
+  event.preventDefault();
+  numTouch=event.touches.length;
+  window.scrollTo(0, 1);
+  firstX=event.touches[0].pageX;
+  firstY=event.touches[0].pageY;
+  speedX=0;
+  speedY=0;
+  lastX=firstX;
+  lastY=firstY;
+  moved=false;
+  baseThresholdX=firstX;
+  baseThresholdY=firstY;
+  baseAlpha=curAlpha;
+  baseBeta=curBeta;
+  baseGamma=curGamma;
+  actioned=false;
+  gyroAct=0;
+  timeoutId=setTimeout("tapLonger(event)",1000);
+}
+
+function tapLonger(event)
+{
+  if (!actioned)sendKeyC();
+}
+
+function touchMove(event) 
+{
+  event.preventDefault();
+  var curX=event.touches[0].pageX;
+  var curY=event.touches[0].pageY;
+  speedX=curX-lastX;
+  speedY=curY-lastY;
+  lastX=curX;
+  lastY=curY;
+  moved=true;
+  var dmeg="";
+  if (!actioned && event.touches.length==1)
+  {
+    if ((Math.abs(firstX-lastX)>Math.abs(firstY-lastY))||action==1||action==3)
+    {
+      if (curX>=(baseThresholdX+thresholdX))
+      {
+        clearTimeout(timeoutId);
+        baseThresholdX=curX;
+        if (multipleX)
+        {
+          sendArrowRight;
+        } else if (action==0)
+        {
+          action=3;
+        } if (action==1)
+        {
+          action=5;
+        }
+      } else if (curX<=(baseThresholdX-thresholdX))
+      {
+        clearTimeout(timeoutId);
+        baseThresholdX=curX;
+        if (multipleX)
+        {
+          sendArrowLeft();
+        } else if (action==0)
+        {
+          action=1;
+        } if (action==3)
+        {
+          action=6;
+        }
+      }
+    } else if (Math.abs(firstX-lastX)<Math.abs(firstY-lastY)||action==2||action==4)
+    {
+      if (curY>=(baseThresholdY+thresholdY))
+      {
+        clearTimeout(timeoutId);
+        baseThresholdY=curY;
+        if (multipleY)
+        {
+          sendArrowDown();
+        } else if (action==0)
+        {
+          action=4;
+        } if (action==2)
+        {
+          action=7;
+        }
+      } else if (curY<=(baseThresholdY-thresholdY))
+      {
+        clearTimeout(timeoutId);
+        baseThresholdY=curY;
+        if (multipleY)
+        {
+          sendArrowUp();
+        } else if (action==0)
+        {
+          action=2;
+        } if (action==4)
+        {
+          action=8;
+        }
+      }
+    }
+  }
+  //updateStatus("Actions: "+action);
+}
+
+function touchEnd(event) 
+{
+  event.preventDefault();
+  baseAlpha=-1;
+  baseBeta=-1;
+  baseGamma=-1;
+  gyroAct=0;
+  if (!actioned && event.touches.length==0)
+  {
+    clearTimeout(timeoutId);
+    numTouch=0;
+    //updateStatus("Action: "+action);
+    switch (action)
+    {
+      case 0: {if (!moved) sendSelect(); break;}
+      case 1: {sendArrowLeft(); break;}
+      case 2: {sendArrowUp(); break;}
+      case 3: {sendArrowRight(); break;}
+      case 4: {sendArrowDown(); break;}
+      case 5: {sendEscape(); break;}
+      case 6: {sendTab(); break;}
+      case 7: {break;}
+      case 8: {break;}
+    }
+  }
+  setTimeout(nowPlaying,1000);
+}
+
+function touchCancel(event) 
+{
+  event.preventDefault();
+}
+
+var paused=false;
+
+if (window.DeviceOrientationEvent!=null)
+{
+  window.ondeviceorientation=function(event)
+  {
+    curAlpha=event.alpha;
+    curBeta=event.beta;
+    curGamma=event.gamma;
+    if (curAlpha>180)curAlpha-=360;
+    if (Math.abs(curGamma)>160)
+    {
+      if (playStat && playerId>-1 && !paused)
+      {
+        jsonRequest('Player.PlayPause','"playerid":'+playerId);
+        paused=true;
+      }
+    } else if (paused)
+    {
+        jsonRequest('Player.PlayPause','"playerid":'+playerId);
+      paused=false;
+    }
+    if (baseAlpha!=-1 && Math.abs(curAlpha-baseAlpha)>thresholdAlpha)
+    {
+      if (curAlpha>baseAlpha)sendArrowLeft(); else sendArrowRight();
+      baseAlpha=curAlpha;
+      gyroAct=1;
+    }
+    if (baseBeta!=-1 && Math.abs(curBeta-baseBeta)>thresholdBeta)
+    {
+      if (curBeta>baseBeta)sendArrowUp(); else sendArrowDown();
+      baseBeta=curBeta;
+      gyroAct=2;
+    }
+    //if (baseGamma!=-1 && Math.abs(curGamma-baseGamma)>thresholdGamma && (gyroAct==0 || gyroAct==3))
+    //{
+    //  if (curGamma>baseGamma){}else{}
+    //  baseGamma=curGamma;
+    //  gyroAct=3;
+    //}
+  }
+}
+
+var statusm;
+
+function updateStatus(statmessage)
+{
+  if (!statusm) statusm=document.getElementById('status');
+  statusm.innerText=statmessage;
+}
+
+var help;
+
+function openHelp(show)
+{
+  if (!help) help=document.getElementById('help');
+  if (show)
+  {
+    help.style.visibility='visible';
+    help.style.display='block';
+  } else
+  {
+    help.style.visibility='hidden';
+    help.style.display='none';
+  }
+}
+
+var browser;
+function openBrowser(show)
+{
+  if (! browser) browser=document.getElementById('browser');
+  if (show)
+  {
+    browser.style.visibility='visible';
+    browser.style.display='block';
+  } else
+  {
+    browser.style.visibility='hidden';
+    browser.style.display='none';
+  }
+}
+
+var histories=new Array();
+
+function history(method,desc,par1,par2,par3,par4)
+{
+  this.method=method;
+  this.desc=desc;
+  this.par1=par1;
+  this.par2=par2;
+  this.par3=par3;
+  this.par4=par4;
+}
+
+var backButton;
+function addHistory(method,desc,par1,par2,par3,par4)
+{
+  if (!backButton)backButton=document.getElementById('backbutton');
+  histories[histories.length]=new history(method,desc,par1,par2,par3,par4);
+  if (histories.length>1)
+  {
+    backButton.style.visibility="visible";
+    backButton.value=histories[histories.length-2].desc;
+  } else if (histories.length==1)
+  {
+    backButton.style.visibility="visible";
+    backButton.value="Home";
+  } else
+  {
+    backButton.style.visibility="hidden";
+  }
+}
+
+function goBack()
+{
+  if (histories.length>1)
+  {
+    var hist=histories[histories.length-2];
+    histories.splice(-2);
+    switch (hist.method)
+    {
+      case  1: {browseVideo();break;}
+      case  2: {browseDir(hist.par1,hist.par2);break;}
+      case  3: {browseMovies();break;}
+      case  4: {browseTVShow();break;}
+      case  5: {tvseason(hist.par1);break;}
+      case  6: {tvepisode(hist.par1,hist.par2);break;}
+      case  7: {browseMusic();break;}
+      case  8: {browseLibrary();break;}
+      case  9: {browseGenres();break;}
+      case 10: {browseArtists(hist.par1,hist.par2);break;}
+      case 11: {browseAlbums(hist.par1,hist.par2);break;}
+      case 12: {browseSongs(hist.par1,hist.par2);break;}
+      case 13: {browseCompilations();break;}
+    }
+  } else if (histories.length==1)
+  {
+    browseRoot();
+    backButton.style.visibility="hidden";
+    histories.splice(0,histories.length);
+  }
+}
+
+function sendInput(type)
+{
+  action=0;
+  jsonRequest('Input.'+type);
+}
+
+function jsonRequest(method,params,callback) 
+{
+  var httpRequest = new XMLHttpRequest();
+  if (callback) httpRequest.onreadystatechange = function()
+  {
+    if (httpRequest.readyState == 4 && httpRequest.status == 200) 
+    {
+      callback(httpRequest);
+
+    }
+  };
+  var data='{ "jsonrpc": "2.0", "method": "'+method+'", ';
+  if (params && params.length>0)
+  {
+    data+='"params": {'+params+'},';
+  }
+  data+=' "id": 1 }';
+  httpRequest.open("POST","/jsonrpc", true);
+  httpRequest.send(data);
+}
+
+function createItem(func,txt,img)
+{
+  return '<li><div class="itemicon"><div class="cell">'+(img?'<img src="'+img+'">':'')+'</div></div><span rel="#" onclick="'+func+';return false;">'+txt+'</span>';
+}
+
+var content;
+function browseRoot()
+{
+  if (!content) content=document.getElementById('content');
+  var buf="<ul>";
+  buf+=createItem('browseVideo()','Video','FolderVideo.png');
+  buf+=createItem('browseMovies()','Movies','FolderVideo.png');
+  buf+=createItem('browseTVShow()','TVShow','FolderVideo.png');
+  buf+=createItem('browseMusic()','Music','FolderMusic.png');
+  buf+=createItem('browseLibrary()','Music Library','FolderMusic.png');
+  content.innerHTML=buf;
+}
+
+function play(lid,val)
+{
+  jsonRequest('Player.Open', '"item": {"'+lid+'": '+val+"}");
+}
+
+function browseVideo()
+{
+  addHistory(1,"Video");
+  var buf="<ul>"
+  window.scrollTo(0, 1);
+  jsonRequest('Files.GetSources', '"media": "video"',function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.sources;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("browseDir('video','"+item.file+"')",item.label,(item.thumbnail)?'/thumb/'+item.thumbnail+".jpg":"DefaultFolder.png");
+    }
+    content.innerHTML=buf;
+  });
+}
+
+function browseDir(type,directory)
+{
+  addHistory(2,"Back",type,directory);
+  var buf="";
+  window.scrollTo(0, 1);
+  jsonRequest('Files.GetDirectory', '"media": "'+type+'", "directory": "'+directory+'", "sort": { "method": "label", "order": "ascending" }',function(httpRequest)
+  {
+    var rsss=httpRequest.responseText;
+    var jsonResult=JSON.parse(rsss).result;
+    if (jsonResult)
+    {
+      var files=jsonResult.files;
+      var haveMusics=false;
+      for (var idx in files)
+      {
+        var item= files[idx];
+        if (item.filetype=="directory")
+        {
+          buf+=createItem("browseDir('"+type+"','"+item.file+"')",item.label,(item.thumbnail)?'/thumb/'+item.thumbnail+".jpg":"DefaultFolder.png");
+        } else if (type=="music")
+        {
+          buf+=createItem("openFile('"+item.file+"')",item.label,(item.thumbnail)?'/thumb/'+item.thumbnail+".jpg":"DefaultAlbumCover.png");
+          haveMusics=true;
+        } else 
+        {
+          var defImage=type=="video"?"DefaultVideo.png":"";
+          buf+=createItem("openFile('"+item.file+"')",item.label,(item.thumbnail)?'/thumb/'+item.thumbnail+".jpg":defImage);
+        }
+      }
+      if (haveMusics)buf=createItem("shuffle('directory','"+directory+"')","Shuffle...","DefaultFolder.png")+buf;
+      content.innerHTML="<ul>"+buf;
+    }
+  });
+}
+
+function openFile(file)
+{
+  play('file','"'+file+'"');
+}
+
+function shuffle(type,value)
+{
+  jsonRequest('Playlist.Clear', '"playlistid":0');
+  jsonRequest('Playlist.Add', '"playlistid":0, "item": {"'+type+'": '  +(isNaN(parseFloat(value))?'"'+value+'"':value)+'}');
+  play('playlistid','0');
+  jsonRequest('Player.Shuffle', '"playerid":0');
+}
+
+function sortLabel(a,b)
+{
+  return a["label"]>b["label"]?1:-1;
+}
+
+function browseMovies()
+{
+  addHistory(3,"Movies");
+  var buf="<ul>";
+  window.scrollTo(0, 1);
+  jsonRequest('VideoLibrary.GetMovies', '"limits": { "start": 0 }, "properties": [ "genre", "director", "trailer", "tagline", "plot", "plotoutline", "title", "originaltitle", "lastplayed", "runtime", "year", "playcount", "rating", "thumbnail", "file" ], "sort": { "method": "label", "ignorearticle": true }',function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.movies;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("play( 'movieid', "+item.movieid+")",item.title,(item.thumbnail)?'/vfs/'+escape(item.thumbnail):"DefaultVideo.png");
+    }
+    content.innerHTML=buf;
+  });
+}
+
+function browseTVShow()
+{
+  addHistory(4,"TVShow");
+  var buf="<ul>";
+  window.scrollTo(0, 1);
+  jsonRequest('VideoLibrary.GetTVShows','"properties": ["title", "thumbnail"], "sort": { "method": "label", "ignorearticle": true }',function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.tvshows;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("tvseason("+item.tvshowid+")",item.label,(item.thumbnail)?'/vfs/'+escape(item.thumbnail):"/images/nocover.jpg");
+    }
+    content.innerHTML=buf;
+  });
+}
+
+function tvseason(tvshowid)
+{
+  addHistory(5,"Season",tvshowid);
+  var buf="<ul>";
+  window.scrollTo(0, 1);
+  jsonRequest('VideoLibrary.GetSeasons', '"tvshowid": ' + tvshowid + ', "properties": [ "season", "showtitle", "episode", "thumbnail" ] ',function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.seasons;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("tvepisode("+tvshowid+","+item.season+")",item.label,(item.thumbnail)?'/vfs/'+escape(item.thumbnail):"/images/nocover.jpg");
+    }
+    content.innerHTML=buf;
+  });
+}
+
+function tvepisode(tvshowid,season)
+{
+  addHistory(6,"Episode",tvshowid,season);
+  var buf="<ul>";
+  window.scrollTo(0, 1);
+  jsonRequest('VideoLibrary.GetEpisodes', '"tvshowid": ' + tvshowid + ', "season": ' + season + ', "properties": [ "title", "thumbnail","episode","season"]',function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.episodes;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("play( 'episodeid',"+item.episodeid+")",item.label==""?item.episode:item.label,(item.thumbnail)?'/vfs/'+escape(item.thumbnail):"DefaultVideo.png");
+    }
+    content.innerHTML=buf;
+  });
+}
+
+function browseMusic()
+{
+  addHistory(7,"Music");
+  var buf="<ul>";
+  window.scrollTo(0, 1);
+  jsonRequest('Files.GetSources', '"media": "music"',function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.sources;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("browseDir('music','"+item.file+"')",item.label,(item.thumbnail)?'/vfs/'+item.thumbnail:"DefaultFolder.png");
+    }
+    content.innerHTML=buf;
+  });
+}
+
+var musicAlbums
+
+
+function browseLibrary()
+{
+  addHistory(8,"Library");
+  var buf="<ul>";
+  window.scrollTo(0, 1);
+  buf+=createItem('browseGenres()','Genres');
+  buf+=createItem('browseArtists()','Artists');
+  buf+=createItem('browseAlbums()','Albums');
+  buf+=createItem('browseSongs()','Songs');
+  //buf+=createItem('browseCompilations()','Compilations');
+  content.innerHTML=buf;
+  sendCommand('SetResponseFormat()');
+}
+
+function browseGenres()
+{
+  addHistory(9,"Genres");
+  var buf="";
+  window.scrollTo(0, 1);
+  jsonRequest('AudioLibrary.GetGenres', '"properties":["thumbnail"], "sort": { "method": "label", "ignorearticle": true }',function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.genres;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("browseArtists('genreid','"+item.genreid+"')",item.label,(item.thumbnail)?'/vfs/'+item.thumbnail:"DefaultAlbumCover.png");
+    }
+    content.innerHTML="<ul>"+buf;
+  });
+}
+
+function browseArtists(ruleName,value)
+{
+  addHistory(10,"Artists",ruleName,value);
+  var buf="";
+  window.scrollTo(0, 1);
+  var param='"properties":["thumbnail"], "sort": { "method": "label", "ignorearticle": true }';
+  if (ruleName) param+=',"'+ruleName+'": '+value+'';
+  jsonRequest('AudioLibrary.GetArtists', param,function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.artists;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("browseAlbums('artistid','"+item.artistid+"')",item.label,(item.thumbnail)?'/vfs/'+item.thumbnail:"Personal.png");
+    }
+    if (ruleName) buf=createItem("browseAlbums('"+ruleName+"',"+value+")","* All Albums","")+buf;
+    content.innerHTML="<ul>"+buf;
+  });
+}
+
+function browseAlbums(ruleName,value)
+{
+  addHistory(11,"Albums",ruleName,value);
+  var buf="";
+  window.scrollTo(0, 1);
+  var param='"properties":["thumbnail"], "sort": { "method": "label", "ignorearticle": true }';
+  if (ruleName) param+=',"'+ruleName+'": '+value+'';
+  jsonRequest('AudioLibrary.GetAlbums', param,function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.albums;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("browseSongs('albumid','"+item.albumid+"')",item.label,(item.thumbnail)?'/vfs/'+item.thumbnail:"FolderMusic.png");
+    }
+    if (ruleName) buf=createItem("browseSongs('"+ruleName+"',"+value+")","* All Songs","")+buf;
+    content.innerHTML="<ul>"+buf;
+  });
+}
+
+function browseSongs(ruleName,value)
+{
+  addHistory(12,"Songs",ruleName,value);
+  var buf="";
+  window.scrollTo(0, 1);
+  var sort='label';
+  if (ruleName=='albumid')sort='track';
+  var param='"properties":["thumbnail"], "sort": { "method": "'+sort+'", "ignorearticle": true }';
+  if (ruleName) param+=',"'+ruleName+'": '+value+'';
+  jsonRequest('AudioLibrary.GetSongs', param, function(httpRequest)
+  {
+    var resp=JSON.parse(httpRequest.responseText).result.songs;
+    for (var idx in resp)
+    {
+      var item=resp[idx];
+      buf+=createItem("play('songid','"+item.songid+"')",item.label,(item.thumbnail)?'/vfs/'+item.thumbnail:"DefaultFolder.png");
+    }
+    if (ruleName) buf=createItem("shuffle('"+ruleName+"',"+value+")","Shuffle...","Services.png")+buf;
+    content.innerHTML=buf;
+  });
+}
+
+function formatSecond(second)
+{
+  var temp=second;
+  var rst=":"+("0"+Math.floor(temp % 60)).substr(-2);
+  temp/=60;
+  rst=":"+("0"+Math.floor(temp % 60)).substr(-2)+rst;
+  temp/=60;
+  rst=Math.floor(temp)+rst;
+  return rst;
+}
+
+var playStat;
+var titleStat;
+var leftStat;
+var rightStat;
+var currentTime=0;
+var totalTime=0;
+var lastTime=0;
+var timerId=0;
+
+function refreshTime()
+{
+  if (currentTime<totalTime)
+  {
+    leftStat.innerText=formatSecond(++currentTime);
+    rightStat.innerText=formatSecond(totalTime-currentTime);
+  } else
+  {
+    clearInterval(timerId);
+    timerId=0;
+    nowPlaying();
+  }
+}
+
+function nowPlaying()
+{
+  if (!playStat)
+  {
+    playStat=document.getElementById('nowplaystat');
+    titleStat=document.getElementById('titlestatus');
+    leftStat=document.getElementById('leftstatus');
+    rightStat=document.getElementById('rightstatus');
+  }
+  if (!cvrImage) cvrImage =document.getElementById('cvrDiv');
+  jsonRequest('Player.GetActivePlayers', '',function(httpRequest)
+  {
+    var player=JSON.parse(httpRequest.responseText).result[0];
+    if (player && (player.playerid==0 || player.playerid==1))
+    {
+      playerId=player.playerid;
+      playStat.style.visibility='visible';
+      jsonRequest('Player.GetItem','"properties": ["thumbnail"],"playerid":'+player.playerid,function(httpReq)
+      {
+        var resp=JSON.parse(httpReq.responseText).result.item;
+        titleStat.innerText=resp.label;
+        backs='url('+((resp.thumbnail && escape(resp.thumbnail).match("^^special(?:)[^/][^/][^/]//")=="special%3A//")?"/vfs/"+escape(resp.thumbnail):"splash.png")+')';
+        if (cvrImage.style.backgroundImage!=backs) cvrImage.style.backgroundImage=backs;
+        jsonRequest('Player.GetProperties','"properties": ["position", "totaltime", "time"],"playerid":'+player.playerid,function(httpReqTime)
+        {
+          var playProp=JSON.parse(httpReqTime.responseText).result;
+          currentTime=playProp.time.hours*3600+playProp.time.minutes*60+playProp.time.seconds;
+          totalTime=playProp.totaltime.hours*3600+playProp.totaltime.minutes*60+playProp.totaltime.seconds;
+          leftStat.innerText=formatSecond(currentTime);
+          rightStat.innerText=formatSecond(totalTime-currentTime);
+          if (timerId>0)clearInterval(timerId);
+          if (lastTime!=currentTime)
+          {
+            lastTime=currentTime;
+            timerId=setInterval(refreshTime,1000);
+          } else timerId=0;
+        });
+      });
+    } else 
+    {
+      if (timerId>0)clearInterval(timerId);
+      timerId=0;
+      playerId=-1;
+      playStat.style.visibility='hidden';
+      backs='url(splash.png)';
+      if (cvrImage.style.backgroundImage!=backs) cvrImage.style.backgroundImage=backs;
+    }
+  });
+}
+
+function initialize()
+{
+  nowPlaying();
+  setInterval(nowPlaying,15000);
+  window.onresize=winSize;
+  rule=(document.all)?"rules":"cssRules";
+  i=0;
+  while (!(heightStyle) && i<document.styleSheets[0][rule].length)
+  {
+    if (document.styleSheets[0][rule][i].selectorText == ".screenheight")
+      heightStyle=document.styleSheets[0][rule][i];
+    i++;
+  }
+  setTimeout("updateOrientation()", 100);
+}
+
+</script>
+<style>
+.screenheight
+{
+  height: 0;
+}
+
+#content 
+{
+  position: relative;
+  margin-top: 40px;
+}
+
+#content ul
+{
+  margin: 0;
+  padding: 0;
+}
+
+#content li 
+{
+  position: relative;
+  list-style-type: none;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  -webkit-margin-top-collapse: separate;
+  -webkit-margin-bottom-collapse: separate;
+  border-bottom: 1px solid #e0e0e0;
+  height: 47px;
+}
+
+#content li.active 
+{
+  background: #0874e1;
+}
+
+#content li.active span 
+{
+  color: #fff;
+}
+
+#content li span 
+{
+  position: absolute; 
+  left: 35px;
+  top: 12px;
+  height: 27px;
+  right: 30px;
+  width: auto;
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+#content li .itemicon 
+{
+  width:30px;
+  float:left;
+  vertical-align: middle;
+  height: 100%;
+  display: table;
+}
+
+#content li .itemicon .cell
+{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+#content li .itemicon .cell img 
+{
+  width: 100%;
+}
+
+</style>
+</head>
+<body onorientationchange="updateOrientation();" onload="initialize();" style="margin: 0;background:#000000 no-repeat center center;font-family: Helvetica;">
+<div class="screenheight" style="position:fixed;left:0px;top:0px;width:100%;">
+<div id="toolbar" style="position:absolute;left:0px;top:0px;width:100%;-webkit-transition: all 3000ms linear;background:#6d84a2 url('toolbar.png') repeat-x;z-index:50;min-height:40px;max-height:40px;height:40px;opacity:.9;">
+<input name="Keyboard" value="" onkeyup="if(event.keyCode==8)sendCommand('SendKey(0XF008)');" onkeypress="sendCommand('SendKey('+(61696+event.keyCode)+')');" onfocus="this.value='';this.style.background='white'" onblur="this.value='';this.style.background='url(key.png) no-repeat'" style="width:60px;height:30px;margin:5px;padding:0;font-size:14px;background: url('key.png') no-repeat;border: none;float:left;" autocapitalize="off">
+<input type="button" value="Browse" onclick="openBrowser(true)" style="float:left;margin:5px;min-height:30px;-webkit-appearance:square-button;border: 1px solid;">
+<input type="button" value="Help!" onclick="openHelp(true)" style="float:right;margin:5px;min-height:30px;-webkit-appearance:square-button;border: 1px solid;"><div id="status" style="color:white;"></div>
+</div>
+
+<div id="touchpanel" align="center" style="min-height: 100%;-webkit-user-select: none;overflow: hidden;" ontouchstart="touchStart(event);" ontouchmove="touchMove(event);" ontouchend="touchEnd(event);" ontouchcancel="touchCancel(event);">
+<div class="screenheight " style="width:100%;vertical-align:middle;display:table;padding-top:0px;"><div style="display:table-cell;vertical-align:middle;background-repeat:no-repeat;background-size:contain;background-position:center;background-image:url(splash.png);width:100%;height:100%;" id="cvrDiv"></div></div>
+</div>
+<div id="nowplaystat" style="position:absolute;z-index:10;bottom:0;width:100%;height:45px;visibility:hidden;background:url(glass.png) repeat-x" onclick="sendKeyM();">
+<div id="titlestatus" align="center" style="position:absolute;left:0;right:0;top:5px;overflow:hidden;height:20px;text-overflow: ellipsis;white-space: nowrap;"></div>
+<span id="leftstatus" style="position:absolute;left:0;bottom:0;"></span>
+<span id="rightstatus" style="position:absolute;right:0;text-align:right;bottom:0;"></span>
+</div>
+</div>
+
+<div id="help" style="position:absolute;width:100%;-webkit-transition: all 3000ms linear;left:0px;top:0px;visibility:hidden;display:none;background-color:#ccc;z-index:100;min-height:100%;">
+<input type="button" value="Close" onclick="openHelp(false);" style="float:right;min-height:30px;border: 1px solid;-webkit-appearance:square-button;">
+<ul>
+  <li>Swipe left or right to change position left or right, one action per swipe.(Arrow Key)
+  <li>Swipe up or down to change position up or down, continue swipe finger will repeat action.(Arrow Key)
+  <li>Tap to select action.(Enter)
+  <li>Tap longer (Hold) to open option menu.(key C)
+  <li>Swipe Left then Right (As one touch) go back previous menu.(Esc)
+  <li>Swipe Right then Left (As one touch) toggle GUI.(Tab)
+  <li>Tap on keyboard icon to open Soft-Keyboard.
+  <li>Tap on media info (bottom panel) to show Player Control.(key M)
+</ul>
+<ul>Gyroscope Enabled Device
+  <li>Tap, Hold and Rotate Left/Right/Up/Down as Arrow Keys
+  <li>Turn device to screen face bottom to pause, turn up to play again
+  <li>Tap to select action.(Enter)
+s</ul>
+<ul>Installation Instruction:
+  <li>Tap the plus (+) sign on the bottom navigation bar on your mobile safari.
+  <li>Select "Add to Home Screen"
+  <li>Put your desired icon name
+</ul>
+XBMC wTouch Version 0.4.1 <br>
+by Paulus E. Prasetya (peprasetya@gmail.com)
+</div>
+
+<div id="browser" style="position:absolute;width:100%;left:0px;top:0px;visibility:hidden;display:none;background-color:#fff;z-index:100;min-height:100%;">
+<div id="toolbrowser" style="z-index:99;position:fixed;width:100%;background:#6d84a2 url('toolbar.png') repeat-x;min-height:40px;max-height:40px;height:40px;">
+<input type="button" value="Back" id="backbutton" onclick="goBack()" style="float:left;margin:5px;min-height:30px;-webkit-appearance:square-button;border: 1px solid;visibility:hidden">
+<input type="button" value="Close" onclick="openBrowser(false)" style="float:right;margin:5px;min-height:30px;-webkit-appearance:square-button;border: 1px solid;">
+</div>
+<div id="content" style="z-index:98";>
+<script>
+browseRoot();
+</script>
+</div>
+</div>
+</body>
+</html>
