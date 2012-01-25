@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="webinterface.awxi"
+  version="0.4.6"
+  name="AWXi"
+  provider-name="MKay, Mizaki et al">
+  <requires>
+    <import addon="xbmc.gui" version="2.11"/>
+  </requires>
+  <extension
+    point="xbmc.gui.webinterface"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">AWXi - Ajax based Webinterface for XBMC</summary>
+    <summary lang="de">AWXi - Ajax basiertes Webinterface fuer XBMC</summary>
+    <summary lang="pl">AWXi - oparty na Ajaxie Interfejs WWW dla XBMC</summary>
+    <description lang="en">You can use this webinterface to control the Audio/Video Section of XBMC: play/pause/stop/skip, show artists/albums/movies/tv shows and play them or add them to the playlist. It's designed for use on PCs or laptops with a browser like FireFox which supports JavaScript.
+
+Minimum requirements: XBMC (pre) Eden 
+Tested Browsers:
+   - FireFox
+   - Chromium
+   - Internet Explorer 9
+Not supported: Internet Explorer 6
+
+Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser.</description>
+    <description lang="de">Mit diesem Webinterface laesst sich die Audio- und Video-Sektion von XBMC steuern: play/pause/stop/skip, sowie Anzeigen/Abspielen von Interpreten/Alben/Filmen/Serien. Es wurde fuer den Einsatz an einem PC oder Laptop mit einem JavaScript-faehigen Browser wie FireFox entwickelt.
+
+Mindestvoraussetzung: XBMC (pre) Eden
+Getestete Browser:
+   - FireFox
+   - Chromium
+   - Internet Explorer 9
+Nicht unterstuetzt: Internet Explorer 6
+
+Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/aktualisierte Webinterface in Ihrem Browser laden.</description>
+    <description lang="pl">Ten Interfejs WWW pozwala kontrolować wybór, kolejkowanie i odtwarzanie zasobów audio / wideo, a wszystko to przy pomocy wygodnego interfejsu prezentującego zasoby multimedialne przy użyciu miniatur dla filmów, seriali tv, wykonawców i albumów muzycznych. Został zaprojektowany do użytkowania na komputerach osobistych lub notebookach w przeglądarce takiej jak FireFox, która obsługuje JavaScript.
+
+Minimalne wymagania: XBMC (pre) Eden 
+Przetestowane przeglądarki internetowe:
+   - FireFox
+   - Chrome
+   - Internet Explorer 9
+Nie obsługiwane: Internet Explorer 6
+
+Hint: Po instalacji / aktualizacji, przed uruchomieniem AWX może być konieczne wyczyszczenie cache przeglądarki.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
