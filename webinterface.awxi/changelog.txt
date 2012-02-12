@@ -1,3 +1,20 @@
+0.5.0
+ - Added Sorting.
+ - Added Views (more to come).
+ - Added Automatically close when XBMC is unreachable.
+ - Changed Playlists info is clearer. 
+ - Fixed Find with views.
+
+0.4.8
+ - Added Movie views!
+ - Added Song play next.
+ - Changed Moved most views and UI function to ui.views.js to allow for easier view additions.
+ - Changed periodicUpdater is all async.
+ - Fixed Scan music scans music and not video!
+
+0.4.7
+ - Skipped due to repo problem.
+ 
 0.4.6:
  - Added Select sort order for movies.
  - Added TV episode tagging.

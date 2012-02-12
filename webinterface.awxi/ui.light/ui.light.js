@@ -17,7 +17,9 @@
  */
 
 
+
 var awxUI = {};
+
 
 
 (function($) {
@@ -25,27 +27,44 @@ var awxUI = {};
 	$.extend(awxUI, {
 		// --- Pages ---
 		artistsPage: null,
+		//artistsGenresPage: null,
 		albumsPage: null,
+		//MusicPlaylistsPage: null,
+		//albumsRecentPage: null,
 		musicFilesPage: null,
 		musicPlaylistPage: null,
+		//musicScanPage: null,
 
 		moviesPage: null,
+		//movieSetsPage: null,
+		//moviesRecentPage: null,
+		//VideoPlaylistsPage: null,
 		tvShowsPage: null,
+		//tvShowsRecentlyAddedPage: null,
 		videoFilesPage: null,
 		videoPlaylistPage: null,
+		//videoScanPage: null,
 
 		// --- Page Content ---
 		$musicContent: null,
 		$artistsContent: null,
+		//$artistsGenresContent: null,
+		//$MusicPlaylistsContent: null,
 		$albumsContent: null,
+		//$albumsRecentContent: null,
 		$musicFilesContent: null,
 		$musicPlaylistContent: null,
+		//$musicScanContent: null,
 
 		$videosContent: null,
 		$moviesContent: null,
+		//$VideoPlaylistsContent: null,
+		//$moviesRecentContent: null,
 		$tvShowsContent: null,
+		//$tvShowsRecentlyAddedContent: null,
 		$videoFilesContent: null,
 		$videoPlaylistContent: null,
+		//$videoScanContent: null,
 
 
 
@@ -64,7 +83,8 @@ var awxUI = {};
 		/**************************
 		 * Set up page structure: *
 		 *  - Music               *
-		 *     - Artists          *
+		 *     - Artists		  *
+		 *	   - Genres			  *
 		 *     - Albums           *
 		 *     - Files            *
 		 *     - Playlist         *
@@ -74,9 +94,10 @@ var awxUI = {};
 		 *     - Files            *
 		 *     - Playlist         *
 		 **************************/
-		setupPages: function() {			
+		setupPages: function() {
+			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			
 			// --- MUSIC ---
-			var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 			this.$musicContent = $('<div class="pageContentWrapper"></div>');
 			var musicPage = mkf.pages.addPage({
 				title: mkf.lang.get('page_title_music'),
@@ -93,6 +114,7 @@ var awxUI = {};
 						}
 					}];
 
+			// Artists
 			this.$artistsContent = $('<div class="pageContentWrapper"></div>');
 			var artistsContextMenu = $.extend(true, [], standardMusicContextMenu);
 			artistsContextMenu.push({
@@ -100,7 +122,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findArtistsButton').offset();
 						awxUI.$artistsContent
-							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'artistsFindBox', searchItems: xbmc.getSearchTerm('artists'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -123,7 +145,7 @@ var awxUI = {};
 				className: 'artists'
 			});
 			
-			
+			// Music Genres
 			this.$artistsGenresContent = $('<div class="pageContentWrapper"></div>');
 			var artistsGenresContextMenu = $.extend(true, [], standardMusicContextMenu);
 			artistsGenresContextMenu.push({
@@ -131,7 +153,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findArtistsGenresButton').offset();
 						awxUI.$artistsGenresContent
-							.defaultFindBox({id:'artistsGenresFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'artistsGenresFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -153,7 +175,7 @@ var awxUI = {};
 				onShow: $.proxy(this, "onArtistsGenresShow"),
 				className: 'artistsGenres'
 			});
-			
+
 			//playlists m3u smart etc.
 			this.$MusicPlaylistsContent = $('<div class="pageContentWrapper"></div>');
 			var MusicPlaylistsContextMenu = $.extend(true, [], standardMusicContextMenu);
@@ -184,8 +206,8 @@ var awxUI = {};
 				onShow: $.proxy(this, "onMusicPlaylistsShow"),
 				className: 'MusicPlaylists'
 			});
-
 			
+			// Albums
 			this.$albumsContent = $('<div class="pageContentWrapper"></div>');
 			var musicAlbumsContextMenu = $.extend(true, [], standardMusicContextMenu);
 			musicAlbumsContextMenu.push({
@@ -193,7 +215,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findAlbumButton').offset();
 						awxUI.$albumsContent
-							.defaultFindBox({id:'albumsFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
+							.defaultFindBox({id:'albumsFindBox', searchItems: xbmc.getSearchTerm('albums'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -239,6 +261,7 @@ var awxUI = {};
 			});
 			//end recent albums
 			
+			//Music Files
 			this.$musicFilesContent = $('<div class="pageContentWrapper"></div>');
 			var musicFilesContextMenu = $.extend(true, [], standardMusicContextMenu);
 			/*musicFilesContextMenu.push({
@@ -272,6 +295,7 @@ var awxUI = {};
 				className: 'audiofiles'
 			});
 			
+			//Playlist
 			this.$musicPlaylistContent = $('<div class="pageContentWrapper"></div>');
 			var musicPlaylistContextMenu = $.extend(true, [], standardMusicContextMenu);
 			musicPlaylistContextMenu.push({
@@ -303,15 +327,14 @@ var awxUI = {};
 					}
 			});
 			musicPlaylistContextMenu.push({
-				'id':'findmusicPlaylistButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+				'id':'findPlaylistButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
-						var pos = $('#findmusicPlaylistButton').offset();
+						var pos = $('#findPlaylistButton').offset();
 						awxUI.$musicPlaylistContent
-							.defaultFindBox({id:'musicPlaylistFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'playlistFindBox', searchItems: xbmc.getSearchTerm('aplaylist'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
-			
 			this.musicPlaylistPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_music_playlist'),
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_music_playlist'),
@@ -321,6 +344,7 @@ var awxUI = {};
 				className: 'playlist'
 			});
 
+			//Music Scan
 			this.$musicScanContent = $('<div class="pageContentWrapper"></div>');
 			var musicScanContextMenu = $.extend(true, [], standardMusicContextMenu);
 			
@@ -350,6 +374,7 @@ var awxUI = {};
 						}
 					}];
 
+			//Movies
 			this.$moviesContent = $('<div class="pageContentWrapper"></div>');
 			var videoMoviesContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoMoviesContextMenu.push({
@@ -357,7 +382,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findMovieButton').offset();
 						awxUI.$moviesContent
-							.defaultFindBox({id:'moviesFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
+							.defaultFindBox({id:'moviesFindBox', searchItems: xbmc.getSearchTerm('movies'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -380,15 +405,48 @@ var awxUI = {};
 				className: 'movies'
 			});
 			
+
+			//Movie sets
+			this.$movieSetsContent = $('<div class="pageContentWrapper"></div>');
+			var videoMovieSetsContextMenu = $.extend(true, [], standardVideosContextMenu);
+			videoMovieSetsContextMenu.push({
+				'id':'findMovieSetsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findMovieSetsButton').offset();
+						awxUI.$movieSetsContent
+							.defaultFindBox({id:'moviesetsFindBox', searchItems: xbmc.getSearchTerm('moviesets'), top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			videoMovieSetsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$movieSetsContent.empty();
+						awxUI.onMovieSetsShow();
+
+						return false;
+					}
+			});
+			
+			this.movieSetsPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_moviesets'),
+				content: this.$movieSetsContent,
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_moviesets'),
+				contextMenu: videoMovieSetsContextMenu,
+				onShow: $.proxy(this, "onMovieSetsShow"),
+				className: 'moviesets'
+			});
+			
+			
 			//playlists video smart etc.
 			this.$VideoPlaylistsContent = $('<div class="pageContentWrapper"></div>');
 			var VideoPlaylistsContextMenu = $.extend(true, [], standardVideosContextMenu);
-			/*MusicPlaylistsContextMenu.push({
-				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+			/*VideoPlaylistsContextMenu.push({
+				'id':'findvplaylistButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
-						var pos = $('#findArtistsButton').offset();
-						awxUI.$MusicPlaylistsContent
-							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+						var pos = $('#findvplaylistButton').offset();
+						awxUI.$moviesContent
+							.defaultFindBox({id:'vplaylistFindBox', searchItems: xbmc.getSearchTerm('vplaylist'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});*/
@@ -409,7 +467,9 @@ var awxUI = {};
 				contextMenu: VideoPlaylistsContextMenu,
 				onShow: $.proxy(this, "onVideoPlaylistsShow"),
 				className: 'VideoPlaylists'
-			});			
+			});
+
+			
 			//Recent movies
 			this.$moviesRecentContent = $('<div class="pageContentWrapper"></div>');
 			var videoMoviesRecentContextMenu = $.extend(true, [], standardVideosContextMenu);
@@ -433,6 +493,7 @@ var awxUI = {};
 			});
 			//end recent movies
 			
+			//TV Shows
 			this.$tvShowsContent = $('<div class="pageContentWrapper"></div>');
 			var videoTvShowsContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoTvShowsContextMenu.push({
@@ -440,7 +501,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findTVShowButton').offset();
 						awxUI.$tvShowsContent
-							.defaultFindBox({id:'tvShowFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
+							.defaultFindBox({id:'tvShowFindBox', searchItems: xbmc.getSearchTerm('tvshows'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -495,6 +556,7 @@ var awxUI = {};
 			});
 			// end recently added eps
 			
+			//Video Files
 			this.$videoFilesContent = $('<div class="pageContentWrapper"></div>');
 			this.videoFilesPage = videosPage.addPage({
 				title: mkf.lang.get('page_title_video_files'),
@@ -505,6 +567,7 @@ var awxUI = {};
 				className: 'videofiles'
 			});
 
+			//Video Playlist
 			this.$videoPlaylistContent = $('<div class="pageContentWrapper"></div>');
 			var videoPlaylistContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoPlaylistContextMenu.push({
@@ -546,6 +609,7 @@ var awxUI = {};
 				className: 'playlist'
 			});
 			
+			//Video Scan
 			this.$videoScanContent = $('<div class="pageContentWrapper"></div>');
 			var videoScanContextMenu = $.extend(true, [], standardVideosContextMenu);
 			
@@ -555,7 +619,7 @@ var awxUI = {};
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_video_scan'),
 				contextMenu: videoScanContextMenu,
 				onShow: $.proxy(this, "onVideoScanShow"),
-				className: 'scanVideo'
+				className: 'videoscan'
 			});
 			
 			/*
@@ -818,6 +882,31 @@ var awxUI = {};
 			}
 		},
 
+
+		/*********************************************
+		 * Called when Movie sets-Page is shown.          *
+		 *********************************************/
+		onMovieSetsShow: function() {
+
+			if (this.$movieSetsContent.html() == '') {
+				var movieSetsPage = this.movieSetsPage;
+				var $contentBox = this.$movieSetsContent;
+				$contentBox.addClass('loading');
+
+				xbmc.getMovieSets({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_movie_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMovieSetsViewer(result, movieSetsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+
 		/**************************************
 		 * Called when Video playlists-Page is shown. *
 		 **************************************/
@@ -960,6 +1049,8 @@ var awxUI = {};
 			$contentBox.empty();
 			$contentBox.defaultMusicScanViewer('Music');
 		}
+
+
 
 
 	}); // END awxUI

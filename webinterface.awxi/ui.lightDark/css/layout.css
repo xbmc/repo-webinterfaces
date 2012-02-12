@@ -284,6 +284,15 @@ div.thumbWrapper div.albumArtist {
 div.findKeywords {
     display: none;
 }
+div.playtime {
+    background-color: rgba(0,0,0,0.8);
+	width: 13%;
+	color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+	border-radius: 3px 3px 3px 3px;
+}
 #contextMenu ul a {
     background: url("../images/context_buttons.png") no-repeat scroll 0 0 transparent;
     display: block;
@@ -377,11 +386,17 @@ fieldset {
     border-width: 0;
     margin-bottom: 10px;
 }
+fieldset.ui_views {
+	width: 45%;
+	float: left;
+	margin-right: 10px;
+}
 fieldset.ui_settings {
     float: left;
     margin-right: 10px;
 }
 fieldset.ui_albums {
+	width: 45%;
     float: left;
     margin-right: 10px;
 }
@@ -838,11 +853,86 @@ ul.fileList {
     margin: 0;
     padding: 0;
 }
+#multiOpenAccordion {
+	background-attachment: fixed;
+	background-position: 0 170px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.multiOpenAccordion-header {
+	border-top: 1px solid #ABABAB;
+	color: #ddd;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 32px;
+	padding-left: 5px;
+	background-color: rgba(70,70,70,0.6);
+}
+.multiOpenAccordion-header:hover {
+	background-color: #888;
+}
+.multiOpenAccordion-header a {
+	position: relative;
+	top: 20%;
+    color: #FFFFFF;
+}
+.multiOpenAccordion-content {
+	background-color: rgba(0,0,0,0.6);
+	border-top: 1px solid #ABABAB;
+	font-size: 14px;
+	padding: 5px;
+	min-height: 300px; 
+}
+
 #accordion {
 	background-attachment: fixed;
 	background-position: 0 170px;
 	background-repeat: no-repeat;
 	background-size: contain;
+}
+.ui-tabs {
+    padding: 0.2em;
+    position: relative;
+}
+.ui-tabs .ui-tabs-nav {
+    margin: 0;
+    padding: 0.2em 0.2em 0;
+}
+.ui-tabs .ui-tabs-nav li {
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+    border-bottom: 0 none !important;
+    float: left;
+	background-color: #606060;
+    list-style: none outside none;
+    margin: 0 0.2em 10px 0;
+    padding: 0;
+    position: relative;
+    top: 1px;
+    white-space: nowrap;
+}
+.ui-tabs .ui-tabs-nav li a {
+    float: left;
+    padding: 0.5em 1em;
+    text-decoration: none;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+    margin-bottom: 0;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+    cursor: text;
+}
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+    cursor: pointer;
+	color: #fff
+}
+.ui-tabs .ui-tabs-panel {
+    background: none repeat scroll 0 0 transparent;
+    border-width: 0;
+    display: block;
+	clear: left;
+}
+.ui-tabs .ui-tabs-hide {
+    display: none !important;
 }
 .ui-accordion-header {
 	border-top: 1px solid #ABABAB;
@@ -917,6 +1007,9 @@ span.miniIcon {
     height: 16px;
     width: 16px;
 }
+span.playnext {
+    background-position: -112px top;
+}
 span.playlistmove {
 	float: left;
 	margin: 10px 5px;
@@ -961,6 +1054,9 @@ div.folderLinkWrapper a.button:hover span.unwatched {
 div.folderLinkWrapper span.playlistmove:hover {
 	float: left;
     background-position: -64px -16px;
+}
+div.folderLinkWrapper span.playnext:hover {
+    background-position: -112px -16px;
 }
 div.folderLinkWrapper a.button:hover span.all {
     background-position: -96px -16px;
@@ -1057,7 +1153,7 @@ a.recentTVplay  {
 	position: relative; 
 	float: left;
 	top: 98px; 
-	left: 5px; 
+	left: 10px; 
 	z-index: 5
 }
 a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubOnOff,  a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev {

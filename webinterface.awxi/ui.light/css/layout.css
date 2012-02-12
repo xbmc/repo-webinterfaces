@@ -196,7 +196,11 @@ ul.mkfPageContextMenu li {
 .loading {
 	background: url('../images/loading.gif') no-repeat top left;
 }
-
+img.thumb {
+	border: 1px solid #575757;
+	height: 125px;
+	width: 125px;
+}
 img.epWatched {
 	position:relative; 
 	top:0px; 
@@ -215,11 +219,6 @@ img.thumbFanart {
 }
 img.thumbFanart:hover{
 	border: 1px solid #A0E312;
-}
-img.thumb {
-	border: 1px solid #575757;
-	height: 125px;
-	width: 125px;
 }
 img.thumbPosterLarge {
     height: 280px;
@@ -309,7 +308,15 @@ div.thumbWrapper div.albumArtist {
 div.findKeywords {
 	display: none;
 }
-
+div.playtime {
+    background-color: rgba(0,0,0,0.8);
+	width: 13%;
+	color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+	border-radius: 3px 3px 3px 3px;
+}
 #contextMenu ul a {
 	display: block;
 	height: 22px;
@@ -394,12 +401,17 @@ fieldset {
 	background-color: #808080;
 	margin-bottom: 10px;
 }
-
+fieldset.ui_views {
+	width: 45%;
+	float: left;
+	margin-right: 10px;
+}
 fieldset.ui_settings {
 	float: left;
 	margin-right: 10px;
 }
 fieldset.ui_albums {
+	width: 45%;
     float: left;
     margin-right: 10px;
 }
@@ -821,6 +833,81 @@ ul.RecentfileList li {
     border-bottom: 1px solid #ABABAB;
     display: block;
 }
+#multiOpenAccordion {
+    /*background-color: rgba(0,0,0,0.7);*/
+	background-attachment: fixed;
+	background-position: 0 170px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.multiOpenAccordion-header {
+	border-top: 1px solid #ABABAB;
+	color: #222;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 32px;
+	padding-left: 5px;
+	background-color: rgba(234, 255, 201, 0.8);
+}
+.multiOpenAccordion-header a {
+	position: relative;
+	top: 20%;
+    color: #4B4B4B;
+}
+.multiOpenAccordion-header:hover {
+	background-color: rgba(216, 255, 155, 0.8);
+}
+.multiOpenAccordion-content {
+	background-color: rgba(205,205,205,0.7);
+	border-top: 1px solid #ABABAB;
+	font-size: 14px;
+	padding: 5px;
+	min-height: 300px; 
+}
+.ui-tabs {
+    padding: 0.2em;
+    position: relative;
+}
+.ui-tabs .ui-tabs-nav {
+    margin: 0;
+    padding: 0.2em 0.2em 0;
+}
+.ui-tabs .ui-tabs-nav li {
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+    border-bottom: 0 none !important;
+    float: left;
+	background-color: #606060;
+    list-style: none outside none;
+    margin: 0 0.2em 10px 0;
+    padding: 0;
+    position: relative;
+    top: 1px;
+    white-space: nowrap;
+}
+.ui-tabs .ui-tabs-nav li a {
+    float: left;
+    padding: 0.5em 1em;
+    text-decoration: none;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+    margin-bottom: 0;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+    cursor: text;
+}
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+    cursor: pointer;
+	color: #fff
+}
+.ui-tabs .ui-tabs-panel {
+    background: none repeat scroll 0 0 transparent;
+    border-width: 0;
+    display: block;
+	clear: left;
+}
+.ui-tabs .ui-tabs-hide {
+    display: none !important;
+}
 #accordion {
     /*background-color: rgba(0,0,0,0.7);*/
 	background-attachment: fixed;
@@ -905,6 +992,9 @@ span.miniIcon {
 	display: block; height: 16px; width: 16px;
 	background: url('../images/mini_buttons.png') no-repeat;
 }
+span.playnext {
+    background-position: -112px top;
+}
 span.enqueue { background-position: left top; }
 span.play { background-position: -32px 0px; }
 span.remove { background-position: -16px 0; }
@@ -928,6 +1018,9 @@ div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -1
 div.folderLinkWrapper span.playlistmove:hover {
 	float: left;
     background-position: -64px -16px;
+}
+div.folderLinkWrapper span.playnext:hover {
+    background-position: -112px -16px;
 }
 div.folderLinkWrapper a.button:hover span.unwatched {
     background-position: -80px -16px;
@@ -1008,7 +1101,7 @@ a.recentTVplay  {
 	position: relative; 
 	float: left;
 	top: 98px; 
-	left: 5px; 
+	left: 10px; 
 	z-index: 5
 }
 

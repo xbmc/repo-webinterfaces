@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.awxi"
-  version="0.4.7"
+  version="0.5.0"
   name="AWXi"
   provider-name="MKay, Mizaki et al">
   <requires>
@@ -42,7 +42,7 @@ Przetestowane przeglądarki internetowe:
    - Internet Explorer 9
 Nie obsługiwane: Internet Explorer 6
 
-Hint: Po instalacji / aktualizacji, przed uruchomieniem AWX może być konieczne wyczyszczenie cache przeglądarki.</description>
+Wskazówka: Po instalacji / aktualizacji, przed uruchomieniem AWX może być konieczne wyczyszczenie cache przeglądarki.</description>
     <platform>all</platform>
   </extension>
 </addon>

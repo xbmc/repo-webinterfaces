@@ -27,27 +27,44 @@ var awxUI = {};
 	$.extend(awxUI, {
 		// --- Pages ---
 		artistsPage: null,
+		artistsGenresPage: null,
 		albumsPage: null,
+		MusicPlaylistsPage: null,
+		albumsRecentPage: null,
 		musicFilesPage: null,
 		musicPlaylistPage: null,
+		musicScanPage: null,
 
 		moviesPage: null,
+		movieSetsPage: null,
+		moviesRecentPage: null,
+		VideoPlaylistsPage: null,
 		tvShowsPage: null,
+		tvShowsRecentlyAddedPage: null,
 		videoFilesPage: null,
 		videoPlaylistPage: null,
+		videoScanPage: null,
 
 		// --- Page Content ---
 		$musicContent: null,
 		$artistsContent: null,
+		$artistsGenresContent: null,
+		$MusicPlaylistsContent: null,
 		$albumsContent: null,
+		$albumsRecentContent: null,
 		$musicFilesContent: null,
 		$musicPlaylistContent: null,
+		$musicScanContent: null,
 
 		$videosContent: null,
 		$moviesContent: null,
+		$VideoPlaylistsContent: null,
+		$moviesRecentContent: null,
 		$tvShowsContent: null,
+		$tvShowsRecentlyAddedContent: null,
 		$videoFilesContent: null,
 		$videoPlaylistContent: null,
+		$videoScanContent: null,
 
 
 
@@ -101,7 +118,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findArtistsButton').offset();
 						awxUI.$artistsContent
-							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'artistsFindBox', searchItems: xbmc.getSearchTerm('artists'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -130,7 +147,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findArtistsGenresButton').offset();
 						awxUI.$artistsGenresContent
-							.defaultFindBox({id:'artistsGenresFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'artistsGenresFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -192,7 +209,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findAlbumButton').offset();
 						awxUI.$albumsContent
-							.defaultFindBox({id:'albumsFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
+							.defaultFindBox({id:'albumsFindBox', searchItems: xbmc.getSearchTerm('albums'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -285,7 +302,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findmusicPlaylistButton').offset();
 						awxUI.$musicPlaylistContent
-							.defaultFindBox({id:'musicPlaylistFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'musicPlaylistFindBox', searchItems: xbmc.getSearchTerm('aplaylist'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -333,7 +350,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findMovieButton').offset();
 						awxUI.$moviesContent
-							.defaultFindBox({id:'moviesFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
+							.defaultFindBox({id:'moviesFindBox', searchItems: xbmc.getSearchTerm('movies'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -353,16 +370,47 @@ var awxUI = {};
 				contextMenu: videoMoviesContextMenu,
 				onShow: $.proxy(this, "onMoviesShow")
 			});
+
+			//Movie sets
+			this.$movieSetsContent = $('<div class="pageContentWrapper"></div>');
+			var videoMovieSetsContextMenu = $.extend(true, [], standardVideosContextMenu);
+			videoMovieSetsContextMenu.push({
+				'id':'findMovieSetsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findMovieSetsButton').offset();
+						awxUI.$movieSetsContent
+							.defaultFindBox({id:'moviesetsFindBox', searchItems: xbmc.getSearchTerm('moviesets'), top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			videoMovieSetsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$movieSetsContent.empty();
+						awxUI.onMovieSetsShow();
+
+						return false;
+					}
+			});
+			
+			this.movieSetsPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_moviesets'),
+				content: this.$movieSetsContent,
+				menuButtonText: mkf.lang.get('page_buttontext_moviesets'),
+				contextMenu: videoMovieSetsContextMenu,
+				onShow: $.proxy(this, "onMovieSetsShow"),
+				className: 'moviesets'
+			});
 			
 			//playlists video smart etc.
 			this.$VideoPlaylistsContent = $('<div class="pageContentWrapper"></div>');
 			var VideoPlaylistsContextMenu = $.extend(true, [], standardVideosContextMenu);
-			/*MusicPlaylistsContextMenu.push({
-				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+			/*VideoPlaylistsContextMenu.push({
+				'id':'findvplaylistButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
-						var pos = $('#findArtistsButton').offset();
-						awxUI.$MusicPlaylistsContent
-							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+						var pos = $('#findvplaylistButton').offset();
+						awxUI.$moviesContent
+							.defaultFindBox({id:'vplaylistFindBox', searchItems: xbmc.getSearchTerm('vplaylist'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});*/
@@ -418,7 +466,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findTVShowButton').offset();
 						awxUI.$tvShowsContent
-							.defaultFindBox({id:'tvShowFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
+							.defaultFindBox({id:'tvShowFindBox', searchItems: xbmc.getSearchTerm('tvshows'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -781,7 +829,31 @@ var awxUI = {};
 				});
 			}
 		},
+		
+		/*********************************************
+		 * Called when Movie sets-Page is shown.          *
+		 *********************************************/
+		onMovieSetsShow: function() {
 
+			if (this.$movieSetsContent.html() == '') {
+				var movieSetsPage = this.movieSetsPage;
+				var $contentBox = this.$movieSetsContent;
+				$contentBox.addClass('loading');
+
+				xbmc.getMovieSets({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_movie_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMovieSetsViewer(result, movieSetsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+		
 		/**************************************
 		 * Called when Video playlists-Page is shown. *
 		 **************************************/
