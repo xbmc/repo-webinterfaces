@@ -51,6 +51,17 @@ var xbmc = {};
 		xbmcHasQuit: false,
 		timeout: 10000,
 
+		debouncer: function ( func , timeout ) {
+		   var timeoutID , timeout = timeout || 200;
+		   return function () {
+			  var scope = this , args = arguments;
+			  clearTimeout( timeoutID );
+			  timeoutID = setTimeout( function () {
+				  func.apply( scope , Array.prototype.slice.call( args ) );
+			  } , timeout );
+		   }
+		},
+
 		input: function(options) {
 			var settings = {
 				type: 'Select',
@@ -74,8 +85,70 @@ var xbmc = {};
 			this.detectThumbTypes(initContainer, callback);
 		},
 
+		//Some things aren't possible by JSONRPC as yet.
+		httpapi: function(command, parameter, onSuccess, onError, onComplete, asyncRequest) {
+			if (typeof asyncRequest === 'undefined')
+				asyncRequest = true;
 
+			if (!this.xbmcHasQuit) {
+				$.ajax({
+					async: asyncRequest,
+					type: 'GET',
+					url: '/xbmcCmds/xbmcHttp',		
+					data: {
+						"command": command,
+						//"parameter": parameter
+					},
+					dataType: 'text',
+					cache: false,
+					timeout: this.timeout,
+					success: function(result, textStatus, XMLHttpRequest) {	
+					
+						// its possible to get here on timeouts. --> error
+						if (XMLHttpRequest.readyState==4 && XMLHttpRequest.status==0) {
+							if (onError) {
+								onError({"error" : { "ajaxFailed" : true, "xhr" : XMLHttpRequest, "status" : textStatus }});
+							}
+							return;
+						}
+						
+						// Example Error-Response: { "error" : { "code" : -32601, "message" : "Method not found." } }
+						if (result.error) {
+							if (onError) { onError(result); }
+							return;
+						}
+							
+						if (onSuccess) { onSuccess(result); }
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						if (onError) {
+							onError({"error" : { "ajaxFailed" : true, "xhr" : XMLHttpRequest, "status" : textStatus, "errorThrown" : errorThrown }});
+						}
+					},
+					complete: function(XMLHttpRequest, textStatus) {
+						if (onComplete) { onComplete(); }
+					}
+				});
+			}
+		},
 
+		//Cinema Experience
+		cinemaEx: function(options) {
+			var settings = {
+				film: 'Blade Runner',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+			
+			xbmc.httpapi(
+				//ExecBuiltIn(RunScript(script.cinema.experience,command<li>movie_title=' + settings.film + ')),
+				'ExecBuiltIn(RunScript(script.cinema.experience,command<li>movie_title=' + settings.film + '))',
+				settings.onSuccess,
+				settings.Error
+			);
+		},
+		
 		sendCommand: function(command, onSuccess, onError, onComplete, asyncRequest) {
 			if (typeof asyncRequest === 'undefined')
 				asyncRequest = true;
@@ -160,6 +233,8 @@ var xbmc = {};
 				case 'tvshows':
 				if (mkf.cookieSettings.get('TVView', 'banner') == 'banner') {
 					return '.thumbWrapper';
+				} else if (mkf.cookieSettings.get('TVView', 'logo') == 'logo') {
+					return '.thumbLogoWrapper';
 				} else {
 					return '.folderLinkWrapper';
 				}
@@ -227,25 +302,28 @@ var xbmc = {};
 		},
 		
 		getUrl: function(url) {
-			return location.protocol + '//' + location.host + '/' + encodeURI(url);
+			return location.protocol + '//' + location.host + '/' + url;
 		},
 
 		getLogo: function(filepath, callback) {
 			var path = filepath.substring(0, filepath.lastIndexOf("/"));
 			path += '/logo.png';
+			//console.log(path);
 			
 			var logo = xbmc.getPrepDownload({
 					path: path,
+					async: true,
 					onSuccess: function(result) {
-						callback(xbmc.getUrl(result.details.path));
+						//callback(xbmc.getUrl(result.details.path));
+						callback(location.protocol + '//' + location.host + '/' + result.details.path);
 						//console.log(logo);
 					},
 					onError: function(errorText) {
-						return '';
-						console.log('No logo found');
+						callback('');
+						//console.log('No logo found');
 					},
 				});
-			return true;
+			//return true;
 		},
 		
 		detectThumbTypes: function(initContainer, callback) {
@@ -271,6 +349,10 @@ var xbmc = {};
 									.attr('src', xbmc.getThumbUrl(tvshow.thumbnail));
 
 								return false;
+							} else { 
+								//Incase of empty thumbnails
+								callback();
+								return false; 
 							}
 						});
 					} else {
@@ -746,7 +828,8 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": { "properties": [ "thumbnail", "fanart", "born", "formed", "died", "disbanded", "yearsactive", "mood", "style", "genre" ], "sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
+				//'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -812,7 +895,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "artistid" : ' + settings.artistid + ', "properties": ["artist", "genre", "rating", "thumbnail"] }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "artistid" : ' + settings.artistid + ', "properties": ["artist", "genre", "rating", "thumbnail", "year", "mood", "style"] }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -838,7 +921,7 @@ var xbmc = {};
 			settings.order = mkf.cookieSettings.get('adesc', 'ascending');
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": {"properties": ["artist", "genre", "rating", "thumbnail", "year"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '", "ignorearticle": true } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": {"properties": ["artist", "genre", "rating", "thumbnail", "year", "mood", "style"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '", "ignorearticle": true } }, "id": 1}',
 
 				function(response) {
 					if (settings.order == 'descending' && settings.sortby == 'none') {
@@ -1365,7 +1448,8 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "albumid": ' + settings.albumid + ', "properties": ["artist", "track"], "sort": { "method": "' + settings.sortby + '"} }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "albumid": ' + settings.albumid + ', "properties": ["artist", "track", "thumbnail", "genre", "year", "lyrics", "albumid", "playcount", "rating"], "sort": { "method": "' + settings.sortby + '"} }, "id": 1}',
+				//'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "albumid": ' + settings.albumid + ', "properties": ["artist", "track", "thumbnail"], "sort": { "method": "' + settings.sortby + '"} }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1689,7 +1773,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "movieid": ' + settings.movieid + ', "properties": ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set", "setid", "lastplayed", "studio", "mpaa", "votes", "streamdetails", "writer", "fanart", "imdbnumber"] },  "id": 2}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "movieid": ' + settings.movieid + ', "properties": ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "trailer", "cast", "file", "tagline", "set", "setid", "lastplayed", "studio", "mpaa", "votes", "streamdetails", "writer", "fanart", "imdbnumber"] },  "id": 2}',
 				function(response) {
 					settings.onSuccess(response.result.moviedetails);
 				},
@@ -1867,7 +1951,7 @@ var xbmc = {};
 			settings.order = mkf.cookieSettings.get('epdesc', 'ascending');
 			
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "tvshowid": ' + settings.tvshowid + ', "season" : ' + settings.season + ', "properties": ["episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "tvshowid": ' + settings.tvshowid + ', "season" : ' + settings.season + ', "properties": ["episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail", "rating"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": 1}',
 				function(response) {
 					if (settings.order == 'descending' && settings.sortby == 'none') {
 						var epresult = $.makeArray(response.result.episodes).reverse();
@@ -1973,7 +2057,7 @@ var xbmc = {};
 			var eps = [];
 			
 			xbmc.sendCommand(
-				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode"]}}',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode","thumbnail","rating","plot"]}}',
 
 				function(response) {
 					var n = 0;
@@ -2125,7 +2209,7 @@ var xbmc = {};
 			},
 
 			start: function() {
-				setTimeout($.proxy(this, "periodicStep"), 10);
+				setTimeout($.proxy(this, "periodicStep"), 20);
 			},
 
 			periodicStep: function() {

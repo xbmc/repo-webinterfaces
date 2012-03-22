@@ -1,5 +1,18 @@
+0.5.1
+ - Added Artists views
+ - Added Logo wall for artists and TV show. Does not support lazyload!
+ - Added Play movies via Cinema Experience addon.
+ - Added Chinese translation by Taxigps.
+ - Added Albums inline list view.
+ - Added Episodes thumbnail view.
+ - Added Movies single poster view.
+ - Added Trailer link and play via XBMC.
+ - Changed Only warn about reloading when changing UIs.
+ - Changed Default timeout to 20 seconds.
+ 
 0.5.0
  - Added Sorting.
+ - Added Movie Sets.
  - Added Views (more to come).
  - Added Automatically close when XBMC is unreachable.
  - Changed Playlists info is clearer. 

@@ -704,7 +704,7 @@ var awxUI = {};
 					});
 			});
 			
-			$('#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a').click(function(){ $('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); });
+			//$('#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a').click(function(){ $('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); });
 		},
 
 

@@ -46,7 +46,7 @@ div.mkfOverlay div.dialog {
 	border: 3px solid #555555;
 	background-color: rgba(0, 0, 0, 0.8);
 	padding: 10px;
-	margin: 50px auto 0  auto;
+	margin: 20px auto 0  auto;
 	min-height: 42px;
 	width: 580px;
 	font-size: 12px;
@@ -58,6 +58,10 @@ div.mkfOverlay div.dialog h1 {
 }
 
 h1.loading { line-height: 32px; background: url('../images/dialog_loading.gif') no-repeat left center; padding-left: 40px; }
+
+a img {
+	border: 0px;
+}
 
 #input {
 	position: absolute;

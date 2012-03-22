@@ -45,3 +45,4 @@ German - MKay
 Russian - Scaramush
 French - DanoneKiD
 Polish - cienislaw
+Chinese - Taxigps

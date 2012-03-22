@@ -653,6 +653,9 @@ var awxUI = {};
 			$('#currentlyPlaying').defaultCurrentlyPlaying();
 			$('#volumeSlider').defaultVolumeControl();
 			$('#shutdownButton').defaultSystemButtons();
+			
+			//hack for chrome
+			$('#main').width($('#main').width()-125);
 		},
 
 

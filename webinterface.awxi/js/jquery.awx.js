@@ -275,12 +275,16 @@
 		$settingsButton.click(function() {
 			var order = mkf.cookieSettings.get('albumOrder', 'artist');
 			var lazyload = mkf.cookieSettings.get('lazyload', 'yes');
-			var timeout = mkf.cookieSettings.get('timeout', 10);
+			var timeout = mkf.cookieSettings.get('timeout', 20);
 			var ui = mkf.cookieSettings.get('ui');
+			var oldui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
+			var cinex = mkf.cookieSettings.get('cinex', 'no');
 			//var listview = mkf.cookieSettings.get('listview', 'no');
+			var artistsView = mkf.cookieSettings.get('artistsView', 'list');
+			var artistsPath = mkf.cookieSettings.get('artistsPath');
 			var albumsView = mkf.cookieSettings.get('albumsView', 'cover');
 			var albumsViewRec = mkf.cookieSettings.get('albumsViewRec', 'cover');
 			var filmView = mkf.cookieSettings.get('filmView', 'poster');
@@ -309,9 +313,9 @@
 				content :
 				'<h1 id="systemControlTitle" class="title">' + mkf.lang.get('title_settings') + '</h1>' +
 				'<div class="tabs"><div id="tabs">' +
-				'<ul><li><a href="#tabs-1">General</a></li>' +
-					'<li><a href="#tabs-2">Views</a></li>' +
-					'<li><a href="#tabs-3">Sorting</a></li></ul>' +
+				'<ul><li><a href="#tabs-1">' + mkf.lang.get('group_tab_general') +'</a></li>' +
+					'<li><a href="#tabs-2">' + mkf.lang.get('group_tab_views') +'</a></li>' +
+					'<li><a href="#tabs-3">' + mkf.lang.get('group_tab_sort') +'</a></li></ul>' +
 				'<div id="tabs-1">' +
 				'<form name="settingsForm">' +
 				'<fieldset class="ui_settings">' +
@@ -324,53 +328,48 @@
 				'<legend>' + mkf.lang.get('group_language') + '</legend>' +
 				'<select name="lang" size="1">' + languages + '</select>' +
 				'</fieldset>' +
-				/*'<fieldset class="ui_albums">' +
-				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
-				'<input type="radio" id="orderByAlbum" name="albumOrder" value="album" ' + (order=='album'? 'checked="checked"' : '') + '><label for="orderByAlbum">' + mkf.lang.get('label_order_by_title') +'</label>' +
-				'<input type="radio" id="orderByArtist" name="albumOrder" value="artist" ' + (order=='artist'? 'checked="checked"' : '') + '><label for="orderByArtist">' + mkf.lang.get('label_order_by_artist') +'</label>' +
-				'</fieldset>' +
-				'<fieldset>' +
-				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
-				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label" ' + (filmSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
-				'</option><option value="sorttitle" ' + (filmSort=='sorttitle'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_sorttitle') +
-				'</option><option value="year" ' + (filmSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_year') +'</option><option value="genre "' + (filmSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_genre') +'</option>' +
-				'<option value="none" ' + (filmSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmSort=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
-				'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option></select>' +
-				'<input type="checkbox" id="mdesc" name="mdesc" ' + (mdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
-				'</fieldset>' +*/
+
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
 				'<a href="" class="formButton expertHelp" title="' + mkf.lang.get('btn_title_help') + '">' + mkf.lang.get('btn_text_help') + '</a>' + 
 				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label><br />' +
 				'<label for="timeout">' + mkf.lang.get('label_timeout') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('label_seconds') +
 				'</fieldset>' +
-				/*'<fieldset>' +
-				'<legend>' + mkf.lang.get('group_view') + '</legend>' +
-				'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label>' +
-				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label><br />' +
-				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
-				'<input type="checkbox" id="hidewatchedmark" name="hidewatchedmark" ' + (hidewatchedmark=='yes'? 'checked="checked"' : '') + '><label for="hidewatchedmark">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
-				'</fieldset>' +
-				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
-				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +*/
 				'</form>' +
 				'</div>' +
 				'<div id="tabs-2">' +
 				'<form name="settingsViews">' +
+				
+				//Artists
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('page_buttontext_artist') + '</legend>' +
+				'<select id="artists" name="artistsView"><option value="cover" ' + (artistsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
+				'</option><option value="list" ' + (artistsView=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
+				'</option><option value="logo" ' + (artistsView=='logo'? 'selected' : '') + '>' + mkf.lang.get('label_view_logo') + '</option>' +
+				'<option value="logosingle"' + (artistsView=='logosingle'? 'selected' : '') + '>' + mkf.lang.get('label_view_singlelogo') + '</option>' +
+				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'<input type="text" name="artists_path" id="artists_path" style="display: ' + (artistsView == 'logo' || artistsView == 'logosingle'? 'block' : 'none') + ';" />' +
+				'</fieldset>' +
+				
 				'<fieldset class="ui_views">' +
 				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
 				'<select name="albumsView"><option value="cover" ' + (albumsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
 				'</option><option value="list" ' + (albumsView=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
-				//'</option><option value="listin" ' + (albumsView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (albumsView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'</option><option value="listin" ' + (albumsView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') + '</option>' +
+				//'<option value="accordion"' + (albumsView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
+				
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_albums_recent') + '</legend>' +
 				'<select name="albumsViewRec"><option value="cover" ' + (albumsViewRec=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
 				'</option><option value="list" ' + (albumsViewRec=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
-				//'</option><option value="listin" ' + (albumsViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (albumsViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'</option><option value="listin" ' + (albumsViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') + '</option>' +
+				//'<option value="accordion"' + (albumsViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
@@ -381,7 +380,8 @@
 				'<select name="filmView"><option value="poster" ' + (filmView=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
 				'</option><option value="listover" ' + (filmView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
 				'</option><option value="listin" ' + (filmView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
-				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				'<option value="singlePoster" ' + (filmView=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
+				//'<option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
@@ -396,27 +396,28 @@
 				'</select>' +
 				'</fieldset>' +
 				
-				'<fieldset>' +
+				'<fieldset class="ui_views">' +
 				'<legend>' + mkf.lang.get('group_film_recent') + '</legend>' +
 				'<select name="filmViewRec"><option value="poster" ' + (filmViewRec=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
 				'</option><option value="listover" ' + (filmViewRec=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
-				'</option><option value="listin" ' + (filmViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
-				//'<option value="none" ' + (filmViewRec=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmViewRec=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
-				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</option><option value="listin" ' + (filmViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +
+				'</option><option value="accordion"' + (filmViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'<option value="singlePoster" ' + (filmViewRec=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
 				'</select>' +
 				'</fieldset>' +
 				
-				'<fieldset class="ui_views">' +
+				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_tv') + '</legend>' +
 				'<select name="TVView"><option value="banner" ' + (TVView=='banner'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_banner') +
 				'</option><option value="listover" ' + (TVView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
-				//'</option><option value="listin" ' + (TVView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (TVView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'</option><option value="logo" ' + (TVView=='logo'? 'selected' : '') + '>' + mkf.lang.get('label_view_logo') + '</option>' +
+				//<option value="accordion"' + (TVView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
 				
-				'<fieldset>' +
+				'<fieldset class="ui_views">' +
 				'<legend>' + mkf.lang.get('group_tv_recent') + '</legend>' +
 				'<select name="TVViewRec"><option value="infolist" ' + (TVViewRec=='infolist'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_infolist') + '</option>' +
 				//'<option value="listover" ' + (TVViewRec=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
@@ -426,11 +427,11 @@
 				'</select>' +
 				'</fieldset>' +
 
-				'<fieldset class="ui_views">' +
+				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_episodes') + '</legend>' +
 				'<select name="EpView"><option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') + '</option>' +
-				//'<option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
-				//'</option><option value="listin" ' + (EpView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (EpView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'<option value="thumbnail" ' + (EpView=='thumbnail'? 'selected' : '') + '>' + mkf.lang.get('label_view_thumbnail') + '</option>' +
+				//'<option value="listin" ' + (EpView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (EpView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (EpView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (EpView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
@@ -442,6 +443,7 @@
 				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label>' +
 				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
 				'<input type="checkbox" id="hidewatchedmark" name="hidewatchedmark" ' + (hidewatchedmark=='yes'? 'checked="checked"' : '') + '><label for="hidewatchedmark">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
+				'<br /><input type="checkbox" id="cinex" name="cinex" ' + (cinex=='yes'? 'checked="checked"' : '') + '><label for="cinex">' + mkf.lang.get('label_cinex') + '</label>' +
 				'</fieldset>' +
 				'<div class="formHint">' + mkf.lang.get('label_settings_warning') + '</div>' +
 				'</form>' +
@@ -458,11 +460,6 @@
 				'</select>' +
 				'<input type="checkbox" id="adesc" name="adesc" ' + (adesc=='descending'? 'checked="checked"' : '') + '><label for="adesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
 				'</fieldset>' +
-				/*'<fieldset class="ui_albums">' +
-				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
-				'<input type="radio" id="orderByAlbum" name="albumOrder" value="album" ' + (order=='album'? 'checked="checked"' : '') + '><label for="orderByAlbum">' + mkf.lang.get('label_order_by_title') +'</label>' +
-				'<input type="radio" id="orderByArtist" name="albumOrder" value="artist" ' + (order=='artist'? 'checked="checked"' : '') + '><label for="orderByArtist">' + mkf.lang.get('label_order_by_artist') +'</label>' +
-				'</fieldset>' +*/
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
 				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label" ' + (filmSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
@@ -505,6 +502,13 @@
 				}
 			);
 
+			$('#artists').change(function() {
+				$('#artists_path').css('display', ($(this).val() == 'logo' || $(this).val() == 'logosingle') ? 'block' : 'none');
+			});
+			
+			
+			if (artistsPath) { $('input#artists_path').val(artistsPath) };
+			
 			$( "#tabs" ).tabs({ selected: 0 });
 			
 			$('.expertHelp').click(function() {
@@ -513,12 +517,13 @@
 			});
 
 			$('.save').click(function() {
-				// Checks - No longer needed. Default to album
-				/*if (!document.settingsSorting.albumOrder[0].checked &&
-					!document.settingsSorting.albumOrder[1].checked) {
-					alert(mkf.lang.get('settings_select_album_order'));
+				//Check artistsPath ends with a /
+				if (document.settingsViews.artists_path.value.lastIndexOf("/") + 1 != document.settingsViews.artists_path.value.length) { document.settingsViews.artists_path.value += '/'; };
+				// Checks require artist logo location as skins.
+				if (document.settingsViews.artistsView.value == 'logo' && !document.settingsViews.artists_path.value || document.settingsViews.artistsView.value == 'logosingle' && !document.settingsViews.artists_path.value) {
+					alert(mkf.lang.get('settings_select_artists_path'));
 					return false;
-				}*/
+				}
 
 				var timeout = parseInt(document.settingsForm.timeout.value);
 				if (isNaN(timeout) || timeout < 5 || timeout > 120) {
@@ -542,11 +547,6 @@
 						ui = 'lightDark';
 					}
 				mkf.cookieSettings.add('ui', ui);
-
-				/*mkf.cookieSettings.add(
-					'albumOrder',
-					document.settingsSorting.albumOrder[0].checked? 'album' : 'artist'
-				);*/
 				
 				mkf.cookieSettings.add(
 					'albumSort',
@@ -556,6 +556,16 @@
 				mkf.cookieSettings.add(
 					'adesc',
 					document.settingsSorting.adesc.checked? 'descending' : 'ascending'
+				);
+				
+				mkf.cookieSettings.add(
+					'artistsView',
+					document.settingsViews.artistsView.value
+				);
+				
+				mkf.cookieSettings.add(
+					'artistsPath',
+					document.settingsViews.artists_path.value
 				);
 				
 				mkf.cookieSettings.add(
@@ -648,10 +658,10 @@
 					document.settingsViews.hidewatchedmark.checked? 'yes' : 'no'
 				);
 				
-				/*mkf.cookieSettings.add(
-					'listview',
-					document.settingsViews.listview.checked? 'yes' : 'no'
-				);*/
+				mkf.cookieSettings.add(
+					'cinex',
+					document.settingsViews.cinex.checked? 'yes' : 'no'
+				);
 				
 				mkf.cookieSettings.add(
 					'lang',
@@ -660,7 +670,7 @@
 
 				mkf.cookieSettings.add('timeout', timeout);
 
-				alert(mkf.lang.get('settings_need_to_reload_awx'));
+				if (oldui != ui) alert(mkf.lang.get('settings_need_to_reload_awx'));
 				mkf.dialog.close(dialogHandle);
 
 				return false;
@@ -718,8 +728,38 @@
 
 		if (!artistResult.limits.total > 0) { return };
 		
-		uiviews.ArtistViewList(artistResult, parentPage).appendTo($(this));
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('artistsView', 'list');
+		var $artistsViewerElement = $(this);
 
+		switch (view) {
+			case 'list':
+				uiviews.ArtistViewList(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+			case 'cover':
+				uiviews.ArtistViewThumbnails(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+			case 'logo':
+				uiviews.ArtistViewLogos(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+			case 'logosingle':
+				uiviews.ArtistViewSingleLogos(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+		};
+		
+		if (useLazyLoad) {
+			function loadThumbs(i) {
+				$artistsViewerElement.find('img.thumb').lazyload(
+					{
+						queuedLoad: true,
+						container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+						errorImage: 'images/thumb.png'
+					}
+				);
+			};
+			setTimeout(loadThumbs, 100);
+		}
+		
 	}; // END defaultArtistsViewer
 
 
@@ -977,17 +1017,19 @@
 		if (!albumResult.limits.total > 0) { return };
 		
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
-		//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 		var view = mkf.cookieSettings.get('albumsView', 'cover');
 		
 		var $albumViewerElement = $(this);
 		
 		switch (view) {
 			case 'list':
-				uiviews.AlbumsViewList(albumResult, parentPage).appendTo($albumViewerElement);
+				uiviews.AlbumsViewList(albumResult, parentPage).appendTo($albumViewerElement);				
 				break;
 			case 'cover':
 				uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+			case 'listin':
+				uiviews.AlbumsViewListInline(albumResult).appendTo($albumViewerElement);
 				break;
 		};
 
@@ -1028,6 +1070,9 @@
 				break;
 			case 'cover':
 				uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+			case 'listin':
+				uiviews.AlbumsViewListInline(albumResult).appendTo($albumViewerElement);
 				break;
 		};
 
@@ -1109,7 +1154,7 @@
 
 		switch (view) {
 			case 'poster':
-				uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);
+				uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);				
 				break;
 			case 'listover':
 				uiviews.MovieViewList(movieResult, options).appendTo($movieContainer);
@@ -1120,14 +1165,10 @@
 			case 'accordion':
 				uiviews.MovieViewAccordion(movieResult, options).appendTo($movieContainer);
 				break;
+			case 'singlePoster':
+				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
+				break;
 		};
-		
-		/*if (movieResult.limits.total > 0 && listview == true) {			
-			uiviews.MovieViewListInline(movieResult).appendTo($movieContainer);
-		}	
-		else {
-			uiviews.MovieViewThumbnails(movieResult).appendTo($movieContainer);
-		}*/
 		
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -1227,14 +1268,10 @@
 			case 'accordion':
 				uiviews.MovieViewAccordion(movieResult, options).appendTo($movieContainer);
 				break;
+			case 'singlePoster':
+				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
+				break;
 		};
-		
-		/*if (movieResult.limits.total > 0 && listview == true) {			
-			uiviews.MovieViewAccordion(movieResult, options).appendTo($movieContainer);
-		}	
-		else {
-			uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);
-		}*/
 		
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -1277,13 +1314,10 @@
 			case 'listover':
 				uiviews.TVViewList(tvShowResult, parentPage).appendTo($tvshowContainer);
 				break;
+			case 'logo':
+				uiviews.TVViewLogoWall(tvShowResult, parentPage).appendTo($tvshowContainer);
+				break;
 		};
-		
-		/*if (listview) {
-			uiviews.TVViewList(tvShowResult, parentPage).appendTo($tvshowContainer);
-		} else {
-			uiviews.TVViewBanner(tvShowResult, parentPage).appendTo($tvshowContainer);
-		}*/
 
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -1347,7 +1381,7 @@
 		};
 		
 		var onExportVideo = function() {
-			xbmc.exportAudioLibrary({
+			xbmc.exportVideoLibrary({
 				onError: function() {
 					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 				},
@@ -1359,8 +1393,8 @@
 		};
 		
 		var $scanVideoList = $('<div class="tools"><span class="tools toolsscan" title="' + mkf.lang.get('btn_scan') +
-		'" /><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
-		'" /><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'" /></div><br />').appendTo($(this));
+		'">' + mkf.lang.get('btn_scan') + '</span><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
+		'">' + mkf.lang.get('btn_clean') + '</span><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'">' + mkf.lang.get('btn_export') +'</span></div><br />').appendTo($(this));
 		$scanVideoList.find('.toolsscan').bind('click', onScanVideo);
 		$scanVideoList.find('.toolsclean').bind('click', onCleanVideo);
 		$scanVideoList.find('.toolsexport').bind('click', onExportVideo);
@@ -1410,8 +1444,8 @@
 		};
 		
 		var $scanMusicList = $('<div class="tools"><span class="tools toolsscan" title="' + mkf.lang.get('btn_scan') +
-		'" /><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
-		'" /><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'" /></div><br />').appendTo($(this));
+		'">' + mkf.lang.get('btn_scan') + '</span><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
+		'">' + mkf.lang.get('btn_clean') + '</span><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'">' + mkf.lang.get('btn_export') +'</span></div><br />').appendTo($(this));
 		$scanMusicList.find('.toolsscan').bind('click', onScanMusic);
 		$scanMusicList.find('.toolsclean').bind('click', onCleanMusic);
 		$scanMusicList.find('.toolsexport').bind('click', onExportMusic);
@@ -1428,9 +1462,17 @@
 		if (!episodesResult.limits.total > 0) { return };
 		
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('EpView', 'listover');
 		var epsContainer = $(this);
 		
-		uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);
+		switch (view) {
+			case 'thumbnail':
+				uiviews.TVThumbnailList(episodesResult).appendTo(epsContainer);
+				break;
+			case 'listover':
+				uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);
+				break;
+		};
 		
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -1456,7 +1498,33 @@
 	
 		if (!episodesResult > 0) { return };
 		
-		uiviews.TVUnwatchedEpsViewList(episodesResult).appendTo($(this));
+		//uiviews.TVUnwatchedEpsViewList(episodesResult).appendTo($(this));
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('EpView', 'listover');
+		var unwatched = true;
+		var epsContainer = $(this);
+		
+		switch (view) {
+			case 'thumbnail':
+				uiviews.TVEpThumbnailList(episodesResult, unwatched).appendTo(epsContainer);
+				break;
+			case 'listover':
+				uiviews.TVEpisodesViewList(episodesResult, unwatched).appendTo(epsContainer);
+				break;
+		};
+		
+		if (useLazyLoad) {
+			function loadThumbs(i) {
+				epsContainer.find('img.thumb').lazyload(
+					{
+						queuedLoad: true,
+						container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+						errorImage: 'images/thumb' + xbmc.getTvShowThumbType() + '.png'
+					}
+				);
+			};
+			setTimeout(loadThumbs, 100);
+		}
 
 	}; // END defaultunwatchedEpsViewer
 	
@@ -2056,7 +2124,6 @@
 			return;
 		};
 
-		//console.log(MusicPlaylistsResult);
 		this.each (function() {
 			var VideoPlaylistsList = $('<ul class="fileList"></ul>').appendTo($(this));
 
@@ -2460,9 +2527,7 @@
 						thumbElement.removeAttr('height');
 						thumbElement.attr('width', '100px');
 					}
-					
-					//console.log(currentFile.thumbnail);
-					//console.log(xbmc.getThumbUrl(currentFile.thumbnail.height()));
+
 				}
 			});
 

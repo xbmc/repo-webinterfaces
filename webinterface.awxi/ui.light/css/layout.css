@@ -217,8 +217,12 @@ img.thumbFanart {
     height: 113px;
     width: 200px;
 }
-img.thumbFanart:hover{
+img.episode:hover{
 	border: 1px solid #A0E312;
+}
+img.thumbLogo {
+	height: 116px;
+	width: 300px;	
 }
 img.thumbPosterLarge {
     height: 280px;
@@ -227,7 +231,7 @@ img.thumbPosterLarge {
 img.thumbPoster { height: 185px; width: 125px; }
 img.thumbBanner { width: 379px; height: 70px; }
 
-div.thumbWrapper {
+div.thumbWrapper, div.logoWrapper {
 	float: left;
 	height: 178px;
 	width: 129px;
@@ -236,10 +240,12 @@ div.thumbWrapper {
 	padding: 5px;
 	position: relative;
 	border: 1px solid #d8d8d8;
-	background-color: #eaece6;
+	background-color: rgba(234, 236, 230, 0.8); /*#eaece6;*/
 	text-align: center;
 }
-
+div.thumbEpWrapper {
+    width: 200px;
+}
 div.thumbPosterWrapper {
 	height: 238px;
 	width: 129px;
@@ -248,7 +254,10 @@ div.thumbBannerWrapper {
 	height: 95px;
 	width: 383px;
 }
-
+div.thumbLogoWrapper {
+    height: 133px;
+    width: 300px;
+}
 div.thumbWrapper:hover {
 	border: 1px solid #7ac800;
 	background-color: #eaffc9;
@@ -256,17 +265,35 @@ div.thumbWrapper:hover {
 
 div.thumbWrapper div.linkWrapper {
 	position: absolute;
-	top: 10px;
+	/*top: 10px;*/
 	left: 7px;
 	width: 90%;
 	display: none;
 }
 div.linkTVWrapper {
     display: none;
-    left: 5%;
+    left: 12%;
 	top: 7px;
     position: absolute;
+    width: 75%;
+}
+div.linkEpWrapper {
+    display: none;
+	text-align: center;
+    left: 5%;
+	top: 3px;
+    position: absolute;
     width: 90%;
+}
+div.linkTVLogoWrapper {
+    display: none;
+    left: 5%;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+div.logoWrapper:hover div.linkTVLogoWrapper, div.thumbEpWrapper:hover div.linkEpWrapper {
+    display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
     display: block;
@@ -278,21 +305,46 @@ div.thumbWrapper:hover div.linkWrapper {
 div.thumbWrapper a {
 	display: block;
 	background-color: #343434;
-	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
-	filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;
+	/*-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;*/
 	border: 1px solid #a4a4a4;
 	color: #fff;
 	text-decoration: none;
 	padding: 2px 7px;
-	font-size: 14px;
-	margin-bottom: 1px;
+	font-size: 16px;
+	margin-bottom: 7px;
 }
-
-div.thumbWrapper a:hover {
+div.thumbEpWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 3px;
+    opacity: 0.9;
+    padding: 6px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, div.thumbEpWrapper a:hover  {
 	color: #7ac800;
 }
-
-div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
+div.logoWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+    padding: 8px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, div.logoWrapper a:hover {
+    color: #7AC800;
+}
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.logoWrapper div.albumArtist, div.thumbWrapper div.tvshowName {
 	color: #4b4b4b;
 	font-size: 11px;
 	font-weight: bold;
@@ -304,7 +356,23 @@ div.thumbWrapper div.albumArtist {
 	font-size: 11px;
 	text-align: center;
 }
-
+div.albumInfo {
+    background-color: rgba(0,0,0,0.8);
+	margin-top: 5px;
+	width: 128px;
+	/*position: absolute;*/
+	color: #fff;
+    font-size: 12px;
+	border-radius: 3px 3px 3px 3px;
+}
+div.albumInfo span.label {
+	font-weight: bold;
+	margin-left: 2px;
+}
+div.albumInfo span.value {
+	margin-left: 5px;
+	margin-right: 1px;
+}
 div.findKeywords {
 	display: none;
 }
@@ -379,9 +447,9 @@ div.mkfOverlay div.dialog div.test {
 	clear: right;
 }
 
-div.mkfOverlay div.dialog p.plot {
+div.mkfOverlay div.dialog p.plot, div.cinex {
 	clear: both;
-	padding-top: 10px;
+	/*padding-top: 15px;*/
 }
 
 div.mkfOverlay div.dialog img.dialogThumb,
@@ -394,7 +462,18 @@ div.mkfOverlay div.dialog img.dialogThumbBanner {
 	display: block;
 	margin: 0 auto;
 }
-
+select {
+	width: 99%;
+}
+select#artists {
+	width: 46%;
+	float: left;
+	margin-right: 27px;
+}
+input#artists_path {
+	width: 264px;
+	height: 13px;
+}
 fieldset {
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	border-width: 0px;
@@ -768,6 +847,13 @@ span.infoqueue {
 	width: 50px;
 	height: 48px;
 }
+span.infoinfo {
+	background: url("../images/play.png") no-repeat scroll -100px 0 transparent;
+	float: right;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
 div.movieinfo {
 	display: table-row;
 }
@@ -778,6 +864,9 @@ div.movieinfo span.value {
 	margin-left: 5px;
 }
 div.movieinfo a {
+	color: #333;
+}
+a.cinexplay {
 	color: #333;
 }
 div.movietags  img {
@@ -805,13 +894,13 @@ span.tools {
     width: 128px;
 }
 span.toolsscan {
-	background-position: 0px -128px;
+	background-position: -384px 0px;
 }
 span.toolsclean {
-	background-position: -128px -128px;
+	background-position: -512px 0px;
 }
 span.toolsexport {
-    background-position: -256px -128px;
+    background-position: -640px 0px;
 }
 span.toolsscan:hover {
 	background-position: 0px 0px;
@@ -833,6 +922,22 @@ ul.RecentfileList li {
     border-bottom: 1px solid #ABABAB;
     display: block;
 }
+div.singleView {
+	vertical-align: middle;
+	display: table;
+	margin-left:auto;
+	margin-right:auto;
+}
+div.singleView div.prev {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-left.png");
+}
+div.singleView div.next {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-right.png");
+}
 #multiOpenAccordion {
     /*background-color: rgba(0,0,0,0.7);*/
 	background-attachment: fixed;
@@ -845,13 +950,13 @@ ul.RecentfileList li {
 	color: #222;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	height: 32px;
+	height: 48px;
 	padding-left: 5px;
 	background-color: rgba(234, 255, 201, 0.8);
 }
 .multiOpenAccordion-header a {
 	position: relative;
-	top: 20%;
+	top: 30%;
     color: #4B4B4B;
 }
 .multiOpenAccordion-header:hover {
@@ -863,6 +968,9 @@ ul.RecentfileList li {
 	font-size: 14px;
 	padding: 5px;
 	min-height: 300px; 
+}
+div.multiOpenAccordion-content p.plot, div.ui-accordion-content p.plot {
+	clear: both;
 }
 .ui-tabs {
     padding: 0.2em;
@@ -920,13 +1028,13 @@ ul.RecentfileList li {
 	color: #222;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	height: 32px;
+	height: 48px;
 	padding-left: 5px;
 	background-color: rgba(234, 255, 201, 0.8);
 }
 .ui-accordion-header a {
 	position: relative;
-	top: 20%;
+	top: 30%;
     color: #4B4B4B;
 }
 .ui-accordion-header:hover {
@@ -941,12 +1049,14 @@ ul.RecentfileList li {
 }
 ul.fileList {
 	list-style-type: none;
+	overflow: hidden;
 	margin: 0;
 	padding: 0;
 	border-top: 1px solid #ABABAB;
 }
 ul.fileList li {
-	height: 35px;
+	/*height: 48px;*/
+	font-size: 15px;
 	display: block;
 	background-color: rgba(255, 255, 255, 0.8);
 	border-bottom: 1px solid #ABABAB;
@@ -960,7 +1070,7 @@ ul.fileList li.current {
 ul.fileList a {
 	display: block;
 	text-decoration: none;
-	padding: 10px 5px;
+	padding: 17px 5px;
 	color: #4b4b4b;
 }
 ul.fileList li a:hover {
@@ -969,6 +1079,7 @@ ul.fileList li a:hover {
 
 div.folderLinkWrapper a.button {
 	float: left;
+	padding: 2px;
 }
 div.folderLinkWrapper a.button:hover {
 	background-color: transparent;
@@ -976,57 +1087,78 @@ div.folderLinkWrapper a.button:hover {
 
 div.folderLinkWrapper a.song,
 div.folderLinkWrapper a.playlistItem,
-div.folderLinkWrapper a.episode { padding-left: 35px; }
+div.folderLinkWrapper a.episode { padding-left: 60px; }
 div.folderLinkWrapper a.folder,
-div.folderLinkWrapper a.file { padding-left: 35px; }
+div.folderLinkWrapper a.file { padding-left: 60px; }
 
 div.folderLinkWrapper a.playlistItemCur {
 	font-weight:bold;
-	padding: 10px 35px;
+	/*padding: 10px 35px;*/
 }
 div.folderLinkWrapper a.button:hover span.information {
     background-position: -48px -16px;
 }
 
 span.miniIcon {
-	display: block; height: 16px; width: 16px;
-	background: url('../images/mini_buttons.png') no-repeat;
+    background: url("../images/mini_buttons.png") no-repeat scroll 0 0 transparent;
+	float: left;
+    display: block;
+    height: 48px;
+    width: 48px;
 }
 span.playnext {
-    background-position: -112px top;
-}
-span.enqueue { background-position: left top; }
-span.play { background-position: -32px 0px; }
-span.remove { background-position: -16px 0; }
-span.information {
-    background-position: -48px 0;
+    background-position: -336px top;
 }
 span.playlistmove {
 	float: left;
-	margin: 10px 5px;
-    background-position: -64px top;
+	/*margin: 10px 5px;*/
+    background-position: -192px top;
+}
+span.enqueue {
+    background-position: left top;
+}
+span.play {
+    background-position: -96px 0px;
+}
+span.remove {
+    background-position: -48px 0;
+}
+span.information {
+    background-position: -144px 0;
 }
 span.unwatched {
-    background-position: -80px 0;
+    background-position: -240px 0;
 }
 span.all {
-    background-position: -96px 0;
+    background-position: -288px 0;
 }
-div.folderLinkWrapper a.button:hover span.enqueue { background-position:left bottom; }
-div.folderLinkWrapper a.button:hover span.play { background-position: -32px -16px; }
-div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -16px; }
-div.folderLinkWrapper span.playlistmove:hover {
-	float: left;
-    background-position: -64px -16px;
+div.recentTVenq a.button:hover span.enqueue {
+    background-position: left bottom;
 }
-div.folderLinkWrapper span.playnext:hover {
-    background-position: -112px -16px;
+div.folderLinkWrapper a.button:hover span.enqueue {
+    background-position: left bottom;
+}
+div.folderLinkWrapper a.button:hover span.play {
+    background-position: -96px -48px;
+}
+div.folderLinkWrapper a.button:hover span.remove {
+    background-position: -48px -48px;
+}
+div.folderLinkWrapper a.button:hover span.information {
+    background-position: -144px -48px;
 }
 div.folderLinkWrapper a.button:hover span.unwatched {
-    background-position: -80px -16px;
+    background-position: -240px -48px;
+}
+div.folderLinkWrapper span.playlistmove:hover {
+	float: left;
+    background-position: -192px -48px;
+}
+div.folderLinkWrapper span.playnext:hover {
+    background-position: -336px -48px;
 }
 div.folderLinkWrapper a.button:hover span.all {
-    background-position: -96px -16px;
+    background-position: -288px -48px;
 }
 div.mkfOverlay div.dialogSystemControl {
     width: 400px;
@@ -1104,7 +1236,36 @@ a.recentTVplay  {
 	left: 10px; 
 	z-index: 5
 }
-
+div.episodeThumb {
+	margin: 5px 5px 0 5px;
+	float: left;
+	position: relative; 
+	z-index:3;
+}
+div.episodeTitle {
+	font-size: 20px;
+	display: block;
+	margin-top: 3px;
+	color: #A0E312;
+}
+div.episodeTVSE {
+	font-size: 15px;
+	display: block;
+}
+div.episodeRating {
+	font-size: 15px;
+}
+div.episodePlot {
+	display: table;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+div.showEpisode {
+	display: table;
+	width: 100%;
+	position: relative; 
+	vertical-align:text-top;
+}
 a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubOnOff,  a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev {
     background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
     float: left;

@@ -308,6 +308,8 @@ var mkf = {};
 
 				// hide all pages
 				$('.pageContent').hide();
+				/*if (page.parentPage.className == 'videos' || page.parentPage.className == 'music' ) { $('.mkfPage').hide() };
+				if (page.parentPage.className == 'videos' || page.parentPage.className == 'music' ) { $('.subPages').hide() };*/
 
 				var toShow = page;
 
@@ -335,7 +337,24 @@ var mkf = {};
 
 				toShow.onShow();
 
+				/*if (toShow.parentPage.className == 'videos') {
+					$('div.mfkPage, div.videos').show();
+					$('.' + toShow.id).parent('.subPages').show();
+					$('div.mfkPage, div.music').hide() 
+				};
+				if (toShow.parentPage.className == 'music') {
+					$('div.mfkPage, div.music').show();
+					$('.' + toShow.id).parent('.subPages').show();
+					$('div.mfkPage, div.videos').hide() 
+				};
+				//console.log(toShow);
+				$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); 
+				$('.' + toShow.id).show();*/
 				$('.' + toShow.id + ' > .pageContent').show();
+				//$('.' + toShow.id + ' > .subPages').show();
+				
+				/*if (page.subPages == '') { $('.' + page.id).children('.subPages').hide(); console.log('empty subPages') };
+				console.log($('.' + page.id).children('.subPages'));*/
 
 				// Update menus + location bars
 				mkf.pageContextMenu.update(toShow.contextMenu);
@@ -355,7 +374,9 @@ var mkf = {};
 					.hide();
 				$('.' + ownerPage.id)
 					.children('.subPages').append($newPage);
-
+					
+					/*if (ownerPage.subPages == '') { $('.' + ownerPage.id).children('.subPages').hide(); console.log('empty subPages') };
+					console.log(ownerPage);*/
 				return page;
 			},
 
@@ -476,6 +497,7 @@ var mkf = {};
 		});
 
 		// hide all pages
+		//$('.mkfPage').hide();
 		$('.mkfPage .pageContent').hide();
 
 	}; // END mkfPages
@@ -531,6 +553,9 @@ var mkf = {};
 				$newMenuItem.children('a').click(function() {
 						mkf.pages.showPage(sp, settings.autoKill);
 						$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide();
+						/*if ($newMenuItem.hasClass('music')) { $('div.mfkPage, div.music').show(); $('div.mfkPage, div.videos').hide() }
+						if ($newMenuItem.hasClass('videos')) { $('div.mfkPage, div.videos').show(); $('div.mfkPage, div.music').hide() }*/
+						//console.log($newMenuItem);
 						return false;
 					});
 

@@ -700,8 +700,16 @@ var awxUI = {};
 					});
 			});
 			
+			//show mfkPages root video or music to allow height 100%
+			/*if ($(this).hasClass('.videos')) {
+				
+			}*/
 			//onClick hide menus for tablets
-			$('#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a').click(function(){ $('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); });
+			/*$('#navigation ul.mkfMenu > li > a').click(function(){
+				if ($(this).parent().hasClass('videos')) { $('.mfkPage, .videos').show() }
+				else if ($(this).parent().hasClass('music')) { $('.mfkPage, .music').show() };
+				$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); 
+			});*/
 		},
 		
 		
@@ -1037,22 +1045,7 @@ var awxUI = {};
 		onVideoScanShow: function() {
 			var $contentBox = this.$videoScanContent;
 			$contentBox.empty();
-			//$contentBox.addClass('loading');
-
-			xbmc.scanVideoLibrary({
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
-					//$contentBox.removeClass('loading');
-				},
-
-				onSuccess: function() {
-					mkf.messageLog.show(mkf.lang.get('page_title_video_scan'), mkf.messageLog.status.success, 5000);
-					//console.log($contentBox);
-
-					$contentBox.defaultVideoScanViewer('Video');
-					//$contentBox.removeClass('loading');
-				}
-			});
+			$contentBox.defaultVideoScanViewer('Video');
 		},
 		
 		/*********************************************
@@ -1061,21 +1054,7 @@ var awxUI = {};
 		onMusicScanShow: function() {
 			var $contentBox = this.$musicScanContent;
 			$contentBox.empty();
-			//$contentBox.addClass('loading');
-			
-
-			xbmc.scanAudioLibrary({
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
-					//$contentBox.removeClass('loading');
-				},
-
-				onSuccess: function() {
-					mkf.messageLog.show(mkf.lang.get('page_title_music_scan'), mkf.messageLog.status.success, 5000);
-					$contentBox.defaultMusicScanViewer('Music');
-					//$contentBox.removeClass('loading');
-				}
-			});
+			$contentBox.defaultMusicScanViewer('Music');
 		}
 
 		

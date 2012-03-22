@@ -268,6 +268,40 @@ var uiviews = {};
 			return false;
 		},
 
+		/*------*/
+		FilePlay: function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_file'));
+
+			xbmc.playVideoFile({
+				file: event.data.file,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		},
+		
+		/*------*/
+		CinExPlay: function(event) {
+			//var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
+
+			xbmc.cinemaEx({
+				film: event.data.strMovie,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		},
+		
 		/*---------------*/
 		AddMovieToPlaylist: function(event) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_movie_to_playlist'));
@@ -289,6 +323,7 @@ var uiviews = {};
 		MovieInfoOverlay: function(e) {
 			var dialogHandle = mkf.dialog.show();
 			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			var cinex = mkf.cookieSettings.get('cinex', 'no')=='yes'? true : false;
 
 			xbmc.getMovieInfo({
 				movieid: e.data.idMovie,
@@ -343,7 +378,8 @@ var uiviews = {};
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					var dialogContent = $('<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+					var dialogContent = $('<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" />' +
+						//(cinex? '<div style="float: left; position: absolute; margin-top: 288px"><a href="#" class="cinexplay">' + mkf.lang.get('label_cinex_play') + '</a></div>' : '') + '</div>' +
 						'<div><h1 class="underline">' + movie.title + '</h1></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
@@ -351,16 +387,20 @@ var uiviews = {};
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + (movie.writer? movie.writer : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + (movie.studio? movie.studio : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
+						(movie.director? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + movie.director + '</span></div>' : '') +
+						(movie.writer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + movie.writer + '</span></div>' : '') +
+						(movie.studio? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + movie.studio + '</span></div>' : '') +
+						(movie.tagline? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + movie.tagline + '</span></div>' : '') +
+						(movie.trailer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_trailer') + '</span><span class="value"><a href="' + movie.trailer + '">' + mkf.lang.get('label_link') + '</a>' +
+						'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="trailerplay">' + mkf.lang.get('label_xbmc_play') + '</a></span></div></div>' : '') +
+						
+						(movie.set[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + movie.set + '</span></div>' : '') +
+						(movie.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + movie.lastplayed + '</span></div>' : '') +
+						(movie.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + movie.playcount + '</span></div>' : '') +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						(movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div></div>' : '') +
 						'<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
+						(cinex? '<div class="cinex"><a href="#" class="cinexplay">' + mkf.lang.get('label_cinex_play') + '</a>' : '') + '</div>' +
 						'<p class="plot">' + movie.plot + '</p>' +
 						'<div class="movietags"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
 
@@ -375,6 +415,9 @@ var uiviews = {};
 
 					$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
 					$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.AddMovieToPlaylist);
+					$(dialogContent).find('.cinexplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.CinExPlay);
+					$(dialogContent).find('.trailerplay').on('click', {file: movie.trailer}, uiviews.FilePlay);
+					
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},
@@ -393,6 +436,7 @@ var uiviews = {};
 				movieid: m,
 				onSuccess: function(movie) {
 					var fileDownload = '';
+					var cinex = mkf.cookieSettings.get('cinex', 'no')=='yes'? true : false;
 					
 					xbmc.getPrepDownload({
 						path: movie.file,
@@ -437,24 +481,28 @@ var uiviews = {};
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					dialogContent = $('<div style="float: left; margin-right: 5px;"><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + (movie.writer? movie.writer : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + (movie.studio? movie.studio : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
-					'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
-					(movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div></div>' : '') +
-					'<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
-					'<p class="plot" style="display: block; clear: left">' + movie.plot + '</p>' +
-					'<div class="movietags" style="display: inline-block; width: auto"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+						(movie.director? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + movie.director + '</span></div>' : '') +
+						(movie.writer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + movie.writer + '</span></div>' : '') +
+						(movie.studio? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + movie.studio + '</span></div>' : '') +
+						(movie.tagline? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + movie.tagline + '</span></div>' : '') +
+						(movie.trailer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_trailer') + '</span><span class="value"><a href="' + movie.trailer + '">' + mkf.lang.get('label_link') + '</a>' +
+						'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="trailerplay">' + mkf.lang.get('label_xbmc_play') + '</a></span></div></div>' : '') +
+						
+						(movie.set[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + movie.set + '</span></div>' : '') +
+						(movie.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + movie.lastplayed + '</span></div>' : '') +
+						(movie.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + movie.playcount + '</span></div>' : '') +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
+						(movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div></div>' : '') +
+						'<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
+						(cinex? '<div class="cinex"><a href="#" class="cinexplay">' + mkf.lang.get('label_cinex_play') + '</a>' : '') + '</div>' +
+						'<p class="plot">' + movie.plot + '</p>' +
+						'<div class="movietags" style="display: inline-block; width: auto"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
 
 					if (movie.streamdetails) {
 						dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
@@ -466,8 +514,10 @@ var uiviews = {};
 					};
 						//return dialogContent;
 						callback(dialogContent);
+						$(dialogContent).find('.cinexplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.CinExPlay);
 						$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
 						$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.AddMovieToPlaylist);
+						$(dialogContent).find('.trailerplay').on('click', {file: movie.trailer}, uiviews.FilePlay);
 						
 					},
 					onError: function() {
@@ -921,6 +971,120 @@ var uiviews = {};
 
 			return $artistList;
 		},
+
+		/*----Artists thumb view----*/
+		ArtistViewThumbnails: function(artists, parentPage) {
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var $artistList = $('<div></div>');
+
+				$.each(artists.artists, function(i, artist)  {
+					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
+					$artist = $('<div class="album'+artist.artistid+' thumbWrapper">' +
+						(useLazyLoad?
+							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
+							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumb albums" />'
+						) +
+						'<div class="albumInfo">' + artist.artist + '</div></div>' +
+						'<div class="findKeywords">' + artist.label.toLowerCase() + ' ' + artist.artist.toLowerCase() + '</div>' +
+					'</div>');
+
+				$artistList.append($artist);
+				$artist.find('.albums').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+
+				});
+
+			return $artistList;
+		},
+
+		/*----Artists logo view----*/
+		ArtistViewLogos: function(artists, parentPage) {
+			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
+			var $artistList = $('<div></div>');
+
+				$.each(artists.artists, function(i, artist)  {
+					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
+					$artist = $('<div class="artist'+artist.artistid+' logoWrapper thumbLogoWrapper">' +
+						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbLogo artist" />' +
+						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
+					'</div>').appendTo($artistList);;
+
+				artist.file = artistsPath + artist.label + '/';
+
+				$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				
+				xbmc.getLogo(artist.file, function(logo) {
+						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
+					});
+				});
+
+			return $artistList;
+		},
+
+		/*----Artists single logo view----*/
+		ArtistViewSingleLogos: function(artists, parentPage) {
+			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
+			var artist = artists.artists[0];
+			var currentArtist = 0;
+			var contentWidth = $('#content').width();
+			var contentHeight = ($('#main').length? $('#main').height() -65: $('#content').height())-190;
+
+			var $artistList = $('<div class="singleView" style="margin-top: ' + contentHeight/2 + 'px"></div>');
+
+				//$.each(artists.artists, function(i, artist)  {
+					var thumb = ('images/missing_logo.png');
+					$artist = $('<div class="prev" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
+						'<div class="artist'+artist.artistid+' logoWrapper thumbFullLogoWrapper" style="float: none; display: table-cell">' +
+						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbFullLogo artist" />' +
+						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						//'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
+						'<div class="next" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
+					'</div>').appendTo($artistList);;
+
+				artist.file = artistsPath + artist.label + '/';
+
+				$artist.find('.artist').on('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				xbmc.getLogo(artist.file, function(logo) {
+						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
+					});
+				
+				$artistList.find('div.next').on('click', function () {
+					$('div.artist' + artists.artists[currentArtist].artistid).removeClass('artist' + artists.artists[currentArtist].artistid);
+					if (currentArtist < artists.limits.end -1) {currentArtist++ } else { currentArtist = artists.limits.start };
+					$('div.logoWrapper').addClass('artist' + artists.artists[currentArtist].artistid);
+					artist.file = artistsPath + artists.artists[currentArtist].label + '/';
+					xbmc.getLogo(artist.file, function(logo) {
+						$('img.artist').attr('src', (logo? logo : 'images/missing_logo.png'));
+					});
+					$('div.albumArtist').text(artists.artists[currentArtist].label);
+					$artistList.find('.artist').off();
+					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				});
+
+				$artistList.find('div.prev').on('click', function () {
+					$('div.artist' + artists.artists[currentArtist].artistid).removeClass('artist' + artists.artists[currentArtist].artistid);
+					if (currentArtist > artists.limits.start) {currentArtist-- } else { currentArtist = artists.limits.end -1 };
+					$('div.logoWrapper').addClass('artist' + artists.artists[currentArtist].artistid);
+					artist.file = artistsPath + artists.artists[currentArtist].label + '/';
+					xbmc.getLogo(artist.file, function(logo) {
+						$('img.artist').attr('src', (logo? logo : 'images/missing_logo.png'));
+					});
+					$('div.albumArtist').text(artists.artists[currentArtist].label);
+					$artistList.find('.artist').off();
+					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				});
+
+				$( window ).resize( xbmc.debouncer( function ( e ) {
+					contentHeight = ($('#main').length? $('#main').height() -65: $('#content').height())-190; //$('#content').height() -5;
+					
+					//$('div.next, div.prev').css('margin-bottom', contentHeight/2.5);
+					$('div.singleView').css('margin-top', contentHeight/2);
+					//$('div.movieName').css('width', $('img.singleThumb').width());
+				
+				} ) );
+			
+			return $artistList;
+		},
 		
 		/*----Audio genres list view----*/
 		AudioGenresViewList: function(agenres, parentPage) {
@@ -1002,12 +1166,98 @@ var uiviews = {};
 					'</div>');
 
 				$albumsList.append($album);
-				//$albumViewerElement.append($album);
 				$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, uiviews.AlbumPlay);
 				$album.find('.songs').bind('click', {idAlbum: album.albumid, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
 				$album.find('.playlist').bind('click', {idAlbum: album.albumid}, uiviews.AddAlbumToPlaylist);
 			});
 			return $albumsList;
+		},
+		
+		/*----Albums list inline song view----*/
+		AlbumsViewListInline: function(albums) {
+		
+			//can't find accordion without this...?
+			var page = $('<div></div>');
+			
+			var $albumsList = $('<div id="multiOpenAccordion"></div>').appendTo(page);
+			
+				$.each(albums.albums, function(i, album) {
+							//var thumb = (album.thumbnail? xbmc.getThumbUrl(album.thumbnail) : 'images/thumb.png');
+							$album = $('<h3 class="multiOpenAccordion-header" id="albumName' + album.albumid + '"><a href="#" id="album' + i + '">' + album.label + ' - ' + album.artist +
+							'<div class="findKeywords">' + album.label.toLowerCase() + '</div></a></h3>' +
+							'<div class="multiOpenAccordion-content" style="display: table; padding: 0px; width: 100%;">' +
+								'</div>').appendTo($albumsList);
+				});
+				
+				
+				page.find('div#multiOpenAccordion:eq(0)> div').hide();
+					page.find('div#multiOpenAccordion:eq(0)> h3').click(function() {
+						$(this).next().slideToggle('fast');
+						if (!$(this).next().hasClass('filled')) {
+							var albumID = $(this).attr('id').replace(/[^\d]+/g, '');
+							var albumI = $(this).children('a').attr('id').replace(/[^\d]+/g, '');
+							var infodiv = $(this).next();
+							
+							infodiv.addClass('loading');
+
+							xbmc.getAlbumsSongs({
+								albumid: albumID,
+
+								onError: function() {
+									mkf.messageLog.show(mkf.lang.get('message_failed_albums_songs'), mkf.messageLog.status.error, 5000);
+									infodiv.removeClass('loading');
+								},
+
+								onSuccess: function(songs) {
+									//$songlistContent.defaultSonglistViewer(result);
+									var albuminfo = albums.albums[albumI];
+									var thumb = (albuminfo.thumbnail? xbmc.getThumbUrl(albuminfo.thumbnail) : 'images/thumb.png');
+									//var thumb = (songs.songs[0].thumbnail? xbmc.getThumbUrl(songs.songs[0].thumbnail) : 'images/thumb.png');
+									infodiv.removeClass('loading');
+									//console.log(songs);
+									var albumContent = $('<div style="float: left; margin: 5px;"><img src="' + thumb + '" class="thumb" />' +
+									'<div style="width: 102px; display: block; padding-left: 13px; padding-bottom: 50px"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>' +
+									'<div class="albumInfo"><div><span class="label">' + mkf.lang.get('label_genre') + '</span>' +
+									'<span class="value">' + albuminfo.genre + '</span></div><div><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value">' + (albuminfo.rating? albuminfo.rating : mkf.lang.get('label_not_available')) + '</span></div>' +
+									'<div><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (albuminfo.year? albuminfo.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+									'<div><span class="label">' + mkf.lang.get('label_mood') + '</span><span class="value">' + (albuminfo.mood? albuminfo.mood : mkf.lang.get('label_not_available')) + '</span></div>' +
+									'<div><span class="label">' + mkf.lang.get('label_style') + '</span><span class="value">' + (albuminfo.style? albuminfo.style : mkf.lang.get('label_not_available')) + '</span></div>' + '</div></div>');
+									
+									albumContent.find('.infoplay').bind('click', {idAlbum: albuminfo.albumid, strAlbum: albuminfo.label}, uiviews.AlbumPlay);
+									albumContent.find('.infoqueue').bind('click', {idAlbum: albuminfo.albumid}, uiviews.AddAlbumToPlaylist);
+									
+									var $songList = $('<ul class="fileList" style="margin: 5px 0 5px 0"></ul>');
+
+										$.each(songs.songs, function(i, song)  {
+											var $song = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper song' + song.songid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') +
+											'"><span class="miniIcon enqueue" /></a> <a href="" class="button playnext" title="' + mkf.lang.get('btn_playnext') +
+											'"><span class="miniIcon playnext" /></a> <a href="" class="song play">' + song.track + '. ' + song.label + '</a></div></li>').appendTo($songList);
+											
+											$song.find('.playlist').bind('click', {idSong: song.songid}, uiviews.AddSongToPlaylist);
+											$song.find('.play').bind('click', {idSong: song.songid}, uiviews.SongPlay);
+											$song.find('.playnext').bind('click', {idSong: song.songid}, uiviews.SongPlayNext);
+										});
+										
+									//albumContent.append($songList);
+									infodiv.addClass('filled');										
+									infodiv.append(albumContent);
+									infodiv.append($songList);
+								}
+							});
+							
+							/*uiviews.MovieInfoInline(albumID, function(albumSongsContent) {
+								infodiv.removeClass('loading');
+								infodiv.append(albumSongsContent);
+								infodiv.addClass('filled');
+								});*/
+						} else if ($(this).next().hasClass('filled')) {
+							//Clear for refresh and hopefully keep memory usage down.
+							$(this).next().empty();
+							$(this).next().removeClass('filled');
+						}
+					});
+			
+			return page;
 		},
 		
 		/*----Song list view-----*/
@@ -1128,7 +1378,7 @@ var uiviews = {};
 								infodiv.addClass('filled');
 								});
 						} else if ($(this).next().hasClass('filled')) {
-							//Clear for refresh and hopefully keep memory useage down.
+							//Clear for refresh and hopefully keep memory usage down.
 							$(this).next().empty();
 							$(this).next().removeClass('filled');
 						}
@@ -1207,7 +1457,115 @@ var uiviews = {};
 			});
 			return $moviesList;
 		},
+		
+		/*----Movie single view----*/
+		MovieViewSingle: function(movies, options) {
+		
+		//var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+		var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+		
+		if (options) { filterWatched = options.filterWatched };
 
+		
+		var currentItem = 0;
+		var contentWidth = $('#content').width();
+		var contentHeight = ($('#main').length? $('#main').height() -65: $('#content').height());
+		
+		var imgHeight = contentHeight -100;
+		//var imgWidthName = $('img.singleThumb').width();
+		//console.log(imgWidthName);
+		contentWidth += -100;
+		contentHeight += -5;
+		
+		var $moviesList = $('<div class="singleView"></div>');
+		
+		var thumb = (movies.movies[currentItem].thumbnail? xbmc.getThumbUrl(movies.movies[currentItem].thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+			var $movie = $('<div class="prev" style="float: left; margin-bottom: ' + contentHeight/2.5 + 'px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
+				'<div class="single" style="display: table-cell;"><div style="width: auto; float: none; padding: 0; text-align: center; margin-top: 5px" class="movie'+movies.movies[currentItem].movieid+' movie">' +
+				//'<div>' +
+				'<img src="' + thumb + '" alt="' + movies.movies[currentItem].label + '" class="singleThumb" style="height: ' + imgHeight + 'px; min-height: 170px; min-width: 114px" />' +
+				'<div class="movieName albumInfo" style="margin-top: 0; height: 20px; width: 100%"><span style="vertical-align: middle; margin: 0 3px;">' + movies.movies[currentItem].label + '</span>' + (movies.movies[currentItem].playcount > 0? '<img style="vertical-align: middle" src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
+				//'</div>' +
+				'<div class="rating smallRating' + Math.round(movies.movies[currentItem].rating) + '" style="margin-bottom: 3px;"></div><br />' +
+				'<div class="movietags" style="display: inline-block; width: auto"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /><span class="infoinfo" title="' + mkf.lang.get('btn_information') + '" /></div>' +
+				'</div></div>' +
+				'<div class="next" style="float: right; margin-bottom: ' + contentHeight/2.5 + 'px; margin-right: 10px; display: table-cell;"><a href="#" /></div>' +
+				'').appendTo($moviesList);
+				
+			$movie.find('.infoplay').bind('click', {idMovie: movies.movies[currentItem].movieid, strMovie: movies.movies[currentItem].label}, uiviews.MoviePlay);
+			$movie.find('.infoqueue').bind('click', {idMovie: movies.movies[currentItem].movieid}, uiviews.AddMovieToPlaylist);
+			$movie.find('.infoinfo').bind('click', {idMovie: movies.movies[currentItem].movieid}, uiviews.MovieInfoOverlay);
+			
+			$moviesList.find('.prev').on('click', function () {
+				$('div.movie' + movies.movies[currentItem].movieid).removeClass('movie' + movies.movies[currentItem].movieid);
+				$('div.rating').removeClass('smallRating' + Math.round(movies.movies[currentItem].rating));
+				$('div.movieName img').remove();
+				if (currentItem > movies.limits.start) { currentItem-- } else { currentItem = movies.limits.end -1 };
+				//Check if next movie has been watched.
+				if (filterWatched) {
+					while (movies.movies[currentItem].playcount > 0) {
+						if (currentItem > movies.limits.start) { currentItem-- } else { currentItem = movies.limits.end -1 };
+					}
+				}
+				$('div.movie').addClass('movie' + movies.movies[currentItem].movieid);
+				$('img.singleThumb').attr('src', xbmc.getThumbUrl(movies.movies[currentItem].thumbnail));
+				$('img.singleThumb').attr('alt', movies.movies[currentItem].label);
+				$('div.movieName span').text(movies.movies[currentItem].label);
+				if (movies.movies[currentItem].playcount > 0) $('div.movieName').append('<img style="vertical-align: middle" src="images/OverlayWatched_Small.png" />');
+				$('div.rating').addClass('smallRating' + Math.round(movies.movies[currentItem].rating));
+				
+				$movie.find('.infoplay').unbind();
+				$movie.find('.infoqueue').unbind();
+				$movie.find('.infoinfo').unbind();
+				
+				$movie.find('.infoplay').bind('click', {idMovie: movies.movies[currentItem].movieid, strMovie: movies.movies[currentItem].label}, uiviews.MoviePlay);
+				$movie.find('.infoqueue').bind('click', {idMovie: movies.movies[currentItem].movieid}, uiviews.AddMovieToPlaylist);
+				$movie.find('.infoinfo').bind('click', {idMovie: movies.movies[currentItem].movieid}, uiviews.MovieInfoOverlay);
+			});
+			
+			$moviesList.find('.next').on('click', function () {
+				
+				$('div.movie' + movies.movies[currentItem].movieid).removeClass('movie' + movies.movies[currentItem].movieid);
+				$('div.rating').removeClass('smallRating' + Math.round(movies.movies[currentItem].rating));
+				$('div.movieName img').remove();
+				if (currentItem < movies.limits.end -1) { currentItem++ } else { currentItem = movies.limits.start };
+				//Check if next movie has been watched.
+				if (filterWatched) {
+					while (movies.movies[currentItem].playcount > 0) {
+						if (currentItem < movies.limits.end -1) { currentItem++ } else { currentItem = movies.limits.start };
+					}
+				}
+				$('div.movie').addClass('movie' + movies.movies[currentItem].movieid);
+				$('img.singleThumb').attr('src', xbmc.getThumbUrl(movies.movies[currentItem].thumbnail));
+				$('img.singleThumb').attr('alt', movies.movies[currentItem].label);
+				$('div.movieName span').text(movies.movies[currentItem].label);
+				if (movies.movies[currentItem].playcount > 0) $('div.movieName').append('<img style="vertical-align: middle" src="images/OverlayWatched_Small.png" />');
+				$('div.rating').addClass('smallRating' + Math.round(movies.movies[currentItem].rating));
+				
+				$movie.find('.infoplay').unbind();
+				$movie.find('.infoqueue').unbind();
+				$movie.find('.infoinfo').unbind();
+				
+				$movie.find('.infoplay').bind('click', {idMovie: movies.movies[currentItem].movieid, strMovie: movies.movies[currentItem].label}, uiviews.MoviePlay);
+				$movie.find('.infoqueue').bind('click', {idMovie: movies.movies[currentItem].movieid}, uiviews.AddMovieToPlaylist);
+				$movie.find('.infoinfo').bind('click', {idMovie: movies.movies[currentItem].movieid}, uiviews.MovieInfoOverlay);
+				
+			});
+
+			$( window ).resize( xbmc.debouncer( function ( e ) {
+				contentHeight = ($('#main').length? $('#main').height() -65: $('#content').height() -5); //$('#content').height() -5;
+				
+				$('div.next, div.prev').css('margin-bottom', contentHeight/2.5);
+				$('img.singleThumb').css('height', contentHeight -95);
+				//$('div.movieName').css('width', $('img.singleThumb').width());
+				
+			} ) );
+			
+			return $moviesList;
+		},
+		
 /*------------------*/
 /* Movie sets views */
 /*------------------*/
@@ -1358,6 +1716,42 @@ var uiviews = {};
 			return $tvShowList;
 		},
 		
+		/*----TV logo view----*/
+		TVViewLogoWall: function(shows, parentPage) {
+		
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			
+			var $tvShowList = $('<div></div>');
+			
+			if (shows.limits.total > 0) {
+				$.each(shows.tvshows, function(i, tvshow) {
+					var watched = false;
+					if (tvshow.playcount > 0 && !filterShowWatched) { watched = true; }
+					if (filterWatched && watched) { return; }
+					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/missing_logo.png');
+					var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' logoWrapper thumbLogoWrapper">' +
+							'<div class="linkTVLogoWrapper">' + 
+								'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
+								'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+								'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
+							'</div><img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
+							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
+							'<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
+						'</div>')
+						.appendTo($tvShowList);
+					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
+					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
+					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
+					xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', (logo? logo : 'images/missing_logo.png')); } );
+				});
+
+			}
+			return $tvShowList;
+		},
+		
 		/*----TV seasons list----*/
 		TVSeasonsViewList: function(seasons, idTvShow, parentPage) {
 			var $seasonsList = $('<ul class="fileList"></ul>');
@@ -1379,18 +1773,20 @@ var uiviews = {};
 		},
 		
 		/*----TV episodes list----*/
-		TVEpisodesViewList: function(eps) {
+		TVEpisodesViewList: function(eps, options) {
 			//var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			var genlist = eps.episodes;
 			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			
+			//For unwatched listing
+			if (options) genlist = eps;
 			
 			var $episodeList = $('<ul class="fileList"></ul>');
 
-			$.each(eps.episodes, function(i, episode)  {
+			$.each(genlist, function(i, episode)  {
 				var watched = false;
-				var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-				var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 				
 				if (episode.playcount > 0 && !filterShowWatched) { watched = true; }
 				if (filterWatched && watched) { return; }
@@ -1408,9 +1804,53 @@ var uiviews = {};
 
 			return $episodeList;
 		},
+
+		/*----TV episodes thumbnail----*/
+		TVEpThumbnailList: function(eps, options) {
+
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			var genlist = eps.episodes;
+			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			
+			//if (options) { unwatched = options };
+			if (options) genlist = eps;
+			
+			var $episodeList = $('<ul class="RecentfileList"></ul>');
+
+				$.each(genlist, function(i, episode)  {
+					var watched = false;	
+					if (episode.playcount > 0 && !filterShowWatched) { watched = true; }
+					if (filterWatched && watched) { return; }
+					
+					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
+					var $episode = $('<li><div class="showEpisode thumbEpWrapper">' + 
+					'<div class="episodeThumb">' +
+					'<div class="linkEpWrapper">' + 
+							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+						'</div>' +
+					(useLazyLoad?
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart" original="' + thumb + '" />' :
+					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart" />'
+					) +
+					'</div>' +
+					'<div class="episodeTitle">' + episode.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
+					'<div class="episodeTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + '</div>' +					
+					'<div class="episodeRating"><span class="label">' + mkf.lang.get('label_rating') + '</span><span><div class="smallRating' + Math.round(episode.rating) + '"></div></span></div>' +
+					'<div class="episodePlot">' + episode.plot + '</div>' +
+					'</div></li>').appendTo($episodeList);
+					
+					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
+					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
+					$episode.find('.info').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodeInfo);
+					//$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
+				});
+
+			return $episodeList;
+		},
 		
 		/*----TV Recently Added----*/
-		//Isn't this just an episodes view?
 		TVRecentViewInfoList: function(eps, parentPage, options) {
 
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
@@ -1428,15 +1868,20 @@ var uiviews = {};
 					if (filterWatched && watched) { return; }
 					
 					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
-					var $episode = $('<li><div class="recentTVshow">' + 
-					'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
+					var $episode = $('<li><div class="recentTVshow thumbEpWrapper">' + 
+					//'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
+					'<div class="episodeThumb">' +
+					'<div class="linkEpWrapper">' + 
+							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="unwatchedEps">' + mkf.lang.get('btn_unwatched') + '</a>' +
+						'</div>' +
 					(useLazyLoad?
-					'<div class="recentTVthumb"><img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode play" original="' + thumb + '" /></div>':
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode" original="' + thumb + '" />':
 					//'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>':
-					'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>'
+					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode" />'
 					) +
+					'</div>' +
 					'<div class="recentTVshowName unwatchedEps" title="' + mkf.lang.get('btn_unwatched') + '">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
-					'</div><div class="recentTVshowSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
+					'</div><div class="recentTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
 					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVplot">' + episode.plot + '</div></div></li>').appendTo($episodeList);
 					
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
@@ -1447,23 +1892,6 @@ var uiviews = {};
 			return $episodeList;
 		},
 		
-		/*----TV unwatched episodes----*/
-		TVUnwatchedEpsViewList: function(eps) {
-			var $episodeList = $('<ul class="fileList"></ul>').appendTo($(this));
-				$.each(eps, function(i, episode)  {
-					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + 
-					'"><span class="miniIcon enqueue" /></a><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a><a href="" class="episode play">' +
-					//var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '">' +
-					//'<span class="miniIcon information"><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"></a></span><a href="" class="episode play">' + 
-					'S' + episode.season + 'E' + episode.episode + '. ' + episode.label + '</a></div></li>').appendTo($episodeList);
-
-					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
-					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
-					$episode.find('.information').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodeInfo);
-				});
-				
-			return 	$episodeList;
-		},
 		
 /*----------------*/
 /* Playlist views */
@@ -1502,7 +1930,7 @@ var uiviews = {};
 						}
 						
 						$item = $('<li class="' + playlistItemClass + '" id="apli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
-							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '" />' +
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><a class="button playlistmove" href="" title="' + mkf.lang.get('btn_swap') +  '"><span class="miniIcon playlistmove" /></a>' +
 							'<a class="' + playlistItemCur + ' apli' + i + ' play" href="">' + (i+1) + '. ' +
 							(artist? artist + ' - ' : '') + (album? album + ' - ' : '') + (title? title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + (duration? xbmc.formatTime(duration) : '') +
 							'<div class="findKeywords">' + artist.toLowerCase() + ' ' + album.toLowerCase() + ' ' + label.toLowerCase() + '</div>' +
@@ -1567,7 +1995,7 @@ var uiviews = {};
 							playlistItemCur = 'playlistItem';
 						};			
 						$item = $('<li class="' + playlistItemClass + '" id="vpli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
-							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '"/>' +
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><a class="button playlistmove" href="" title="' + mkf.lang.get('btn_swap') +  '"><span class="miniIcon playlistmove" /></a>' +
 							'<a class="' + playlistItemCur  + ' vpli' + i + ' play" href="">' + (i+1) + '. ' +
 							(item.type=='episode'? showtitle + ' - Season ' + season + ' - ' + title : title) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
 							'</a></div></li>').appendTo($itemList);

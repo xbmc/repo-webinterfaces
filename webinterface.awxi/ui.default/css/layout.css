@@ -86,7 +86,7 @@ a.settings:hover { background-position: top right; }
 	background-size: cover;
 }
 #content {
-	margin: 45px 55px 20px 55px;
+	margin: 45px 55px 10px 55px;
 }
 #content .mkfPage .pageContent div.pageContentWrapper {
 	min-height: 32px;
@@ -307,6 +307,7 @@ ul.fileList {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 	background: url('../images/splitter_h.png') no-repeat top left;
 	background-color: rgba(0,0,0,0.7);
 }
@@ -365,7 +366,6 @@ span.information {
 }
 span.playlistmove {
 	float: left;
-	margin: 10px 5px;
     background-position: -64px top;
 }
 span.unwatched {
@@ -390,15 +390,36 @@ div.folderLinkWrapper a.button:hover span.unwatched {
 div.folderLinkWrapper a.button:hover span.all {
     background-position: -96px -16px;
 }
-div.thumbWrapper {
-	float: left;
-	height: 190px;
-	width: 129px;
-	overflow: hidden;
-	margin: 0 10px 10px 0;
-	position: relative;
+div.thumbWrapper, div.logoWrapper {
+	/*background-color: rgba(0,0,0,0.8);
+    border: 1px solid #D8D8D8;*/
+    float: left;
+    height: 185px;
+    margin: 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    text-align: center;
+    width: 129px;
 }
-
+div.thumbEpWrapper {
+    width: 200px;
+}
+div.logoWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+    padding: 8px 7px;
+    text-decoration: none;
+}
+div.logoWrapper a:hover {
+    color: #7AC800;
+}
 div.thumbPosterWrapper {
 	height: 238px;
 	width: 129px;
@@ -407,7 +428,10 @@ div.thumbBannerWrapper {
 	height: 95px;
 	width: 383px;
 }
-
+div.thumbLogoWrapper {
+    height: 133px;
+    width: 300px;
+}
 div.thumbWrapper div.linkWrapper {
 	position: absolute;
 	top: 5%;
@@ -421,6 +445,24 @@ div.linkTVWrapper {
 	top: 3px;
     position: absolute;
     width: 90%;
+}
+div.linkEpWrapper {
+    display: none;
+	text-align: center;
+    left: 5%;
+	top: 3px;
+    position: absolute;
+    width: 90%;
+}
+div.linkTVLogoWrapper {
+    display: none;
+    left: 5%;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+div.logoWrapper:hover div.linkTVLogoWrapper, div.thumbEpWrapper:hover div.linkEpWrapper {
+    display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
     display: block;
@@ -442,8 +484,19 @@ div.thumbWrapper a, div.folderLinkWrapper a.button, a.formButton {
 	font-size: 14px;
 	margin-bottom: 1px;
 }
-
-div.thumbWrapper a:hover, a.formButton:hover { color: #FFBB00; }
+div.thumbEpWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 3px;
+    opacity: 0.9;
+    padding: 6px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, a.formButton:hover, div.thumbEpWrapper a:hover  { color: #FFBB00; }
 div.folderLinkWrapper:hover a.button:hover { background-image: none; background-color: #343434; color: #FFBB00; }	
 div.folderLinkWrapper a.button:hover span.information {
     background-position: -48px -16px;
@@ -460,6 +513,10 @@ img.epWatched {
 	left:0px; 
 	z-index:4
 }
+img.thumbLogo {
+	height: 116px;
+	width: 300px;	
+}
 img.thumbPosterLargeRec {
 	width: auto;
 	height: 75%;
@@ -470,7 +527,7 @@ img.thumbFanart {
     height: 113px;
     width: 200px;
 }
-img.thumbFanart:hover{
+img.episode:hover{
 	border: 1px solid #A0E312;
 }
 img.thumbPosterLarge {
@@ -485,7 +542,7 @@ div.thumbWrapper:hover img.thumb {
 	border: 2px solid #FFBB00;
 }
 
-div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.logoWrapper div.albumArtist, div.thumbWrapper div.tvshowName {
 	background-color: rgba(0,0,0,0.8);
 	border-radius: 3px 3px 3px 3px;
 	font-size: 11px;
@@ -497,6 +554,21 @@ div.thumbWrapper div.albumArtist {
 	font-size: 11px;
 	text-align: center;
 }
+div.albumInfo {
+    background-color: rgba(0,0,0,0.8);
+	margin-top: 5px;
+	width: 128px;
+	/*position: absolute;*/
+	color: #fff;
+    font-size: 12px;
+	border-radius: 3px 3px 3px 3px;
+}
+div.albumInfo span.label {
+	font-weight: bold;
+}
+div.albumInfo span.value {
+	margin-left: 5px;
+}
 div.movieinfo {
 	display: table-row;
 }
@@ -506,7 +578,7 @@ div.movieinfo span.label {
 div.movieinfo span.value {
 	margin-left: 5px;
 }
-div.movieinfo a {
+div.movieinfo a, a.cinexplay {
 	color: #ddd;
 }
 div.movietags  img {
@@ -516,6 +588,22 @@ div.movietags  img {
 div.movietags {
 	display: table-cell;
 	width: 580px;
+}
+div.singleView {
+	vertical-align: middle;
+	display: table;
+	margin-left:auto;
+	margin-right:auto;
+}
+div.singleView div.prev {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-left.png");
+}
+div.singleView div.next {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-right.png");
 }
 #multiOpenAccordion {
     background-color: rgba(0,0,0,0.7);
@@ -545,7 +633,9 @@ div.movietags {
 	padding: 5px;
 	min-height: 300px; 
 }
-
+div.multiOpenAccordion-content p.plot, div.ui-accordion-content p.plot {
+	clear: both;
+}
 #accordion {
     background-color: rgba(0,0,0,0.7);
 	background-attachment: fixed;
@@ -765,9 +855,9 @@ div.mkfOverlay div.dialog div.test {
 	clear: right;
 }
 
-div.mkfOverlay div.dialog p.plot {
+div.mkfOverlay div.dialog p.plot, div.cinex {
 	clear: both;
-	padding-top: 10px;
+	/*padding-top: 15px;*/
 }
 
 div.mkfOverlay div.dialog img.dialogThumb,
@@ -1054,6 +1144,13 @@ span.infoqueue {
 	width: 50px;
 	height: 48px;
 }
+span.infoinfo {
+	background: url("../images/play.png") no-repeat scroll -100px 0 transparent;
+	float: right;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
 div.movietags  img {
 	float: left;
 	margin-right: 3px;
@@ -1079,13 +1176,13 @@ span.tools {
     width: 128px;
 }
 span.toolsscan {
-	background-position: 0px -128px;
+	background-position: -384px 0px;
 }
 span.toolsclean {
-	background-position: -128px -128px;
+	background-position: -512px 0px;
 }
 span.toolsexport {
-    background-position: -256px -128px;
+    background-position: -640px 0px;
 }
 span.toolsscan:hover {
 	background-position: 0px 0px;
@@ -1139,6 +1236,36 @@ a.recentTVplay  {
 	top: 98px; 
 	left: 21px; 
 	z-index: 5
+}
+div.episodeThumb {
+	margin: 5px 5px 0 5px;
+	float: left;
+	position: relative; 
+	z-index:3;
+}
+div.episodeTitle {
+	font-size: 20px;
+	display: block;
+	margin-top: 3px;
+	color: #A0E312;
+}
+div.episodeTVSE {
+	font-size: 15px;
+	display: block;
+}
+div.episodeRating {
+	font-size: 15px;
+}
+div.episodePlot {
+	display: table;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+div.showEpisode {
+	display: table;
+	width: 100%;
+	position: relative; 
+	vertical-align:text-top;
 }
 ul.RecentfileList {
 	background-color: rgba(0,0,0,0.7);
@@ -1275,7 +1402,18 @@ a.reboot:hover { background-position: -126px 0; }
 
 br.clear { clear:both; }
 
-
+select {
+	width: 99%;
+}
+select#artists {
+	width: 46%;
+	float: left;
+	margin-right: 27px;
+}
+input#artists_path {
+	width: 264px;
+	height: 13px;
+}
 fieldset {
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	border-width: 0px;
