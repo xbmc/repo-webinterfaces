@@ -11,6 +11,48 @@ var uiviews = {};
 /* Audio UI function */
 /*-------------------*/
 
+		/*--------------*/
+		ArtistInfoOverlay: function(e) {
+			
+			var dialogHandle = mkf.dialog.show();
+			//var dialogContent = $('<div></div>');
+			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+
+			xbmc.getArtistDetails({
+				artistid: e.data.idArtist,
+				onSuccess: function(artistdetails) {
+				
+					if ( useFanart ) {
+						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(artistdetails.fanart) + '")');
+					};
+					
+					var thumb = (artistdetails.thumbnail? xbmc.getThumbUrl(artistdetails.thumbnail) : 'images/thumb.png');
+					var dialogContent = $('<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
+						'<h1 class="underline">' + artistdetails.label + '</h1>' +
+						//'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
+						(artistdetails.genre? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="labelinfo">' + artistdetails.genre + '</span></div>' : '') +
+						(artistdetails.mood? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_mood') + '</span><span class="labelinfo">' + artistdetails.mood + '</span></div>' : '') +
+						(artistdetails.style? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_style') + '</span><span class="labelinfo">' +  artistdetails.style + '</span></div>' : '') +
+						(artistdetails.born? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_born') + '</span><span class="labelinfo">' + artistdetails.born + '</span></div>' : '') +
+						(artistdetails.formed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_formed') + '</span><span class="labelinfo">' + artistdetails.formed + '</span></div>' : '') +
+						(artistdetails.died? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_died') + '</span><span class="labelinfo">' + artistdetails.died + '</span></div>' : '') +
+						(artistdetails.disbanded? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_disbanded') + '</span><span class="labelinfo">' + artistdetails.disbanded + '</span></div>' : '') +
+						(artistdetails.yearsactive? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_yearsactive') + '</span><span class="labelinfo">' + artistdetails.yearsactive + '</span></div>' : '') +
+						(artistdetails.instrument? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_instrument') + '</span><span class="labelinfo">' + artistdetails.instrument + '</span></div>' : '') +
+						'<p class="artistdesc">' + artistdetails.description + '</p>');
+					
+					mkf.dialog.setContent(dialogHandle, dialogContent);
+					
+				},
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed_artist_list'), mkf.messageLog.status.error, 5000);
+					mkf.dialog.close(dialogHandle);				
+				}
+			});
+
+			return false;
+		}, // END onArtistInformationClick
+
 		/*---------*/
 		ArtistAlbums: function(e) {
 			// open new page to show artist's albums
@@ -146,6 +188,37 @@ var uiviews = {};
 			});
 			return false;
 		},
+
+		/*-----------*/
+		MusicGenrePlay: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_genre'));
+			xbmc.playMusicGenre({
+				genreid: e.data.idGenre,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
+		
+		/*-----------*/
+		ArtistPlay: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_playing_artist'));
+			xbmc.playArtist({
+				artistid: e.data.idArtist,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
+		
 		
 		/*---------------*/
 		AddAlbumToPlaylist: function(e) {
@@ -162,6 +235,37 @@ var uiviews = {};
 			return false;
 		},
 
+		/*---------------*/
+		AddGenreToPlaylist: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_genre_to_playlist'));
+			xbmc.addGenreToPlaylist({
+				genreid: e.data.idGenre,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
+		
+		/*---------------*/
+		AddArtistToPlaylist: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_artist_to_playlist'));
+			xbmc.addArtistToPlaylist({
+				artistid: e.data.idArtist,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
+		
+		
 		/*----------*/
 		Songlist: function(e) {
 			// open new page to show album's songs
@@ -324,9 +428,12 @@ var uiviews = {};
 			var dialogHandle = mkf.dialog.show();
 			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 			var cinex = mkf.cookieSettings.get('cinex', 'no')=='yes'? true : false;
-
+			//May be event data or just movieid from playlists
+			var movieID = '';
+			if (typeof(e) == 'number' ) { movieID = e } else { movieID = e.data.idMovie };
+			
 			xbmc.getMovieInfo({
-				movieid: e.data.idMovie,
+				movieid: movieID,
 				onSuccess: function(movie) {
 					//var dialogContent = '';
 					var fileDownload = '';
@@ -375,6 +482,10 @@ var uiviews = {};
 					//Set audio icon
 					streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
+					
+					//Create a youtube link from plugin trailer link provided
+					if (movie.trailer.substring(0, movie.trailer.indexOf("?")) == 'plugin://plugin.video.youtube/') { movie.trailer = 'http://www.youtube.com/watch?v=' + movie.trailer.substr(movie.trailer.lastIndexOf("=") + 1) };
+
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
@@ -478,6 +589,9 @@ var uiviews = {};
 					//Set audio icon
 					streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
+					
+					//Create a youtube link from plugin trailer link provided
+					if (movie.trailer.substring(0, movie.trailer.indexOf("?")) == 'plugin://plugin.video.youtube/') { movie.trailer = 'http://www.youtube.com/watch?v=' + movie.trailer.substr(movie.trailer.lastIndexOf("=") + 1) };
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					dialogContent = $('<div style="float: left; margin-right: 5px;"><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
@@ -758,6 +872,22 @@ var uiviews = {};
 				title: e.data.strTvShow,
 				content: $seasonsContent
 			});
+			var fillPage = function() {
+				$seasonsContent.addClass('loading');
+				xbmc.getSeasons({
+					tvshowid: e.data.idTvShow,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_tvshows_seasons'), mkf.messageLog.status.error, 5000);
+						$seasonsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$seasonsContent.defaultSeasonsViewer(result, e.data.idTvShow, seasonsPage);
+						$seasonsContent.removeClass('loading');
+					}
+				});
+			}
 			seasonsPage.setContextMenu(
 				[
 					{
@@ -766,26 +896,21 @@ var uiviews = {};
 							mkf.pages.closeTempPage(seasonsPage);
 							return false;
 						}
+					},
+					{
+						'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+							function(){
+								$seasonsContent.empty();
+								fillPage();
+								return false;
+							}
 					}
 				]
 			);
 			mkf.pages.showTempPage(seasonsPage);
 
 			// show tv show's seasons
-			$seasonsContent.addClass('loading');
-			xbmc.getSeasons({
-				tvshowid: e.data.idTvShow,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed_tvshows_seasons'), mkf.messageLog.status.error, 5000);
-					$seasonsContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					$seasonsContent.defaultSeasonsViewer(result, e.data.idTvShow, seasonsPage);
-					$seasonsContent.removeClass('loading');
-				}
-			});
+			fillPage();
 
 			return false;
 		},
@@ -797,6 +922,31 @@ var uiviews = {};
 				title: e.data.strTvShow,
 				content: $unwatchedEpsContent
 			});
+			
+			//console.log(e.data);
+			var fillPage = function() {
+				$unwatchedEpsContent.addClass('loading');
+				xbmc.getunwatchedEps({
+					tvshowid: e.data.idTvShow,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$unwatchedEpsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						if (result.length == 0) {
+						mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
+						mkf.pages.closeTempPage(unwatchedEpsPage);
+						return false;
+						};
+						$unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
+						$unwatchedEpsContent.removeClass('loading');
+
+					}
+				});
+			};
+			
 			unwatchedEpsPage.setContextMenu(
 				[
 					{
@@ -805,31 +955,20 @@ var uiviews = {};
 							mkf.pages.closeTempPage(unwatchedEpsPage);
 							return false;
 						}
+					},
+					{
+						'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+							function(){
+								$unwatchedEpsContent.empty();
+								fillPage();
+								return false;
+							}
 					}
 				]
 			);
+
 			mkf.pages.showTempPage(unwatchedEpsPage);
-
-			$unwatchedEpsContent.addClass('loading');
-			xbmc.getunwatchedEps({
-				tvshowid: e.data.idTvShow,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
-					$unwatchedEpsContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					if (result.length == 0) {
-					mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
-					mkf.pages.closeTempPage(unwatchedEpsPage);
-					return false;
-					};
-					$unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
-					$unwatchedEpsContent.removeClass('loading');
-
-				}
-			});
+			fillPage();
 
 			return false;
 		},
@@ -841,6 +980,24 @@ var uiviews = {};
 				title: e.data.strSeason,
 				content: $episodesContent
 			});
+			var fillPage = function() {
+				$episodesContent.addClass('loading');
+				xbmc.getEpisodes({
+					tvshowid: e.data.idTvShow,
+					season: e.data.seasonNum,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_seasons_episodes'), mkf.messageLog.status.error, 5000);
+						$episodesContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$episodesContent.defaultEpisodesViewer(result);
+						$episodesContent.removeClass('loading');
+					}
+				});
+			}
+			
 			episodesPage.setContextMenu(
 				[
 					{
@@ -849,27 +1006,21 @@ var uiviews = {};
 							mkf.pages.closeTempPage(episodesPage);
 							return false;
 						}
+					},
+					{
+						'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+							function(){
+								$episodesContent.empty();
+								fillPage();
+								return false;
+							}
 					}
 				]
 			);
 			mkf.pages.showTempPage(episodesPage);
 
 			// show season's episodes
-			$episodesContent.addClass('loading');
-			xbmc.getEpisodes({
-				tvshowid: e.data.idTvShow,
-				season: e.data.seasonNum,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed_seasons_episodes'), mkf.messageLog.status.error, 5000);
-					$episodesContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					$episodesContent.defaultEpisodesViewer(result);
-					$episodesContent.removeClass('loading');
-				}
-			});
+			fillPage();
 
 			return false;
 		},
@@ -961,12 +1112,19 @@ var uiviews = {};
 			var $artistList = $('<ul class="fileList"></ul>');
 
 				$.each(artists.artists, function(i, artist)  {
-					$artistList.append('<li' + (i%2==0? ' class="even"': '') + '><a href="" class="artist' +
+					$artistList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper"><a href="" class="button info' + artist.artistid + '" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a>' +
+										'<a href="" class="button playlist' + artist.artistid + '" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+										'<a href="" class="button play' + artist.artistid + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' + 
+										'<a href="" class="artist' +
 										artist.artistid + '">' +
 										artist.label + '<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 										'</a></li>');
 					$artistList.find('.artist' + artist.artistid)
 						.bind('click',{ idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+					$artistList.find('.playlist' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+					$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+					$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
+					
 				});
 
 			return $artistList;
@@ -975,13 +1133,20 @@ var uiviews = {};
 		/*----Artists thumb view----*/
 		ArtistViewThumbnails: function(artists, parentPage) {
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
+			
 			var $artistList = $('<div></div>');
 
 				$.each(artists.artists, function(i, artist)  {
 					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
 					$artist = $('<div class="album'+artist.artistid+' thumbWrapper">' +
+						'<div class="linkArtistWrapper">' + 
+								'<a href="" class="albums' + artist.artistid + '">' + mkf.lang.get('btn_all') + '</a>' +
+								'<a href="" class="info' + artist.artistid + '">' + mkf.lang.get('btn_information') + '</a>' +
+								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
+						'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
+							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumb albums" />'
 						) +
 						'<div class="albumInfo">' + artist.artist + '</div></div>' +
@@ -989,32 +1154,52 @@ var uiviews = {};
 					'</div>');
 
 				$artistList.append($artist);
-				$artist.find('.albums').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
-
+				$artistList.find('.albums' + artist.artistid).bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+				$artistList.find('.enqueue' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+				//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+				$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
 				});
-
+				
+			$artistList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkArtistWrapper').show() });
+			$artistList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkArtistWrapper').hide() });
+			
 			return $artistList;
 		},
 
 		/*----Artists logo view----*/
 		ArtistViewLogos: function(artists, parentPage) {
 			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
+			
 			var $artistList = $('<div></div>');
 
 				$.each(artists.artists, function(i, artist)  {
-					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
+					//var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/missing_logo.png');
+					artist.file = artistsPath + artist.label + '/';
+					xbmc.getLogo(artist.file, function(logo) {
 					$artist = $('<div class="artist'+artist.artistid+' logoWrapper thumbLogoWrapper">' +
-						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbLogo artist" />' +
+						'<div class="linkTVLogoWrapper">' + 
+								'<a href="" class="albums' + artist.artistid + '">' + mkf.lang.get('btn_all') + '</a>' +
+								'<a href="" class="info' + artist.artistid + '">' + mkf.lang.get('btn_information') + '</a>' +
+								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
+						'</div>' +
+						(useLazyLoad?
+						'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb thumbLogo" data-original="' + (logo? logo : 'images/missing_logo.png') + '" />':
+						'<img src="' + (logo? logo : 'images/missing_logo.png') + '" alt="' + artist.label + '" class="thumbLogo artist" />'
+						) +
 						'<div class="albumArtist">' + artist.artist + '</div></div>' +
 						'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
-					'</div>').appendTo($artistList);;
+					'</div>').appendTo($artistList);
 
-				artist.file = artistsPath + artist.label + '/';
+					$artistList.find('.albums' + artist.artistid).bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+					$artistList.find('.enqueue' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+					//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+					$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
 
-				$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
-				
-				xbmc.getLogo(artist.file, function(logo) {
-						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
+					//Has to go here because of logo callback...
+					$artistList.find('.thumbLogoWrapper').on(hoverOrClick, function() { $(this).children('.linkTVLogoWrapper').show() });
+					$artistList.find('.thumbLogoWrapper').on('mouseleave', function() { $(this).children('.linkTVLogoWrapper').hide() });
 					});
 				});
 
@@ -1036,7 +1221,9 @@ var uiviews = {};
 					$artist = $('<div class="prev" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
 						'<div class="artist'+artist.artistid+' logoWrapper thumbFullLogoWrapper" style="float: none; display: table-cell">' +
 						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbFullLogo artist" />' +
-						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						'<div class="albumArtist">' + artist.artist + '</div>' +
+						'<div class="movietags" style="display: inline-block; width: auto; margin-top: 5px"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /><span class="infoinfo" title="' + mkf.lang.get('btn_information') + '" /></div>' +
+						'</div>' +
 						//'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 						'<div class="next" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
 					'</div>').appendTo($artistList);;
@@ -1044,6 +1231,11 @@ var uiviews = {};
 				artist.file = artistsPath + artist.label + '/';
 
 				$artist.find('.artist').on('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+
+				$artistList.find('.infoplay').on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+				$artistList.find('.infoenqueue').on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+				$artistList.find('.infoinfo').on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
+				
 				xbmc.getLogo(artist.file, function(logo) {
 						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
 					});
@@ -1058,7 +1250,14 @@ var uiviews = {};
 					});
 					$('div.albumArtist').text(artists.artists[currentArtist].label);
 					$artistList.find('.artist').off();
+					$artistList.find('.infoplay').off();
+					$artistList.find('.infoenqueue').off();
+					$artistList.find('.infoinfo').off();
+					
 					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+					$artistList.find('.infoplay').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistPlay);
+					$artistList.find('.infoenqueue').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.AddArtistToPlaylist);
+					$artistList.find('.infoinfo').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistInfoOverlay);
 				});
 
 				$artistList.find('div.prev').on('click', function () {
@@ -1071,7 +1270,14 @@ var uiviews = {};
 					});
 					$('div.albumArtist').text(artists.artists[currentArtist].label);
 					$artistList.find('.artist').off();
+					$artistList.find('.infoplay').off();
+					$artistList.find('.infoenqueue').off();
+					$artistList.find('.infoinfo').off();
+					
 					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+					$artistList.find('.infoplay').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistPlay);
+					$artistList.find('.infoenqueue').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.AddArtistToPlaylist);
+					$artistList.find('.infoinfo').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistInfoOverlay);
 				});
 
 				$( window ).resize( xbmc.debouncer( function ( e ) {
@@ -1093,12 +1299,15 @@ var uiviews = {};
 				if (artistGenres.genreid == 0) { return };
 				$artistGenresList.append('<li' + (i%2==0? ' class="even"': '') + 
 									'><div class="folderLinkWrapper"><a href="" class="button allgenre' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_all') +
-									'"><span class="miniIcon all" /></a><a href="" class="genre' + 
+									'"><span class="miniIcon all" /></a><a href="" class="button playlist' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+									'<a href="" class="button play' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a><a href="" class="genre' + 
 									artistGenres.genreid + '">' +
 									artistGenres.label + '<div class="findKeywords">' + artistGenres.label.toLowerCase() + '</div>' +
 									'</a></div></li>');
 				$artistGenresList.find('.allgenre' + artistGenres.genreid).on('click', {idGenre: artistGenres.genreid, strGenre: artistGenres.label, objParentPage: parentPage}, uiviews.AllGenreAlbums);
 				$artistGenresList.find('.genre' + artistGenres.genreid).bind('click',{idGenre: artistGenres.genreid,strGenre: artistGenres.label, objParentPage: parentPage}, uiviews.GenreArtists);
+				$artistGenresList.find('.playlist' + artistGenres.genreid).on('click', {idGenre: artistGenres.genreid}, uiviews.AddGenreToPlaylist);
+				$artistGenresList.find('.play' + artistGenres.genreid).bind('click', {idGenre: artistGenres.genreid, strAlbum: artistGenres.label}, uiviews.MusicGenrePlay);
 			});
 			return $artistGenresList;
 		},
@@ -1148,6 +1357,7 @@ var uiviews = {};
 		/*----Albums thumbnail view----*/
 		AlbumsViewThumbnails: function(albums, parentPage) {
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var $albumsList = $('<div></div>');
 			
 			$.each(albums.albums, function(i, album) {
@@ -1157,7 +1367,7 @@ var uiviews = {};
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="songs">' + mkf.lang.get('btn_songs') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a>' +
 						'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb.gif" alt="' + album.label + '" class="thumb" original="' + thumb + '" />':
+							'<img src="images/loading_thumb.gif" alt="' + album.label + '" class="thumb" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + album.label + '" class="thumb" />'
 						) +
 						'<div class="albumName">' + album.label + '' +
@@ -1169,7 +1379,12 @@ var uiviews = {};
 				$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, uiviews.AlbumPlay);
 				$album.find('.songs').bind('click', {idAlbum: album.albumid, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
 				$album.find('.playlist').bind('click', {idAlbum: album.albumid}, uiviews.AddAlbumToPlaylist);
+				
 			});
+			
+			$albumsList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkWrapper').show() });					
+			$albumsList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkWrapper').hide() });
+			
 			return $albumsList;
 		},
 		
@@ -1426,6 +1641,7 @@ var uiviews = {};
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 		var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+		var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 		
 		if (options) { filterWatched = options.filterWatched };
 
@@ -1445,7 +1661,7 @@ var uiviews = {};
 							'<div class="movieRating' + Math.round(movie.rating) + '"></div>' +
 						'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
+							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" />'
 						) +
 						'<div class="movieName">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
@@ -1454,7 +1670,12 @@ var uiviews = {};
 				$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
 				$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, uiviews.AddMovieToPlaylist);
 				$movie.find('.info').bind('click', {idMovie: movie.movieid}, uiviews.MovieInfoOverlay);
+				
 			});
+			
+			$moviesList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkWrapper').show() });					
+			$moviesList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkWrapper').hide() });
+			
 			return $moviesList;
 		},
 		
@@ -1625,7 +1846,7 @@ var uiviews = {};
 							//<a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 						//'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
+							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" />'
 						) +
 						'<div class="movieName">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
@@ -1682,7 +1903,7 @@ var uiviews = {};
 		
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 			
 			var $tvShowList = $('<div></div>');
@@ -1700,7 +1921,7 @@ var uiviews = {};
 								'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
 							'</div>' +
 							(useLazyLoad?
-								'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" original="' + thumb + '" />':
+								'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" data-original="' + thumb + '" />':
 								'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" />'
 							) +
 							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
@@ -1710,9 +1931,14 @@ var uiviews = {};
 					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
+					
+					
 				});
-
 			}
+			
+			$tvShowList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkTVWrapper').show() });					
+			$tvShowList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkTVWrapper').hide() });
+				
 			return $tvShowList;
 		},
 		
@@ -1721,7 +1947,7 @@ var uiviews = {};
 		
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 			
 			var $tvShowList = $('<div></div>');
@@ -1732,23 +1958,36 @@ var uiviews = {};
 					if (tvshow.playcount > 0 && !filterShowWatched) { watched = true; }
 					if (filterWatched && watched) { return; }
 					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/missing_logo.png');
+					xbmc.getLogo(tvshow.file, function(logo) {
 					var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' logoWrapper thumbLogoWrapper">' +
 							'<div class="linkTVLogoWrapper">' + 
 								'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
 								'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 								'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
-							'</div><img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
+							'</div>' + 
+							//'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
+							(useLazyLoad?
+							'<img src="images/loading_thumb.gif" alt="' + tvshow.label + '" class="thumb thumbLogo" data-original="' + (logo? logo : thumb) + '" />':
+							'<img src="' + (logo? logo : thumb) + '" alt="' + tvshow.label + '" class="thumbLogo" />'
+							) +
 							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
 							'<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
 						'</div>')
 						.appendTo($tvShowList);
+					
 					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
-					xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', (logo? logo : 'images/missing_logo.png')); } );
+					
+					//Has to go here because of logo callback...
+					$tvShowList.find('.thumbLogoWrapper').on(hoverOrClick, function() { $(this).children('.linkTVLogoWrapper').show() });					
+					$tvShowList.find('.thumbLogoWrapper').on('mouseleave', function() { $(this).children('.linkTVLogoWrapper').hide() });
+
+					});
 				});
 
 			}
+	
 			return $tvShowList;
 		},
 		
@@ -1794,8 +2033,8 @@ var uiviews = {};
 				var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid +
 				'"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') +
 				'"><span class="miniIcon enqueue" /></a><a href="" class="button info" title="' + mkf.lang.get('btn_information') +
-				'"><span class="miniIcon information" /></a><a href="" class="episode play">' + episode.episode +
-				'. ' + episode.label + '' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</a></div></li>').appendTo($episodeList);
+				'"><span class="miniIcon information" /></a><a href="" class="episode play">' + //episode.episode + '. ' + 
+				episode.label + '' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</a></div></li>').appendTo($episodeList);
 
 				$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
 				$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
@@ -1811,6 +2050,7 @@ var uiviews = {};
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var genlist = eps.episodes;
 			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 			
@@ -1831,12 +2071,12 @@ var uiviews = {};
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 						'</div>' +
 					(useLazyLoad?
-					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart" original="' + thumb + '" />' :
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart" data-original="' + thumb + '" />' :
 					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart" />'
 					) +
 					'</div>' +
 					'<div class="episodeTitle">' + episode.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
-					'<div class="episodeTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + '</div>' +					
+					'<div class="episodeTVSE">' + mkf.lang.get('label_season') + ' ' + episode.season + ' - ' + mkf.lang.get('label_episode') + ' ' +episode.episode + '</div>' +
 					'<div class="episodeRating"><span class="label">' + mkf.lang.get('label_rating') + '</span><span><div class="smallRating' + Math.round(episode.rating) + '"></div></span></div>' +
 					'<div class="episodePlot">' + episode.plot + '</div>' +
 					'</div></li>').appendTo($episodeList);
@@ -1844,9 +2084,12 @@ var uiviews = {};
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
 					$episode.find('.info').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodeInfo);
-					//$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
+					
 				});
 
+			$episodeList.find('.episodeThumb').on(hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });					
+			$episodeList.find('.episodeThumb').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+					
 			return $episodeList;
 		},
 		
@@ -1856,7 +2099,7 @@ var uiviews = {};
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
-			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			
 			if (options) { filterWatched = options.filterWatched };
 			
@@ -1869,26 +2112,29 @@ var uiviews = {};
 					
 					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
 					var $episode = $('<li><div class="recentTVshow thumbEpWrapper">' + 
-					//'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
 					'<div class="episodeThumb">' +
 					'<div class="linkEpWrapper">' + 
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="unwatchedEps">' + mkf.lang.get('btn_unwatched') + '</a>' +
 						'</div>' +
 					(useLazyLoad?
-					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode" original="' + thumb + '" />':
-					//'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>':
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode" data-original="' + thumb + '" />':
 					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode" />'
 					) +
 					'</div>' +
-					'<div class="recentTVshowName unwatchedEps" title="' + mkf.lang.get('btn_unwatched') + '">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
-					'</div><div class="recentTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
+					'<div class="recentTVshowName">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
+					'<div class="episodeTVSE">' + mkf.lang.get('label_season') + ' ' + episode.season + ' - ' + mkf.lang.get('label_episode') + ' ' +episode.episode + '</div>' +
+					//'</div><div class="recentTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
 					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVplot">' + episode.plot + '</div></div></li>').appendTo($episodeList);
 					
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
 					$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
-				});
 
+				});
+				
+			$episodeList.find('.episodeThumb').on(hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });					
+			$episodeList.find('.episodeThumb').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+					
 			return $episodeList;
 		},
 		
@@ -1924,7 +2170,7 @@ var uiviews = {};
 						
 						if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemCur = 'playlistItemCur';
-							//$('#content').scrollTop($('.fileList li:nth-child(' + i + ')').position().top);
+							//$('#content').scrollTop($('.playlistItemCur').position().top);
 						} else {
 							playlistItemCur = 'playlistItem';
 						}
@@ -1933,7 +2179,7 @@ var uiviews = {};
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><a class="button playlistmove" href="" title="' + mkf.lang.get('btn_swap') +  '"><span class="miniIcon playlistmove" /></a>' +
 							'<a class="' + playlistItemCur + ' apli' + i + ' play" href="">' + (i+1) + '. ' +
 							(artist? artist + ' - ' : '') + (album? album + ' - ' : '') + (title? title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + (duration? xbmc.formatTime(duration) : '') +
-							'<div class="findKeywords">' + artist.toLowerCase() + ' ' + album.toLowerCase() + ' ' + label.toLowerCase() + '</div>' +
+							(artist? '<div class="findKeywords">' + artist.toLowerCase() + ' ' + album.toLowerCase() + ' ' + label.toLowerCase() + '</div>' : '' ) +
 							'</a></div></li>').appendTo($itemList);
 
 						$item.find('a.play').bind('click', {itemNum: i}, uiviews.PlaylistAudioItemPlay);

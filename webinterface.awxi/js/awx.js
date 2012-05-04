@@ -53,8 +53,10 @@ var awx = {};
 						uiScript = 'ui.light/ui.light.js';
 					} else if (ui == 'default') {
 						uiScript = 'ui.default/ui.default.js';
-					} else {
+					} else if (ui == 'lightDark') {
 						uiScript = 'ui.lightDark/ui.lightDark.js';
+					} else {
+						uiScript = 'ui.uni/ui.uni.js';
 					}
 
 					mkf.scriptLoader.load({

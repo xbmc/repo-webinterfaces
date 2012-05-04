@@ -1,0 +1,2166 @@
+html, body {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#header {
+    /*background: url("../images/logo.png") no-repeat scroll 20px 10px #333333;*/
+	background-color: rgba(0,0,0,0.6);
+	min-width:400px; 
+	!important; width: 400px;
+	position: absolute;
+	width: 100%;
+    height: 48px;
+    /*padding-left: 145px;*/
+}
+#navigation {
+    /*background: url("../images/menu_bg.png") repeat-x scroll 0 5px #343434;*/
+    /*height: 32px;
+    left: 0;
+    position: absolute;
+    top: 110px;
+    width: 100%;*/
+    z-index: 5;
+}
+#navigation ul.mkfMenu, ul.systemMenu, ul.mkfPageContextMenu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#statusLine ul.mkfLocationBar {
+    list-style-type: none;
+	position: absolute;
+	overflow: hidden;
+	white-space: nowrap;
+    margin: 0 0 0 96px;
+    padding: 0;
+}
+#navigation ul.mkfMenu > li, ul.systemMenu > li {
+    float: left;
+    height: 48px;
+    line-height: 25px;
+    position: relative;
+	z-index: 150;
+}
+ul.systemMenu > li {
+    float: right;
+}
+#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a {
+    color: #fff;
+    display: block;
+    height: 100%;
+    /*padding: 0 10px;*/
+    text-decoration: none;
+}
+/*#navigation ul.mkfMenu > li.mouseover, #navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover, ul.systemMenu > li.mouseover > a {
+    background: url("../images/menu_btn_corners.png") no-repeat scroll 0 0 transparent;
+    height: 32px;
+}*/
+#navigation ul.mkfMenu > li.mouseover, ul.systemMenu > li.mouseover {
+    background-color: #4B4B4B;
+    /*background-position: 0 -32px;*/
+    line-height: 38px;
+    margin-top: 0;
+}
+/*#navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover > a {
+    background-position: right 0;
+    color: #FFFFFF;
+}*/
+#navigation ul.mkfMenu ul {
+    /*background: url("../images/menu_sub_bottom.png") no-repeat scroll left bottom transparent;*/
+    left: -40px;
+    list-style-type: none;
+    position: absolute;
+    top: 48px;
+    /*width: 150px;*/
+}
+#navigation ul.mkfMenu ul > li {
+    margin: 0;
+    padding: 0;
+	white-space: nowrap;
+}
+#navigation ul.mkfMenu ul > li > a {
+    background-color: rgba(75, 75, 75, 0.9);
+    color: #FFFFFF;
+	font-size: 16px;
+    display: block;
+    /*height: 25px;
+    line-height: 25px;*/
+    padding-right: 10px;
+    text-decoration: none;
+}
+#navigation ul.mkfMenu ul > li > a:hover {
+    background-color: #A0E312;
+    color: #000000;
+}
+#navigation ul.mkfMenu > li > a span.icon, ul.systemMenu > li > a span.icon {
+    background: url("../images/menu_icons.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 48px;
+    /*margin: 4px 5px 0 0;*/
+    width: 48px;
+}
+#navigation ul.mkfMenu > li.mouseover > a span.icon, ul.systemMenu > li.mouseover > a span.icon {
+    /*margin: 10px 5px 0 0;*/
+}
+#navigation ul.mkfMenu > li > a span.music {
+    background-position: 0 0;
+}
+#navigation ul.mkfMenu > li.mouseover > a .music, #navigation ul.mkfMenu > li.activeMenuItem > a .music {
+    background-position: 0px 0px;
+}
+#navigation ul.mkfMenu > li > a span.videos {
+	border-right: 1px solid #555;
+    background-position: -48px 0;
+}
+#navigation ul.mkfMenu > li.mouseover > a .videos, #navigation ul.mkfMenu > li.activeMenuItem > a .videos {
+    background-position: -48px 0px;
+}
+ul.systemMenu > li > a span.settings {
+    background-position: -96px 0;
+}
+ul.systemMenu > li.mouseover > a .settings, ul.systemMenu > li.activeMenuItem > a .settings {
+    background-position: -96px 0px;
+}
+ul.systemMenu > li > a span.exit {
+	border-left: 1px solid #555;
+    background-position: -144px 0;
+}
+ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .exit {
+    background-position: -144px 0px;
+}
+#footer {
+	background-color: rgba(0,0,0,0.6);
+	min-width:400px; 
+	!important; width: 400px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 48px;
+}
+
+#infoContainer {
+	float: left;
+	min-width: 100px;
+	position: absolute;
+	margin-left: 96px;
+	z-index: 50;
+}
+#footer #now_next {
+	display: inline;
+	height: 48px;
+	/*left: 96px
+	bottom: 0px;
+	position: absolute;*/
+	float: left;
+	font-size: 16px;
+	font-weight: bold;
+	text-shadow: 2px 2px 2px #000;
+	white-space: nowrap;
+}
+#footer #now_next #now, #footer #now_next #next  {
+	height: 50%;
+}
+#footer #now_next span.nowTitle, #footer #now_next span.nextTitle  {
+	font-weight: normal;
+	text-shadow: 2px 2px 2px #000;
+	margin-left: 2px;
+}
+#footer #now_next span.label  {
+	color: #A0E312;
+	font-weight: normal;
+	text-shadow: 2px 2px 2px #000;
+	margin-left: 2px;
+}
+#footer #statPlayerContainer {
+	font-size: 16px;
+	font-weight: bold;
+	/*min-width: 242px;*/
+	height: 48px;
+	float: right;
+	overflow: hidden;
+}
+#footer #remainPlayer {
+	font-size: 16px;
+	font-weight: bold;
+	text-shadow: 2px 2px 2px #000;
+	height: 48px;
+	float: left;
+}
+#footer #remainPlayer #remaining, #footer #remainPlayer #plTotal {
+	height: 50%;
+}
+#footer #remainPlayer span {
+	margin-left: 3px;
+	font-weight: normal;
+}
+#footer #statusPlayer {
+	display: table-cell;
+	float: left;
+	margin-right: 5px;
+	height: 48px;
+	width: 48px;
+}
+#footer #statusPlayerRow {
+	display: table-row;
+	height: 24px;
+	width: 48px;
+}
+#footer #statusPlayer #paused {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: 0 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #shuffled {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -48px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #repeating {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -96px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #repeating1 {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -144px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #muted {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -192px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #controller {
+	background-image: url("../images/buttons.png");
+	background-position: -528px 0;
+	float: left;
+	height: 48px;
+	width: 48px;
+	/*position: absolute;*/
+	/*right: 0px;*/
+}
+#streamdets {
+	z-index: 1;
+	float: left;
+	opacity: 0.7;
+	/*min-width: 20px;*/
+}
+#streamdets div.channels0, #streamdets div.channels1, #streamdets div.channels2, #streamdets div.channels3, #streamdets div.channels4, #streamdets div.channels5, #streamdets div.channels6, #streamdets div.channels7, #streamdets div.channels8, #streamdets div.channels9, #streamdets div.channels10 {
+	float: left;
+    background: url("../images/flagging/footer/channels.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+#streamdets div.channels0 {
+    background-position: 0 0;
+}
+#streamdets div.channels1 {
+    background-position: -64px 0;
+}
+#streamdets div.channels2 {
+    background-position: -128px 0;
+}
+#streamdets div.channels3 {
+    background-position: -192px 0;
+}
+#streamdets div.channels4 {
+    background-position: -256px 0;
+}
+#streamdets div.channels5 {
+    background-position: -320px 0;
+}
+#streamdets div.channels6 {
+    background-position: -384px 0;
+}
+#streamdets div.channels7 {
+    background-position: -448px 0;
+}
+#streamdets div.channels8 {
+    background-position: -512px 0;
+}
+#streamdets div.channels9 {
+    background-position: -576px 0;
+}
+#streamdets div.channels10 {
+    background-position: -640px 0;
+}
+#streamdets div.aspect133, #streamdets div.aspect166, #streamdets div.aspect178, #streamdets div.aspect185, #streamdets div.aspect220, #streamdets div.aspect235  {
+	float: left;
+    background: url("../images/flagging/footer/aspects.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+#streamdets div.aspect133 {
+    background-position: 0 0;
+}
+#streamdets div.aspect166 {
+    background-position: -64px 0;
+}
+#streamdets div.aspect178 {
+    background-position: -128px 0;
+}
+#streamdets div.aspect185 {
+    background-position: -192px 0;
+}
+#streamdets div.aspect220 {
+    background-position: -256px 0;
+}
+#streamdets div.aspect235 {
+    background-position: -320px 0;
+}
+#streamdets div.vFormatSD, #streamdets div.vFormatHD720, #streamdets div.vFormatHD1080 {
+	float: left;
+    background: url("../images/flagging/footer/vFormat.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+#streamdets div.vFormatSD {
+    background-position: 0 0;
+}
+#streamdets div.vFormatHD720 {
+    background-position: -64px 0;
+}
+#streamdets div.vFormatHD1080 {
+    background-position: -128px 0;
+}
+#streamdets div.vCodecH264, #streamdets div.vCodecXVID, #streamdets div.vCodecDivX3, #streamdets div.vCodecDivX5, #streamdets div.vCodecAVC1, #streamdets div.vCodecVP8, #streamdets div.vCodecMPEG1, #streamdets div.vCodecMPEG2, #streamdets div.vCodecDVD, #streamdets div.vCodecBluRay, #streamdets div.vCodecVC1, #streamdets div.vCodecFLV, #streamdets div.vCodecUnknown {
+	float: left;
+    background: url("../images/flagging/footer/vCodecs.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 100px;
+}
+#streamdets div.vCodecH264 {
+    background-position: 0 0;
+}
+#streamdets div.vCodecXVID {
+    background-position: -100px 0;
+}
+#streamdets div.vCodecDivX3 {
+    background-position: -200px 0;
+}
+#streamdets div.vCodecDivX5 {
+    background-position: -300px 0;
+}
+#streamdets div.vCodecAVC1 {
+    background-position: -400px 0;
+}
+#streamdets div.vCodecVP8 {
+    background-position: -500px 0;
+}
+#streamdets div.vCodecMPEG1 {
+    background-position: -600px 0;
+}
+#streamdets div.vCodecMPEG2 {
+    background-position: -700px 0;
+}
+#streamdets div.vCodecDVD {
+    background-position: -800px 0;
+}
+#streamdets div.vCodecBluRay {
+    background-position: -900px 0;
+}
+#streamdets div.vCodecVC1 {
+    background-position: -1000px 0;
+}
+#streamdets div.vCodecFLV {
+    background-position: -1100px 0;
+}
+#streamdets div.vCodecUnknown {
+    background-position: -1200px 0;
+}
+
+#streamdets div.aCodecAAC, #streamdets div.aCodecAC3, #streamdets div.aCodecAIF, #streamdets div.aCodecAIFC, #streamdets div.aCodecAPE, #streamdets div.aCodecAVC, #streamdets div.aCodecCDDA, #streamdets div.aCodecDCA, #streamdets div.aCodecDTS, #streamdets div.aCodecDTSHD, #streamdets div.aCodecDTSMA, #streamdets div.aCodecEAC3, #streamdets div.aCodecFLAC, 
+#streamdets div.aCodecMP1, #streamdets div.aCodecMP2, #streamdets div.aCodecMP3, #streamdets div.aCodecOGG, #streamdets div.aCodecDDTrueHD, #streamdets div.aCodecwav, #streamdets div.aCodecwavpack, #streamdets div.aCodecWMA, #streamdets div.aCodecWMAPro, #streamdets div.aCodecWMA2, #streamdets div.aCodecPCM, #streamdets div.aCodecALAC, #streamdets div.aCodecUnknown {
+	float: left;
+    background: url("../images/flagging/footer/aCodecs.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 100px;
+}
+#streamdets div.aCodecAAC {
+    background-position: 0 0;
+}
+#streamdets div.aCodecAC3 {
+    background-position: -100px 0;
+}
+#streamdets div.aCodecAIF {
+    background-position: -200px 0;
+}
+#streamdets div.aCodecAIFC {
+    background-position: -300px 0;
+}
+#streamdets div.aCodecAPE {
+    background-position: -400px 0;
+}
+#streamdets div.aCodecAVC {
+    background-position: -500px 0;
+}
+#streamdets div.aCodecCDDA {
+    background-position: -600px 0;
+}
+#streamdets div.aCodecDCA {
+    background-position: -700px 0;
+}
+#streamdets div.aCodecDTS {
+    background-position: -800px 0;
+}
+#streamdets div.aCodecDTSHD {
+    background-position: -900px 0;
+}
+#streamdets div.aCodecDTSMA {
+    background-position: -1000px 0;
+}
+#streamdets div.aCodecEAC3 {
+    background-position: -1100px 0;
+}
+#streamdets div.aCodecFLAC {
+    background-position: -1200px 0;
+}
+#streamdets div.aCodecMP1 {
+    background-position: -1300px 0;
+}
+#streamdets div.aCodecMP2 {
+    background-position: -1400px 0;
+}
+#streamdets div.aCodecMP3 {
+    background-position: -1500px 0;
+}
+#streamdets div.aCodecOGG {
+    background-position: -1600px 0;
+}
+#streamdets div.aCodecDDTrueHD {
+    background-position: -1700px 0;
+}
+#streamdets div.aCodecwav {
+    background-position: -1800px 0;
+}
+#streamdets div.aCodecwavpack {
+    background-position: -1900px 0;
+}
+#streamdets div.aCodecWMA {
+    background-position: -2000px 0;
+}
+#streamdets div.aCodecWMAPro {
+    background-position: -2100px 0;
+}
+#streamdets div.aCodecWMA2 {
+    background-position: -2200px 0;
+}
+#streamdets div.aCodecPCM {
+    background-position: -2300px 0;
+}
+#streamdets div.aCodecALAC {
+    background-position: -2400px 0;
+}
+#streamdets div.aCodecUnknown {
+    background-position: -2500px 0;
+}
+#streamdets div.vSubtitles {
+	float: left;
+    background: url("../images/flagging/footer/cc.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+#statusLine {
+    /*background-color: #444;
+    border-bottom: 1px solid #444444;
+    height: 25px;
+    left: 0;
+    position: absolute;
+    top: 142px;
+    width: 100%;
+    background: url("../images/button_bg2.png") repeat-x scroll 0 0px #444;*/
+}
+#statusLine #contextMenu {
+	position: absolute;
+	right: 96px;
+}
+ul.mkfPageContextMenu li {
+    float: left;
+    height: 48px;
+    line-height: 48px;
+    margin-left: 10px;
+}
+ul.mkfLocationBar li {
+    display: inline;
+    height: 48px;
+    line-height: 48px;
+    margin-left: 10px;
+}
+#location a {
+    color: #ddd;
+	font-size: 16px;
+    text-decoration: none;
+	text-shadow: 2px 2px 2px #000;
+}
+#location a:hover {
+    color: #fff;
+}
+ul.mkfPageContextMenu li {
+    float: right;
+    margin: 0 10px 0 0;
+}
+#background {
+	height: 100%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+#content {
+    bottom: 48px;
+    left: 0;
+    overflow: auto;
+    /*padding-top: 5px;*/
+    position: absolute;
+    right: 0;
+    top: 48px;
+    z-index: 50;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	/*background-position: 0px 168px;*/
+}
+#content .mkfPage .pageContent div.pageContentWrapper {
+    min-height: 32px;
+}
+.loading {
+    background: url("../images/loading.gif") no-repeat scroll left top transparent;
+}
+img.thumb {
+    /*border: 1px solid #575757;*/
+    height: 125px;
+    width: 125px;
+}
+img.thumbAlbums {
+    border: 1px solid #575757;
+    height: 200px;
+    width: 200px;
+}
+img.thumbPosterLargeRec {
+	width: auto;
+	height: 75%;
+	position: fixed;
+}
+img.thumbPosterLarge {
+    height: 280px;
+    width: 200px;
+}
+img.thumbLogo {
+	height: 116px;
+	width: 300px;	
+}
+img.thumbFullLogo {
+	height: 155px;
+	width: 400px;	
+}
+img.thumbPoster {
+    height: 185px;
+    width: 125px;
+}
+img.thumbBanner {
+    height: 70px;
+    width: 379px;
+}
+img.thumbFanart {
+	border: 1px solid #575757;
+    height: 113px;
+    width: 200px;
+}
+img.episode:hover{
+	border: 1px solid #A0E312;
+}
+img.epWatched {
+	position:relative; 
+	top:0px; 
+	left:0px; 
+	z-index:4
+}
+/*div.inputcontrols {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+	height: 280px;
+}*/
+div.thumbWrapper, div.logoWrapper {
+	/*background-color: rgba(0,0,0,0.8);
+    border: 1px solid #D8D8D8;*/
+    float: left;
+    height: 185px;
+    margin: 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    text-align: center;
+    width: 129px;
+}
+div.thumbPosterWrapper {
+    height: 238px;
+    width: 129px;
+}
+div.thumbBannerWrapper {
+    height: 95px;
+    width: 383px;
+}
+div.thumbLogoWrapper {
+    height: 133px;
+    width: 300px;
+}
+div.thumbFullLogoWrapper {
+    height: 175px;
+    width: 400px;
+}
+div.thumbEpWrapper {
+    width: 200px;
+}
+div.thumbWrapper div.linkWrapper {
+    display: none;
+    left: 7px;
+    position: absolute;
+    /*top: 10px;*/
+    width: 90%;
+}
+div.linkEpWrapper {
+    display: none;
+	text-align: center;
+    left: 5%;
+	top: 3px;
+    position: absolute;
+    width: 90%;
+}
+div.linkTVLogoWrapper {
+    display: none;
+    left: 5%;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+div.linkTVWrapper {
+    display: none;
+    left: 12%;
+	top: 0px;
+    position: absolute;
+    width: 75%;
+}
+div.linkArtistWrapper {
+    display: none;
+    left: 7px;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+/*div.logoWrapper:hover div.linkTVLogoWrapper {
+    display: block;
+}
+div.thumbWrapper:hover div.linkTVWrapper {
+    display: block;
+}
+div.thumbWrapper:hover div.linkWrapper { , div.thumbEpWrapper:hover div.linkEpWrapper {
+    display: block;
+}*/
+div.thumbWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 7px;
+    opacity: 0.9;
+    padding: 4px 7px;
+    text-decoration: none;
+}
+div.logoWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+    padding: 8px 7px;
+    text-decoration: none;
+}
+div.thumbEpWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 3px;
+    opacity: 0.9;
+    padding: 6px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, div.logoWrapper a:hover, div.thumbEpWrapper a:hover {
+    color: #7AC800;
+}
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName, div.logoWrapper div.albumArtist, div.logoWrapper div.tvshowName  {
+    background-color: rgba(0,0,0,0.8);
+	color: #fff; /*#4B4B4B;*/
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+	border-radius: 3px 3px 3px 3px;
+}
+div.thumbWrapper div.albumArtist {
+    color: #ccc;
+    font-size: 11px;
+    text-align: center;
+}
+div.albumInfo {
+    background-color: rgba(0,0,0,0.8);
+	margin-top: 5px;
+	width: 128px;
+	/*position: absolute;*/
+	color: #fff;
+    font-size: 12px;
+	border-radius: 3px 3px 3px 3px;
+}
+div.albumInfo span.label {
+	font-weight: bold;
+}
+div.albumInfo span.value {
+	margin-left: 5px;
+}
+div.findKeywords {
+    display: none;
+}
+div.playtime {
+    background-color: rgba(0,0,0,0.8);
+	width: 13%;
+	color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+	border-radius: 3px 3px 3px 3px;
+}
+#contextMenu ul a {
+    background: url("../images/context_buttons.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 48px;
+    width: 48px;
+}
+#contextMenu ul a.close {
+    background-position: left top;
+}
+#contextMenu ul a.back {
+    background-position: -48px 0;
+}
+#contextMenu ul a.clear {
+    background-position: -96px 0;
+}
+#contextMenu ul a.refresh {
+    background-position: -192px 0;
+}
+#contextMenu ul a.find {
+    background-position: -144px 0;
+}
+#contextMenu ul a.close:hover {
+    background-position: left bottom;
+}
+#contextMenu ul a.back:hover {
+    background-position: -48px -48px;
+}
+#contextMenu ul a.clear:hover {
+    background-position: -96px -48px;
+}
+#contextMenu ul a.find:hover {
+    background-position: -144px -48px;
+}
+#contextMenu ul a.refresh:hover {
+    background-position: -192px -48px;
+}
+div.mkfOverlay div.dialog a.close {
+    background: url("../images/context_buttons_small.png") no-repeat scroll left top transparent;
+    float: right;
+    height: 22px;
+    width: 22px;
+}
+div.mkfOverlay div.dialog a.close:hover {
+    background-position: left bottom;
+}
+div.mkfOverlay div.loading {
+    background-image: url("../../images/dialog_loading.gif");
+    background-repeat: no-repeat;
+}
+div.mkfOverlay div.dialog span.label {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    text-align: right;
+    width: 100px;
+}
+div.mkfOverlay div.dialog span.labelinfo {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    width: 245px;
+}
+div.mkfOverlay div.dialog p.artistdesc {
+    clear: both;
+    height: 200px;
+	overflow-y: auto;
+}
+div.mkfOverlay div.dialog span.value, div.mkfOverlay div.dialog span.valuePoster, div.mkfOverlay div.dialog span.valueBanner {
+    float: right;
+    overflow: hidden;
+    width: 250px;
+}
+div.mkfOverlay div.dialog span.value a {
+	color: #aaa;
+}
+div.mkfOverlay div.dialog span.valueBanner {
+    width: 370px;
+}
+div.mkfOverlay div.dialog h1.underline {
+    text-decoration: underline;
+}
+div.mkfOverlay div.dialog div.test {
+    clear: right;
+    display: block;
+}
+div.mkfOverlay div.dialog p.plot, div.cinex {
+    clear: both;
+    /*padding-top: 15px;*/
+}
+div.mkfOverlay div.dialog img.dialogThumb, div.mkfOverlay div.dialog img.dialogThumbPoster {
+    float: left;
+    margin: 0 10px 10px 0;
+}
+div.mkfOverlay div.dialog img.dialogThumbBanner {
+    display: block;
+    margin: 0 auto;
+}
+fieldset {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+    margin-bottom: 10px;
+}
+fieldset.ui_views {
+	width: 45%;
+	float: left;
+	margin-right: 10px;
+}
+fieldset.ui_settings {
+    float: left;
+    margin-right: 10px;
+}
+fieldset.ui_albums {
+	width: 45%;
+    float: left;
+    margin-right: 10px;
+}
+select {
+	width: 99%;
+}
+select#artists {
+	width: 46%;
+	float: left;
+	margin-right: 27px;
+}
+input#artists_path {
+	width: 264px;
+	height: 13px;
+}
+legend {
+    background-color: #606060;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+    padding: 5px 10px;
+}
+div.formHint {
+    clear: both;
+    color: #606060;
+    margin-top: 10px;
+}
+a.formButton {
+    background: url("../images/button_bg.png") repeat-x scroll 0 0 transparent;
+    border: 1px solid #BBBBBB;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+    text-decoration: none;
+}
+a.formButton:hover {
+    background-position: 0 -25px;
+}
+.expertHelp, .save {
+    float: right;
+}
+#messageLog {
+    padding-right: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 900;
+}
+#messageLog div.mkfMessage {
+    background: none repeat scroll 0 0 rgba(41, 41, 41, 0.9);
+    border-radius: 5px 5px 5px 5px;
+    margin-top: 55px;
+    min-height: 32px;
+    padding: 10px;
+    width: 200px;
+}
+#messageLog div.text {
+    color: #FFFFFF;
+    font-size: 13px;
+    padding-left: 42px;
+}
+#messageLog div.icon {
+    float: left;
+    height: 32px;
+    width: 32px;
+}
+#messageLog div.loading {
+    background-image: url("../../images/dialog_loading.gif");
+}
+#messageLog div.success, #messageLog div.error {
+    background-image: url("../images/messagelog.png");
+}
+#messageLog div.error {
+    background-position: -32px 0;
+}
+div.findBox {
+    background: none repeat scroll 0 0 #EAECE6;
+    border: 1px solid #7C7C7C;
+    border-radius: 5px 5px 5px 5px;
+    position: absolute;
+    width: auto;
+    z-index: 80;
+}
+div.findBox input {
+    margin: 5px;
+    width: 140px;
+}
+div.movieRating0, div.movieRating1, div.movieRating2, div.movieRating3, div.movieRating4, div.movieRating5, div.movieRating6, div.movieRating7, div.movieRating8, div.movieRating9, div.movieRating10 {
+    background: url("../images/ratings_big.png") no-repeat scroll 0 0 transparent;
+    margin-top: 5px;
+    opacity: 0.9;
+    width: 115px;
+}
+div.movieRating0 {
+    background-position: 0 0;
+    height: 71px;
+}
+div.movieRating1 {
+    background-position: 0 -71px;
+    height: 69px;
+}
+div.movieRating2 {
+    background-position: 0 -140px;
+    height: 70px;
+}
+div.movieRating3 {
+    background-position: 0 -210px;
+    height: 71px;
+}
+div.movieRating4 {
+    background-position: 0 -281px;
+    height: 69px;
+}
+div.movieRating5 {
+    background-position: 0 -350px;
+    height: 70px;
+}
+div.movieRating6 {
+    background-position: 0 -420px;
+    height: 71px;
+}
+div.movieRating7 {
+    background-position: 0 -491px;
+    height: 69px;
+}
+div.movieRating8 {
+    background-position: 0 -560px;
+    height: 71px;
+}
+div.movieRating9 {
+    background-position: 0 -631px;
+    height: 71px;
+}
+div.movieRating10 {
+    background-position: 0 -702px;
+    height: 71px;
+}
+div.smallRating0, div.smallRating1, div.smallRating2, div.smallRating3, div.smallRating4, div.smallRating5, div.smallRating6, div.smallRating7, div.smallRating8, div.smallRating9, div.smallRating10 {
+    background: url("../images/ratings_small.png") no-repeat scroll 0 0 transparent;
+	display: inline-block;
+	vertical-align: middle;
+    height: 16px;
+    width: 160px;
+}
+div.smallRating0 {
+    background-position: 0 0;
+}
+div.smallRating1 {
+    background-position: 0 -16px;
+}
+div.smallRating2 {
+    background-position: 0 -32px;
+}
+div.smallRating3 {
+    background-position: 0 -48px;
+}
+div.smallRating4 {
+    background-position: 0 -64px;
+}
+div.smallRating5 {
+    background-position: 0 -80px;
+}
+div.smallRating6 {
+    background-position: 0 -96px;
+}
+div.smallRating7 {
+    background-position: 0 -112px;
+}
+div.smallRating8 {
+    background-position: 0 -128px;
+}
+div.smallRating9 {
+    background-position: 0 -144px;
+}
+div.smallRating10 {
+    background-position: 0 -160px;
+}
+div.channels0, div.channels1, div.channels2, div.channels3, div.channels4, div.channels5, div.channels6, div.channels7, div.channels8, div.channels9, div.channels10 {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/channels.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+div.channels0 {
+    background-position: 0 0;
+}
+div.channels1 {
+    background-position: -64px 0;
+}
+div.channels2 {
+    background-position: -128px 0;
+}
+div.channels3 {
+    background-position: -192px 0;
+}
+div.channels4 {
+    background-position: -256px 0;
+}
+div.channels5 {
+    background-position: -320px 0;
+}
+div.channels6 {
+    background-position: -384px 0;
+}
+div.channels7 {
+    background-position: -448px 0;
+}
+div.channels8 {
+    background-position: -512px 0;
+}
+div.channels9 {
+    background-position: -576px 0;
+}
+div.channels10 {
+    background-position: -640px 0;
+}
+div.aspect133, div.aspect166, div.aspect178, div.aspect185, div.aspect220, div.aspect235  {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/aspects.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+div.aspect133 {
+    background-position: 0 0;
+}
+div.aspect166 {
+    background-position: -64px 0;
+}
+div.aspect178 {
+    background-position: -128px 0;
+}
+div.aspect185 {
+    background-position: -192px 0;
+}
+div.aspect220 {
+    background-position: -256px 0;
+}
+div.aspect235 {
+    background-position: -320px 0;
+}
+div.vFormatSD, div.vFormatHD720, div.vFormatHD1080 {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/vFormat.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+div.vFormatSD {
+    background-position: 0 0;
+}
+div.vFormatHD720 {
+    background-position: -64px 0;
+}
+div.vFormatHD1080 {
+    background-position: -128px 0;
+}
+div.vCodecH264, div.vCodecXVID, div.vCodecDivX3, div.vCodecDivX5, div.vCodecAVC1, div.vCodecVP8, div.vCodecMPEG1, div.vCodecMPEG2, div.vCodecDVD, div.vCodecBluRay, div.vCodecVC1, div.vCodecFLV, div.vCodecUnknown {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/vCodecs.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 100px;
+}
+div.vCodecH264 {
+    background-position: 0 0;
+}
+div.vCodecXVID {
+    background-position: -100px 0;
+}
+div.vCodecDivX3 {
+    background-position: -200px 0;
+}
+div.vCodecDivX5 {
+    background-position: -300px 0;
+}
+div.vCodecAVC1 {
+    background-position: -400px 0;
+}
+div.vCodecVP8 {
+    background-position: -500px 0;
+}
+div.vCodecMPEG1 {
+    background-position: -600px 0;
+}
+div.vCodecMPEG2 {
+    background-position: -700px 0;
+}
+div.vCodecDVD {
+    background-position: -800px 0;
+}
+div.vCodecBluRay {
+    background-position: -900px 0;
+}
+div.vCodecVC1 {
+    background-position: -1000px 0;
+}
+div.vCodecFLV {
+    background-position: -1100px 0;
+}
+div.vCodecUnknown {
+    background-position: -1200px 0;
+}
+
+div.aCodecAAC, div.aCodecAC3, div.aCodecAIF, div.aCodecAIFC, div.aCodecAPE, div.aCodecAVC, div.aCodecCDDA, div.aCodecDCA, div.aCodecDTS, div.aCodecDTSHD, div.aCodecDTSMA, div.aCodecEAC3, div.aCodecFLAC, 
+div.aCodecMP1, div.aCodecMP2, div.aCodecMP3, div.aCodecOGG, div.aCodecDDTrueHD, div.aCodecwav, div.aCodecwavpack, div.aCodecWMA, div.aCodecWMAPro, div.aCodecWMA2, div.aCodecPCM, div.aCodecALAC, div.aCodecUnknown {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/aCodecs.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 100px;
+}
+div.aCodecAAC {
+    background-position: 0 0;
+}
+div.aCodecAC3 {
+    background-position: -100px 0;
+}
+div.aCodecAIF {
+    background-position: -200px 0;
+}
+div.aCodecAIFC {
+    background-position: -300px 0;
+}
+div.aCodecAPE {
+    background-position: -400px 0;
+}
+div.aCodecAVC {
+    background-position: -500px 0;
+}
+div.aCodecCDDA {
+    background-position: -600px 0;
+}
+div.aCodecDCA {
+    background-position: -700px 0;
+}
+div.aCodecDTS {
+    background-position: -800px 0;
+}
+div.aCodecDTSHD {
+    background-position: -900px 0;
+}
+div.aCodecDTSMA {
+    background-position: -1000px 0;
+}
+div.aCodecEAC3 {
+    background-position: -1100px 0;
+}
+div.aCodecFLAC {
+    background-position: -1200px 0;
+}
+div.aCodecMP1 {
+    background-position: -1300px 0;
+}
+div.aCodecMP2 {
+    background-position: -1400px 0;
+}
+div.aCodecMP3 {
+    background-position: -1500px 0;
+}
+div.aCodecOGG {
+    background-position: -1600px 0;
+}
+div.aCodecDDTrueHD {
+    background-position: -1700px 0;
+}
+div.aCodecwav {
+    background-position: -1800px 0;
+}
+div.aCodecwavpack {
+    background-position: -1900px 0;
+}
+div.aCodecWMA {
+    background-position: -2000px 0;
+}
+div.aCodecWMAPro {
+    background-position: -2100px 0;
+}
+div.aCodecWMA2 {
+    background-position: -2200px 0;
+}
+div.aCodecPCM {
+    background-position: -2300px 0;
+}
+div.aCodecALAC {
+    background-position: -2400px 0;
+}
+div.aCodecUnknown {
+    background-position: -2500px 0;
+}
+div.vSubtitles {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/cc.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+div.vSubtitles {
+    background-position: 0 0;
+}
+span.infoplay {
+	background: url("../images/play.png") no-repeat scroll 0 0 transparent;
+	float: right;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
+span.infoqueue {
+	background: url("../images/play.png") no-repeat scroll -50px 0 transparent;
+	float: right;
+	width: 50px;
+	height: 48px;
+}
+span.infoinfo {
+	background: url("../images/play.png") no-repeat scroll -100px 0 transparent;
+	float: right;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
+div.tools {
+	width: 415px;
+	margin: auto;
+	padding-top: 5px;
+}
+span.tools {
+    background: url("../images/tools.png") no-repeat scroll 0 0 #9B9B9B;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    float: left;
+    margin-right: 10px;
+	margin-bottom: 10px;
+    padding: 128px 0 5px;
+    text-align: center;
+    text-decoration: none;
+    width: 128px;
+}
+span.toolsscan {
+	background-position: -384px 0px;
+}
+span.toolsclean {
+	background-position: -512px 0px;
+}
+span.toolsexport {
+    background-position: -640px 0px;
+}
+span.toolsscan:hover {
+	background-position: 0px 0px;
+}
+span.toolsclean:hover {
+	background-position: -128px 0px;
+}
+span.toolsexport:hover {
+    background-position: -256px 0px;
+}
+ul.RecentfileList {
+	background-color: rgba(0,0,0,0.7);
+    border-top: 1px solid #ABABAB;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul.RecentfileList li {
+    border-bottom: 1px solid #ABABAB;
+    display: block;
+}
+ul.fileList {
+	overflow: hidden;
+    border-top: 1px solid #ABABAB;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+div.singleView {
+	vertical-align: middle;
+	display: table;
+	margin-left:auto;
+	margin-right:auto;
+}
+div.singleView div.prev {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-left.png");
+}
+div.singleView div.next {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-right.png");
+}
+#multiOpenAccordion {
+	background-attachment: fixed;
+	background-position: 0 170px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.multiOpenAccordion-header {
+	border-top: 1px solid #ABABAB;
+	color: #ddd;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 48px;
+	padding-left: 5px;
+	background-color: rgba(70,70,70,0.6);
+}
+.multiOpenAccordion-header:hover {
+	background-color: #888;
+}
+.multiOpenAccordion-header a {
+	position: relative;
+	top: 30%;
+	font-size: 120%;
+    color: #FFFFFF;
+}
+.multiOpenAccordion-content {
+	background-color: rgba(0,0,0,0.6);
+	border-top: 1px solid #ABABAB;
+	font-size: 14px;
+	padding: 5px;
+	min-height: 300px; 
+}
+div.multiOpenAccordion-content p.plot, div.ui-accordion-content p.plot {
+	clear: both;
+}
+#accordion {
+	background-attachment: fixed;
+	background-position: 0 170px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.ui-tabs {
+    padding: 0.2em;
+    position: relative;
+}
+.ui-tabs .ui-tabs-nav {
+    margin: 0;
+    padding: 0.2em 0.2em 0;
+}
+.ui-tabs .ui-tabs-nav li {
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+    border-bottom: 0 none !important;
+    float: left;
+	background-color: #606060;
+    list-style: none outside none;
+    margin: 0 0.2em 10px 0;
+    padding: 0;
+    position: relative;
+    top: 1px;
+    white-space: nowrap;
+}
+.ui-tabs .ui-tabs-nav li a {
+    float: left;
+    padding: 0.5em 1em;
+    text-decoration: none;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+    margin-bottom: 0;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+    cursor: text;
+}
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+    cursor: pointer;
+	color: #fff
+}
+.ui-tabs .ui-tabs-panel {
+    background: none repeat scroll 0 0 transparent;
+    border-width: 0;
+    display: block;
+	clear: left;
+}
+.ui-tabs .ui-tabs-hide {
+    display: none !important;
+}
+.ui-accordion-header {
+	border-top: 1px solid #ABABAB;
+	color: #ddd;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 48px;
+	padding-left: 5px;
+	background-color: rgba(70,70,70,0.6);
+}
+.ui-accordion-header:hover {
+	background-color: #888;
+}
+.ui-accordion-header a {
+	position: relative;
+	top: 30%;
+    color: #FFFFFF;
+}
+.ui-accordion-content {
+	background-color: rgba(0,0,0,0.6);
+	border-top: 1px solid #ABABAB;
+	font-size: 14px;
+	padding: 5px;
+	min-height: 300px; 
+}
+p.loading {
+	height: 32px; 
+	background: url('../../images/dialog_loading.gif') no-repeat left center; 
+}
+ul.fileList li {
+	/*height: 48px;*/
+	font-size: 15px;
+	background-color: rgba(0,0,0,0.7);
+    border-bottom: 1px solid #ABABAB;
+    display: block;
+}
+ul.fileList li.even {
+    background-color: rgba(100,100,100,0.7);
+}
+ul.fileList li.current {
+    background-color: #FF0000;
+}
+ul.fileList a {
+    color: #ddd;
+    display: block;
+    padding: 17px 5px;
+    text-decoration: none;
+}
+ul.fileList li a:hover {
+    background-color: #888888;
+}
+div.folderLinkWrapper a.button {
+    float: left;
+	padding: 2px;
+}
+div.folderLinkWrapper a.button:hover {
+    background-color: transparent;
+}
+div.folderLinkWrapper a.song, div.folderLinkWrapper a.playlistItem, div.folderLinkWrapper a.episode {
+    padding-left: 60px;
+}
+div.folderLinkWrapper a.folder, div.folderLinkWrapper a.file {
+    padding-left: 60px;
+}
+div.folderLinkWrapper a.playlistItemCur {
+	color: #fff;
+    font-weight: bold;
+    /*padding: 10px 35px;*/
+}
+span.miniIcon {
+    background: url("../images/mini_buttons.png") no-repeat scroll 0 0 transparent;
+	float: left;
+    display: block;
+    height: 48px;
+    width: 48px;
+}
+span.playnext {
+    background-position: -336px top;
+}
+span.playlistmove {
+	float: left;
+	/*margin: 10px 5px;*/
+    background-position: -192px top;
+}
+span.enqueue {
+    background-position: left top;
+}
+span.play {
+    background-position: -96px 0px;
+}
+span.remove {
+    background-position: -48px 0;
+}
+span.information {
+    background-position: -144px 0;
+}
+span.unwatched {
+    background-position: -240px 0;
+}
+span.all {
+    background-position: -288px 0;
+}
+div.recentTVenq a.button:hover span.enqueue {
+    background-position: left bottom;
+}
+div.folderLinkWrapper a.button:hover span.enqueue {
+    background-position: left bottom;
+}
+div.folderLinkWrapper a.button:hover span.play {
+    background-position: -96px -48px;
+}
+div.folderLinkWrapper a.button:hover span.remove {
+    background-position: -48px -48px;
+}
+div.folderLinkWrapper a.button:hover span.information {
+    background-position: -144px -48px;
+}
+div.folderLinkWrapper a.button:hover span.unwatched {
+    background-position: -240px -48px;
+}
+div.folderLinkWrapper span.playlistmove:hover {
+	float: left;
+    background-position: -192px -48px;
+}
+div.folderLinkWrapper span.playnext:hover {
+    background-position: -336px -48px;
+}
+div.folderLinkWrapper a.button:hover span.all {
+    background-position: -288px -48px;
+}
+div.movieinfo {
+	display: table-row;
+}
+div.movieinfo span.label {
+	font-weight: bold;
+}
+div.movieinfo span.value {
+	margin-left: 5px;
+}
+div.movieinfo a, a.cinexplay {
+	color: #ddd;
+}
+div.movietags  img {
+	float: left;
+	margin-right: 3px;
+}
+div.movietags {
+	display: table-cell;
+	width: 580px;
+}
+div.mkfOverlay div.dialogSystemControl {
+    width: 400px;
+	height: 375px;
+}
+div.systemControls {
+	margin-top: 307px;
+    height: 50px;
+}
+div.input_big {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+	height: 280px;
+	width: 260px;
+	position: absolute;
+	margin: 5px;
+}
+div.input_big_av {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+	height: 280px;
+	width: 130px;
+	position: absolute;
+	margin: 5px 5px 5px 270px;
+}
+div.input_big_av  a {
+	background-color: #555;
+	border-radius: 5px 5px 5px 5px;
+}
+div.input_big  a {
+	background-color: #555;
+	border-radius: 5px 5px 5px 5px;
+}
+div.recentTVthumb {
+	margin: 5px 5px 0 5px;
+	float: left;
+	position: relative; 
+	z-index:3;
+}
+div.recentTVshowName {
+	margin-top: 3px;
+	font-size: 150%; 
+	font-weight: bold;
+	display: block;
+}
+div.recentTVtitle {
+	font-size: 120%;
+	display: block;
+	margin-bottom: 3px; 
+	color: #A0E312;
+}
+div.recentTVSE {
+	font-size: 120%;  
+	display: block;
+}
+div.recentTVplot {
+	display: table;
+}
+div.recentTVshow {
+	display: table;
+	width: 100%;
+	position: relative; 
+	vertical-align:text-top;
+}
+div.recentTVenq {
+	position: absolute;
+}
+a.recentTVplay  {
+	position: relative; 
+	float: left;
+	top: 98px; 
+	left: 10px; 
+	z-index: 5
+}
+div.episodeThumb {
+	margin: 5px 5px 0 5px;
+	float: left;
+	position: relative; 
+	z-index:3;
+}
+div.episodeTitle {
+	font-size: 20px;
+	display: block;
+	margin-top: 3px;
+	color: #A0E312;
+}
+div.episodeTVSE {
+	font-size: 15px;
+	display: block;
+}
+div.episodeRating {
+	font-size: 15px;
+}
+div.episodePlot {
+	display: table;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+div.showEpisode {
+	display: table;
+	width: 100%;
+	position: relative; 
+	vertical-align:text-top;
+}
+a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubOnOff,  a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev {
+    background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 70px;
+    width: 70px;
+}
+a.bigDown {
+    background-position: 0 0;
+    margin: 25px 95px 20px;
+}
+a.bigRight {
+    background-position: -70px 0;
+    margin: 25px 10px 0px 0px;
+}
+a.bigLeft {
+    background-position: -140px 0;
+    margin: 25px 0px 0 10px;
+}
+a.bigUp {
+    background-position: -210px 0;
+    margin: 10px 15px 0px;
+}
+a.bigBack {
+    background-position: -280px 0;
+    margin: 10px 10px 0 0px;
+}
+a.bigHome {
+    background-position: -350px 0;
+    margin: 10px 0px 0px 10px;
+}
+a.bigSelect {
+    background-position: -420px 0;
+    margin: 25px 15px 0px;
+}
+a.bigSubOnOff {
+    background-position: -630px 0px;
+	width: 35px;
+	height: 35px;
+	margin: 25px 0px 0px 5px;
+}
+a.bigSubNext {
+    background-position: -525px 0;
+	width: 35px;
+	margin: 10px 0px 0px 5px;
+}
+a.bigSubPrev {
+    background-position: -490px 0;
+	width: 35px;
+	margin: 10px 0px 0px 8px;
+}
+a.bigAudioNext {
+    background-position: -595px 0;
+	width: 35px;
+	margin: 25px 0 0 45px;
+}
+a.bigAudioPrev {
+    background-position: -560px 0;
+	width: 35px;
+	margin: 25px 0px 0 8px;
+}
+a.exitXBMC, a.shutdown, a.suspend, a.reboot {
+    background: url("../images/system_buttons.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 42px;
+    margin-right: 67px;
+    width: 42px;
+}
+a.shutdown {
+    background-position: 0 -42px;
+}
+a.exitXBMC {
+    background-position: -42px -42px;
+    margin-left: 15px;
+}
+a.suspend {
+    background-position: -84px -42px;
+}
+a.reboot {
+    background-position: -126px -42px;
+	margin-right: 0px;
+}
+a.shutdown:hover {
+    background-position: 0 0;
+}
+a.exitXBMC:hover {
+    background-position: -42px 0;
+}
+a.suspend:hover {
+    background-position: -84px 0;
+}
+a.reboot:hover {
+    background-position: -126px 0;
+}
+br.clear {
+    clear: both;
+}
+#content .mkfMenu {
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0;
+    width: 552px;
+}
+#content .mkfMenu li a {
+    background: url("../images/big_buttons.png") no-repeat scroll 0 0 #9B9B9B;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    float: left;
+    margin-right: 10px;
+	margin-bottom: 10px;
+    padding: 128px 0 5px;
+    text-align: center;
+    text-decoration: none;
+    width: 128px;
+}
+#content .mkfMenu li a:hover {
+    background-color: #A0E312;
+}
+#content .mkfMenu li.artists a { background-position: -512px 0; }
+#content .mkfMenu li.playlist a { background-position: -128px 0; }
+#content .mkfMenu li.MusicPlaylists a { background-position: -128px 0; }
+#content .mkfMenu li.audiofiles a { background-position: -256px 0; }
+#content .mkfMenu li.movies a { background-position: -384px 0; }
+#content .mkfMenu li.albums a { background-position: -640px 0; }
+#content .mkfMenu li.videofiles a { background-position: -1280px 0; }
+#content .mkfMenu li.recentTV a { background-position: -768px 0; }
+#content .mkfMenu li.recentMovies a { background-position: -1152px 0; }
+#content .mkfMenu li.recentAlbums a { background-position: -1408px 0; }
+#content .mkfMenu li.scanVideo a { background-position: -896px 0; }
+#content .mkfMenu li.scanMusic a { background-position: -1024px 0; }
+
+#simple_controls {
+	height: 48px;
+	width: 96px;
+	float: left;
+	position: absolute;
+}
+#simple_controls a.button {
+	background: url("../images/simple_controls.png") no-repeat scroll 0 0 transparent;
+	float: left;
+	height: 48px;
+	width: 48px;
+}
+#simple_controls a.play {
+	background-position: 0 0;
+}
+#simple_controls a.stop {
+	background-position: -48px 0;
+}
+#displayoverlay {
+	background-color: rgba(25,25,25,0.8);
+	-moz-border-radius: 10px 0px 0 0; -webkit-border-radius: 10px 0px 0 0; border-radius: 10px 0px 0 0;
+	border-top: 1px solid #555555;
+	border-left: 1px solid #555555;
+	position: fixed;
+	padding: 10px 0px 0px 10px;
+	height: 310px;
+	min-width: 510px;
+	bottom: 48px;
+	float: right;
+	right: 20px;
+	z-index: 250;
+}
+#artwork {
+	/*height: 280px;
+	width: 195px;*/
+	float: left;
+	margin-right: 5px;
+	/*position: fixed;
+	bottom: 48px;
+	right: 20px;*/
+	z-index: 251;
+}
+#artwork img {
+	width: 195px;
+	height: 280px;
+}
+#controls {
+	height: 280px;
+	width: 270px;
+	float: left;
+}
+#controls #quick {
+	background-color: rgba(55,55,55,0.7);
+	border-radius: 5px 5px 5px 5px;
+	height: 225px;
+	width: 264px;
+	float: left;
+	z-index: 250;
+}
+#controls #quick #quick_row1 {
+	height: 48px;
+	margin: 20px 5px;
+}
+#controls #quick #quick_row2 {
+	height: 48px;
+	margin: 20px 5px;
+}
+#controls #quick #quick_row3 {
+	height: 48px;
+	margin: 20px 5px;
+}
+#controls #quick a.button {
+    background: url("../images/quick_controls.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 48px;
+    width: 48px;
+	margin-right: 50px;
+}
+#controls #quick a.home {
+    background-position: 0 0;
+}
+#controls #quick a.left {
+    background-position: -48px 0;
+}
+#controls #quick a.up {
+    background-position: -96px 0;
+}
+#controls #quick a.right {
+    background-position: -144px 0;
+	margin-right: 0;
+}
+#controls #quick a.down {
+    background-position: -192px 0;
+	margin-left: 100px;
+}
+#controls #quick a.back {
+    background-position: -240px 0;
+	margin-right: 0;
+}
+#controls #quick a.select {
+    background-position: -288px 0;
+}
+#controls  #quick_con {
+    /*background: url("../images/volume.png") no-repeat scroll 20px 10px #EAECE6;*/
+	background-color: rgba(55,55,55,0.7);
+    /*border: 1px solid #7C7C7C;*/
+    border-radius: 5px 5px 5px 5px;
+	/*position: fixed;*/
+    float: left;
+    height: 48px;
+	/*bottom: 48px;
+	right: 252px;*/
+    margin-right: 5px;
+    margin-top: 7px;
+    /*padding: 0 10px;
+    width: 384px;*/
+	z-index: 250;
+}
+#controls #quick_con a.button {
+    background: url("../images/buttons.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 48px;
+    margin-right: 6px;
+    width: 48px;
+}
+#controls #quick_con a.unmuted {
+    /*background: url("../images/buttons.png") no-repeat scroll transparent;*/
+	background-position: -384px 0;
+    height: 48px;
+    width: 48px;
+}
+#controls #quick_con a.muted {
+    background: url("../images/muted.png") no-repeat scroll transparent;
+    float: left;
+    height: 15px;
+    margin-top: 10px;
+	margin-left: 10px;
+    width: 16px;
+}
+#controls #quick_con a.play {
+    background-position: -90px 0;
+}
+#controls #quick_con a.stop {
+    background-position: 0 0;
+}
+#controls #quick_con a.prev {
+    background-position: -192px 0;
+	margin-left: 6px;
+}
+#controls #quick_con a.next {
+    background-position: -336px 0;
+}
+#controls #quick_con a.shuffle {
+    background-position: 0 0;
+}
+#controls #quick_con a.unshuffle {
+    background-position: 0 0;
+}
+#controls #quick_con a.repeat {
+    background-position: -48px 0;
+	margin-right: 0px;
+}
+#controls #quick_con a.repeat1 {
+    background-position: -96px 0;
+	margin-right: 0px;
+}
+#controls #quick_con a.repeatOff {
+    background-position: -144px 0;
+	margin-right: 0px;
+}
+#controls #quick_con a.volup {
+    background-position: -480px 0;
+	margin-right: 0px;
+}
+#controls #quick_con a.voldown {
+    background-position: -432px 0;
+	margin-right: 0px;
+}
+#controls #quick_con a.mute {
+    background-position: -384px 0;
+	margin-right: 0px;
+}
+/*#controls a.play:hover {
+    background-position: -90px -30px;
+}
+#controls a.stop:hover {
+    background-position: 0 -30px;
+}
+#controls a.prev:hover {
+    background-position: -60px -30px;
+}
+#controls a.next:hover {
+    background-position: -30px -30px;
+}
+#controls a.shuffle:hover {
+    background-position: -120px -30px;
+}
+#controls a.unshuffle:hover {
+    background-position: -150px -30px;
+}
+#controls a.repeat:hover {
+    background-position: -240px -30px;
+	margin-right: 0px;
+}
+#controls a.repeat1:hover {
+    background-position: -210px -30px;
+	margin-right: 0px;
+}
+#controls a.repeatOff:hover {
+    background-position: -180px -30px;
+	margin-right: 0px;
+}*/
+div.ui-slider {
+    background-color: rgba(75,75,75,0.9);
+    /*border: 1px solid #4B4B4B;
+    border-radius: 5px 5px 5px 5px;*/
+    position: relative;
+}
+div.ui-slider-horizontal {
+    height: 20px;
+}
+div.ui-slider-vertical {
+    height: 280px;
+    width: 32px;
+}
+div.ui-slider-range {
+    background-color: #A0E312;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A0E312', endColorstr='#005500'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#A0E312), to(#005500)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #A0E312,  #005500); /* for firefox 3.6+ */ 
+    border-radius: 3px 3px 3px 3px;
+    position: absolute;
+}
+div.ui-slider-horizontal div.ui-slider-range {
+    height: 20px;
+}
+div.ui-slider-vertical div.ui-slider-range {
+    bottom: 0;
+    width: 32px;
+}
+a.ui-slider-handle {
+    display: block;
+    position: absolute;
+}
+div.ui-slider-horizontal a.ui-slider-handle {
+    height: 20px;
+    margin-left: -3px;
+    top: 0;
+    width: 6px;
+}
+div.ui-slider-vertical a.ui-slider-handle {
+    bottom: 0;
+    height: 6px;
+    margin-bottom: -3px;
+    width: 32px;
+}
+#volumeSlider {
+    /*margin: 10px 0 10px 40px;
+	position: fixed;
+	right: 215px;
+	bottom: 48px;*/
+	float: left;
+	z-index: 251;
+}
+#currentlyPlaying {
+    background-color: #000000;
+    border: 1px solid #7C7C7C;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 100px;
+    left: 400px;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}
+.currentlyPlayingThumbWrapper {
+    background-color: #4B4B4B;
+    border-right: 1px solid #7C7C7C;
+    float: left;
+    height: 100px;
+	width: 100px;
+    overflow: hidden;
+}
+span.currentlyPlaying {
+    color: #A0E312;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+}
+.currentlyPlayingInfo {
+    padding: 10px 10px 10px 110px;
+}
+.time {
+    float: left;
+}
+.duration {
+    float: right;
+}
+.title {
+    display: block;
+}
+.statusPaused, .statusShuffle, .statusRepeat, .statusRepeat1 {
+    background: url("../images/status.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 35px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 35px;
+}
+.statusShuffle {
+    background-position: -35px 0px;
+    right: 55px;
+}
+.statusRepeat {
+    background-position: -70px 0px;
+    right: 105px;
+}
+.statusRepeat1 {
+    background-position: -105px 0px;
+    right: 105px;
+}
+.playingSliderWrapper {
+    margin: 5px 0 0;
+	float: left;
+	position: absolute;
+	bottom: 3px;
+	width: 464px;
+	height: 20px;
+}
+#preload {
+    display: none;
+}
+h1.findBoxTitle {
+    color: #4B4B4B;
+    font-size: 14px;
+    margin: 10px;
+}

@@ -168,9 +168,14 @@ ul.mkfPageContextMenu li {
     background: url("../images/loading.gif") no-repeat scroll left top transparent;
 }
 img.thumb {
-    border: 1px solid #575757;
+    /*border: 1px solid #575757;*/
     height: 125px;
     width: 125px;
+}
+img.thumbAlbums {
+    border: 1px solid #575757;
+    height: 200px;
+    width: 200px;
 }
 img.thumbPosterLargeRec {
 	width: auto;
@@ -277,7 +282,14 @@ div.linkTVWrapper {
     position: absolute;
     width: 75%;
 }
-div.logoWrapper:hover div.linkTVLogoWrapper {
+div.linkArtistWrapper {
+    display: none;
+    left: 7px;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+/*div.logoWrapper:hover div.linkTVLogoWrapper {
     display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
@@ -285,7 +297,7 @@ div.thumbWrapper:hover div.linkTVWrapper {
 }
 div.thumbWrapper:hover div.linkWrapper, div.thumbEpWrapper:hover div.linkEpWrapper {
     display: block;
-}
+}*/
 div.thumbWrapper a {
     background-color: #343434;
     border: 1px solid #A4A4A4;
@@ -421,6 +433,17 @@ div.mkfOverlay div.dialog span.label {
     margin-right: 10px;
     text-align: right;
     width: 100px;
+}
+div.mkfOverlay div.dialog span.labelinfo {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    width: 245px;
+}
+div.mkfOverlay div.dialog p.artistdesc {
+    clear: both;
+    height: 200px;
+	overflow-y: auto;
 }
 div.mkfOverlay div.dialog span.value, div.mkfOverlay div.dialog span.valuePoster, div.mkfOverlay div.dialog span.valueBanner {
     float: right;

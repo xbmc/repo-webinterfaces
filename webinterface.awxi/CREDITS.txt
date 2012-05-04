@@ -21,6 +21,11 @@ AWXi uses some icons from the Confluence skin.
 
 --------------------------------------------------------------------------------
 
+AWXi uses some icons from the "Open Icon Library" available at
+http://openiconlibrary.sourceforge.net/
+
+--------------------------------------------------------------------------------
+
 AWXi uses a modified version of the "Lazy Load"-jQuery-plugin by Mika Tuupola.
 It is licensed under the MIT license:
 	http://www.opensource.org/licenses/mit-license.php

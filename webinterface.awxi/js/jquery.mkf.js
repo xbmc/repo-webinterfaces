@@ -555,7 +555,6 @@ var mkf = {};
 						$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide();
 						/*if ($newMenuItem.hasClass('music')) { $('div.mfkPage, div.music').show(); $('div.mfkPage, div.videos').hide() }
 						if ($newMenuItem.hasClass('videos')) { $('div.mfkPage, div.videos').show(); $('div.mfkPage, div.music').hide() }*/
-						//console.log($newMenuItem);
 						return false;
 					});
 

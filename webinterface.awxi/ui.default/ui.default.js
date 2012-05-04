@@ -136,7 +136,8 @@ var awxUI = {};
 				content: this.$artistsContent,
 				menuButtonText: mkf.lang.get('page_buttontext_artist'),
 				contextMenu: artistsContextMenu,
-				onShow: $.proxy(this, "onArtistsShow")
+				onShow: $.proxy(this, "onArtistsShow"),
+				className: 'artists'
 			});
 
 			
@@ -227,7 +228,8 @@ var awxUI = {};
 				content: this.$albumsContent,
 				menuButtonText: mkf.lang.get('page_buttontext_albums'),
 				contextMenu: musicAlbumsContextMenu,
-				onShow: $.proxy(this, "onAlbumsShow")
+				onShow: $.proxy(this, "onAlbumsShow"),
+				className: 'albums'
 			});
 			
 			//recent albums
@@ -253,7 +255,7 @@ var awxUI = {};
 				content: this.$albumsRecentContent,
 				contextMenu: musicAlbumsRecentContextMenu,
 				onShow: $.proxy(this, "onAlbumsRecentShow"),
-				className: 'recentalbums'
+				className: 'recentAlbums'
 			});
 			//end recent albums
 			
@@ -264,7 +266,8 @@ var awxUI = {};
 				content: this.$musicFilesContent,
 				menuButtonText: mkf.lang.get('page_buttontext_music_files'),
 				contextMenu: musicFilesContextMenu,
-				onShow: $.proxy(this, "onMusicFilesShow")
+				onShow: $.proxy(this, "onMusicFilesShow"),
+				className: 'audiofiles'
 			});
 
 			this.$musicPlaylistContent = $('<div class="pageContentWrapper"></div>');
@@ -312,7 +315,8 @@ var awxUI = {};
 				content: this.$musicPlaylistContent,
 				menuButtonText: mkf.lang.get('page_buttontext_music_playlist'),
 				contextMenu: musicPlaylistContextMenu,
-				onShow: $.proxy(this, "onMusicPlaylistShow")
+				onShow: $.proxy(this, "onMusicPlaylistShow"),
+				className: 'musicPlaylist'
 			});
 
 			this.$musicScanContent = $('<div class="pageContentWrapper"></div>');
@@ -368,7 +372,8 @@ var awxUI = {};
 				content: this.$moviesContent,
 				menuButtonText: mkf.lang.get('page_buttontext_movies'),
 				contextMenu: videoMoviesContextMenu,
-				onShow: $.proxy(this, "onMoviesShow")
+				onShow: $.proxy(this, "onMoviesShow"),
+				className: 'movies'
 			});
 
 			//Movie sets
@@ -430,7 +435,7 @@ var awxUI = {};
 				content: this.$VideoPlaylistsContent,
 				contextMenu: VideoPlaylistsContextMenu,
 				onShow: $.proxy(this, "onVideoPlaylistsShow"),
-				className: 'VideoPlaylists'
+				className: 'videoPlaylists'
 			});			
 			//Recent movies
 			this.$moviesRecentContent = $('<div class="pageContentWrapper"></div>');
@@ -455,7 +460,7 @@ var awxUI = {};
 				menuButtonText: mkf.lang.get('page_buttontext_movies_recentlyadded'),
 				contextMenu: videoMoviesRecentContextMenu,
 				onShow: $.proxy(this, "onMoviesRecentShow"),
-				className: 'Recentmovies'
+				className: 'recentMovies'
 			});
 			//end recent movies
 			
@@ -484,7 +489,8 @@ var awxUI = {};
 				content: this.$tvShowsContent,
 				menuButtonText: mkf.lang.get('page_buttontext_tvshows'),
 				contextMenu: videoTvShowsContextMenu,
-				onShow: $.proxy(this, "onTvShowsShow")
+				onShow: $.proxy(this, "onTvShowsShow"),
+				className: 'tv'
 			});
 			
 			
@@ -516,7 +522,7 @@ var awxUI = {};
 				menuButtonText: mkf.lang.get('page_buttontext_tv_recentlyadded'),
 				contextMenu: videoTvShowsRecentlyAddedContextMenu,
 				onShow: $.proxy(this, "onTvShowsRecentlyAddedShow"),
-				className: 'recentEps'
+				className: 'recentTV'
 			});
 			// end recently added eps
 			
@@ -527,7 +533,8 @@ var awxUI = {};
 				content: this.$videoFilesContent,
 				menuButtonText: mkf.lang.get('page_buttontext_video_files'),
 				contextMenu: standardVideosContextMenu,
-				onShow: $.proxy(this, "onVideoFilesShow")
+				onShow: $.proxy(this, "onVideoFilesShow"),
+				className: 'videofiles'
 			});
 
 			this.$videoPlaylistContent = $('<div class="pageContentWrapper"></div>');
@@ -567,7 +574,8 @@ var awxUI = {};
 				content: this.$videoPlaylistContent,
 				menuButtonText: mkf.lang.get('page_buttontext_video_playlist'),
 				contextMenu: videoPlaylistContextMenu,
-				onShow: $.proxy(this, "onVideoPlaylistShow")
+				onShow: $.proxy(this, "onVideoPlaylistShow"),
+				className: 'videoPlaylist'
 			});
 			
 			this.$videoScanContent = $('<div class="pageContentWrapper"></div>');
@@ -656,6 +664,7 @@ var awxUI = {};
 			
 			//hack for chrome
 			$('#main').width($('#main').width()-125);
+			$('.' + mkf.cookieSettings.get('startPage', 'recentTV') + ' a').click();
 		},
 
 

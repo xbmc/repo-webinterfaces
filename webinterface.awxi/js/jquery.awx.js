@@ -68,6 +68,129 @@
 	/* ########################### *\
 	 |  XBMC-Controls
 	\* ########################### */
+	$.fn.simcontrols = function() {
+		$simpleControls = $('<a class="button play" href=""></a><a class="button stop" href=""></a>');
+		$simpleControls.filter('.play').click(function() {
+			xbmc.control({type: 'play'}); return false;
+		});
+		$simpleControls.filter('.stop').click(function() {
+			xbmc.control({type: 'stop'}); return false;
+		});
+		
+		this.each (function() {
+			$(this).append($simpleControls.clone(true));
+		});
+	};
+	
+	$.fn.extraControls = function() {
+		$controls = $('<div id="quick"><div id="quick_row1"><a class="button home" href="" title="' + mkf.lang.get('btn_home') + '"></a><a class="button up" href="" title="' + mkf.lang.get('btn_up') + '"></a><a class="button back" href="" title="' + mkf.lang.get('btn_back') + '"></a></div>' +
+		'<div id="quick_row2"><a class="button left" href="" title="' + mkf.lang.get('btn_left') + '"></a><a class="button select" href="" title="' + mkf.lang.get('btn_select') + '"></a><a class="button right" href="" title="' + mkf.lang.get('btn_right') + '"></a></div>' +
+		'<div id="quick_row3"><a class="button down" href="" title="' + mkf.lang.get('btn_down') + '"></a></div></div>' +
+		'<div id="quick_con"><a class="button prev" href=""></a><a class="button next" href=""></a><a class="button shuffle" href="" title="' + mkf.lang.get('label_shuffle') + '"></a><a class="button repeat" href="" title="' + mkf.lang.get('label_repeat') + '"></a><a class="button mute" href="" title="' + mkf.lang.get('label_mute') + '"></a></div>');
+		//'<a class="button volup" href="" title="' + mkf.lang.get('label_volup') + '"></a><a class="button voldown" href="" title="' + mkf.lang.get('label_voldown') + '"></a><a class="button mute" href="" title="' + mkf.lang.get('label_mute') + '"></a>');
+		$controls.find('.left').click(function() {
+			xbmc.input({type: 'Left', onError: 'failed'}); return false;
+		});
+		$controls.find('.right').click(function() {
+			xbmc.input({type: 'Right', onError: 'failed'}); return false;
+		});
+		$controls.find('.up').click(function() {
+			xbmc.input({type: 'Up', onError: 'failed'}); return false;
+		});
+		$controls.find('.down').click(function() {
+			xbmc.input({type: 'Down', onError: 'failed'}); return false;
+		});
+		$controls.find('.back').click(function() {
+			xbmc.input({type: 'Back', onError: 'failed'}); return false;
+		});
+		$controls.find('.home').click(function() {
+			xbmc.input({type: 'Home', onError: 'failed'}); return false;
+		});
+		$controls.find('.select').click(function() {
+			xbmc.input({type: 'Select', onError: 'failed'}); return false;
+		});
+		
+		$controls.find('.play').click(function() {
+			xbmc.control({type: 'play'}); return false;
+		});
+		$controls.find('.stop').click(function() {
+			xbmc.control({type: 'stop'}); return false;
+		});
+		$controls.find('.next').click(function() {
+			xbmc.control({type: 'next'}); return false;
+		});
+		$controls.find('.prev').click(function() {
+			xbmc.control({type: 'prev'}); return false;
+		});
+		$controls.find('.mute').click(function() {
+			xbmc.setMute(); return false;
+		});
+		var shuffle = function(event) {
+			xbmc.control({type: (event.data.shuffle? 'shuffle': 'unshuffle')}); return false;
+		};
+
+		$controls.find('.shuffle').bind('click', {"shuffle": true}, shuffle);
+
+		var repeat = function(event) {
+			if (event.data.repeat == 'all' && xbmc.periodicUpdater.repeatStatus == 'off') {
+				type = 'all';
+			} else if (event.data.repeat == 'one' && xbmc.periodicUpdater.repeatStatus == 'all') {
+				type = 'one';
+			} else if (event.data.repeat == 'off' && xbmc.periodicUpdater.repeatStatus == 'one') {
+				type = 'off'; 
+			};
+			xbmc.controlRepeat(type);
+			return false;
+		};
+		
+		$controls.find('.repeat').bind('click', {"repeat": 'all' }, repeat);
+		
+		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+			var $shuffleBtn = $('.button.shuffle');
+			if (status == 'shuffleOn') {
+				$shuffleBtn.unbind('click');
+				$shuffleBtn.bind('click', {"shuffle": false}, shuffle);
+				$shuffleBtn.addClass('unshuffle');
+				$shuffleBtn.attr('title', mkf.lang.get('label_unshuffle'));
+
+			} else if (status == 'shuffleOff') {
+				$shuffleBtn.unbind('click');
+				$shuffleBtn.bind('click', {"shuffle": true}, shuffle);
+				$shuffleBtn.removeClass('unshuffle');
+				$shuffleBtn.attr('title', mkf.lang.get('label_shuffle'));
+			}
+			//No idea if we're in Audio or Video playlist; refresh both..
+			awxUI.onMusicPlaylistShow();
+			awxUI.onVideoPlaylistShow();
+		});
+
+		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+			var $repeatBtn = $('.button.repeat');
+			if (status == 'off') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.bind('click', {"repeat": 'all'}, repeat);
+				$repeatBtn.removeClass('repeatOff');
+				$repeatBtn.addClass('repeat');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeat'));
+			} else if (status == 'all') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.bind('click', {"repeat": 'one'}, repeat);
+				$repeatBtn.addClass('repeat1');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeat1'));
+			} else if (status == 'one') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.removeClass('repeat1');
+				$repeatBtn.bind('click', {"repeat": 'off'}, repeat);			
+				$repeatBtn.addClass('repeatOff');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeatoff'));
+			}
+		});
+		
+		this.each (function() {
+			$(this).append($controls.clone(true));
+		});
+	}; // END extraControls
+	
 	$.fn.defaultControls = function() {
 		$controls = $('<a class="button play" href=""></a><a class="button stop" href=""></a><a class="button next" href=""></a><a class="button prev" href=""></a><a class="button shuffle" href="" title="' + mkf.lang.get('label_shuffle') + '"></a><a class="button repeat" href="" title="' + mkf.lang.get('label_repeat') + '"></a>');
 		$controls.filter('.play').click(function() {
@@ -274,14 +397,15 @@
 		var $settingsButton = $('<a href="" class="settings"></a>');
 		$settingsButton.click(function() {
 			var order = mkf.cookieSettings.get('albumOrder', 'artist');
-			var lazyload = mkf.cookieSettings.get('lazyload', 'yes');
+			var lazyload = mkf.cookieSettings.get('lazyload', 'no');
 			var timeout = mkf.cookieSettings.get('timeout', 20);
-			var ui = mkf.cookieSettings.get('ui');
+			var ui = mkf.cookieSettings.get('ui', 'uni');
 			var oldui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
 			var cinex = mkf.cookieSettings.get('cinex', 'no');
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no');
 			//var listview = mkf.cookieSettings.get('listview', 'no');
 			var artistsView = mkf.cookieSettings.get('artistsView', 'list');
 			var artistsPath = mkf.cookieSettings.get('artistsPath');
@@ -302,6 +426,8 @@
 			var tvdesc = mkf.cookieSettings.get('tvdesc', 'no');
 			var epdesc = mkf.cookieSettings.get('epdesc', 'no');
 			var adesc = mkf.cookieSettings.get('adesc', 'no');
+			var startPage = mkf.cookieSettings.get('startPage', 'recentTV');
+			var showTags = mkf.cookieSettings.get('showTags', 'yes');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -323,16 +449,33 @@
 				'<input type="radio" id="defaultUI" name="userinterface" value="default" ' + (ui=='default'? 'checked="checked"' : '') + '><label for="defaultUI">' + mkf.lang.get('label_default_ui') +'</label>' +
 				'<input type="radio" id="lightUI" name="userinterface" value="light" ' + (ui=='light'? 'checked="checked"' : '') + '><label for="lightUI">Light UI</label>' +
 				'<input type="radio" id="lightDarkUI" name="userinterface" value="lightDark" ' + (ui=='lightDark'? 'checked="checked"' : '') + '><label for="lightDarkUI">LightDark UI</label>' +
+				'<input type="radio" id="uni" name="userinterface" value="uni" ' + (ui=='uni'? 'checked="checked"' : '') + '><label for="uni">Uni UI</label>' +
 				'</fieldset>' +
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_language') + '</legend>' +
 				'<select name="lang" size="1">' + languages + '</select>' +
 				'</fieldset>' +
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('group_start_page') + '</legend>' +
+				'<select id="startPage" name="startPage">' +
+				'<option value="recentAlbums" ' + (startPage=='recentAlbums'? 'selected' : '') + '>' + mkf.lang.get('page_title_album_recent') + '</option>' +
+				'<option value="recentTV" ' + (startPage=='recentTV'? 'selected' : '') + '>' + mkf.lang.get('page_title_tv_recentlyadded') + '</option>' +
+				'<option value="recentMovies" ' + (startPage=='recentMovies'? 'selected' : '') + '>' + mkf.lang.get('page_title_movies_recentlyadded') + '</option>' +
+				'<option value="movies"' + (startPage=='movies'? 'selected' : '') + '>' + mkf.lang.get('page_title_movies') + '</option>' +
+				'<option value="tv"' + (startPage=='tv'? 'selected' : '') + '>' + mkf.lang.get('page_title_tvshows') + '</option>' +
+				'<option value="albums"' + (startPage=='albums'? 'selected' : '') + '>' + mkf.lang.get('page_title_albums') + '</option>' +
+				'<option value="artists"' + (startPage=='artists'? 'selected' : '') + '>' + mkf.lang.get('page_title_artist') + '</option>' +
+				'<option value="musicPlaylist"' + (startPage=='musicPlaylist'? 'selected' : '') + '>' + mkf.lang.get('page_title_music') + ' ' + mkf.lang.get('page_title_music_playlist') + '</option>' +
+				//'<option value="videoPlaylist"' + (startPage=='videoPlaylist'? 'selected' : '') + '>' + mkf.lang.get('label_view_singlelogo') + '</option>' +
+				'</select>' +
+				'</fieldset>' +
+				
 
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
 				'<a href="" class="formButton expertHelp" title="' + mkf.lang.get('btn_title_help') + '">' + mkf.lang.get('btn_text_help') + '</a>' + 
-				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label><br />' +
+				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label>' +
+				'<input type="checkbox" id="showTags" name="showTags" ' + (showTags=='yes'? 'checked="checked"' : '') + '><label for="showTags">' + mkf.lang.get('label_showTags') + '</label><br />' +
 				'<label for="timeout">' + mkf.lang.get('label_timeout') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('label_seconds') +
 				'</fieldset>' +
 				'</form>' +
@@ -443,7 +586,8 @@
 				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label>' +
 				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
 				'<input type="checkbox" id="hidewatchedmark" name="hidewatchedmark" ' + (hidewatchedmark=='yes'? 'checked="checked"' : '') + '><label for="hidewatchedmark">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
-				'<br /><input type="checkbox" id="cinex" name="cinex" ' + (cinex=='yes'? 'checked="checked"' : '') + '><label for="cinex">' + mkf.lang.get('label_cinex') + '</label>' +
+				'<br /><input type="checkbox" id="hoverOrClick" name="hoverOrClick" ' + (hoverOrClick=='yes'? 'checked="checked"' : '') + '><label for="hoverOrClick">' + mkf.lang.get('label_hoverOrClick') + '</label>' +
+				'<input type="checkbox" id="cinex" name="cinex" ' + (cinex=='yes'? 'checked="checked"' : '') + '><label for="cinex">' + mkf.lang.get('label_cinex') + '</label>' +
 				'</fieldset>' +
 				'<div class="formHint">' + mkf.lang.get('label_settings_warning') + '</div>' +
 				'</form>' +
@@ -543,10 +687,17 @@
 						ui = 'default';
 					} else if ( document.settingsForm.userinterface[2].checked == true) {
 						ui = 'lightDark';
+					} else if ( document.settingsForm.userinterface[3].checked == true) {
+						ui = 'uni';
 					} else {
-						ui = 'lightDark';
+						ui = 'uni';
 					}
 				mkf.cookieSettings.add('ui', ui);
+				
+				mkf.cookieSettings.add(
+					'startPage',
+					document.settingsForm.startPage.value
+				);
 				
 				mkf.cookieSettings.add(
 					'albumSort',
@@ -642,6 +793,11 @@
 					'lazyload',
 					document.settingsForm.lazyload.checked? 'yes' : 'no'
 				);
+				
+				mkf.cookieSettings.add(
+					'showTags',
+					document.settingsForm.showTags.checked? 'yes' : 'no'
+				);
 								
 				mkf.cookieSettings.add(
 					'usefanart',
@@ -661,6 +817,11 @@
 				mkf.cookieSettings.add(
 					'cinex',
 					document.settingsViews.cinex.checked? 'yes' : 'no'
+				);
+				
+				mkf.cookieSettings.add(
+					'hoverOrClick',
+					document.settingsViews.hoverOrClick.checked? 'yes' : 'no'
 				);
 				
 				mkf.cookieSettings.add(
@@ -716,6 +877,34 @@
 		});
 	}; // END defaultVolumeControl
 	
+	/* ########################### *\
+	 |  Incrimental Volume Control
+	\* ########################### */
+	$.fn.incVolumeControl = function(options) {
+		/*this.each (function() {
+			var $sliderElement = $(this);
+
+			// Slider
+			$sliderElement.slider({
+				range: 'min',
+				value: 0,
+				orientation: (options && options.horizontal? 'horizontal': 'vertical'),
+				stop: function(event, ui) {
+					xbmc.setVolume({
+						volume: ui.value,
+						onError: function (response) {
+							mkf.messageLog.show(mkf.lang.get('message_failed_set_volume'),
+											mkf.messageLog.status.error, 5000);
+						}
+					});
+				}
+			});
+
+			xbmc.periodicUpdater.addVolumeChangedListener(function(vol) {
+				$sliderElement.slider("option", "value", vol);
+			});
+		});*/
+	}; // END incVolumeControl
 	
 
 	/* ########################### *\
@@ -807,13 +996,12 @@
 					]
 				);
 				mkf.pages.showTempPage(MusicPlaylistsPage);
-
 				
 				// list playlist or album
 				$MusicPlaylistsContent.addClass('loading');
 				xbmc.getDirectory({
 					directory: e.data.strFile,
-					isPlaylist: true,
+					isPlaylist: e.data.isPlaylist,
 
 					onError: function() {
 						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
@@ -925,10 +1113,25 @@
 			};
 			
 			//should be normal playlist. m3u only? Can use playlist.add directory addAudioFolderToPlaylist
-			if (!isSmart && e.data.playlistinfo.type == 'unknown') {
+			if (!isSmart && e.data.playlistinfo.type == 'unknown' && e.data.playlistinfo.filetype == 'directory') {
 				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
 				xbmc.addAudioFolderToPlaylist({
 					folder: e.data.playlistinfo.file,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
+			};
+			
+			//Might be a stream playlist or other type Files.GetDirectory can't handle.
+			if (!isSmart && e.data.playlistinfo.type == 'unknown' && e.data.playlistinfo.filetype == 'file') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_file_to_playlist'));
+				xbmc.addAudioFileToPlaylist({
+					file: e.data.playlistinfo.file,
 					
 					onSuccess: function() {
 						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
@@ -980,26 +1183,33 @@
 
 			if (MusicPlaylistsResult.limits.total > 0) {
 				$.each(MusicPlaylistsResult.files, function(i, playlist)  {
+					//is it a playlist or a directory? .pls .m3u m3u8 .cue .xsp .strm
+					var playlistExt = playlist.file.split('.').pop().toLowerCase();
+					var isPlaylist = false;
+					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
+						isPlaylist = true;
+						if (playlistExt == 'xsp') { playlist.realtype = 'Smart Playlist'; };
+						if (playlistExt == 'cue') { playlist.realtype = 'Cue Sheet'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
+						if (playlistExt == 'strm') { playlist.realtype = 'Internet stream'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
+						if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8') { playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
+					} else if (playlist.filetype == 'directory' && playlist.type == 'unknown') {
+						playlist.type = 'Directory';
+					};
 					MusicPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
-										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
-										'<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
+										(playlist.type != 'Directory'? '<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' : '' ) +
+										(playlist.type != 'Directory'? '<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' : '' ) +
 										'<a href="" class="playlist' + i + '">' + playlist.label +
 										(playlist.artist? ' - Artist: ' + playlist.artist : '') +
 										(playlist.album && playlist.label != playlist.album? ' - Album: ' + playlist.album : '') +
 										' - Type: ' + 
-										(playlist.type == 'unknown' ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
+										(!isPlaylist? playlist.type : (!playlist.realtype && isPlaylist? 'Playlist' : playlist.realtype)) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
-					MusicPlaylistsList.find('.playlist' + i)
-						.bind('click',
-							{
-								id: playlist.id,
-								strFile: playlist.file,
-								strLabel: playlist.label,
-								strType: playlist.type
-							},
-							onMusicPlaylistsClick);
-					MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
-					MusicPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
+
+					if (playlist.type != 'Directory') {					
+						MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
+						MusicPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
+					};
+					MusicPlaylistsList.find('.playlist' + i).on('click',{id: playlist.id,strFile: playlist.file,strLabel: playlist.label,strType: playlist.type,isPlaylist: isPlaylist}, onMusicPlaylistsClick);
 				});
 			}
 		});
@@ -1125,12 +1335,18 @@
 		//audio
 		if (playlist == 'Audio') {
 			uiviews.PlaylistAudioViewList(playlistResult).appendTo($(this));
+			//console.log($('#content').find('ul').children().length);
+			//if (($('#content').find('ul').children().length)) {
+			//console.log($('#content').scrollTop($('.playlistItemCur').position().top));
+			//console.log($('#content').find('ul').children().length);
+			//}
 		}
 		
 		//video
 		if (playlist == 'Video') {
 			uiviews.PlaylistVideoViewList(playlistResult).appendTo($(this));
 		}
+		
 	}; // END defaultPlaylistViewer
 
 
@@ -1467,7 +1683,7 @@
 		
 		switch (view) {
 			case 'thumbnail':
-				uiviews.TVThumbnailList(episodesResult).appendTo(epsContainer);
+				uiviews.TVEpThumbnailList(episodesResult).appendTo(epsContainer);
 				break;
 			case 'listover':
 				uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);
@@ -1670,102 +1886,9 @@
 				});
 				return false;
 			} else if (e.data.strType == 'movie') {
-				var dialogHandle = mkf.dialog.show();
-				var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
-				
-				xbmc.getMovieInfo({
-					movieid: e.data.id,
-					onSuccess: function(movie) {
-						//var dialogContent = '';
-						var fileDownload = '';
-						
-						xbmc.getPrepDownload({
-							path: movie.file,
-							onSuccess: function(result) {
-								fileDownload = xbmc.getUrl(result.details.path);
-								// no better way?
-								$('.movieinfo').find('a').attr('href',fileDownload);
-							},
-							onError: function(errorText) {
-								$('.movieinfo').find('a').replaceWith(movie.file);
-							},
-						});
-						
-						var streamdetails = {
-							vFormat: 'SD',
-							vCodec: 'Unknown',
-							aCodec: 'Unknown',
-							channels: 0,
-							aStreams: 0,
-							hasSubs: false,
-							aLang: '',
-							aspect: 0,
-							vwidth: 0
-						};
-						
-						if ( useFanart ) {
-							$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
-						};
-						
-						if (movie.streamdetails) {
-							if (movie.streamdetails.subtitle) { streamdetails.hasSubs = true };
-							if (movie.streamdetails.audio) {
-								streamdetails.channels = movie.streamdetails.audio[0].channels;
-								streamdetails.aStreams = movie.streamdetails.audio.length;
-								$.each(movie.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
-								if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
-							};
-						streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
-						//Get video standard
-						streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
-						//Get video codec
-						streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
-						//Set audio icon
-						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
-						};
-						
-						var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-						//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-						var dialogContent = $('<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
-							'<div><h1 class="underline">' + movie.title + '</h1></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + (movie.writer? movie.writer : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + (movie.studio? movie.studio : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
-							'<p class="plot">' + movie.plot + '</p>' +
-							'<div class="movietags"></div>');
+			
+				uiviews.MovieInfoOverlay(e.data.id);
 
-						if (movie.streamdetails) {
-							dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
-							'<div class="aspect' + streamdetails.aspect + '" />' +
-							'<div class="vCodec' + streamdetails.vCodec + '" />' +
-							'<div class="aCodec' + streamdetails.aCodec + '" />' +
-							'<div class="channels' + streamdetails.channels + '" />' +
-							(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
-						};
-
-						//$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
-						//$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onAddMovieToPlaylistClick);
-						mkf.dialog.setContent(dialogHandle, dialogContent);
-						return false;
-					},
-					onError: function() {
-						mkf.messageLog.show('Failed to load movie information!', mkf.messageLog.status.error, 5000);
-						mkf.dialog.close(dialogHandle);
-					}
-				});
-				return false;
 			} else {
 				// open new page to show playlist item
 				var $VideoPlaylistsContent = $('<div class="pageContentWrapper"></div>');
@@ -1809,14 +1932,12 @@
 		}; // END onVideoPlaylistsClick
 		
 		var onPlaylistsPlayClick = function(e) {
-			//console.log(e.data);
 			xbmc.clearVideoPlaylist({
 				onError: function() {
 					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 					//$VideoPlaylistsContent.removeClass('loading');
 				},
 				onSuccess: function() {
-					//console.log(e.data.playlistinfo);
 					onAddPlaylistToPlaylistClick(e);
 					xbmc.playVideo({
 						onError: function() {
@@ -1833,11 +1954,8 @@
 		};
 		
 		var onAddPlaylistToPlaylistClick = function(e) {
-			//console.log(e.data.playlistinfo);
 			var isSmart = false;
 			if (e.data.playlistinfo.file.search(/\.xsp/i) !=-1) { isSmart = true; };
-			//console.log(e.data.playlistinfo.file.search(/\.xsp/i));
-			//console.log(isSmart);
 			if (e.data.playlistinfo.type == 'unknown' && isSmart == true) {
 				//unknown and .xsp so should be a smart playlist
 				xbmc.getDirectory({
@@ -1852,13 +1970,11 @@
 
 					onSuccess: function(result) {
 						//parse playlist
-						//console.log('in smart');
 						Sn = 1;
 						An = 1;
 						Mn = 1;
 						Tn = 1;
 						$.each(result.files, function(i, file) {
-							//console.log(file);
 							if (file.type == 'album') {
 								//add to playlist by albumid, returned as id
 								if (An == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist')); };
@@ -1877,7 +1993,6 @@
 							} else if (file.type == 'song') {
 								//add to playlist by songid, returned as id
 								
-								//console.log(n);
 								if (Sn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist')); };
 								Sn ++;
 								xbmc.addSongToPlaylist({
@@ -1962,7 +2077,6 @@
 								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 							} else {
 								//it's not any of those, error
-								//console.log('else error: ' + file.filetype);
 								mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 							};
 						});
@@ -2119,7 +2233,7 @@
 			return false;
 		};
 		
-		// no artists?
+		// Empty?
 		if (!VideoPlaylistsResult || !VideoPlaylistsResult.files) {
 			return;
 		};
@@ -2323,7 +2437,7 @@
 						if (files) {
 							$.each(files, function(i, file)  {
 								if (!file.file.startsWith('addons://') && file.filetype == "file") {
-									var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><div class="folderLinkWrapper file' + i + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a> <a href="" class="file play">' + file.label + '</a></div></li>').appendTo($filelist);
+									var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><div class="folderLinkWrapper file' + i + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a> <a href="" class="file play">' + file.file.replace(/\\/g, "\\\\").substring(file.file.lastIndexOf("/")+1) + '</a></div></li>').appendTo($filelist);
 									$file.find('.play').bind('click', {file: file.file}, onFilePlayClick);
 									$file.find('.playlist').bind('click', {file: file.file}, onAddFileToPlaylistClick);
 									++globalI;
@@ -2336,7 +2450,7 @@
 						mkf.messageLog.show(mkf.lang.get('message_failed_directory'), mkf.messageLog.status.error, 5000);
 					},
 
-					async: false
+					async: true
 				});
 
 			} else {
@@ -2382,7 +2496,193 @@
 		});
 	}; // END defaultFilesystemViewer
 
+	/* ########################### *\
+	 |  "Currently Playing footer
+	\* ########################### */
+	$.fn.uniFooterStatus = function(options) {
+		var settings = {
+			effect: 'fade'
+		};
+		$.extend(settings, options);
 
+		this.each (function() {
+			var $footerNowBox = $(this);
+			var $footerStatusBox = $('#footer #statPlayerContainer');
+
+			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="label" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
+			//content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>';
+			//content += '<div id="controller"></div>';
+			
+			$footerNowBox.html(content);
+			
+
+			var titleElement = '';
+
+			var artistElement = '';
+			var albumElement = '';
+
+			var tvshowElement = '';
+			var seasonElement = '';
+			var episodeElement = '';
+			
+			var thumbElement = $('#content #displayoverlay #artwork img');
+			
+			var nowLabelElement = $footerNowBox.find('span.label');
+			var nowElement = $footerNowBox.find('span.nowTitle');
+			var nextElement = $footerNowBox.find('span.nextTitle');
+			var timeCurRemain = $footerStatusBox.find('span.timeRemain');
+			var timeCurRemainTotal = $footerStatusBox.find('span.timeRemainTotal');
+			var sliderElement = $('#content #displayoverlay .playingSlider');
+			
+			sliderElement.slider({
+				range: 'min',
+				value: 0,
+				stop: function(event, ui) {
+					xbmc.seekPercentage({percentage: ui.value});
+				}
+			});
+
+			xbmc.periodicUpdater.addCurrentlyPlayingChangedListener(function(currentFile) {
+				// ALL: AUDIO, VIDEO, PICTURE
+				if (currentFile.title) { titleElement=currentFile.title; } else { titleElement = (currentFile.label? currentFile.label : mkf.lang.get('label_not_available')) ; }
+
+				if (currentFile.xbmcMediaType == 'audio') {
+					// AUDIO
+					if (currentFile.artist) { artistElement = currentFile.artist; } else { artistElement = mkf.lang.get('label_not_available'); }
+					if (currentFile.album) { albumElement = currentFile.album; } else { albumElement = mkf.lang.get('label_not_available'); }
+					
+					nowLabelElement.text(titleElement);
+					nowElement.text(' - ' + artistElement + ' - ' + albumElement);
+				} else {
+					// VIDEO
+
+					if (currentFile.season &&
+						currentFile.episode &&
+						currentFile.showtitle) {
+
+						tvshowElement = currentFile.showtitle;
+						seasonElement = currentFile.season;
+						episodeElement = currentFile.episode;
+						
+						nowLabelElement.text(titleElement);
+						nowElement.text(' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+
+					} else {
+						nowLabelElement.text(titleElement);
+					}
+				}
+				
+				thumbElement.attr('src', 'images/thumbPoster.png');
+				if (currentFile.thumbnail) {
+					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
+					if (currentFile.showtitle) {
+						thumbElement.css('margin-top', '165px');
+						thumbElement.css('width', '200px');
+						thumbElement.css('height', '115px');					
+					} else if (currentFile.xbmcMediaType == 'audio') {
+						thumbElement.css('margin-top', '85px');
+						thumbElement.css('height', '195px');
+						thumbElement.css('width', '195px');
+					} else { //movie
+						thumbElement.css('margin-top', '0px');
+						thumbElement.css('height', '280px');
+						thumbElement.css('width', '195px');						
+					}
+
+				}
+			});
+			
+			xbmc.periodicUpdater.addNextPlayingChangedListener(function(nextFile) {
+				// ALL: AUDIO, VIDEO, PICTURE
+				if (nextFile.title) { titleElement=nextFile.title; } else { titleElement = (nextFile.label? nextFile.label : '') ; }
+
+				if (nextFile.xbmcMediaType == 'audio') {
+					// AUDIO
+					if (nextFile.artist) { artistElement = nextFile.artist; } else { artistElement = mkf.lang.get('label_not_available'); }
+					if (nextFile.album) { albumElement = nextFile.album; } else { albumElement = mkf.lang.get('label_not_available'); }
+					
+					nextElement.text(titleElement + ' - ' + artistElement + ' - ' + albumElement);
+					//nowElement.text(' - ' + artistElement + ' - ' + albumElement);
+				} else {
+					// VIDEO
+
+					if (nextFile.season &&
+						nextFile.episode &&
+						nextFile.showtitle) {
+
+						tvshowElement = nextFile.showtitle;
+						seasonElement = nextFile.season;
+						episodeElement = nextFile.episode;
+						
+						nextElement.text(titleElement + ' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+						//nowElement.text(' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+
+					} else {
+						nextElement.text(titleElement);
+					}
+				}
+			});
+				
+			xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+				if (status == 'stopped') {
+					nowLabelElement.text('');
+					nowElement.text('');
+					timeCurRemain.text('00:00');
+					timeCurRemainTotal.text('00:00');
+					thumbElement.css('height', '280px');
+					thumbElement.css('width', '195px');
+					thumbElement.attr('src', 'images/thumbPoster.png');
+					thumbElement.css('margin-top', '0px');
+					//$footerStatusBox.find('#statusPlayer').hide();
+				
+				} else if (status == 'playing') {
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').hide();
+
+				} else if (status == 'paused') {
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').css('display', 'table-cell');
+
+				} else if (status == 'shuffleOn') {
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #shuffled').css('display', 'table-cell');
+
+				} else if (status == 'shuffleOff') {
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #shuffled').hide();
+					
+				} else if (status == 'off') {
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').hide();
+					
+				} else if (status == 'all') {
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('background-position', '-96px 0px');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('display', 'table-cell');
+					
+				} else if (status == 'one') {
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('background-position', '-144px 0px');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('display', 'table-cell');
+				
+				} else if (status == 'muteOn') {
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #muted').css('display', 'table-cell');
+
+				} else if (status == 'muteOff') {
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #muted').hide();
+					
+				}
+			});
+			
+			xbmc.periodicUpdater.addProgressChangedListener(function(progress) {
+				timeCurRemain.text(xbmc.formatTime(xbmc.getSeconds(progress.total) - xbmc.getSeconds(progress.time)));
+				timeCurRemainTotal.text(xbmc.formatTime(xbmc.getSeconds(progress.total)));
+				//durationElement.text(progress.total);
+				sliderElement.slider("option", "value", 100 * xbmc.getSeconds(progress.time) / xbmc.getSeconds(progress.total));
+			});
+
+		});
+	}; // END uniFooterStatus
+	
 
 	/* ########################### *\
 	 |  "Currently Playing"-Box
@@ -2491,7 +2791,7 @@
 
 			xbmc.periodicUpdater.addCurrentlyPlayingChangedListener(function(currentFile) {
 				// ALL: AUDIO, VIDEO, PICTURE
-				if (currentFile.title) { titleElement.text(currentFile.title); } else { titleElement.text( mkf.lang.get('label_not_available') ); }
+				if (currentFile.title) { titleElement.text(currentFile.title); } else { titleElement.text( (currentFile.label? currentFile.label : mkf.lang.get('label_not_available')) ); }
 
 				if (currentFile.xbmcMediaType == 'audio') {
 					// AUDIO
