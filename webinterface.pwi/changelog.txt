@@ -1,0 +1,11 @@
+v 0.1.1 (20120517)
+- First build
+- Remote control to control the GUI (basic input functions, playback and volume)
+- Accessing the movie, TV show and music libraries
+- Sorting the libraries by first letter (ignoring the article)
+- Possibility to search each list
+- Library item details
+- Play items from the detail screen
+- Show currently playing
+- Scan libraries
+- Control the system (shutdown, reboot, hibernate and exit XBMC)

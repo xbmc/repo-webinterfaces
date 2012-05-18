@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xml:lang="en" lang="en">
+	<head>
+		<title>XBMC | Web interface</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="copyright" content="pimaxplus.com" />
+		<meta name="description" content="Browse through your media library and control XBMC with this web interface. Works on desktops and on mobile devices, so you can use it as an improved remote control." />
+		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+		<link href="images/pimaxplus-touch.png" rel="apple-touch-icon" />
+		<link rel="stylesheet" href="styles/jquery.mobile-1.1.0.min.css" />
+		<script type="text/javascript" src="scripts/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.mobile-1.1.0.min.js"></script>
+		<script type="text/javascript" src="scripts/pimaxplus.xbmc.min.js"></script>
+		<style type="text/css">
+			.remotespacer { height: 15px; }
+			.remotevolumediv { width: 225px; margin: 15px auto 0 auto; padding: 0 15px; }
+			.smallfont { font-size: 12px; }
+			.smallerfont { font-size: 10px; }
+			.ui-btn-icon-notext { width: auto; padding: 25px !important; border-radius: 2px; }
+			.ui-icon-previous { background-image: url("images/previous.png"); }
+			.ui-icon-next { background-image: url("images/next.png"); }
+			.ui-icon-rewind { background-image: url("images/rewind.png"); }
+			.ui-icon-fastforward { background-image: url("images/forward.png"); }
+			.ui-icon-playpause { background-image: url("images/playpause.png"); }
+			.ui-icon-stop { background-image: url("images/stop.png"); }
+			.ui-icon-volup { background-image: url("images/volup.png"); }
+			.ui-icon-voldown { background-image: url("images/voldown.png"); }
+			.ui-icon-mute { background-image: url("images/mute.png"); }
+			.ui-icon-none { background: none; }
+			div.ui-slider { width: 100%; margin: 0;}
+			div.ui-slider .ui-btn-inner { background: url("images/volume.png") no-repeat 2px 1px; }
+			#remote .ui-controlgroup { width: 225px; margin: 0 auto; }
+			*[data-currentlyplaying] { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+		</style>
+	</head>
+	<body>
+		<div data-role="page" data-theme="c" id="home">
+			<div data-role="header" data-position="fixed">
+				<h3>XBMC</h3>
+			</div>
+			<div data-role="content">
+				<ul data-role="listview" id="homelist">
+					<li data-role="list-divider">Main menu</li>
+					<li><a href="#" onclick="showRemote();">Remote</a></li>
+					<li><a href="#" onclick="showMoviesMain();">Movies</a></li>
+					<li><a href="#" onclick="showTvShowsMain();">TV Shows</a></li>
+					<li><a href="#" onclick="showMusicMain();">Music</a></li>
+					<li><a href="#system">System</a></li>
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="remote">
+			<div data-theme="a" data-role="header" data-position="fixed">
+				<h3>XBMC</h3>
+				<a href="#home" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" onclick="remotePressed('Input.Back', null);" data-role="button" data-icon="back" data-iconpos="notext">Back</a>
+					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
+					<a href="#" onclick="remotePressed('Input.Home', null);" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
+				</div>
+				<div class="remotespacer"></div>
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
+					<a href="#" onclick="remotePressed('Input.Up', null);" data-role="button" data-icon="arrow-u" data-iconpos="notext">Up</a>
+					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
+				</div>
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" onclick="remotePressed('Input.Left', null);" data-role="button" data-icon="arrow-l" data-iconpos="notext">Left</a>
+					<a href="#" onclick="remotePressed('Input.Select', null);" data-role="button" data-icon="grid" data-iconpos="notext">Okay</a>
+					<a href="#" onclick="remotePressed('Input.Right', null);" data-role="button" data-icon="arrow-r" data-iconpos="notext">Right</a>
+				</div>
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
+					<a href="#" onclick="remotePressed('Input.Down', null);" data-role="button" data-icon="arrow-d" data-iconpos="notext">Down</a>
+					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
+				</div>
+				<div data-role="controlgroup" data-type="horizontal">					
+					<a href="#" onclick="remotePressed('Player.GoPrevious', '');" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" onclick="remotePressed('Player.Stop', '');" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" onclick="remotePressed('Player.GoNext', '');" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" onclick='remotePressed("Player.SetSpeed", "\"speed\": \"decrement\"");' data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" onclick="remotePressed('Player.PlayPause', '');" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" onclick='remotePressed("Player.SetSpeed", "\"speed\": \"increment\"");' data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+				</div>
+				<div class="remotevolumediv">
+					<label for="volumeslider" class="ui-hidden-accessible">Volume:</label>
+					<input type="range" name="volumeslider" style="display: none;" id="volumeslider" value="100" min="0" max="100" data-highlight="true" onchange="changeVolume(this.value);" />
+				</div>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="moviemain">
+			<div data-role="header" data-position="fixed">
+				<h3>Movies</h3>
+				<a href="#home" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="moviemainlist" data-role="listview">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="movies">
+			<div data-role="header" data-position="fixed">
+				<h3>Movies</h3>
+				<a href="#" onclick="showMoviesMain();" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="movielist" data-role="listview" data-filter="true">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="moviedetails">
+			<div data-role="header" data-position="fixed">
+				<h3 id="movie-title">Movie details</h3>
+				<a href="#" id="moviedetailsback" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul data-role="listview" id="movie-details"></ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="tvshowsmain">
+			<div data-role="header" data-position="fixed">
+				<h3>TV Shows</h3>
+				<a href="#home" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="tvshowmainlist" data-role="listview">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="tvshows">
+			<div data-role="header" data-position="fixed">
+				<h3>TV Shows</h3>
+				<a href="#" onclick="showTvShowsMain();" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="tvshowlist" data-role="listview" data-filter="true">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="tvshowseasons">
+			<div data-role="header" data-position="fixed">
+				<h3 id="tvshowseasons-title">TV Shows</h3>
+				<a href="#" id="tvshowseasonsback" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="tvshowseasonslist" data-role="listview">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="tvshowepisodes">
+			<div data-role="header" data-position="fixed">
+				<h3 id="tvshowepisodes-title">TV Shows</h3>
+				<a href="#" id="tvshowepisodesback" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="tvshowepisodeslist" data-role="listview">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="tvshowepisodedetails">
+			<div data-role="header" data-position="fixed">
+				<h3 id="episode-title">Movie details</h3>
+				<a href="#" id="tvshowepisodedetailsback" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul data-role="listview" id="episode-details"></ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="musicmain">
+			<div data-role="header" data-position="fixed">
+				<h3>Music</h3>
+				<a href="#home" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="musicmainlist" data-role="listview">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="artists">
+			<div data-role="header" data-position="fixed">
+				<h3>Music</h3>
+				<a href="#" onclick="showMusicMain();" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="artistlist" data-role="listview" data-filter="true">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="songs">
+			<div data-role="header" data-position="fixed">
+				<h3 id="songs-title">Music</h3>
+				<a href="#" id="songsback" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="songlist" data-role="listview" data-filter="true">
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="system">
+			<div data-role="header" data-position="fixed">
+				<h3>XBMC</h3>
+				<a href="#home" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul data-role="listview">
+					<li data-role="list-divider">Add new media</li>
+					<li><a href="#" onclick="scan('video');">Scan video library</a></li>
+					<li><a href="#" onclick="scan('audio');">Scan audio library</a></li>
+					<li data-role="list-divider">System</li>
+					<li>Hibernate
+						<ul data-divider-theme="a">
+							<li data-role="list-divider">Really hibernate the system?</li>
+							<li><a href="#system">No</a></li>
+							<li><a href="#" onclick="remotePressed('System.Hibernate', null);">Yes</a></li>
+						</ul>
+					</li>
+					<li>Shutdown
+						<ul data-divider-theme="a">
+							<li data-role="list-divider">Really shutdown the system?</li>
+							<li><a href="#system">No</a></li>
+							<li><a href="#" onclick="remotePressed('System.Shutdown', null);">Yes</a></li>
+						</ul>
+					</li>
+					<li>Reboot
+						<ul data-divider-theme="a">
+							<li data-role="list-divider">Really reboot the system?</li>
+							<li><a href="#system">No</a></li>
+							<li><a href="#" onclick="remotePressed('System.Reboot', null);">Yes</a></li>
+						</ul>
+					</li>
+					<li data-role="list-divider">Application</li>
+					<li>Close XBMC
+						<ul data-divider-theme="a">
+							<li data-role="list-divider">Really reboot the system?</li>
+							<li><a href="#system">No</a></li>
+							<li><a href="#" onclick="remotePressed('Application.Quit', null);">Yes</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

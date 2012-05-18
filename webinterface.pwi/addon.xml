@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="webinterface.pwi"
+  version="0.1.0"
+  name="pimaxplus web interface"
+  provider-name="pimaxplus.com">
+  <requires>
+    <import addon="xbmc.gui" version="3.00"/>
+    <import addon="xbmc.json" version="4.00"/>
+  </requires>
+  <extension
+    point="xbmc.gui.webinterface"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">A web interface for desktops and mobile devices.</summary>
+    <summary lang="nl">Een webinterface voor desktops en mobiele apparaten.</summary>
+    <description lang="en">Browse through your media library and control XBMC with this web interface. Use it as an alternative way to access your library or just as an improved remote control. Works on all modern browsers (both desktop and mobile) as long as JavaScript is enabled.</description>
+    <description lang="nl">Blader door je mediabibliotheek en bedien XBMC door middel van deze web interface. Gebruik dit als een alternatieve manier om je bibliotheek te raadpleden of als een verbeterde afstandsbediening. Werkt op alle moderne browsers (desktop en mobiel) op voorwaarde dat JavaScript is ingeschakeld.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
