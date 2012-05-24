@@ -6,9 +6,12 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="copyright" content="pimaxplus.com" />
 		<meta name="description" content="Browse through your media library and control XBMC with this web interface. Works on desktops and on mobile devices, so you can use it as an improved remote control." />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-		<link href="images/pimaxplus-touch.png" rel="apple-touch-icon" />
+		<link rel="apple-touch-icon" href="images/pimaxplus-touch.png" />
+		<link rel="apple-touch-icon-precomposed" href="images/pimaxplus-touch.png" />
 		<link rel="stylesheet" href="styles/jquery.mobile-1.1.0.min.css" />
 		<script type="text/javascript" src="scripts/jquery.min.js"></script>
 		<script type="text/javascript" src="scripts/jquery.mobile-1.1.0.min.js"></script>
@@ -18,7 +21,6 @@
 			.remotevolumediv { width: 225px; margin: 15px auto 0 auto; padding: 0 15px; }
 			.smallfont { font-size: 12px; }
 			.smallerfont { font-size: 10px; }
-			.ui-btn-icon-notext { width: auto; padding: 25px !important; border-radius: 2px; }
 			.ui-icon-previous { background-image: url("images/previous.png"); }
 			.ui-icon-next { background-image: url("images/next.png"); }
 			.ui-icon-rewind { background-image: url("images/rewind.png"); }
@@ -31,8 +33,11 @@
 			.ui-icon-none { background: none; }
 			div.ui-slider { width: 100%; margin: 0;}
 			div.ui-slider .ui-btn-inner { background: url("images/volume.png") no-repeat 2px 1px; }
-			#remote .ui-controlgroup { width: 225px; margin: 0 auto; }
-			*[data-currentlyplaying] { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+			* [data-role="footer"] { padding-left: 5px; }
+			* [data-role="footer"] .ui-btn-icon-notext { width: auto; padding: 12px; margin: 0 -8px 0 0; }
+			#remote [data-role="content"] .ui-btn-icon-notext { width: auto; padding: 25px !important; border-radius: 2px; }
+			#remote [data-role="content"] .ui-controlgroup { width: 225px; margin: 0 auto; }
+			p[data-current-media="title"], p[data-current-media="artist"], p[data-current-media="player-time"] { font-weight: bold; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
 		</style>
 	</head>
 	<body>
@@ -41,14 +46,31 @@
 				<h3>XBMC</h3>
 			</div>
 			<div data-role="content">
-				<ul data-role="listview" id="homelist">
+				<ul data-role="listview" id="home-list">
+					<li data-role="list-divider" data-current-media="divider" style="display: none;">Currently playing</li>
+					<li data-current-media="info" style="display: none;">
+						<img data-current-media="thumbnail" src="images/ajax-loader.png" alt="Thumbnail" />
+						<p data-current-media="title"></p>
+						<p data-current-media="artist" class="smallfont"></p>
+						<p data-current-media="player-time" class="smallerfont"></p>
+					</li>
 					<li data-role="list-divider">Main menu</li>
-					<li><a href="#" onclick="showRemote();">Remote</a></li>
-					<li><a href="#" onclick="showMoviesMain();">Movies</a></li>
-					<li><a href="#" onclick="showTvShowsMain();">TV Shows</a></li>
-					<li><a href="#" onclick="showMusicMain();">Music</a></li>
+					<li><a href="#remote">Remote</a></li>
+					<li><a href="#movies-main">Movies</a></li>
+					<li><a href="#tvshows-main">TV Shows</a></li>
+					<li><a href="#music-main">Music</a></li>
 					<li><a href="#system">System</a></li>
 				</ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
 			</div>
 		</div>
 		<div data-role="page" data-theme="c" id="remote">
@@ -59,43 +81,53 @@
 			</div>
 			<div data-role="content">
 				<div data-role="controlgroup" data-type="horizontal">
-					<a href="#" onclick="remotePressed('Input.Back', null);" data-role="button" data-icon="back" data-iconpos="notext">Back</a>
+					<a href="#" data-remote-action="Input.Back" data-remote-params="" data-role="button" data-icon="back" data-iconpos="notext">Back</a>
 					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
-					<a href="#" onclick="remotePressed('Input.Home', null);" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
+					<a href="#" data-remote-action="Input.Home" data-remote-params="" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
 				</div>
 				<div class="remotespacer"></div>
 				<div data-role="controlgroup" data-type="horizontal">
 					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
-					<a href="#" onclick="remotePressed('Input.Up', null);" data-role="button" data-icon="arrow-u" data-iconpos="notext">Up</a>
+					<a href="#" data-remote-action="Input.Up" data-remote-params="" data-role="button" data-icon="arrow-u" data-iconpos="notext">Up</a>
 					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal">
-					<a href="#" onclick="remotePressed('Input.Left', null);" data-role="button" data-icon="arrow-l" data-iconpos="notext">Left</a>
-					<a href="#" onclick="remotePressed('Input.Select', null);" data-role="button" data-icon="grid" data-iconpos="notext">Okay</a>
-					<a href="#" onclick="remotePressed('Input.Right', null);" data-role="button" data-icon="arrow-r" data-iconpos="notext">Right</a>
+					<a href="#" data-remote-action="Input.Left" data-remote-params="" data-role="button" data-icon="arrow-l" data-iconpos="notext">Left</a>
+					<a href="#" data-remote-action="Input.Select" data-remote-params="" data-role="button" data-icon="grid" data-iconpos="notext">Okay</a>
+					<a href="#" data-remote-action="Input.Right" data-remote-params="" data-role="button" data-icon="arrow-r" data-iconpos="notext">Right</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal">
 					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
-					<a href="#" onclick="remotePressed('Input.Down', null);" data-role="button" data-icon="arrow-d" data-iconpos="notext">Down</a>
+					<a href="#" data-remote-action="Input.Down" data-remote-params="" data-role="button" data-icon="arrow-d" data-iconpos="notext">Down</a>
 					<a href="#" data-role="button" data-icon="none" data-iconpos="notext" class="ui-disabled"></a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal">					
-					<a href="#" onclick="remotePressed('Player.GoPrevious', '');" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
-					<a href="#" onclick="remotePressed('Player.Stop', '');" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
-					<a href="#" onclick="remotePressed('Player.GoNext', '');" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal">
-					<a href="#" onclick='remotePressed("Player.SetSpeed", "\"speed\": \"decrement\"");' data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
-					<a href="#" onclick="remotePressed('Player.PlayPause', '');" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
-					<a href="#" onclick='remotePressed("Player.SetSpeed", "\"speed\": \"increment\"");' data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
 				</div>
 				<div class="remotevolumediv">
 					<label for="volumeslider" class="ui-hidden-accessible">Volume:</label>
-					<input type="range" name="volumeslider" style="display: none;" id="volumeslider" value="100" min="0" max="100" data-highlight="true" onchange="changeVolume(this.value);" />
+					<input type="range" name="volumeslider" style="display: none;" id="volumeslider" value="100" min="0" max="100" data-highlight="true" />
+				</div>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
 				</div>
 			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="moviemain">
+		<div data-role="page" data-theme="c" id="movies-main">
 			<div data-role="header" data-position="fixed">
 				<h3>Movies</h3>
 				<a href="#home" data-icon="back">Back</a>
@@ -105,29 +137,60 @@
 				<ul id="moviemainlist" data-role="listview">
 				</ul>
 			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="movies">
+		<div data-role="page" data-theme="c" id="movies-overview">
 			<div data-role="header" data-position="fixed">
 				<h3>Movies</h3>
-				<a href="#" onclick="showMoviesMain();" data-icon="back">Back</a>
+				<a href="#movies-main" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
 				<ul id="movielist" data-role="listview" data-filter="true">
 				</ul>
 			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="moviedetails">
+		<div data-role="page" data-theme="c" id="movies-details">
 			<div data-role="header" data-position="fixed">
-				<h3 id="movie-title">Movie details</h3>
-				<a href="#" id="moviedetailsback" data-icon="back">Back</a>
+				<h3>Movies</h3>
+				<a href="#movies-overview" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
+				<h3 id="movie-title"></h3>
 				<ul data-role="listview" id="movie-details"></ul>
 			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="tvshowsmain">
+		<div data-role="page" data-theme="c" id="tvshows-main">
 			<div data-role="header" data-position="fixed">
 				<h3>TV Shows</h3>
 				<a href="#home" data-icon="back">Back</a>
@@ -137,81 +200,156 @@
 				<ul id="tvshowmainlist" data-role="listview">
 				</ul>
 			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="tvshows">
+		<div data-role="page" data-theme="c" id="tvshows-overview">
 			<div data-role="header" data-position="fixed">
 				<h3>TV Shows</h3>
-				<a href="#" onclick="showTvShowsMain();" data-icon="back">Back</a>
+				<a href="#tvshows-main" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
 				<ul id="tvshowlist" data-role="listview" data-filter="true">
 				</ul>
 			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="tvshowseasons">
+		<div data-role="page" data-theme="c" id="tvshows-seasons">
 			<div data-role="header" data-position="fixed">
 				<h3 id="tvshowseasons-title">TV Shows</h3>
-				<a href="#" id="tvshowseasonsback" data-icon="back">Back</a>
+				<a href="#tvshows-overview" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
-				<ul id="tvshowseasonslist" data-role="listview">
-				</ul>
+				<ul id="tvshowseasonslist" data-role="listview"></ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
 			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="tvshowepisodes">
+		<div data-role="page" data-theme="c" id="tvshows-episodes">
 			<div data-role="header" data-position="fixed">
 				<h3 id="tvshowepisodes-title">TV Shows</h3>
-				<a href="#" id="tvshowepisodesback" data-icon="back">Back</a>
+				<a href="#tvshows-seasons" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
-				<ul id="tvshowepisodeslist" data-role="listview">
-				</ul>
+				<ul id="tvshowepisodeslist" data-role="listview"></ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
 			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="tvshowepisodedetails">
+		<div data-role="page" data-theme="c" id="tvshows-episodes-details">
 			<div data-role="header" data-position="fixed">
 				<h3 id="episode-title">Movie details</h3>
-				<a href="#" id="tvshowepisodedetailsback" data-icon="back">Back</a>
+				<a href="#tvshows-episodes" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
 				<ul data-role="listview" id="episode-details"></ul>
 			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="musicmain">
+		<div data-role="page" data-theme="c" id="music-main">
 			<div data-role="header" data-position="fixed">
 				<h3>Music</h3>
 				<a href="#home" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
-				<ul id="musicmainlist" data-role="listview">
-				</ul>
+				<ul id="musicmainlist" data-role="listview"></ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
 			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="artists">
+		<div data-role="page" data-theme="c" id="music-artists">
 			<div data-role="header" data-position="fixed">
 				<h3>Music</h3>
-				<a href="#" onclick="showMusicMain();" data-icon="back">Back</a>
+				<a href="#music-main" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
-				<ul id="artistlist" data-role="listview" data-filter="true">
-				</ul>
+				<ul id="artistlist" data-role="listview" data-filter="true"></ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
 			</div>
 		</div>
-		<div data-role="page" data-theme="c" id="songs">
+		<div data-role="page" data-theme="c" id="music-artists-songs">
 			<div data-role="header" data-position="fixed">
 				<h3 id="songs-title">Music</h3>
-				<a href="#" id="songsback" data-icon="back">Back</a>
+				<a href="#music-artists" data-icon="back">Back</a>
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
-				<ul id="songlist" data-role="listview" data-filter="true">
-				</ul>
+				<ul id="songlist" data-role="listview" data-filter="true"></ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
 			</div>
 		</div>
 		<div data-role="page" data-theme="c" id="system">
@@ -223,39 +361,49 @@
 			<div data-role="content">
 				<ul data-role="listview">
 					<li data-role="list-divider">Add new media</li>
-					<li><a href="#" onclick="scan('video');">Scan video library</a></li>
-					<li><a href="#" onclick="scan('audio');">Scan audio library</a></li>
+					<li><a href="javascript:pwiCore.scan('video');">Scan video library</a></li>
+					<li><a href="javascript:pwiCore.scan('audio');">Scan audio library</a></li>
 					<li data-role="list-divider">System</li>
 					<li>Hibernate
 						<ul data-divider-theme="a">
 							<li data-role="list-divider">Really hibernate the system?</li>
 							<li><a href="#system">No</a></li>
-							<li><a href="#" onclick="remotePressed('System.Hibernate', null);">Yes</a></li>
+							<li><a data-remote-action="System.Hibernate" data-remote-params="">Yes</a></li>
 						</ul>
 					</li>
 					<li>Shutdown
 						<ul data-divider-theme="a">
 							<li data-role="list-divider">Really shutdown the system?</li>
 							<li><a href="#system">No</a></li>
-							<li><a href="#" onclick="remotePressed('System.Shutdown', null);">Yes</a></li>
+							<li><a data-remote-action="System.Shutdown" data-remote-params="">Yes</a></li>
 						</ul>
 					</li>
 					<li>Reboot
 						<ul data-divider-theme="a">
 							<li data-role="list-divider">Really reboot the system?</li>
 							<li><a href="#system">No</a></li>
-							<li><a href="#" onclick="remotePressed('System.Reboot', null);">Yes</a></li>
+							<li><a data-remote-action="System.Reboot" data-remote-params="">Yes</a></li>
 						</ul>
 					</li>
 					<li data-role="list-divider">Application</li>
 					<li>Close XBMC
 						<ul data-divider-theme="a">
-							<li data-role="list-divider">Really reboot the system?</li>
+							<li data-role="list-divider">Really quit XBMC?</li>
 							<li><a href="#system">No</a></li>
-							<li><a href="#" onclick="remotePressed('Application.Quit', null);">Yes</a></li>
+							<li><a data-remote-action="Application.Quit" data-remote-params="">Yes</a></li>
 						</ul>
 					</li>
 				</ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
 			</div>
 		</div>
 	</body>

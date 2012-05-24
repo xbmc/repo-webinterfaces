@@ -1,3 +1,10 @@
+v 0.1.2 (20120524)
+- Added playback buttons in footer
+- Page data is stored locally (no loss on refresh anymore)
+- Added bookmark icon
+- Core is made more stable (better performance)
+- Minor bug fixes
+
 v 0.1.1 (20120517)
 - First build
 - Remote control to control the GUI (basic input functions, playback and volume)
