@@ -305,11 +305,23 @@ var xbmc = {};
 			return location.protocol + '//' + location.host + '/' + url;
 		},
 
-		getLogo: function(filepath, callback) {
-			var path = filepath.replace(/\\/g, "\\\\").substring(0, filepath.lastIndexOf("/"));
-			path += '/logo.png';
+		getLogo: function(options, callback) {
+			var settings = {
+				path: '',
+				type: '', //logo, cdart, disc, clearart, characterart, seasonTV, banner, poster
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 			
-			var logo = xbmc.getPrepDownload({
+			if (settings.path.startsWith('stack://')) {
+				settings.path = settings.path.replace(/\\/g, "\\\\").substring(8, settings.path.indexOf(","));
+			}
+			var path = settings.path.replace(/\\/g, "\\\\").substring(0, settings.path.lastIndexOf("/"));
+
+			path += '/' + settings.type + '.png';
+			
+			var image = xbmc.getPrepDownload({
 					path: path,
 					async: true,
 					onSuccess: function(result) {
@@ -693,6 +705,9 @@ var xbmc = {};
 				return 'MPEG1';
 				break;
 			case 'mpeg2':
+				return 'MPEG2';
+				break;
+			case 'mpeg2video':
 				return 'MPEG2';
 				break;
 			case 'dvd':
@@ -1259,13 +1274,23 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
-			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Player.Open", "params" : { "item" : { "playlistid" : 0, "position": ' + settings.item + ' } }, "id": 1}',
-				settings.onSuccess,
-				function(response) {
-					settings.onError(mkf.lang.get('message_failed_play' + 'settings.item'));
-				}
-			);
+			if (activePlayerid == 0) {
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Player.GoTo", "params" : { "playerid" : 0, "position": ' + settings.item + ' }, "id": 1}',
+					settings.onSuccess,
+					function(response) {
+						settings.onError(mkf.lang.get('message_failed_play'));
+					}
+				);
+			} else {
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Player.Open", "params" : { "item" : { "playlistid" : 0, "position": ' + settings.item + ' } }, "id": 1}',
+					settings.onSuccess,
+					function(response) {
+						settings.onError(mkf.lang.get('message_failed_play' + 'settings.item'));
+					}
+				);
+			}
 		},
 
 		removeAudioPlaylistItem: function(options) {
@@ -1639,13 +1664,23 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
-			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Player.Open", "params" : { "item" : { "playlistid" : 1, "position": ' + settings.item + ' } }, "id": 1}',
-				settings.onSuccess,
-				function(response) {
-					settings.onError(mkf.lang.get('message_failed_play'));
-				}
-			);
+			if (activePlayerid == 1) {
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Player.GoTo", "params" : { "playerid" : 1, "position": ' + settings.item + ' }, "id": 1}',
+					settings.onSuccess,
+					function(response) {
+						settings.onError(mkf.lang.get('message_failed_play'));
+					}
+				);
+			} else {
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Player.Open", "params" : { "item" : { "playlistid" : 1, "position": ' + settings.item + ' } }, "id": 1}',
+					settings.onSuccess,
+					function(response) {
+						settings.onError(mkf.lang.get('message_failed_play'));
+					}
+				);
+			}
 		},
 
 
@@ -1864,7 +1899,7 @@ var xbmc = {};
 			settings.order = mkf.cookieSettings.get('mdesc', 'ascending');
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["rating", "thumbnail", "playcount"], "sort": { "order": "' + settings.order +'", "method": "' + settings.sortby + '", "ignorearticle": true } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["rating", "thumbnail", "playcount", "file"], "sort": { "order": "' + settings.order +'", "method": "' + settings.sortby + '", "ignorearticle": true } }, "id": 1}',
 				//'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
 				function(response) {
 					if (settings.order == 'descending' && settings.sortby == 'none') {
@@ -2446,6 +2481,7 @@ var xbmc = {};
 							//need to cover slideshow
 							if (playerActive == '') {
 								activePlayer = 'none';
+								activePlayerid = -1;
 							} else {
 								activePlayer = playerActive[0].type;
 								activePlayerid = playerActive[0].playerid;
@@ -2513,6 +2549,12 @@ var xbmc = {};
 						$('#streamdets .vCodec').removeClass().addClass('vCodec');
 						$('#streamdets .aCodec').removeClass().addClass('aCodec');
 						$('#streamdets .vSubtitles').css('display', 'none');
+						$('#content #displayoverlay #artwork .artThumb').css('margin-right','0px');
+						$('#displayoverlay').css('width','510px');
+						$('#content #displayoverlay #artwork .discThumb').hide();
+						
+						if (typeof(spinCDArt) != 'undefined') { clearInterval(spinCDArt) };
+						
 						
 						xbmc.periodicUpdater.firePlayerStatusChanged('stopped');
 					}

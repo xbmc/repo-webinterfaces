@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.awxi"
-  version="0.5.2"
+  version="0.5.3"
   name="AWXi"
   provider-name="MKay, Mizaki et al">
   <requires>
     <import addon="xbmc.gui" version="3.00"/>
+	<import addon="xbmc.json" version="4.00"/>
   </requires>
   <extension
     point="xbmc.gui.webinterface"/>

@@ -220,6 +220,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_view_album_list': 			'List',
 	'label_use_lazyload': 				'use LazyLoad for Thumbnails',
 	'label_showTags':					'Show info tags (Uni UI only)',
+	'label_rotateCDart':				'Rotate CD art (Uni UI only)',
 	'label_use_fanart': 				'Use Fan Art as background',
 	'label_timeout': 					'TimeOut for Ajax-Requests: ',
 	'label_settings_hint': 				'(Settings are stored in cookies. You need to enable cookies for this site.)',

@@ -220,6 +220,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_view_album_list': 			'Lista',
 	'label_use_lazyload': 				'użyj LazyLoad dla miniaturek',
 	'label_showTags':					'Show info tags (Uni UI only)',
+	'label_rotateCDart':				'Rotate CD art (Uni UI only)',
 	'label_use_fanart': 				'Użyj FanArtu jako tła',
 	'label_timeout': 					'Limit czasu dla zapytań Ajaxa: ',
 	'label_settings_hint': 				'(Ustawienia są przechowywane w ciasteczkach. Dla tej strony musisz włączyć ciasteczka.)',

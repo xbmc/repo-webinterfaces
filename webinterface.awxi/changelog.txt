@@ -1,3 +1,8 @@
+0.5.3
+ - Added Movie logo view. Get adding at fanart.tv
+ - Added CD/DVD art. Expects cdart.png in album dir and disc.png in movie dir.
+ - Fixed Playlist video item changing shows GUI.
+
 0.5.2
  - Added Uni UI. Consider the others depreciated.
  - Added Play and enqueue music genre.

@@ -220,6 +220,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_view_album_list':			'List',
 	'label_use_lazyload':				'Utiliser LazyLoad pour les vignettes',
 	'label_showTags':					'Show info tags (Uni UI only)',
+	'label_rotateCDart':				'Rotate CD art (Uni UI only)',
 	'label_use_fanart':					'Utiliser les FanArts en fond',
 	'label_timeout':					'TimeOut pour les requêtes Ajax : ',
 	'label_settings_hint':				'(Les paramètres sont stockés dans les Cookies. Vous devez les activer pour ce site.)',

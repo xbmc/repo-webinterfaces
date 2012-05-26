@@ -428,6 +428,7 @@
 			var adesc = mkf.cookieSettings.get('adesc', 'no');
 			var startPage = mkf.cookieSettings.get('startPage', 'recentTV');
 			var showTags = mkf.cookieSettings.get('showTags', 'yes');
+			var rotateCDart = mkf.cookieSettings.get('rotateCDart', 'no');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -475,7 +476,8 @@
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
 				'<a href="" class="formButton expertHelp" title="' + mkf.lang.get('btn_title_help') + '">' + mkf.lang.get('btn_text_help') + '</a>' + 
 				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label>' +
-				'<input type="checkbox" id="showTags" name="showTags" ' + (showTags=='yes'? 'checked="checked"' : '') + '><label for="showTags">' + mkf.lang.get('label_showTags') + '</label><br />' +
+				'<input type="checkbox" id="showTags" name="showTags" ' + (showTags=='yes'? 'checked="checked"' : '') + '><label for="showTags">' + mkf.lang.get('label_showTags') + '</label>' +
+				'<input type="checkbox" id="rotateCDart" name="rotateCDart" ' + (rotateCDart=='yes'? 'checked="checked"' : '') + '><label for="rotateCDart">' + mkf.lang.get('label_rotateCDart') + '</label><br />' +
 				'<label for="timeout">' + mkf.lang.get('label_timeout') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('label_seconds') +
 				'</fieldset>' +
 				'</form>' +
@@ -524,6 +526,7 @@
 				'</option><option value="listover" ' + (filmView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
 				'</option><option value="listin" ' + (filmView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				'<option value="singlePoster" ' + (filmView=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
+				'<option value="logo" ' + (filmView=='logo'? 'selected' : '') + '>' + mkf.lang.get('label_view_logo') +'</option>' +
 				//'<option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
@@ -546,6 +549,7 @@
 				'</option><option value="listin" ' + (filmViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +
 				'</option><option value="accordion"' + (filmViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				'<option value="singlePoster" ' + (filmViewRec=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
+				'<option value="logo" ' + (filmViewRec=='logo'? 'selected' : '') + '>' + mkf.lang.get('label_view_logo') +'</option>' +
 				'</select>' +
 				'</fieldset>' +
 				
@@ -798,7 +802,12 @@
 					'showTags',
 					document.settingsForm.showTags.checked? 'yes' : 'no'
 				);
-								
+				
+				mkf.cookieSettings.add(
+					'rotateCDart',
+					document.settingsForm.rotateCDart.checked? 'yes' : 'no'
+				);
+				
 				mkf.cookieSettings.add(
 					'usefanart',
 					document.settingsViews.usefanart.checked? 'yes' : 'no'
@@ -915,7 +924,7 @@
 	\* ########################### */
 	$.fn.defaultArtistsViewer = function(artistResult, parentPage) {
 
-		if (!artistResult.limits.total > 0) { return };
+		if (!artistResult || !artistResult.limits.total > 0) { return };
 		
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var view = mkf.cookieSettings.get('artistsView', 'list');
@@ -1384,6 +1393,9 @@
 			case 'singlePoster':
 				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
 				break;
+			case 'logo':
+				uiviews.MovieViewLogos(movieResult, options).appendTo($movieContainer);
+				break;
 		};
 		
 		if (useLazyLoad) {
@@ -1486,6 +1498,9 @@
 				break;
 			case 'singlePoster':
 				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
+				break;
+			case 'logo':
+				uiviews.MovieViewLogos(movieResult, options).appendTo($movieContainer);
 				break;
 		};
 		
@@ -2508,6 +2523,8 @@
 		this.each (function() {
 			var $footerNowBox = $(this);
 			var $footerStatusBox = $('#footer #statPlayerContainer');
+			
+			var rotateCDart = mkf.cookieSettings.get('rotateCDart', 'no')=='yes'? true : false;
 
 			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="label" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
 			//content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>';
@@ -2525,7 +2542,8 @@
 			var seasonElement = '';
 			var episodeElement = '';
 			
-			var thumbElement = $('#content #displayoverlay #artwork img');
+			var thumbElement = $('#content #displayoverlay #artwork .artThumb');
+			var thumbDiscElement = $('#content #displayoverlay #artwork .discThumb');
 			
 			var nowLabelElement = $footerNowBox.find('span.label');
 			var nowElement = $footerNowBox.find('span.nowTitle');
@@ -2544,6 +2562,7 @@
 
 			xbmc.periodicUpdater.addCurrentlyPlayingChangedListener(function(currentFile) {
 				// ALL: AUDIO, VIDEO, PICTURE
+				
 				if (currentFile.title) { titleElement=currentFile.title; } else { titleElement = (currentFile.label? currentFile.label : mkf.lang.get('label_not_available')) ; }
 
 				if (currentFile.xbmcMediaType == 'audio') {
@@ -2576,17 +2595,66 @@
 				if (currentFile.thumbnail) {
 					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
 					if (currentFile.showtitle) {
+						if ($('#displayoverlay').css('width') != '510px') { $('#displayoverlay').css('width','510px') };
 						thumbElement.css('margin-top', '165px');
 						thumbElement.css('width', '200px');
-						thumbElement.css('height', '115px');					
+						thumbElement.css('height', '115px');
+						/*xbmc.getLogo({path: currentFile.file, type: 'logo'}, function(logo) {
+							console.log(currentFile);
+							thumbDiscElement.attr('src', logo);
+							if (thumbDiscElement.css('width') != '200px') { thumbDiscElement.css('width','200px'); thumbDiscElement.css('height','78px'); };
+							thumbDiscElement.show();
+							
+						});*/
 					} else if (currentFile.xbmcMediaType == 'audio') {
+						if ($('#displayoverlay').css('width') != '510px') { $('#displayoverlay').css('width','510px') };
 						thumbElement.css('margin-top', '85px');
 						thumbElement.css('height', '195px');
 						thumbElement.css('width', '195px');
+						if (thumbDiscElement.css('width') != '194px') { thumbDiscElement.css('width','194px'); thumbDiscElement.css('height','194px'); };
+							
+						xbmc.getLogo({path: currentFile.file, type: 'cdart'}, function(cdart) {
+							if (cdart == '') { cdart = 'images/blank_cdart.png' };
+							thumbDiscElement.css('margin-left','0px');
+							thumbDiscElement.attr('src', cdart);
+							thumbDiscElement.show();
+							
+							if (rotateCDart) {
+								var angle = 0;
+								spinCDArt = setInterval(function(){
+								angle+=3;
+									thumbDiscElement.rotate(angle);
+								},75);
+							}
+
+						});
+							
 					} else { //movie
 						thumbElement.css('margin-top', '0px');
 						thumbElement.css('height', '280px');
-						thumbElement.css('width', '195px');						
+						thumbElement.css('width', '195px');
+						xbmc.getLogo({path: currentFile.file, type: 'disc'}, function(cdart) {
+							if (cdart != '') {
+								$('#displayoverlay').css('width','610px');
+								thumbElement.css('margin-right','100px');
+								//#displayoverlay width: 600px;
+								//.discThumb width: 270px; height: 270px; margin-left: 20px;
+								thumbDiscElement.css('width','270px');
+								thumbDiscElement.css('height','270px');
+								thumbDiscElement.css('margin-left','20px');
+								thumbDiscElement.attr('src', cdart);
+								thumbDiscElement.show();
+								
+								if (rotateCDart) {
+									var angle = 0;
+									spinCDArt = setInterval(function(){
+									angle+=3;
+										thumbDiscElement.rotate(angle);
+									},75);
+								}
+							}
+						});
+						
 					}
 
 				}
@@ -2610,6 +2678,7 @@
 						nextFile.episode &&
 						nextFile.showtitle) {
 
+						thumbDiscElement.attr('src', '');
 						tvshowElement = nextFile.showtitle;
 						seasonElement = nextFile.season;
 						episodeElement = nextFile.episode;
@@ -2627,13 +2696,19 @@
 				if (status == 'stopped') {
 					nowLabelElement.text('');
 					nowElement.text('');
+					nextElement.text('');
 					timeCurRemain.text('00:00');
 					timeCurRemainTotal.text('00:00');
 					thumbElement.css('height', '280px');
 					thumbElement.css('width', '195px');
 					thumbElement.attr('src', 'images/thumbPoster.png');
 					thumbElement.css('margin-top', '0px');
+					thumbDiscElement.attr('src', '');
 					//$footerStatusBox.find('#statusPlayer').hide();
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').hide();
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #shuffled').hide();
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').hide();
+					sliderElement.slider("option", "value", "0");
 				
 				} else if (status == 'playing') {
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').hide();
@@ -2760,7 +2835,7 @@
 			xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
 				if (status == 'stopped') {
 					hideBox($currentlyPlayingBox);
-
+					
 				} else if (status == 'playing') {
 					showBox($currentlyPlayingBox);
 					$currentlyPlayingBox.find('.statusPaused').remove();

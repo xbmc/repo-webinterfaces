@@ -653,7 +653,7 @@ var awxUI = {};
 							'<div id="statusLine"><div id="location"></div><div id="contextMenu"></div></div>' +
 							'</div>' + 
 							'<div id="content">' +
-							'<div id="displayoverlay"><div id="controls"></div><div id="artwork"><img src="images/thumbPoster.png"></div><div><div id="volumeSlider"></div><img src="ui.uni/images/volume.png"></div><div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
+							'<div id="displayoverlay"><div id="controls"></div><div id="artwork"><img class="discThumb" src="images/blank_cdart.png" style="display: none; width: 194px; height: 194px; position: absolute; z-index: -1;"><img class="artThumb" src="images/thumbPoster.png"></div><div><div id="volumeSlider"></div><img src="ui.uni/images/volume.png"></div><div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
 							'</div>' +
 							'<div id="footer">' +
 							'<div id="simple_controls"></div><div id="infoContainer"></div>' +

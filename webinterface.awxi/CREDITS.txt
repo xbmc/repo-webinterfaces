@@ -45,6 +45,11 @@ Have a look at http://ejohn.org/blog/simple-javascript-inheritance/.
 
 --------------------------------------------------------------------------------
 
+AWXi uses jQueryRotate from http://code.google.com/p/jqueryrotate/
+It is licensed under MIT.
+
+--------------------------------------------------------------------------------
+
 Tranlations:
 German - MKay
 Russian - Scaramush

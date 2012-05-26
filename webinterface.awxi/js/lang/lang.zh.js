@@ -220,6 +220,7 @@ mkf.lang.add({language: 'Chinese', short: 'zh', author: 'Taxigps', values: {
 	'label_view_album_list': 			'列表',
 	'label_use_lazyload': 				'缩略图启用延迟加载',
 	'label_showTags':					'Show info tags (Uni UI only)',
+	'label_rotateCDart':				'Rotate CD art (Uni UI only)',
 	'label_use_fanart': 				'背景使用同人画',
 	'label_timeout': 					'Ajax-请求超时：',
 	'label_settings_hint': 				'（设置保存到cookies，需要允许本站点的cookies。）',

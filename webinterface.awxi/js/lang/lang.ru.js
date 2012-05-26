@@ -220,6 +220,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_view_album_list':			'Список',
 	'label_use_lazyload':				'Использовать LazyLoad для постеров',
 	'label_showTags':					'Show info tags (Uni UI only)',
+	'label_rotateCDart':				'Rotate CD art (Uni UI only)',
 	'label_use_fanart':				'Использовать фан-арт как подложку',
 	'label_timeout':				'Время ожидания для Ajax-запросов: ',
 	'label_settings_hint':				'(Настройки сохраняются в cookies. Вам нужно включить cookies для этого сайта.)',
