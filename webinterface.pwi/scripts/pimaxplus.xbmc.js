@@ -38,8 +38,20 @@ var pwiCore = {
 			url: pwiCore.JSON_RPC + '?GetPlayerProperties',
 			data: '{"jsonrpc": "2.0", "method": "Player.GetProperties", "params" : {"playerid": ' + pwiCore.playerid + ', "properties": ["time", "totaltime"]}, "id": 1}',
 			success: jQuery.proxy(function(data) {
-				if(data && data.result && data.result) {
-					pwiCore.playertime = data.result.time.minutes + ':' + pwiUtils.leadingZero(data.result.time.seconds) + ' / ' + data.result.totaltime.minutes + ':' + pwiUtils.leadingZero(data.result.totaltime.seconds);
+				if(data && data.result && data.result) {					
+					pwiCore.playertime = '';
+				
+					if(data.result.time.hours > 0) {
+						pwiCore.playertime += data.result.time.hours + ':';
+					}
+					
+					pwiCore.playertime += data.result.time.minutes + ':' + pwiUtils.leadingZero(data.result.time.seconds) + ' / ';
+					
+					if(data.result.totaltime.hours > 0) {
+						pwiCore.playertime += data.result.totaltime.hours + ':';
+					}
+					
+					pwiCore.playertime += data.result.totaltime.minutes + ':' + pwiUtils.leadingZero(data.result.totaltime.seconds);
 				} 
 			}, this),
 			dataType: 'json'
