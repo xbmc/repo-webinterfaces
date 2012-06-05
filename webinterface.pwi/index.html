@@ -319,7 +319,27 @@
 				<a href="#home" data-icon="home">Home</a>
 			</div>
 			<div data-role="content">
-				<ul id="artistlist" data-role="listview" data-filter="true"></ul>
+				<ul id="artistlist" data-role="listview" data-filter="true" data-split-icon="grid" data-split-theme="d"></ul>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="#" data-remote-action="Player.GoPrevious" data-remote-params="player" data-role="button" data-icon="previous" data-iconpos="notext">Previous</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'decrement'" data-role="button" data-icon="rewind" data-iconpos="notext">Rewind</a>
+					<a href="#" data-remote-action="Player.PlayPause" data-remote-params="player" data-role="button" data-icon="playpause" data-iconpos="notext">Play/Pause</a>
+					<a href="#" data-remote-action="Player.Stop" data-remote-params="player" data-role="button" data-icon="stop" data-iconpos="notext">Stop</a>
+					<a href="#" data-remote-action="Player.SetSpeed" data-remote-params="'speed': 'increment'" data-role="button" data-icon="fastforward" data-iconpos="notext">Forward</a>
+					<a href="#" data-remote-action="Player.GoNext" data-remote-params="player" data-role="button" data-icon="next" data-iconpos="notext">Next</a>
+				</div>
+			</div>
+		</div>
+		<div data-role="page" data-theme="c" id="music-artists-albums">
+			<div data-role="header" data-position="fixed">
+				<h3 id="albums-title">Music</h3>
+				<a href="#music-artists" data-icon="back">Back</a>
+				<a href="#home" data-icon="home">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="albumlist" data-role="listview" data-filter="true"></ul>
 			</div>
 			<div data-role="footer" data-position="fixed" data-theme="d" class="ui-state-persist">
 				<div data-role="controlgroup" data-type="horizontal">

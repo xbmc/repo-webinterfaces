@@ -118,12 +118,17 @@ var pwiCore = {
 }
 
 var pwiRemote = {
+	isInitialized: false,
 	init: function() {
+		if(pwiRemote.isInitialized) return;
+
 		pwiRemote.getVolume();
 		
 		$('[data-remote-action]').on('click', function() {
 			pwiRemote.remotePressed($(this).attr('data-remote-action'), $(this).attr('data-remote-params'));
 		});
+		
+		pwiRemote.isInitialized = true;
 	},
 	remotePressed: function(action, params) {
 		if(params == '') {
@@ -581,6 +586,7 @@ var pwiMusic = {
 	},
 	showArtists: function() {
 		var s = localStorage.getItem('music-artists-start-with');
+		localStorage.removeItem('music-album');
 
 		jQuery.ajax({
 			type: 'POST',
@@ -596,7 +602,7 @@ var pwiMusic = {
 					
 					if((s == '#' && (65 > startsWith.charCodeAt(0) || startsWith.charCodeAt(0) > 91)) || startsWith.toUpperCase() == s) {
 						$('#artistlist')
-							.append('<li><a href="#music-artists-songs" data-music-artist="' + item.artistid + '">' + item.label + '</li>')
+							.append('<li><a href="#music-artists-songs" data-music-artist="' + item.artistid + '">' + item.label + '</a><a href="#music-artists-albums" data-music-artist="' + item.artistid + '">Albums</a></li>')
 							.trigger('create');
 					}
 				}));
@@ -612,14 +618,47 @@ var pwiMusic = {
 			dataType: 'json'
 		});
 	},
-	showArtistSongs: function() {
-		var artist = localStorage.getItem('music-artist');
+	showArtistAlbums: function() {
+		var artistid = localStorage.getItem('music-artist');
 
 		jQuery.ajax({
 			type: 'POST',
 			contentType: 'application/json',
 			url: pwiCore.JSON_RPC + '?GetArtists',
-			data: '{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "artistid": ' + artist + ', "limits": { "start": 0}, "properties": ["artist", "title", "album", "duration", "thumbnail"], "sort": {"method": "title", "ignorearticle": true}}, "id": 1}',
+			data: '{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "artistid": ' + artistid + ', "limits": { "start": 0}, "properties": ["title", "artist", "thumbnail"], "sort": {"method": "title", "ignorearticle": true}}, "id": 1}',
+			success: jQuery.proxy(function(data) {
+				$('#albumlist').html("");
+				
+				$.each($(data.result.albums), jQuery.proxy(function(i, item) {
+					$("#albums-title").text(item.artist);
+					$('#albumlist')
+						.append('<li><a href="#music-artists-songs" data-music-album="' + item.albumid + '"><img src="/vfs/' + item.thumbnail + '" alt="Thumbnail" />' + item.title + '</li>')
+						.trigger('create');
+				}));
+				
+				try {
+					$('#albumlist').listview('refresh');
+				} catch(ex) {}
+				
+				$('[data-music-album]').on('click', function() {
+					localStorage.setItem('music-album', $(this).attr('data-music-album'));
+				});
+			}, this),
+			dataType: 'json'
+		});
+	},
+	showArtistSongs: function() {
+		var artist = localStorage.getItem('music-artist');
+		var lookup = localStorage.getItem('music-album') == null ? '"artistid": ' + artist : '"albumid": ' + localStorage.getItem('music-album');
+		var back = localStorage.getItem('music-album') == null ? '#music-artists' : '#music-artists-albums';
+
+		$('#music-artists-songs a[data-icon="back"]').attr('href', back);
+		
+		jQuery.ajax({
+			type: 'POST',
+			contentType: 'application/json',
+			url: pwiCore.JSON_RPC + '?GetArtists',
+			data: '{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { ' + lookup + ', "limits": { "start": 0}, "properties": ["artist", "title", "album", "duration", "thumbnail"], "sort": {"method": "title", "ignorearticle": true}}, "id": 1}',
 			success: jQuery.proxy(function(data) {
 				$('#songlist').html("");
 				
@@ -674,7 +713,7 @@ var pwiUtils = {
 }
 
 $(document).delegate(document, 'pageshow', pwiCore.init);
-$(document).delegate('#home, #remote, #system', 'pageshow', pwiRemote.init);
+$(document).delegate(document, 'pageshow', pwiRemote.init);
 $(document).delegate('#movies-main', 'pageshow', pwiMovies.showMain);
 $(document).delegate('#movies-overview', 'pageshow', pwiMovies.showOverview);
 $(document).delegate('#movies-details', 'pageshow', pwiMovies.showDetails);
@@ -685,4 +724,5 @@ $(document).delegate('#tvshows-episodes', 'pageshow', pwiTvShows.showEpisodes);
 $(document).delegate('#tvshows-episodes-details', 'pageshow', pwiTvShows.showEpisodeDetails);
 $(document).delegate('#music-main', 'pageshow', pwiMusic.showMain);
 $(document).delegate('#music-artists', 'pageshow', pwiMusic.showArtists);
+$(document).delegate('#music-artists-albums', 'pageshow', pwiMusic.showArtistAlbums);
 $(document).delegate('#music-artists-songs', 'pageshow', pwiMusic.showArtistSongs);
