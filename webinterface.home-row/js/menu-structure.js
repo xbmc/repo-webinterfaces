@@ -1,4 +1,39 @@
 YUI.add("HomeRowMenus", function(Y){
+    var Movie = {
+        name:"Movie",
+        list:null,
+        commands:{
+            play:{
+                command:"Player.Open",
+                params:[
+                    {
+                        name:"item",
+                        fn:function(item){
+                            return { movieid: item.movieid };
+                        }
+                    }
+                ]
+            },
+            queue:true,
+            batchCommand:{
+                hideMenu:true,
+                command:"Playlist.Add",
+                params:[
+                    {
+                        name:"playlistid",
+                        value:1
+                    },
+                    {
+                        name:"item",
+                        fn:function(item){
+                            return {movieid: item.movieid};
+                        }
+                    }
+                ]
+            }
+        }
+    };
+
     var Episode = {
         name:"Episode",
         specialName:"{showtitle} {label}",
@@ -189,85 +224,20 @@ YUI.add("HomeRowMenus", function(Y){
                     }
                 },
                 list:null,
-                subItems:{
-                    name:"Movie",
-                    list:null,
-                    commands:{
-                        play:{
-                            command:"Player.Open",
-                            params:[
-                                {
-                                    name:"item",
-                                    fn:function(item){
-                                        return { movieid: item.movieid };
-                                    }
-                                }
-                            ]
-                        },
-                        queue:true,
-                        batchCommand:{
-                            hideMenu:true,
-                            command:"Playlist.Add",
-                            params:[
-                                {
-                                    name:"playlistid",
-                                    value:1
-                                },
-                                {
-                                    name:"item",
-                                    fn:function(item){
-                                        return {movieid: item.movieid};
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
+                subItems:Y.clone(Movie)
             },
             {
                 name:"Recent Movies",
                 title:"Recent Movies",
                 noSort:true,
+                alwaysRefreshList:true,
                 commands:{
                     open:{
                         command:"VideoLibrary.GetRecentlyAddedMovies",
                         properties:["thumbnail"]
                     }
                 },
-                subItems:{
-                    name:"Movie",
-                    commands:{
-                        play:{
-                            command:"Player.Open",
-                            params:[
-                                {
-                                    name:"item",
-                                    fn:function(item){
-                                        return { movieid: item.movieid };
-                                    }
-                                }
-                            ]
-                        },
-                        queue:true,
-                        batchCommand:{
-                            hideMenu:true,
-                            command:"Playlist.Add",
-                            params:[
-                                {
-                                    name:"playlistid",
-                                    value:1
-                                },
-                                {
-                                    name:"item",
-                                    fn:function(item){
-                                        return {movieid: item.movieid};
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    list:null
-                }
+                subItems:Y.clone(Movie)
             },
             {
                 name:"Television",
@@ -380,6 +350,7 @@ YUI.add("HomeRowMenus", function(Y){
                 name:"Recent Episodes",
                 title:"Recent Episodes",
                 noSort:true,
+                alwaysRefreshList:true,
                 commands:{
                     open:{
                         command:"VideoLibrary.GetRecentlyAddedEpisodes",
@@ -430,7 +401,7 @@ YUI.add("HomeRowMenus", function(Y){
                     open:{
                         command:"Files.GetSources",
                         params:[
-                            {name:"media",fn:function(){return "video";}}
+                            {name:"media",value:"video"}
                         ]
                     }
                 },
@@ -469,7 +440,7 @@ YUI.add("HomeRowMenus", function(Y){
                     open:{
                         command:"Files.GetSources",
                         params:[
-                            {name:"media",fn:function(){return "music";}}
+                            {name:"media",value:"music"}
                         ]
                     }
                 },

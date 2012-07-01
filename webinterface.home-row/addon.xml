@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.home-row"
-  version="1.5.1"
+  version="1.5.6"
   name="Home Row"
   provider-name="Soljin">
   <requires>
@@ -12,7 +12,7 @@
     point="xbmc.gui.webinterface"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Home Row - Fast keystroke/touch based web interface for XBMC</summary>
-    <description lang="en">Updated for Eden with better mobile experience, UI update, and general feature set. The biggest addition is context modal menus, which are accessed by right clicking or shift+enter. Home Row focuses on speed by using a quick refine text field to filter items and then select them by hitting enter. You can use the up and down arrows to select items while focused on the field. It is also touch and mobile friendly. It has a hash based history system but doesn't support deep linking. It should work with any browser that supports JS. If it looks funny or runs slow, get a better browser.</description>
+    <description lang="en">Home Row focuses on speed by using a quick refine text field. It is very mouse, touch and mobile friendly. It has queueing and playlist support. It should work with any modern browser that supports JS.</description>
     <platform>all</platform>
     <language>en</language>
   </extension>
