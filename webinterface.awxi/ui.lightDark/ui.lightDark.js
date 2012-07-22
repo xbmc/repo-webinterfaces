@@ -29,6 +29,7 @@ var awxUI = {};
 		albumsPage: null,
 		MusicPlaylistsPage: null,
 		albumsRecentPage: null,
+		musicVideosPage: null,
 		musicFilesPage: null,
 		musicPlaylistPage: null,
 		musicScanPage: null,
@@ -50,6 +51,7 @@ var awxUI = {};
 		$MusicPlaylistsContent: null,
 		$albumsContent: null,
 		$albumsRecentContent: null,
+		$musicVideosContent: null,
 		$musicFilesContent: null,
 		$musicPlaylistContent: null,
 		$musicScanContent: null,
@@ -553,6 +555,29 @@ var awxUI = {};
 				className: 'recentTV'
 			});
 			// end recently added eps
+
+			//Music Videos
+			this.$musicVideosContent = $('<div class="pageContentWrapper"></div>');
+			var musicVideosContextMenu = $.extend(true, [], standardVideosContextMenu);
+			musicVideosContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$musicVideosContent.empty();
+						awxUI.onMusicVideosShow();
+
+						return false;
+					}
+			});
+
+			this.musicVideosPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_musicvideos'),
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_musicvideos'),
+				content: this.$musicVideosContent,
+				contextMenu: musicVideosContextMenu,
+				onShow: $.proxy(this, "onMusicVideosShow"),
+				className: 'musicVideos'
+			});
+			//end Music Videos
 			
 			//Video Files
 			this.$videoFilesContent = $('<div class="pageContentWrapper"></div>');
@@ -826,7 +851,29 @@ var awxUI = {};
 			}
 		},
 		
+		/**************************************
+		 * Called when Music Videos -Page is shown. *
+		 **************************************/
+		onMusicVideosShow: function() {
+			if (this.$musicVideosContent.html() == '') {
+				var musicVideosPage = this.musicVideosPage;
+				var $contentBox = this.$musicVideosContent;
+				$contentBox.addClass('loading');
 
+				xbmc.getMusicVideos({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_musicvideo_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMusicVideosViewer(result, musicVideosPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+		
 		/*********************************************
 		 * Called when Music-Files-Page is shown. *
 		 *********************************************/

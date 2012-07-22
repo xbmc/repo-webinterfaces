@@ -1310,6 +1310,48 @@
 
 	}; // END defaultRecentAlbumViewer
 	
+	/* ########################### *\
+	 |  Show the Music Videos.
+	 |
+	 |  @param albumResult		Result of AudioLibrary.GetAlbums.
+	 |  @param parentPage		Page which is used as parent for new sub pages.
+	\* ########################### */
+	$.fn.defaultMusicVideosViewer = function(mvResult, parentPage) {
+
+		if (!mvResult.limits.total > 0) { return };
+		
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('musicVideosView', 'cover');
+		
+		var $mvViewerElement = $(this);
+		
+		switch (view) {
+			case 'list':
+				uiviews.AlbumsViewList(mvResult, parentPage).appendTo($mvViewerElement);
+				break;
+			case 'cover':
+				uiviews.MusicVideosViewThumbnails(mvResult, parentPage).appendTo($mvViewerElement);
+				break;
+			/*case 'listin':
+				uiviews.AlbumsViewListInline(albumResult).appendTo($albumViewerElement);
+				break;*/
+		};
+
+		if (useLazyLoad) {
+			function loadThumbs(i) {
+				$mvViewerElement.find('img.thumb').lazyload(
+					{
+						queuedLoad: true,
+						container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+						errorImage: 'images/thumb.png'
+					}
+				);
+			};
+			setTimeout(loadThumbs, 100);
+		}
+
+	}; // END defaultMusicVideosViewer
+
 	
 	/* ########################### *\
 	 |  Show the songlist.
@@ -2491,16 +2533,16 @@
 					async: false
 				});
 
-
+				var manualMediaDir = '/mnt/media/music/'
 				// TODO support Windows/OSX-Folders
 				// /media - Folder may exist (access to usb-sticks etc.)
 				xbmc.getDirectory({
-					directory: '/media',
-					//directory: '/mnt/media/music/',
+					//directory: '/media',
+					directory: manualMediaDir,
 
 					onSuccess: function(result) {
-						var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><a href="" class="fileMedia"> /media</a></li>').appendTo($filelist);
-						$file.bind('click', {folder: {name:'media', path:'/media/'}}, onFolderClick);
+						var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><a href="" class="fileMedia">' + manualMediaDir + '</a></li>').appendTo($filelist);
+						$file.bind('click', {folder: {name:manualMediaDir, path:manualMediaDir}}, onFolderClick);
 					},
 
 					async: false
@@ -2570,6 +2612,10 @@
 					if (currentFile.artist) { artistElement = currentFile.artist; } else { artistElement = mkf.lang.get('label_not_available'); }
 					if (currentFile.album) { albumElement = currentFile.album; } else { albumElement = mkf.lang.get('label_not_available'); }
 					
+					//hack for partymode playlist refresh
+					if (currentFile.partymode) {
+						awxUI.onMusicPlaylistShow();
+					};
 					nowLabelElement.text(titleElement);
 					nowElement.text(' - ' + artistElement + ' - ' + albumElement);
 				} else {

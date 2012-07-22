@@ -712,7 +712,7 @@ div.thumbEpWrapper a {
 div.thumbWrapper a:hover, div.logoWrapper a:hover, div.thumbEpWrapper a:hover {
     color: #7AC800;
 }
-div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName, div.logoWrapper div.albumArtist, div.logoWrapper div.tvshowName  {
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName, div.logoWrapper div.albumArtist, div.logoWrapper div.tvshowName, div.logoWrapper div.movieName  {
     background-color: rgba(0,0,0,0.8);
 	color: #fff; /*#4B4B4B;*/
     font-size: 11px;

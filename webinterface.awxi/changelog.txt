@@ -1,3 +1,12 @@
+0.5.4
+ - Added Music Videos page.
+ - Fixed Season order 10+.
+ - Fixed Artist logos on Windows.
+ - Fixed Playlist in partymode - playlist is refreshed after every song when in party mode.
+ - Fixed Movie logo search.
+ - Fixed Movie logo text has background like rest.
+ - Fixed Movie logos when viewed from within sets.
+
 0.5.3
  - Added Movie logo view. Get adding at fanart.tv
  - Added CD/DVD art. Expects cdart.png in album dir and disc.png in movie dir.
