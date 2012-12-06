@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-var awxUI = {};
+//var awxUI = {};
 
 (function($) {
 
@@ -141,7 +141,7 @@ var awxUI = {};
             return false;
           }
       });
-      artistsTitleContextMenu.push({
+      /*artistsTitleContextMenu.push({
         'id':'findArtistsTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findArtistsTitleButton').offset();
@@ -149,10 +149,12 @@ var awxUI = {};
               .defaultFindBox({id:'artistsTitleFindBox', searchItems: xbmc.getSearchTerm('artists'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       artistsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
+            lastArtistCount = awxUI.settings.limitArtists
+            lastArtistCountStart = 0;
             awxUI.$artistsTitleContent.empty();
             awxUI.onArtistsTitleShow();
 
@@ -179,7 +181,7 @@ var awxUI = {};
             return false;
           }
       });
-      artistsGenresContextMenu.push({
+      /*artistsGenresContextMenu.push({
         'id':'findArtistsGenresButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findArtistsGenresButton').offset();
@@ -187,7 +189,7 @@ var awxUI = {};
               .defaultFindBox({id:'artistsGenresFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       artistsGenresContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -255,7 +257,7 @@ var awxUI = {};
             return false;
           }
       });
-      musicAlbumsTitleContextMenu.push({
+      /*musicAlbumsTitleContextMenu.push({
         'id':'findAlbumTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findAlbumTitleButton').offset();
@@ -263,10 +265,12 @@ var awxUI = {};
               .defaultFindBox({id:'albumsTitleFindBox', searchItems: xbmc.getSearchTerm('albums'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       musicAlbumsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
+            lastAlbumCount = awxUI.settings.limitAlbums;
+            lastAlbumCountStart = 0;
             awxUI.$albumsTitleContent.empty();
             awxUI.onAlbumsTitleShow();
 
@@ -383,7 +387,7 @@ var awxUI = {};
             return false;
           }
       });
-      albumGenresContextMenu.push({
+      /*albumGenresContextMenu.push({
         'id':'findAlbumGenresButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findAlbumGenresButton').offset();
@@ -391,7 +395,7 @@ var awxUI = {};
               .defaultFindBox({id:'albumGenresFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       albumGenresContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -436,7 +440,7 @@ var awxUI = {};
             return false;
           }
       });
-      songsTitleContextMenu.push({
+      /*songsTitleContextMenu.push({
         'id':'findSongsTitlesButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findSongsTitlesButton').offset();
@@ -444,10 +448,12 @@ var awxUI = {};
               .defaultFindBox({id:'songsTitlesFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       songsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
+            lastSongsCountStart = 0;
+            lastSongsCount = awxUI.settings.limitSongs;
             awxUI.$songsTitleContent.empty();
             awxUI.onSongsTitleShow();
 
@@ -595,7 +601,7 @@ var awxUI = {};
             return false;
           }
       });
-      songGenresContextMenu.push({
+      /*songGenresContextMenu.push({
         'id':'findSongGenresButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findSongGenresButton').offset();
@@ -603,7 +609,7 @@ var awxUI = {};
               .defaultFindBox({id:'songGenresFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       songGenresContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -626,7 +632,7 @@ var awxUI = {};
       // PVR radio
       this.$pvrradioContent = $('<div class="pageContentWrapper"></div>');
       var pvrradioContextMenu = $.extend(true, [], standardMusicContextMenu);
-      pvrradioContextMenu.push({
+      /*pvrradioContextMenu.push({
         'id':'findRadioButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findRadioButton').offset();
@@ -634,7 +640,7 @@ var awxUI = {};
               .defaultFindBox({id:'radioFindBox', searchItems: xbmc.getSearchTerm('channels'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       pvrradioContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -673,17 +679,17 @@ var awxUI = {};
       musicPlaylistContextMenu.push({
         'icon':'clear', 'title':mkf.lang.get('Clear Playlist', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
-            var messageHandle = mkf.messageLog.show(mkf.lang.get('Clear Playlist', 'Popup message'));
+            var messageHandle = mkf.messageLog.show(mkf.lang.get('Clear Playlist... ', 'Popup message with addition'));
 
             xbmc.clearAudioPlaylist({
               onSuccess: function () {
-                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK'), 5000, mkf.messageLog.status.success);
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 5000, mkf.messageLog.status.success);
                 // reload playlist
                 awxUI.onMusicPlaylistShow();
               },
 
               onError: function () {
-                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('Failed!'), 5000, mkf.messageLog.status.error);
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('Failed!', 'Popup message addition'), 5000, mkf.messageLog.status.error);
               }
             });
 
@@ -698,7 +704,7 @@ var awxUI = {};
             return false;
           }
       });
-      musicPlaylistContextMenu.push({
+     /* musicPlaylistContextMenu.push({
         'id':'findPlaylistButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findPlaylistButton').offset();
@@ -706,10 +712,10 @@ var awxUI = {};
               .defaultFindBox({id:'playlistFindBox', searchItems: xbmc.getSearchTerm('aplaylist'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       this.musicPlaylistPage = musicPage.addPage({
-        title: mkf.lang.get('Playlist', 'Page and menu'),
-        menuButtonText: '&raquo; ' + mkf.lang.get('Playlist', 'Page and menu'),
+        title: mkf.lang.get('Now Playing', 'Page and menu'),
+        menuButtonText: '&raquo; ' + mkf.lang.get('Now Playing', 'Page and menu'),
         content: this.$musicPlaylistContent,
         contextMenu: musicPlaylistContextMenu,
         onShow: $.proxy(this, "onMusicPlaylistShow"),
@@ -785,7 +791,7 @@ var awxUI = {};
             return false;
           }
       });
-      videoMoviesTitleContextMenu.push({
+      /*videoMoviesTitleContextMenu.push({
         'id':'findMovieTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findMovieTitleButton').offset();
@@ -793,10 +799,12 @@ var awxUI = {};
               .defaultFindBox({id:'moviesTitleFindBox', searchItems: xbmc.getSearchTerm('movies'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       videoMoviesTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
+            lastMovieCountStart = 0;
+            lastMovieCount = awxUI.settings.limitMovies;
             awxUI.$moviesTitleContent.empty();
             awxUI.onMoviesTitleShow();
 
@@ -824,7 +832,7 @@ var awxUI = {};
             return false;
           }
       });
-      videoMovieSetsContextMenu.push({
+      /*videoMovieSetsContextMenu.push({
         'id':'findMovieSetsButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findMovieSetsButton').offset();
@@ -832,7 +840,7 @@ var awxUI = {};
               .defaultFindBox({id:'moviesetsFindBox', searchItems: xbmc.getSearchTerm('moviesets'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       videoMovieSetsContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -1021,7 +1029,7 @@ var awxUI = {};
             return false;
           }
       });
-      videoTvShowsTitleContextMenu.push({
+      /*videoTvShowsTitleContextMenu.push({
         'id':'findTVShowTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findTVShowTitleButton').offset();
@@ -1029,10 +1037,12 @@ var awxUI = {};
               .defaultFindBox({id:'tvShowFindBox', searchItems: xbmc.getSearchTerm('tvshows'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       videoTvShowsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
+            lastTVCountStart = 0;
+            lastTVCount = awxUI.settings.limitTV;
             awxUI.$tvShowsTitleContent.empty();
             awxUI.onTvShowsTitleShow();
 
@@ -1306,7 +1316,7 @@ var awxUI = {};
       });
       //end music videos Years
       
-      //tvShows Tags
+      //musicVideos Tags
       this.$musicVideosTagsContent = $('<div class="pageContentWrapper"></div>');
       var musicVideosTagsContextMenu = $.extend(true, [], standardVideosContextMenu);
       musicVideosTagsContextMenu.push({
@@ -1339,7 +1349,7 @@ var awxUI = {};
       // PVR TV
       this.$pvrtvContent = $('<div class="pageContentWrapper"></div>');
       var pvrtvContextMenu = $.extend(true, [], standardVideosContextMenu);
-      pvrtvContextMenu.push({
+      /*pvrtvContextMenu.push({
         'id':'findPVRtvButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findPVRtvButton').offset();
@@ -1347,7 +1357,7 @@ var awxUI = {};
               .defaultFindBox({id:'pvrtvFindBox', searchItems: xbmc.getSearchTerm('channels'), top: pos.top +50, left: pos.left});
             return false;
           }
-      });
+      });*/
       pvrtvContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -1384,17 +1394,17 @@ var awxUI = {};
       videoPlaylistContextMenu.push({
         'icon':'clear', 'title':mkf.lang.get('Clear Playlist', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
-            var messageHandle = mkf.messageLog.show(mkf.lang.get('Clear Playlist', 'Popup message'));
+            var messageHandle = mkf.messageLog.show(mkf.lang.get('Clear Playlist... ', 'Popup message with addition'));
 
             xbmc.clearVideoPlaylist({
               onSuccess: function () {
-                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK'), 5000, mkf.messageLog.status.success);
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 5000, mkf.messageLog.status.success);
                 // reload playlist
                 awxUI.onVideoPlaylistShow();
               },
 
               onError: function () {
-                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('Failed!'), 5000, mkf.messageLog.status.error);
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('Failed!', 'Popup message addition'), 5000, mkf.messageLog.status.error);
               }
             });
 
@@ -1412,9 +1422,9 @@ var awxUI = {};
       });
       
       this.videoPlaylistPage = videosPage.addPage({
-        title: mkf.lang.get('Playlist', 'Page and menu'),
+        title: mkf.lang.get('Now Playing', 'Page and menu'),
         content: this.$videoPlaylistContent,
-        menuButtonText: '&raquo; ' + mkf.lang.get('Playlist', 'Page and menu'),
+        menuButtonText: '&raquo; ' + mkf.lang.get('Now Playing', 'Page and menu'),
         contextMenu: videoPlaylistContextMenu,
         onShow: $.proxy(this, "onVideoPlaylistShow"),
         className: 'videoPlaylist'
@@ -1459,45 +1469,67 @@ var awxUI = {};
      * Build the user interface. *
      *****************************/
     buildUI: function() {
+
       $('body').append('<div id="preload" style="display: none">' +
-                '<img src="images/loading_thumb.gif" alt="Preload 1/17" />' +
-                '<img src="images/loading_thumbBanner.gif" alt="Preload 2/17" />' +
-                '<img src="images/loading_thumbPoster.gif" alt="Preload 3/17" />' +
-                '<img src="images/thumbBanner.png" alt="Preload 4/17" />' +
-                '<img src="images/thumbPoster.png" alt="Preload 5/17" />' +
-                '<img src="images/thumb.png" alt="Preload 6/17" />' +
-                '<img src="ui.uni/images/messagelog.png" alt="Preload 7/17" />' +
-                '<img src="ui.uni/images/loading.gif" alt="Preload 8/17" />' +
-                '<img src="ui.uni/images/big_buttons.png" alt="Preload 9/17" />' +
-                '<img src="ui.uni/images/buttons.png" alt="Preload 10/17" />' +
-                '<img src="ui.uni/images/context_buttons.png" alt="Preload 11/17" />' +
-                '<img src="ui.uni/images/mini_buttons.png" alt="Preload 12/17" />' +
-                '<img src="ui.uni/images/controls_big.png" alt="Preload 13/17" />' +
-                '<img src="ui.uni/images/controls_big_player.png" alt="Preload 14/17" />' +
-                '<img src="ui.uni/images/flagging/aCodecs.png" alt="Preload 15/17" />' +
-                '<img src="ui.uni/images/flagging/vCodecs.png" alt="Preload 16/17" />' +
-                '<img src="ui.uni/images/flagging/channels.png" alt="Preload 17/17" />' +
+                '<img src="images/loading_thumb.gif" alt="Preload 1" />' +
+                '<img src="images/loading_thumbBanner.gif" alt="Preload 2" />' +
+                '<img src="images/loading_thumbPoster.gif" alt="Preload 3" />' +
+                '<img src="images/thumbBanner.png" alt="Preload 4" />' +
+                '<img src="images/thumbPoster.png" alt="Preload 5" />' +
+                '<img src="images/thumb.png" alt="Preload 6" />' +
+                '<img src="ui.uni/images/messagelog.png" alt="Preload 7" />' +
+                '<img src="ui.uni/images/loading.gif" alt="Preload 8" />' +
+                '<img src="ui.uni/images/big_buttons.png" alt="Preload 9" />' +
+                '<img src="ui.uni/images/buttons.png" alt="Preload 10" />' +
+                '<img src="ui.uni/images/context_buttons.png" alt="Preload 11" />' +
+                '<img src="ui.uni/images/mini_buttons.png" alt="Preload 12" />' +
+                '<img src="ui.uni/images/controls_big.png" alt="Preload 13" />' +
+                '<img src="ui.uni/images/controls_big_player.png" alt="Preload 14" />' +
+                '<img src="ui.uni/images/flagging/aCodecs.png" alt="Preload 15" />' +
+                '<img src="ui.uni/images/flagging/vCodecs.png" alt="Preload 16" />' +
+                '<img src="ui.uni/images/flagging/channels.png" alt="Preload 17" />' +
+                '<img src="ui.uni/images/quick_controls.png" alt="Preload 18" />' +
+                '<img src="images/empty_cover_music.png" alt="Preload 19" />' +
+                '<img src="images/empty_cover_musicvideo.png" alt="Preload 20" />' +
+                '<img src="images/empty_cover_artist.png" alt="Preload 21" />' +
+                '<img src="images/empty_poster_film.png" alt="Preload 22" />' +
+                '<img src="images/empty_poster_filmset.png" alt="Preload 23" />' +
+                '<img src="images/empty_poster_tv.png" alt="Preload 24" />' +
+                '<img src="images/empty_banner_artist.png" alt="Preload 25" />' +
+                '<img src="images/empty_banner_film.png" alt="Preload 26" />' +
+                '<img src="images/empty_banner_tv.png" alt="Preload 27" />' +
+                '<img src="images/empty_thumb_tv.png" alt="Preload 28" />' +
+
               '</div>' +
+              '<div id="secondBG"></div>' +
+              '<div id="firstBG"></div>' +
               '<div id="background">' +
-              '<div id="header">' +
-              '<div id="navigation"></div>'+
-              '<div id="statusLine"><div id="location"></div><div id="contextMenu"></div></div>' +
+                '<div id="header">' +
+                '<div id="navigation"></div>'+
+                '<div id="statusLine"><div id="location"></div><div id="contextMenu"></div></div>' +
               '</div>' + 
-              '<div id="content">' +
-              '<div id="displayoverlay">' +
               '<div id="displayoverlaytop"><div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
-              '<div style="position: fixed; bottom: 100px; left: 5px; z-index: 50; height: 100%;"><div id="volumeSlider"></div><img style="z-index: 5; position: absolute; bottom: 5px" src="ui.uni/images/volume.png"></div>' +
-              '<div id="displayoverlaybot">' +
-              '<div id="artwork"><img class="discThumb" src="images/blank_cdart.png" style="display: none; width: 194px; height: 194px; position: absolute; z-index: -1;"><img class="artThumb" src="images/thumbPoster.png"></div>' +
-              '<div id="controls"></div><div class="menucon" style="height: 50px; width: 330px"></div></div>' +//<div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
-              '</div></div>' +
+              '<div id="displayoverlayleft"><div id="volumeSlider"></div></div>' +
+              '<div id="content">' +
+                //'<div id="displayoverlay">' +
+                //'<div id="displayoverlaytop"><div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
+                //'<div style="position: fixed; bottom: 100px; left: 5px; z-index: 50; height: 100%;"><div id="volumeSlider"></div></div>' +
+                /*'<div id="displayoverlaybot">' +
+                '<div id="artwork"><img class="discThumb" src="images/blank_cdart.png" style="display: none; width: 194px; height: 194px; position: absolute; z-index: -1;"><img class="artThumb" src="images/thumbPoster.png"></div>' +
+                '<div id="controls"></div><div class="menucon" style="height: 50px; width: 330px"></div>' +
+                '</div>' +*///<div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
+                //'</div>' +
+              '</div>' +
+              '<div id="displayoverlaybot"><div id="controlsPlayer32"></div><div id="controlsInput32"></div>' +
+                '<div id="artwork"><a href="" class="artclose"></a><img class="discThumb" src="images/blank_cdart.png" style="display: none; width: 194px; height: 194px; position: absolute; z-index: -1;"><img class="artThumb" src="images/empty_poster_overlay.png"></div>' +
+              '</div>' +
               '<div id="footer">' +
-              '<div id="simple_controls"></div><div id="infoContainer"></div>' +
-              '<div id="statPlayerContainer"><div id="streamdets"><div class="vFormat" /><div class="aspect" /><div class="vCodec" /><div class="aCodec" /><div class="channels" /><div class="vSubtitles" style="display: none" /></div>' +
-              '<div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div>' +
-              '<div id="remainPlayer"><div id="remaining">' + mkf.lang.get('Remaining:', 'Footer label') + ' <span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('Total:', 'Footer label') + ' <span class="timeRemainTotal">00:00</span></div></div>' +
+                '<div id="simple_controls"></div><div id="infoContainer"></div>' +
+                '<div id="statPlayerContainer"><div id="streamdets"><div class="vFormat" /><div class="aspect" /><div class="vCodec" /><div class="aCodec" /><div class="channels" /><div class="vSubtitles" style="display: none" /></div>' +
+                '<div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div>' +
+                '<div id="remainPlayer"><div id="remaining">' + mkf.lang.get('Remaining:', 'Footer label') + ' <span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('Total:', 'Footer label') + ' <span class="timeRemainTotal">00:00</span></div></div>' +
               //'<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">Remaing:</div><div id="plTotal">Playlist Total:</div></div>' +
-              '<div id="controller"></div></div>' +
+                '<div id="controller"></div></div>' +
               '</div>' +
               '<div id="messageLog"></div></div>'
               );
@@ -1516,9 +1548,13 @@ var awxUI = {};
 
       $('#footer #simple_controls').simcontrols();
       $('#displayoverlaybot .menucon').topcontrols();
-      $('#controls').extraControls();
+      $('#controlsPlayer32').controlsPlayer32();
+      $('#controlsInput32').controlsInput32();
+      $('#controlsPlayer24').controlsPlayer24();
+      $('#controlsInput24').controlsInput24();
+      $('#artwork a.artclose').click(function() { $('#artwork').hide(); return false; } );
       $('#infoContainer').uniFooterStatus();
-      $('#controller').on('click', function() { $('#displayoverlay').toggle() } );
+      $('#controller').on('click', function() { $('#displayoverlayleft').toggle(); $('#displayoverlaytop').toggle(); $('#displayoverlaybot').toggle(); $('#content').toggleClass('controls'); $('#artwork').show(); } );
       //$('#currentlyPlaying').defaultCurrentlyPlaying({effect:'fade'});
       $('#volumeSlider').defaultVolumeControl({vertical: true});
 
@@ -1528,7 +1564,9 @@ var awxUI = {};
       $sysMenu.find('a.settings').prepend('<span class="icon settings"></span>');
       $sysMenu.find('a.exit').prepend('<span class="icon exit"></span>');
 
-      $('#displayoverlay').hide();
+      $('#displayoverlaybot').hide();
+      $('#displayoverlaytop').hide();
+      $('#displayoverlayleft').hide();
       $('#statusPlayer #statusPlayerRow').children().hide()
       //$('#statusPlayer').hide();
 
@@ -1579,7 +1617,7 @@ var awxUI = {};
         $(this).hide();
         $(this).children().children().css('width',Widest);
       });
-      }, 100);
+      }, 500);
       
       // Hover for menus
       $('#navigation ul.mkfMenu > li, ul.systemMenu > li').hover(function() {
@@ -1600,6 +1638,7 @@ var awxUI = {};
             $(this).parent().removeClass('mouseover');
           });
       });
+      
       
       
       $('.' + mkf.cookieSettings.get('startPage', 'recentTV') + ' a').click();
@@ -1632,21 +1671,21 @@ var awxUI = {};
     onArtistsTitleShow: function(e) {
       var artistsTitlePage = awxUI.artistsTitlePage;
       awxUI.$artistsTitleContent.empty();
-        if (typeof lastArtistCount === 'undefined') { lastArtistCount = mkf.cookieSettings.get('limitArtists', 25); };
+        if (typeof lastArtistCount === 'undefined') { (awxUI.settings.artistsView == 'logosingle'? lastArtistCount = 1 : lastArtistCount = awxUI.settings.limitArtists) };
         if (typeof lastArtistCountStart === 'undefined') { lastArtistCountStart = 0 };
         if (typeof e != 'undefined') {
           if (e.data.Page == 'next') {
-          lastArtistCount = parseInt(lastArtistCount) + parseInt(mkf.cookieSettings.get('limitArtists', 25));
-          lastArtistCountStart += parseInt(mkf.cookieSettings.get('limitArtists', 25));
+          lastArtistCount = parseInt(lastArtistCount) + parseInt(awxUI.settings.limitArtists);
+          lastArtistCountStart += parseInt(awxUI.settings.limitArtists);
           };
           if (e.data.Page == 'prev') {
-          lastArtistCount = parseInt(lastArtistCount) - parseInt(mkf.cookieSettings.get('limitArtists', 25));
-          lastArtistCountStart -= parseInt(mkf.cookieSettings.get('limitArtists', 25));
+          lastArtistCount = parseInt(lastArtistCount) - parseInt(awxUI.settings.limitArtists);
+          lastArtistCountStart -= parseInt(awxUI.settings.limitArtists);
           if (lastArtistCount == 0) {
             lastArtistCount = totalArtistCount;
-            lastArtistCountStart = totalArtistCount - mkf.cookieSettings.get('limitArtists', 25);
+            lastArtistCountStart = totalArtistCount - awxUI.settings.limitArtists;
           } else if (lastArtistCount < 1 || lastArtistCountStart < 0){
-            lastArtistCount = mkf.cookieSettings.get('limitArtists', 25);
+            lastArtistCount = awxUI.settings.limitArtists;
             lastArtistCountStart = 0;
           };
           };
@@ -1659,7 +1698,7 @@ var awxUI = {};
           start: lastArtistCountStart,
           end: lastArtistCount,
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1684,7 +1723,7 @@ var awxUI = {};
 
         xbmc.getMusicPlaylists({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1708,7 +1747,7 @@ var awxUI = {};
 
         xbmc.getAudioGenres({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1743,21 +1782,21 @@ var awxUI = {};
     onAlbumsTitleShow: function(e) {
       var albumsTitlePage = awxUI.albumsTitlePage;
       awxUI.$albumsTitleContent.empty();
-        if (typeof lastAlbumCount === 'undefined') { lastAlbumCount = mkf.cookieSettings.get('limitAlbums', 25); };
+        if (typeof lastAlbumCount === 'undefined') { lastAlbumCount = awxUI.settings.limitAlbums };
         if (typeof lastAlbumCountStart === 'undefined') { lastAlbumCountStart = 0 };
         if (typeof e != 'undefined') {
           if (e.data.Page == 'next') {
-          lastAlbumCount = parseInt(lastAlbumCount) + parseInt(mkf.cookieSettings.get('limitAlbums', 25));
-          lastAlbumCountStart += parseInt(mkf.cookieSettings.get('limitAlbums', 25));
+          lastAlbumCount = parseInt(lastAlbumCount) + parseInt(awxUI.settings.limitAlbums);
+          lastAlbumCountStart += parseInt(awxUI.settings.limitAlbums);
           };
           if (e.data.Page == 'prev') {
-          lastAlbumCount = parseInt(lastAlbumCount) - parseInt(mkf.cookieSettings.get('limitAlbums', 25));
-          lastAlbumCountStart -= parseInt(mkf.cookieSettings.get('limitAlbums', 25));
+          lastAlbumCount = parseInt(lastAlbumCount) - parseInt(awxUI.settings.limitAlbums);
+          lastAlbumCountStart -= parseInt(awxUI.settings.limitAlbums);
           if (lastAlbumCount == 0) {
             lastAlbumCount = totalAlbumCount;
-            lastAlbumCountStart = totalAlbumCount - mkf.cookieSettings.get('limitAlbums', 25);
+            lastAlbumCountStart = totalAlbumCount - awxUI.settings.limitAlbums;
           } else if (lastAlbumCount < 1 || lastAlbumCountStart < 0){
-            lastAlbumCount = mkf.cookieSettings.get('limitAlbums', 25);
+            lastAlbumCount = awxUI.settings.limitAlbums;
             lastAlbumCountStart = 0;
           };
           };
@@ -1769,7 +1808,7 @@ var awxUI = {};
           start: lastAlbumCountStart,
           end: lastAlbumCount,
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1793,7 +1832,7 @@ var awxUI = {};
 
         xbmc.getRecentlyAddedAlbums({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1816,7 +1855,7 @@ var awxUI = {};
 
         xbmc.getRecentlyPlayedAlbums({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1842,7 +1881,7 @@ var awxUI = {};
           media: 'files',
           directory: 'musicdb://9/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1865,7 +1904,7 @@ var awxUI = {};
 
         xbmc.getAudioGenres({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -1900,21 +1939,21 @@ var awxUI = {};
     onSongsTitleShow: function(e) {
       var songsTitlePage = awxUI.songsTitlePage;
       awxUI.$songsTitleContent.empty();
-        if (typeof lastSongsCount === 'undefined') { lastSongsCount = mkf.cookieSettings.get('limitSongs', 25); };
+        if (typeof lastSongsCount === 'undefined') { lastSongsCount = awxUI.settings.limitSongs };
         if (typeof lastSongsCountStart === 'undefined') { lastSongsCountStart = 0 };
         if (typeof e != 'undefined') {
           if (e.data.Page == 'next') {
-          lastSongsCount = parseInt(lastSongsCount) + parseInt(mkf.cookieSettings.get('limitSongs', 25));
-          lastSongsCountStart += parseInt(mkf.cookieSettings.get('limitSongs', 25));
+          lastSongsCount = parseInt(lastSongsCount) + parseInt(awxUI.settings.limitSongs);
+          lastSongsCountStart += parseInt(awxUI.settings.limitSongs);
           };
           if (e.data.Page == 'prev') {
-          lastSongsCount = parseInt(lastSongsCount) - parseInt(mkf.cookieSettings.get('limitSongs', 25));
-          lastSongsCountStart -= parseInt(mkf.cookieSettings.get('limitSongs', 25));
+          lastSongsCount = parseInt(lastSongsCount) - parseInt(awxUI.settings.limitSongs);
+          lastSongsCountStart -= parseInt(awxUI.settings.limitSongs);
           if (lastSongsCount == 0) {
             lastSongsCount = totalSongsCount;
-            lastSongsCountStart = totalSongsCount - mkf.cookieSettings.get('limitSongs', 25);
+            lastSongsCountStart = totalSongsCount - awxUI.settings.limitSongs;
           } else if (lastSongsCount < 1 || lastSongsCountStart < 0){
-            lastSongsCount = mkf.cookieSettings.get('limitSongs', 25);
+            lastSongsCount = awxUI.settings.limitSongs;
             lastSongsCountStart = 0;
           };
           };
@@ -1926,11 +1965,12 @@ var awxUI = {};
         start: lastSongsCountStart,
         end: lastSongsCount,
         onError: function() {
-          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
           $contentBox.removeClass('loading');
         },
 
         onSuccess: function(result) {
+          result.showDetails = true;
           $contentBox.defaultSonglistViewer(result, songsTitlePage);
           $contentBox.removeClass('loading');
         }
@@ -1949,12 +1989,13 @@ var awxUI = {};
 
         xbmc.getRecentlyAddedSongs({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
           onSuccess: function(result) {
             result.isFilter = true;
+            result.showDetails = true;
             $contentBox.defaultSonglistViewer(result, songsRecentPage);
             $contentBox.removeClass('loading');
           }
@@ -1973,12 +2014,13 @@ var awxUI = {};
 
         xbmc.getRecentlyPlayedSongs({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
           onSuccess: function(result) {
             result.isFilter = true;
+            result.showDetails = true;
             $contentBox.defaultSonglistViewer(result, songsRecentPlayedPage);
             $contentBox.removeClass('loading');
           }
@@ -1992,21 +2034,21 @@ var awxUI = {};
     onSongsArtistsShow: function(e) {
       var songsArtistsPage = awxUI.songsArtistsPage;
       awxUI.$songsArtistsContent.empty();
-        if (typeof lastArtistCount === 'undefined') { lastArtistCount = mkf.cookieSettings.get('limitArtists', 25); };
+        if (typeof lastArtistCount === 'undefined') { lastArtistCount = awxUI.settings.limitArtists };
         if (typeof lastArtistCountStart === 'undefined') { lastArtistCountStart = 0 };
         if (typeof e != 'undefined') {
           if (e.data.Page == 'next') {
-          lastArtistCount = parseInt(lastArtistCount) + parseInt(mkf.cookieSettings.get('limitArtists', 25));
-          lastArtistCountStart += parseInt(mkf.cookieSettings.get('limitArtists', 25));
+          lastArtistCount = parseInt(lastArtistCount) + parseInt(awxUI.settings.limitArtists);
+          lastArtistCountStart += parseInt(awxUI.settings.limitArtists);
           };
           if (e.data.Page == 'prev') {
-          lastArtistCount = parseInt(lastArtistCount) - parseInt(mkf.cookieSettings.get('limitArtists', 25));
-          lastArtistCountStart -= parseInt(mkf.cookieSettings.get('limitArtists', 25));
+          lastArtistCount = parseInt(lastArtistCount) - parseInt(awxUI.settings.limitArtists);
+          lastArtistCountStart -= parseInt(awxUI.settings.limitArtists);
           if (lastArtistCount == 0) {
             lastArtistCount = totalArtistCount;
-            lastArtistCountStart = totalArtistCount - mkf.cookieSettings.get('limitArtists', 25);
+            lastArtistCountStart = totalArtistCount - awxUI.settings.limitArtists;
           } else if (lastArtistCount < 1 || lastArtistCountStart < 0){
-            lastArtistCount = mkf.cookieSettings.get('limitArtists', 25);
+            lastArtistCount = awxUI.settings.limitArtists;
             lastArtistCountStart = 0;
           };
           };
@@ -2019,7 +2061,7 @@ var awxUI = {};
           start: lastArtistCountStart,
           end: lastArtistCount,
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2046,7 +2088,7 @@ var awxUI = {};
           media: 'files',
           directory: 'musicdb://9/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2069,7 +2111,7 @@ var awxUI = {};
 
         xbmc.getAudioGenres({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2101,7 +2143,7 @@ var awxUI = {};
 
         xbmc.getMusicVideos({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2124,7 +2166,7 @@ var awxUI = {};
 
         xbmc.getRecentlyAddedMusicVideos({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2149,7 +2191,7 @@ var awxUI = {};
         xbmc.getVideoGenres({
           type: 'musicvideo',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2176,7 +2218,7 @@ var awxUI = {};
           media: 'files',
           directory: 'videodb://3/3/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2203,7 +2245,7 @@ var awxUI = {};
           media: 'files',
           directory: 'videodb://3/9/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2227,7 +2269,7 @@ var awxUI = {};
         xbmc.pvrGetChannelGroups({
           group: 'radio',
           onError: function() {
-            //mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            //mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2275,7 +2317,7 @@ var awxUI = {};
 
       xbmc.getAudioPlaylist({
         onError: function() {
-          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
           $contentBox.removeClass('loading');
         },
 
@@ -2301,21 +2343,21 @@ var awxUI = {};
     onMoviesTitleShow: function(e) {
       //Always refresh, mainly for limited item views
         awxUI.$moviesTitleContent.empty();
-        if (typeof lastMovieCount === 'undefined') { lastMovieCount = mkf.cookieSettings.get('limitVideo', 25) };
+        if (typeof lastMovieCount === 'undefined') { (awxUI.settings.filmView == 'singlePoster'? lastMovieCount = 1 : lastMovieCount = awxUI.settings.limitMovies) };
         if (typeof lastMovieCountStart === 'undefined') { lastMovieCountStart = 0 };
         if (typeof e != 'undefined') {
           if (e.data.Page == 'next') {
-            lastMovieCount = parseInt(lastMovieCount) + parseInt(mkf.cookieSettings.get('limitVideo', 25));
-            lastMovieCountStart += parseInt(mkf.cookieSettings.get('limitVideo', 25));
+            lastMovieCount = parseInt(lastMovieCount) + parseInt(awxUI.settings.limitMovies);
+            lastMovieCountStart += parseInt(awxUI.settings.limitMovies);
             };
             if (e.data.Page == 'prev') {
-            lastMovieCount = parseInt(lastMovieCount) - parseInt(mkf.cookieSettings.get('limitVideo', 25));
-            lastMovieCountStart -= parseInt(mkf.cookieSettings.get('limitVideo', 25));
+            lastMovieCount = parseInt(lastMovieCount) - parseInt(awxUI.settings.limitMovies);
+            lastMovieCountStart -= parseInt(awxUI.settings.limitMovies);
             if (lastMovieCount == 0) {
               lastMovieCount = totalMovieCount;
-              lastMovieCountStart = totalMovieCount - mkf.cookieSettings.get('limitVideo', 25);
+              lastMovieCountStart = totalMovieCount - parseInt(awxUI.settings.limitMovies);
             } else if (lastMovieCount < 1 || lastMovieCountStart < 0) {
-              lastMovieCount = mkf.cookieSettings.get('limitVideo', 25);
+              lastMovieCount = parseInt(awxUI.settings.limitMovies);
               lastMovieCountStart = 0;
             };
           };
@@ -2324,11 +2366,15 @@ var awxUI = {};
         var moviesTitlePage = awxUI.moviesTitlePage;
         $contentBox.addClass('loading');
 
+        //Use advanced filter if we are hiding watched.
+        var filter = (awxUI.settings.watched? '"filter": {"field": "playcount", "operator": "is", "value": "0"}' : '');
+        
         xbmc.getMovies({
+          filter: filter,
           start: lastMovieCountStart,
           end: lastMovieCount,
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2337,7 +2383,7 @@ var awxUI = {};
             $contentBox.removeClass('loading');
           }
         });
-      //}
+        
       return false
     },
   
@@ -2345,7 +2391,6 @@ var awxUI = {};
      * Called when Movie sets-Page is shown.          *
      *********************************************/
     onMovieSetsShow: function() {
-
       if (this.$movieSetsContent.html() == '') {
         var movieSetsPage = this.movieSetsPage;
         var $contentBox = this.$movieSetsContent;
@@ -2353,16 +2398,18 @@ var awxUI = {};
 
         xbmc.getMovieSets({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
           onSuccess: function(result) {
-            $contentBox.defaultMovieSetsViewer(result, movieSetsPage);
+            $contentBox.defaultMovieSetTitleViewer(result, movieSetsPage);
             $contentBox.removeClass('loading');
           }
         });
-      }
+      };
+      
+      return false;
     },
 
     /*********************************************
@@ -2378,7 +2425,7 @@ var awxUI = {};
         xbmc.getVideoGenres({
           type: 'movie',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2405,7 +2452,7 @@ var awxUI = {};
           media: 'files',
           directory: 'videodb://1/3/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2432,7 +2479,7 @@ var awxUI = {};
           media: 'files',
           directory: 'videodb://1/9/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2455,7 +2502,7 @@ var awxUI = {};
 
         xbmc.getVideoPlaylists({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2477,7 +2524,7 @@ var awxUI = {};
 
         xbmc.getRecentlyAddedMovies({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2505,7 +2552,7 @@ var awxUI = {};
       var tvShowsTitlePage = awxUI.tvShowsTitlePage;
       //Always refresh, mainly for limited item views
         awxUI.$tvShowsTitleContent.empty();
-        var limitTV = mkf.cookieSettings.get('limitTV', 25);
+        var limitTV = awxUI.settings.limitTV;
         if (typeof lastTVCount === 'undefined') { lastTVCount = limitTV };
         if (typeof lastTVCountStart === 'undefined') { lastTVCountStart = 0 };
         if (typeof e != 'undefined') {
@@ -2529,12 +2576,15 @@ var awxUI = {};
         var $contentBox = awxUI.$tvShowsTitleContent;
         
         $contentBox.addClass('loading');
-
+        //Use advanced filter if we are hiding watched.
+        var filter = (awxUI.settings.watched? '"filter": {"field": "playcount", "operator": "is", "value": "0"}' : '');
+        
         xbmc.getTvShows({
+          filter: filter,
           start: lastTVCountStart,
           end: lastTVCount,
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2559,7 +2609,7 @@ var awxUI = {};
 
         xbmc.getRecentlyAddedEpisodes({
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2584,7 +2634,7 @@ var awxUI = {};
         xbmc.getVideoGenres({
           type: 'tvshow',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2611,7 +2661,7 @@ var awxUI = {};
           media: 'files',
           directory: 'videodb://2/3/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2638,7 +2688,7 @@ var awxUI = {};
           media: 'files',
           directory: 'videodb://2/9/',
           onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2661,7 +2711,7 @@ var awxUI = {};
 
         xbmc.pvrGetChannelGroups({
           onError: function() {
-            //mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+            //mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');
           },
 
@@ -2692,7 +2742,7 @@ var awxUI = {};
 
       xbmc.getVideoPlaylist({
         onError: function() {
-          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!'), mkf.messageLog.status.error, 5000);
+          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
           $contentBox.removeClass('loading');
         },
 

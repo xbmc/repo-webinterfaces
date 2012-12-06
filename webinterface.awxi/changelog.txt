@@ -1,3 +1,21 @@
+0.6.1
+  - Extra fan art support for random playing background.
+  - Ability to disable functions via js/settings.json.
+  - Browse addons VFS in the file menu. This is unsupported by XBMC and thus the same by AWXi.
+  - Read cookies once and set variable. Read variable for views, limits and sorting: no need for browser page refresh on changes.
+  - Single views use proper limiting.
+  - Changed sorting 'none' to 'date added' which retains the old/expected behaviour.
+  - Added Artist banner view. Requires banner.jpg in artist directory (same as logo.png).
+  - Added default images for all image types.
+  - Changed how images are loaded so any 404s are handled nicely.
+  - Changed overlay to inlay and added the ability to hide artwork. Controls can be left open. WIP.
+  - Disabled "find" in page. Please use the more powerful "Advanced Search" for now.
+  - Fix limited views with hide watched (Oppsie).
+  - Fix start from 1 for limits label.
+  - Fix playing and enqueuing songs.
+  - Fix open and close unwatched episodes page if there were no unwatched episodes.
+  - Fix passwords are hidden on input text request.
+  
 0.6.0
  - Initial build for Frodo.
  - Websockets - near instant responce to notifications.

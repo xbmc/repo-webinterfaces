@@ -21,6 +21,15 @@ AWXi uses some icons from the XBMC Confluence skin.
 
 --------------------------------------------------------------------------------
 
+Default images were created using the icons from "Web0.2ama" icon pack.
+
+The icons are released under Creative Commons 3.0 Share Alike license. (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+Commercial use is not allowed. 
+©2011 chrfb 
+http://chrfb.deviantart.com 
+
+--------------------------------------------------------------------------------
+
 AWXi uses some icons from the "Open Icon Library" available at
 http://openiconlibrary.sourceforge.net/
 

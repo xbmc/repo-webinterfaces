@@ -60,7 +60,7 @@ msgid "Files"
 msgstr ""
 
 msgctxt "Page and menu"
-msgid "Playlist"
+msgid "Now Playing"
 msgstr ""
 
 msgctxt "Page and menu"
@@ -125,7 +125,7 @@ msgctxt "Tool tip"
 msgid "Refresh"
 msgstr ""
 
-msgctxt "Popup message"
+msgctxt "Popup message with addition"
 msgid "Clear Playlist... "
 msgstr ""
 
@@ -175,6 +175,14 @@ msgstr ""
 
 msgctxt "Popup message"
 msgid "No unwatched episodes!"
+msgstr ""
+
+msgctxt "Popup message"
+msgid "No unwatched seasons!"
+msgstr ""
+
+msgctxt "Popup message"
+msgid "No seasons found!"
 msgstr ""
 
 msgid "XBMC has quit. You can close this window."
@@ -722,15 +730,6 @@ msgctxt "Footer label"
 msgid "Total:"
 msgstr ""
 
-msgid "Track:"
-msgstr ""
-
-msgid "Album:"
-msgstr ""
-
-msgid "Duration:"
-msgstr ""
-
 msgctxt "Settings label"
 msgid "Order By:"
 msgstr ""
@@ -745,6 +744,10 @@ msgstr ""
 
 msgctxt "Settings option"
 msgid "None"
+msgstr ""
+
+msgctxt "Settings option"
+msgid "Date Added"
 msgstr ""
 
 msgctxt "Settings option"
@@ -836,6 +839,10 @@ msgid "Use fan art as background"
 msgstr ""
 
 msgctxt "Settings option"
+msgid "Use extra fan art"
+msgstr ""
+
+msgctxt "Settings option"
 msgid "Time Out for Ajax-Requests:"
 msgstr ""
 
@@ -864,6 +871,10 @@ msgid "for album based views."
 msgstr ""
 
 msgctxt "Settings label"
+msgid "for song based views."
+msgstr ""
+
+msgctxt "Settings label"
 msgid "for movie based views."
 msgstr ""
 
@@ -885,6 +896,14 @@ msgstr ""
 
 msgctxt "Label"
 msgid "Artist:"
+msgstr ""
+
+msgctxt "Label"
+msgid "Album:"
+msgstr ""
+
+msgctxt "Label"
+msgid "Track:"
 msgstr ""
 
 msgctxt "Label"
@@ -1180,6 +1199,7 @@ msgctxt "Popup message"
 msgid "Please close all statements"
 msgstr ""
 
+msgctxt "Popup message"
 msgid "No matches found!"
 msgstr ""
 
