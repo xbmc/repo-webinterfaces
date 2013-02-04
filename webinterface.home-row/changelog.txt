@@ -1,0 +1,7 @@
+Version 1.6.0:
+
+Frodo compatibility update
+
+- fixed issue with wrong mime type on some requests
+- fixed image handling
+- fixed issue getting albumms and tracks (now uses filtering parameter)

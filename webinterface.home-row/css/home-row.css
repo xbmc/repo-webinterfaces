@@ -1,0 +1,517 @@
+HTML, BODY, DIV, SPAN, OBJECT, IFRAME, H1, H2, H3, H4, H5, H6, P, BLOCKQUOTE, PRE, A, ABBR, ADDRESS, CITE, CODE, DEL, DFN, EM, IMG, INS, Q, SMALL, STRONG, SUB, SUP, DL, DT, DD, OL, UL, LI, FIELDSET, FORM, LABEL, LEGEND, TABLE, CAPTION, TBODY, TFOOT, THEAD, TR, TH, TD {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+ARTICLE, ASIDE, FIGURE, FIGURE IMG, FIGCAPTION, HGROUP, FOOTER, HEADER, NAV, SECTION, VIDEO, OBJECT {
+    display: block;
+}
+
+LI {
+    list-style: none;
+}
+
+A IMG {
+    border: 0;
+}
+
+FIGURE {
+    position: relative;
+}
+
+FIGURE IMG {
+    width: 100%;
+}
+
+BODY {
+    font-family: Verdana, Arial, "San Serif";
+    font-size: 12px;
+    overflow-x: hidden;
+    background: rgb(10, 10, 10);
+}
+
+IMG:not([src]) {
+    display: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hide, .templates {
+    display: none;
+}
+
+.clear {
+    clear: both;
+}
+
+.status-bar {
+    border: 2px solid #808080;
+    background: rgba(255, 255, 255, 0.4);
+    width: 100%;
+    left: 0;
+    bottom: 0px;
+    position: fixed;
+    z-index: 1;
+}
+
+.media {
+    padding: 10px 0px 10px 10px;
+    color: #FFFFFF;
+}
+
+.media .column {
+    display: inline-block;
+}
+
+.media P {
+    padding-bottom: 5px;
+    max-width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.media P.label {
+    font-weight: bold;
+}
+
+P.icon {
+    height: 66px;
+    border: 1px solid #808080;
+    overflow: hidden;
+    margin-right: 5px;
+    vertical-align: top;
+    background: rgb(200, 200, 200);
+    font-size: 0;
+    line-height: 0;
+    padding: 0;
+}
+
+.media P.icon IMG.icon {
+    height: 100%;
+}
+
+.info {
+    background: rgb(255, 255, 255);
+    border: 1px solid #808080;
+    padding: 14px;
+    color: rgb(25, 25, 25);
+    max-width: 240px;
+}
+
+.status {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    padding-top: 10px;
+    z-index: 5;
+}
+
+.status.button {
+    position: relative;
+    left: -50%;
+}
+
+.tools {
+    float: right;
+    text-align: right;
+    padding-bottom: 10px;
+}
+
+.tools > DIV {
+    padding: 10px 10px 0px 0px;
+}
+
+.button {
+    display: inline-block;
+    padding: 6px 10px;
+    margin: 0px 5px 0px 0px;
+    font-size: 12px;
+    background: #FFFFFF url(images/home-row-sprite-min.png) no-repeat center 23px;
+    border: 1px solid #808080;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: rgb(25, 25, 25);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    height: 14px;
+}
+
+.button:hover, .button:active, .button:focus {
+    background-color: rgba(25, 25, 25, 0.75);
+    color: #FFFFFF;
+}
+
+.play-controls .button {
+    min-width: 14px;
+    line-height: 200px;
+}
+
+.shuffle.button {
+    background-position: 50% -234px;
+}
+
+.shuffle.button:hover {
+    background-position: 50% -494px;
+}
+
+.skip-forward.button {
+    background-position: 56% -208px;
+    min-width: 38px;
+}
+
+.skip-forward.button:hover {
+    background-position: 56% -468px;
+}
+
+.skip-forward-short.button {
+    background-position: 36% -130px;
+}
+
+.skip-forward-short.button:hover {
+    background-position: 36% -390px;
+}
+
+.skip-back-short.button {
+    background-position: 68% -156px;
+}
+
+.skip-back-short.button:hover {
+    background-position: 68% -416px;
+}
+
+.skip-back.button {
+    background-position: 45% -182px;
+    min-width: 38px;
+}
+
+.skip-back.button:hover {
+    background-position: 45% -442px;
+}
+
+.next.button {
+    background-position: 50% -52px;
+}
+
+.next.button:hover {
+    background-position: 50% -312px;
+}
+
+.stop.button {
+    background-position: 50% -104px;
+}
+
+.stop.button:hover {
+    background-position: 50% -364px;
+}
+
+.play-pause.button {
+    background-position: 50% 0px;
+}
+
+.play-pause.button:hover {
+    background-position: 50% -260px;
+}
+
+.play-pause.playing.button {
+    background-position: 50% -26px;
+}
+
+.play-pause.playing.button:hover {
+    background-position: 50% -286px;
+}
+
+.previous.button {
+    background-position: 50% -78px;
+}
+
+.previous.button:hover {
+    background-position: 50% -338px;
+}
+
+.status.button:hover {
+    color: rgb(25, 25, 25);
+    background: rgb(200, 200, 200);
+}
+
+.search-bar {
+    border: 2px solid #808080;
+    background: rgba(255, 255, 255, 0.4);
+    width: 100%;
+    position: fixed;
+    padding: 0 20px 10px;
+    z-index: 1;
+}
+
+.search-bar > LI {
+    list-style: none;
+    margin-top: 10px;
+    float: left;
+}
+
+.bread-crumbs {
+    padding: 0 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.back {
+    cursor: pointer;
+    text-align: center;
+}
+
+.info-box {
+    position: absolute;
+    right: 0;
+    top: 35px;
+    color: #808080;
+    display: none;
+    width: 200px;
+    padding: 20px;
+    background: #FFFFFF;
+    border: 1px solid #808080;
+    line-height: 20px;
+}
+
+.info-box H3 {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.info-box UL {
+    margin-bottom: 15px;
+}
+
+.info-box UL:last-child {
+    margin-bottom: 0;
+}
+
+.info-box UL LI {
+    margin-bottom: 5px;
+}
+
+.help.button {
+    position: relative;
+    margin-left: 5px;
+}
+
+.help.button:hover .info-box {
+    display: block;
+}
+
+.search-box {
+    height: 30px;
+    font-size: 16px;
+    color: rgb(50, 50, 50);
+    border: none;
+    padding: 0 10px;
+    width: 185px;
+}
+
+.search-box.on {
+    color: #000000;
+}
+
+.status-bar {
+    clear: both;
+}
+
+.results-box {
+    padding: 54px 0px 90px;
+}
+
+.results {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    position: relative;
+    /*
+    overflow-x:hidden;
+    overflow-y:auto;
+    */
+}
+
+.results LI {
+    width: 190px;
+    height: 300px;
+    padding: 10px;
+    border-bottom: 1px solid #808080;
+    border-right: 1px solid #808080;
+    display: inline-block;
+    vertical-align: top;
+    color: #FFFFFF;
+    list-style: none;
+    cursor: pointer;
+}
+
+.results LI.album, .results LI.song {
+    height: 232px;
+}
+
+.results LI.hide {
+    display: none;
+}
+
+.results LI:hover, .results LI.selected {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.results LI .thumb {
+    width: 100%;
+    height: 268px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.results .thumb.no-image {
+    background: rgba(255, 255, 255, 0.45) url(images/clean-icons/file-icon.png) no-repeat center;
+    height: 250px;
+    display: block;
+}
+
+.home.results .playlist .thumb {
+    background-image: url(images/clean-icons/document-icon.png);
+}
+
+.home.results .movies .thumb, .home.results .television .thumb, .home.results .recent .thumb, .television.results .tv.show .thumb.no-image, .tv-show.results .season .thumb.no-image {
+    background-image: url(images/clean-icons/movie-folder-icon.png);
+}
+
+.home.results .artists .thumb, .home.results .albums .thumb, .albums.results .thumb.no-image, .artists.results .thumb.no-image {
+    background-image: url(images/clean-icons/music-folder-icon.png);
+}
+
+.home.results .video.fliles .thumb.no-image {
+    background-image: url(images/clean-icons/movie-folder-icon.png);
+}
+
+.home.results .music.fliles .thumb {
+    background-image: url(images/clean-icons/music-folder-icon.png);
+}
+
+.album.results .thumb.no-image, .music-fliles.results .thumb {
+    background-image: url(images/clean-icons/music-file-icon.png);
+}
+
+.recent-episodes.results .episode .thumb.no-image, .season.results .thumb.no-image, .video-fliles.results .thumb.no-image {
+    background-image: url(images/clean-icons/movie-file-icon.png);
+}
+
+.results LI.album .thumb, .results LI.song .thumb {
+    height: 197px;
+}
+
+.results LI.album .thumb.no-image, .results LI.song .thumb.no-image {
+    height: 106px;
+    padding-top: 85px;
+}
+
+.results LI .thumb.no-image IMG {
+    display: none;
+}
+
+.results LI .thumb IMG {
+    height: 100%;
+}
+
+.results LI.episode .thumb IMG {
+    margin-left: -50%;
+}
+
+.results LI.album .thumb IMG, .results LI.song .thumb IMG {
+    height: auto;
+    width: 100% !important;
+}
+
+.results LI .title {
+    margin-top: 5px;
+    text-align: center;
+    height: 30px;
+    width: 100%;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Helvetica, Verdana, sans-serif;
+}
+
+.menu-wrap.overlay {
+    background-color: rgba(255, 255, 255, 0.45);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.menu-wrap.overlay .menu {
+    width: 65%;
+    max-width: 900px;
+    min-width: 640px;
+    margin: auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #FFFFFF;
+}
+
+.menu-wrap.overlay .menu H2.title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-family: Verdana, sans-serif;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.menu .menu-info-wrapper IMG.thumb {
+    max-width: 72%;
+    max-height: 350px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.menu .menu-info-wrapper UL.menu-options {
+    float: right;
+    width: 25%;
+    border: 1px solid #999;
+    margin-bottom: 15px;
+}
+
+.menu-info-wrapper P.description {
+    background: rgba(255, 255, 255, 0.85);
+    color: #000;
+    font-size: 16px;
+    line-height: 22px;
+    font-family: Georgia;
+    padding: 20px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.menu-info-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+UL.menu-options LI, UL.menu-options:hover LI.selected {
+    list-style: none;
+    padding: 20px 0 20px 20px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #DDD;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+}
+
+UL.menu-options LI.selected, UL.menu-options LI:hover, UL.menu-options:hover LI.selected:hover {
+    color: #333;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.shuffle.button.shuffled {
+    opacity: .65;
+}

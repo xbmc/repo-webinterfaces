@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="webinterface.home-row"
+  version="1.6.0"
+  name="Home Row"
+  provider-name="Soljin">
+  <requires>
+    <import addon="xbmc.gui" version="4.0.0"/>
+    <import addon="xbmc.json" version="6.0.0" />
+  </requires>
+  <extension
+    point="xbmc.gui.webinterface"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Home Row - Fast keystroke/touch based web interface for XBMC</summary>
+    <description lang="en">Home Row focuses on speed by using a quick refine text field. It is very mouse, touch and mobile friendly. It has queueing and playlist support. It should work with any modern browser that supports JS.</description>
+    <platform>all</platform>
+    <language>en</language>
+  </extension>
+</addon>

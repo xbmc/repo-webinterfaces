@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Row XBMC</title>
+    <meta name="viewport" content="initial-scale = .55, width = device-width, minimum-scale = .55, maximum-scale = 1.5 "/>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/home-row.css">
+    <link rel="stylesheet" href="css/yui.css">
+    <script type="text/javascript" src="js/yui.js"></script>
+    <script type="text/javascript" src="js/menu-structure.js"></script>
+    <script type="text/javascript" src="js/home-row.js"></script>
+</head>
+<body>
+    <div class="home-row-xbmc">
+        <ul class="search-bar">
+            <li class="back button">&laquo; </li>
+            <li>
+                <ul class="bread-crumbs">
+                    <li class="home button">home</li>
+                </ul>
+            </li>
+            <li class="search-group">
+                <form class="search-form" action="#">
+                    <input class="search-box" value=""/>
+                </form>
+            </li>
+            <li class="help button">
+                ? <div class="info-box">
+                    <h3>General Info</h3>
+                    <ul>
+                        <li>
+                            <p>
+                                Start typing to refine results. Hit enter to open item. You can use up and down arrows to help select. Hit backspace to go back.
+                            </p>
+                        </li>
+                    </ul>
+                    <h3>Hot Keys</h3>
+                    <ul>
+                        <li><b>Shift+Enter/Right Click</b> - Default Item Option</li>
+                        <li><b>Ctrl+Shift+Q</b> - Queue and Play</li>
+                        <li><b>Ctrl+Q</b> - Queue</li>
+                        <li><b>Ctrl+Alt+C</b> - Clean Video Library</li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="results-box">
+            <ul class="results">
+            </ul>
+        </div>
+        <div class="status">
+            <a class="status button">Waiting</a>
+        </div>
+        <div class="status-bar">
+            <div class="tools">
+                <div class="emulator hide">
+                    <a class="kb-emulator button">Keyboard Emulator</a>
+                </div>
+                <div class="play-controls">
+                    <a class="shuffle button" title="Shuffle Toggle"> </a>
+                    <a class="previous button" title="Previous"> </a>
+                    <a class="play-pause button" title="Play Pause Toggle"> </a>
+                    <a class="stop button" title="Stop!"> </a>
+                    <a class="next button" title="Next"> </a>
+                </div>
+                <div class="play-controls">
+                    <a class="skip-back button" title="Large Skip Back"> </a>
+                    <a class="skip-back-short button" title="Skip Back"> </a>
+                    <a class="skip-forward-short button" title="Skip Forward"> </a>
+                    <a class="skip-forward button" title="Large Skip Forward"> </a>
+                </div>
+            </div>
+            <div class="media">
+                <p class="icon column">
+                    <img class="icon">
+                </p>
+                <div class="info column">
+                    <p class="label">Show Name</p>
+                    <p class="time">
+                        <span class="progress">00:00</span> / 
+                        <span class="duration">24:00</span>
+                         Finish time: <span class="finish-time"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="templates">
+            <li class="item">
+                <p class="thumb">
+                        <img class="thumb-img">
+                </p>
+                <p class="title">
+                </p>
+            </li>
+            <div class="menu-wrap overlay">
+                <div class="menu">
+                    <h2 class="title"></h2>
+                    <div class="menu-info-wrapper">
+                        <ul class="menu-options"></ul>
+                        <p>
+                            <img class="thumb"/>
+                        </p>
+                        <p class="description clear"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
