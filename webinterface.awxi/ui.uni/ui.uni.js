@@ -42,6 +42,7 @@
     videoFilesPage: null,
     videoPlaylistPage: null,
     videoScanPage: null,
+    videoAddonsPage: null,
     videoAdFilterPage: null,
 
     // --- Page Content ---
@@ -55,6 +56,7 @@
     $musicFilesContent: null,
     $musicPlaylistContent: null,
     $musicScanContent: null,
+    $musicAddonsContent: null,
 
     $videosContent: null,
     $moviesContent: null,
@@ -141,15 +143,16 @@
             return false;
           }
       });
-      /*artistsTitleContextMenu.push({
+      artistsTitleContextMenu.push({
         'id':'findArtistsTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findArtistsTitleButton').offset();
-            awxUI.$artistsTitleContent
-              .defaultFindBox({id:'artistsTitleFindBox', searchItems: xbmc.getSearchTerm('artists'), top: pos.top +50, left: pos.left});
+            //awxUI.$artistsTitleContent
+              //.defaultFindBox({id:'artistsTitleFindBox', searchItems: xbmc.getSearchTerm('artists'), top: pos.top +50, left: pos.left});
+            $.fn.defaultFindBox({id:'artistsTitleFindBox', searchItems: xbmc.getSearchTerm('artists'), top: pos.top +50, left: pos.left}, {searchType: 'artists', library: 'audio', field: 'artist'}, awxUI.artistsTitlePage);
             return false;
           }
-      });*/
+      });
       artistsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -257,15 +260,16 @@
             return false;
           }
       });
-      /*musicAlbumsTitleContextMenu.push({
+      musicAlbumsTitleContextMenu.push({
         'id':'findAlbumTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findAlbumTitleButton').offset();
-            awxUI.$albumsTitleContent
-              .defaultFindBox({id:'albumsTitleFindBox', searchItems: xbmc.getSearchTerm('albums'), top: pos.top +50, left: pos.left});
+            //awxUI.$albumsTitleContent
+              //.defaultFindBox({id:'albumsTitleFindBox', searchItems: xbmc.getSearchTerm('albums'), top: pos.top +50, left: pos.left});
+            $.fn.defaultFindBox({id:'albumsTitleFindBox', searchItems: xbmc.getSearchTerm('albums'), top: pos.top +50, left: pos.left}, {searchType: 'albums', library: 'audio', field: 'album'}, awxUI.albumsTitlePage);
             return false;
           }
-      });*/
+      });
       musicAlbumsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -440,15 +444,16 @@
             return false;
           }
       });
-      /*songsTitleContextMenu.push({
+      songsTitleContextMenu.push({
         'id':'findSongsTitlesButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findSongsTitlesButton').offset();
-            awxUI.$artistsGenresContent
-              .defaultFindBox({id:'songsTitlesFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top +50, left: pos.left});
+            //awxUI.$artistsGenresContent
+              //.defaultFindBox({id:'songsTitlesFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top +50, left: pos.left});
+            $.fn.defaultFindBox({id:'songsTitlesFindBox', searchItems: xbmc.getSearchTerm('agenres'), top: pos.top +50, left: pos.left}, {searchType: 'songs', library: 'audio', field: 'title'}, awxUI.songsTitlePage);
             return false;
           }
-      });*/
+      });
       songsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -664,6 +669,15 @@
       this.$musicFilesContent = $('<div class="pageContentWrapper"></div>');
       var musicFilesContextMenu = $.extend(true, [], standardMusicContextMenu);
       
+      musicFilesContextMenu.push({
+        'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
+          function(){
+            awxUI.$musicFilesContent.empty();
+            awxUI.onMusicFilesShow();
+            return false;
+          }
+      });
+      
       this.musicFilesPage = musicPage.addPage({
         title: mkf.lang.get('Files', 'Page and menu'),
         menuButtonText: '&raquo; ' + mkf.lang.get('Files', 'Page and menu'),
@@ -713,6 +727,13 @@
             return false;
           }
       });*/
+      musicPlaylistContextMenu.push({
+        'id':'findPlaylistButton', 'icon':'locate', 'title':mkf.lang.get('Locate currently playing', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
+          function(){
+            $('.musicPlaylist .playlistItemCur').ScrollTo()
+            return false;
+          }
+      });
       this.musicPlaylistPage = musicPage.addPage({
         title: mkf.lang.get('Now Playing', 'Page and menu'),
         menuButtonText: '&raquo; ' + mkf.lang.get('Now Playing', 'Page and menu'),
@@ -733,6 +754,19 @@
         contextMenu: musicScanContextMenu,
         onShow: $.proxy(this, "onMusicScanShow"),
         className: 'scanMusic'
+      });
+      
+      //Audio Addons
+      this.$audioAddonsContent = $('<div class="pageContentWrapper"></div>');
+      var musicScanContextMenu = $.extend(true, [], standardVideosContextMenu);
+      
+      this.audioAddonsPage = musicPage.addPage({
+        title: mkf.lang.get('Addons', 'Page and menu'),
+        content: this.$audioAddonsContent,
+        menuButtonText: '&raquo; ' + mkf.lang.get('Addons', 'Page and menu'),
+        contextMenu: musicScanContextMenu,
+        onShow: $.proxy(this, "onAudioAddonsShow"),
+        className: 'audioAddons'
       });
       
       //Audio Advanced Filter
@@ -791,15 +825,15 @@
             return false;
           }
       });
-      /*videoMoviesTitleContextMenu.push({
+      videoMoviesTitleContextMenu.push({
         'id':'findMovieTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findMovieTitleButton').offset();
-            awxUI.$moviesTitleContent
-              .defaultFindBox({id:'moviesTitleFindBox', searchItems: xbmc.getSearchTerm('movies'), top: pos.top +50, left: pos.left});
+            //awxUI.$moviesTitleContent
+              $.fn.defaultFindBox({id:'moviesTitleFindBox', searchItems: xbmc.getSearchTerm('movies'), top: pos.top +50, left: pos.left}, {searchType: 'movies'}, awxUI.moviesTitlePage);
             return false;
           }
-      });*/
+      });
       videoMoviesTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -1029,15 +1063,14 @@
             return false;
           }
       });
-      /*videoTvShowsTitleContextMenu.push({
+      videoTvShowsTitleContextMenu.push({
         'id':'findTVShowTitleButton', 'icon':'find', 'title':mkf.lang.get('Find', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
             var pos = $('#findTVShowTitleButton').offset();
-            awxUI.$tvShowsContent
-              .defaultFindBox({id:'tvShowFindBox', searchItems: xbmc.getSearchTerm('tvshows'), top: pos.top +50, left: pos.left});
+            $.fn.defaultFindBox({id:'tvShowFindBox', searchItems: xbmc.getSearchTerm('tvshows'), top: pos.top +50, left: pos.left}, {searchType: 'tvshows'}, awxUI.tvShowsTitlePage);
             return false;
           }
-      });*/
+      });
       videoTvShowsTitleContextMenu.push({
         'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
           function(){
@@ -1379,11 +1412,22 @@
       
       //Video Files
       this.$videoFilesContent = $('<div class="pageContentWrapper"></div>');
+      var videoFilesContextMenu = $.extend(true, [], standardVideosContextMenu);
+      videoFilesContextMenu.push({
+        'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
+          function(){
+            awxUI.$videoFilesContent.empty();
+            awxUI.onVideoFilesShow();
+
+            return false;
+          }
+      });
+      
       this.videoFilesPage = videosPage.addPage({
         title: mkf.lang.get('Files', 'Page and menu'),
         content: this.$videoFilesContent,
         menuButtonText: '&raquo; ' + mkf.lang.get('Files', 'Page and menu'),
-        contextMenu: standardVideosContextMenu,
+        contextMenu: videoFilesContextMenu,
         onShow: $.proxy(this, "onVideoFilesShow"),
         className: 'videofiles'
       });
@@ -1443,6 +1487,19 @@
         className: 'videoscan'
       });
 
+      //Video Addons
+      this.$videoAddonsContent = $('<div class="pageContentWrapper"></div>');
+      var videoAddonsContextMenu = $.extend(true, [], standardVideosContextMenu);
+      
+      this.videoAddonsPage = videosPage.addPage({
+        title: mkf.lang.get('Addons', 'Page and menu'),
+        content: this.$videoAddonsContent,
+        menuButtonText: '&raquo; ' + mkf.lang.get('Addons', 'Page and menu'),
+        contextMenu: videoAddonsContextMenu,
+        onShow: $.proxy(this, "onVideoAddonsShow"),
+        className: 'videoAddons'
+      });
+      
       //Video Advanced Filter
       this.$videoAdFilterContent = $('<div class="pageContentWrapper"></div>');
       var videoAdFilterContextMenu = $.extend(true, [], standardVideosContextMenu);
@@ -1501,6 +1558,13 @@
                 '<img src="images/empty_thumb_tv.png" alt="Preload 28" />' +
 
               '</div>' +
+              '<div id="fullscreen" style="display: none; position: absolute; z-index: 60; width: 100%; height: 100%;"><a class="button minimise" href="" title="' + mkf.lang.get('Exit Full Screen', 'Tool tip') + '"></a><a class="button lyrics" href="" title="' + mkf.lang.get('Show Lyrics', 'Tool tip') + '"></a>' +
+                '<div id="lyricContent"><div id="lyricInfo"></div><div id="lyrics"></div></div>' +
+                '<div id="playing" style="display: none">' +
+                  '<div id="now"><span id="nowspan"><span class="label" /><span class="seperator"></span><span class="nowArtist artist" /><span class="nowTitle" /></span></div>' +
+                  '<div id="FSartwork" ><a href="" class="artclose"></a><img class="discThumb" src="images/blank_cdart.png" style="display: none; width: 194px; height: 194px; position: absolute; z-index: -1;"><img class="artThumb" src="images/empty_poster_overlay.png"></div>' +
+                '</div>' +
+              '</div>' +
               '<div id="secondBG"></div>' +
               '<div id="firstBG"></div>' +
               '<div id="background">' +
@@ -1554,7 +1618,58 @@
       $('#controlsInput24').controlsInput24();
       $('#artwork a.artclose').click(function() { $('#artwork').hide(); return false; } );
       $('#infoContainer').uniFooterStatus();
-      $('#controller').on('click', function() { $('#displayoverlayleft').toggle(); $('#displayoverlaytop').toggle(); $('#displayoverlaybot').toggle(); $('#content').toggleClass('controls'); $('#artwork').show(); } );
+      $('#controller').on('click', function() {
+
+        //awxUI.settings.remoteActive = ( awxUI.settings.remoteActive? false : true );
+        //Duplicate XBMC key functions
+        if (!awxUI.settings.remoteActive) {
+          awxUI.settings.remoteActive = true;
+          $(document).on('keydown', function(e) {
+            //console.log(e.keyCode)
+            if (e.keyCode == 32) { xbmc.control({type: 'play'}); return false; };
+            if (e.keyCode == 88) { xbmc.control({type: 'stop'}); return false; };
+            if (e.keyCode == 37) { xbmc.input({type: 'Left'}); return false; };
+            if (e.keyCode == 39) { xbmc.input({type: 'Right'}); return false; };
+            if (e.keyCode == 38) { xbmc.input({type: 'Up'}); return false; };
+            if (e.keyCode == 40) { xbmc.input({type: 'Down'}); return false; };
+            if (e.keyCode == 13) { xbmc.input({type: 'Select'}); return false; };
+            if (e.keyCode == 73) { xbmc.input({type: 'Info'}); return false; };
+            if (e.keyCode == 67) { xbmc.input({type: 'ContextMenu'}); return false; };
+            if (e.keyCode == 8) { xbmc.input({type: 'Back'}); return false; };
+            if (e.keyCode == 36) { xbmc.input({type: 'Home'}); return false; };
+            if (e.keyCode == 109 || e.keyCode == 189) { xbmc.setVolumeInc({volume: 'decrement'}); return false; };
+            if (e.keyCode == 107 || e.keyCode == 187) { xbmc.setVolumeInc({volume: 'increment'}); return false; };
+            if (e.keyCode == 70) { xbmc.controlSpeed({type: 'increment'}); return false; };
+            if (e.keyCode == 82) { xbmc.controlSpeed({type: 'decrement'}); return false; };
+            if (e.keyCode == 76) { xbmc.setSubtitles({command: 'next'}); return false; };
+            if (e.keyCode == 84) { xbmc.setSubtitles({command: (xbmc.periodicUpdater.subsenabled? 'off' : 'on')}); return false; };
+            if (e.keyCode == 219) { xbmc.executeAction({action: 'bigstepback'}); return false; };
+            if (e.keyCode == 221) { xbmc.executeAction({action: 'bigstepforward'}); return false; };
+            if (e.keyCode == 65) { xbmc.executeAction({action: 'audiodelay'}); return false; };
+            if (e.keyCode == 192) { xbmc.executeAction({action: 'smallstepback'}); return false; };
+            if (e.keyCode == 188) { xbmc.executeAction({action: 'skipprevious'}); return false; };
+            if (e.keyCode == 190) { xbmc.executeAction({action: 'skipnext'}); return false; };
+            if (e.keyCode == 9 || e.keyCode == 27) { xbmc.executeAction({action: 'togglefullscreen'}); return false; };
+          });
+        } else {
+          awxUI.settings.remoteActive = false;
+          $(document).off('keydown');
+        };
+        
+        $('#displayoverlayleft').toggle();
+        $('#displayoverlaytop').toggle();
+        $('#displayoverlaybot').toggle();
+        $('#content').toggleClass('controls');
+        $('#artwork').show();
+      });
+      
+      $('#fullscreen a.lyrics').click(function() {
+        $('div#lyricContent').toggle();
+        xbmc.lyrics = (xbmc.lyrics? false : true);
+        if (xbmc.lyrics) { addons.culrcLyrics(); };
+        return false;
+      });
+        
       //$('#currentlyPlaying').defaultCurrentlyPlaying({effect:'fade'});
       $('#volumeSlider').defaultVolumeControl({vertical: true});
 
@@ -1646,6 +1761,8 @@
       xbmc.musicPlaylist = $('div.musicPlaylist');
       xbmc.videoPlaylist = $('div.videoPlaylist');
 
+      //Where to put this?
+      addons.regAddons();
     },
     
      /**************************************
@@ -2135,24 +2252,46 @@
     /**************************************
      * Called when Music Videos Title-Page is shown. *
      **************************************/
-    onMusicVideosTitleShow: function() {
-      if (this.$musicVideosTitleContent.html() == '') {
-        var musicVideosTitlePage = this.musicVideosTitlePage;
-        var $contentBox = this.$musicVideosTitleContent;
-        $contentBox.addClass('loading');
+    onMusicVideosTitleShow: function(e) {
+      awxUI.$musicVideosTitleContent.empty();
+      if (typeof lastMVCount === 'undefined') { lastMVCount = awxUI.settings.limitMV };
+        if (typeof lastMVCountStart === 'undefined') { lastMVCountStart = 0 };
+        if (typeof e != 'undefined') {
+          if (e.data.Page == 'next') {
+            lastMVCount = parseInt(lastMVCount) + parseInt(awxUI.settings.limitMV);
+            lastMVCountStart += parseInt(awxUI.settings.limitMV);
+            };
+            if (e.data.Page == 'prev') {
+            lastMVCount = parseInt(lastMVCount) - parseInt(awxUI.settings.limitMV);
+            lastMVCountStart -= parseInt(awxUI.settings.limitMV);
+            if (lastMVCount == 0) {
+              lastMVCount = totalMVCount;
+              lastMVCountStart = totalMVCount - parseInt(awxUI.settings.limitMV);
+            } else if (lastMVCount < 1 || lastMVCountStart < 0) {
+              lastMVCount = parseInt(awxUI.settings.limitMV);
+              lastMVCountStart = 0;
+            };
+          };
+        }
+      var musicVideosTitlePage = awxUI.musicVideosTitlePage;
+      var $contentBox = awxUI.$musicVideosTitleContent;
+      $contentBox.addClass('loading');
 
-        xbmc.getMusicVideos({
-          onError: function() {
-            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
-            $contentBox.removeClass('loading');
-          },
+      xbmc.getMusicVideos({
+        start: lastMVCountStart,
+        end: lastMVCount,
+        onError: function() {
+          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
+          $contentBox.removeClass('loading');
+        },
 
-          onSuccess: function(result) {
-            $contentBox.defaultMusicVideosTitleViewer(result, musicVideosTitlePage);
-            $contentBox.removeClass('loading');
-          }
-        });
-      }
+        onSuccess: function(result) {
+          $contentBox.defaultMusicVideosTitleViewer(result, musicVideosTitlePage);
+          $contentBox.removeClass('loading');
+        }
+      });
+      
+      return false;
     },
     
     /*********************************************
@@ -2519,6 +2658,7 @@
      *********************************************/
     onMoviesRecentShow: function() {
       if (this.$moviesRecentContent.html() == '') {
+        var moviesRecentPage = this.moviesRecentPage;
         var $contentBox = this.$moviesRecentContent;
         $contentBox.addClass('loading');
 
@@ -2529,7 +2669,7 @@
           },
 
           onSuccess: function(result) {
-            $contentBox.defaultMovieRecentViewer(result);
+            $contentBox.defaultMovieRecentViewer(result, moviesRecentPage);
             $contentBox.removeClass('loading');
           }
         });
@@ -2760,6 +2900,24 @@
       var $contentBox = this.$videoScanContent;
       $contentBox.empty();
       $contentBox.defaultVideoScanViewer('Video');
+    },
+    
+    /*********************************************
+     * Called when Video-Addons-Page is shown. *
+     *********************************************/
+    onVideoAddonsShow: function() {
+      var $contentBox = this.$videoAddonsContent;
+      $contentBox.empty();
+      $contentBox.defaultAddonsViewer('video');
+    },
+    
+    /*********************************************
+     * Called when Audio-Addons-Page is shown. *
+     *********************************************/
+    onAudioAddonsShow: function() {
+      var $contentBox = this.$audioAddonsContent;
+      $contentBox.empty();
+      $contentBox.defaultAddonsViewer('audio');
     },
     
     /*********************************************

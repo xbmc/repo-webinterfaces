@@ -109,36 +109,6 @@ ul.systemMenu > li {
   white-space: nowrap;
 }
 /* sub menus */
-/*nav li       {
-    display:inline-block;
-    padding:0 0.4em;
-    height:1.4em; line-height:1.4em;
-    position:relative;
-}
-
-nav li.sub:after    { content:'\25ba'; float:right; vertical-align:middle; font-size:50% }
-
-nav > ul > li     { cursor:default }
-#navigation li ul         { display:none }
-#navigation li li         { display:block; width:8em }
-#navigation li:hover > ul { display:block; position:absolute; top:1.4em; left:-1px; width:8em; z-index:10 }
-#navigation li li:hover ul{ left:8em; top:-1px }
-
-nav li       { color:black; background:#fee; border:1px solid #966; }
-nav li li    { color:black; background:#efe; border-color:#696 }
-nav li li li { color:black; background:#eef; border-color:#669 }
-
-nav li:hover       { background:#933; color:#fee }
-nav li li:hover    { background:#393; color:#efe }
-nav li li li:hover { background:#339; color:#eef }
-
-nav li li { border-top-width:0 }
-nav li li:first-child { border-top-width:1px }
-
-#navigation li:hover > ul { display:block; position:absolute; top:1.4em; left:-1px; width:8em; z-index:10 }
-#navigation li li:hover ul{ left:8em; top:-1px }
-#navigation li.mkfSubMenu1:after    { content:'\25ba'; float:right; vertical-align:middle; font-size:50% }
-*/
 #navigation li.mkfSubMenu1:hover > ul { display:block; position:absolute; top:0em; left:0px; z-index:10 }
 #navigation li.mkfSubMenu1 li:hover ul{ left:8em; top:-1px }
 
@@ -257,6 +227,10 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
   font-weight: normal;
   text-shadow: 2px 2px 2px #000;
   margin-left: 2px;
+}
+#footer #now span.seperator  {
+  color: #fff;
+  font-weight: normal;
 }
 #footer #statPlayerContainer {
   font-size: 16px;
@@ -763,9 +737,13 @@ img.thumbFanart {
   height: 113px;
   width: 200px;
 }
-img.episode:hover{
-  border: 1px solid #A0E312;
+img.thumbFanartLarge {
+  height: 155px;
+  width: 275px;
 }
+/*img.episode:hover{
+  border: 1px solid #A0E312;
+}*/
 img.epWatched {
   position:relative; 
   top:0px; 
@@ -821,6 +799,13 @@ div.thumbFullLogoWrapper {
 div.thumbEpWrapper {
   width: 200px;
 }
+div.clearartWrapper {
+  float: left;
+  margin: 3px;
+  width: 285px;
+  height: 210px;
+  text-align: center;
+}
 div.thumbWrapper div.linkWrapper {
   display: none;
   left: 7px;
@@ -856,6 +841,42 @@ div.linkArtistWrapper {
   top: 5px;
   position: absolute;
   width: 90%;
+}
+div.addons {
+  
+}
+div.addons  div.addon {
+  width: 130px;
+  margin-right: 5px;
+  display: inline-block;
+  float: left;
+}
+div.addons  div.addon  img {
+  float: none;
+  padding: 3px;
+}
+div.addons a {
+  background-color: #343434;
+  border: 1px solid #A4A4A4;
+  /*border-radius: 5px 5px 5px 5px;*/
+  color: #FFFFFF;
+  display: block;
+  /*float: left;*/
+  font-size: 16px;
+  margin-bottom: 7px;
+  opacity: 0.9;
+  padding: 4px 7px;
+  text-align: center;
+  text-decoration: none;
+}
+div.addons a.close {
+  background: url("../images/context_buttons_small.png") no-repeat scroll left top transparent;
+  float: right;
+  border: none;
+  padding: 0;
+  margin-top: 2px;
+  height: 22px;
+  width: 22px;
 }
 /*div.logoWrapper:hover div.linkTVLogoWrapper {
   display: block;
@@ -902,7 +923,7 @@ div.thumbEpWrapper a {
   padding: 6px 7px;
   text-decoration: none;
 }
-div.thumbWrapper a:hover, div.logoWrapper a:hover, div.thumbEpWrapper a:hover {
+div.thumbWrapper a:hover, div.logoWrapper a:hover, div.thumbEpWrapper a:hover, div.addons a:hover {
   color: #7AC800;
 }
 div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName, div.logoWrapper div.albumArtist, div.logoWrapper div.tvshowName, div.logoWrapper div.movieName  {
@@ -966,6 +987,9 @@ div.playtime {
 #contextMenu ul a.find {
   background-position: -144px 0;
 }
+#contextMenu ul a.locate {
+  background-position: -240px 0;
+}
 #contextMenu ul a.close:hover {
   background-position: left bottom;
 }
@@ -978,8 +1002,31 @@ div.playtime {
 #contextMenu ul a.find:hover {
   background-position: -144px -48px;
 }
+#contextMenu ul a.locate:hover {
+  background-position: -240px -48px;
+}
 #contextMenu ul a.refresh:hover {
   background-position: -192px -48px;
+}
+div.mkfOverlay div.dialog {
+  float: left;
+  border-radius: 0px;
+  border: 0px none;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 0px;
+  margin: 0;
+  min-height: 42px;
+  height: 100%;
+  width: 100%;
+  min-width: 580px;
+  font-size: 12px;
+  color: #fff;
+}
+div.mkfOverlay div.dialogContent {
+  padding: 10px;
+}
+div.mkfOverlay div.dialog h1 {
+  font-size: 14px;
 }
 div.mkfOverlay div.dialog a.close {
   background: url("../images/context_buttons_small.png") no-repeat scroll left top transparent;
@@ -1021,9 +1068,9 @@ div.mkfOverlay div.dialog p.artistdesc {
   overflow-y: auto;
 }
 div.mkfOverlay div.dialog span.value, div.mkfOverlay div.dialog span.valuePoster, div.mkfOverlay div.dialog span.valueBanner {
-  float: right;
+  float: left;
   overflow: hidden;
-  width: 250px;
+  /*width: 250px;*/
 }
 div.mkfOverlay div.dialog span.value a {
   color: #aaa;
@@ -1060,13 +1107,15 @@ fieldset {
   margin-bottom: 10px;
 }
 fieldset.ui_views {
-  width: 45%;
+  min-width: 250px;
+  width: 25%;
   float: left;
-  margin-right: 10px;
+  margin: 5px;
 }
 fieldset.ui_settings {
   float: left;
   margin-right: 10px;
+  width: 50%;
 }
 fieldset.ui_albums {
   width: 45%;
@@ -1076,11 +1125,11 @@ fieldset.ui_albums {
 select {
   width: 99%;
 }
-select#artists {
+/*select#artists {
   width: 46%;
   float: left;
   margin-right: 27px;
-}
+}*/
 input#artists_path {
   width: 264px;
   height: 13px;
@@ -1110,8 +1159,12 @@ a.formButton {
 a.formButton:hover {
   background-position: 0 -25px;
 }
-.expertHelp, .save {
+.expertHelp {
   float: right;
+}
+.save {
+  float: right;
+  clear: left;
 }
 #messageLog {
   padding-right: 20px;
@@ -1250,7 +1303,8 @@ div.smallRating10 {
   background-position: 0 -160px;
 }
 div.channels0, div.channels1, div.channels2, div.channels3, div.channels4, div.channels5, div.channels6, div.channels7, div.channels8, div.channels9, div.channels10 {
-  float: left;
+  /*float: left;*/
+  display: inline-block;
   margin-right: 3px;
   background: url("../images/flagging/channels.png") no-repeat scroll 0 0 transparent;
   height: 48px;
@@ -1290,7 +1344,8 @@ div.channels10 {
   background-position: -640px 0;
 }
 div.aspect133, div.aspect166, div.aspect178, div.aspect185, div.aspect220, div.aspect235  {
-  float: left;
+  /*float: left;*/
+  display: inline-block;
   margin-right: 3px;
   background: url("../images/flagging/aspects.png") no-repeat scroll 0 0 transparent;
   height: 48px;
@@ -1315,7 +1370,8 @@ div.aspect235 {
   background-position: -320px 0;
 }
 div.vFormatSD, div.vFormatHD720, div.vFormatHD1080 {
-  float: left;
+  /*float: left;*/
+  display: inline-block;
   margin-right: 3px;
   background: url("../images/flagging/vFormat.png") no-repeat scroll 0 0 transparent;
   height: 48px;
@@ -1331,7 +1387,8 @@ div.vFormatHD1080 {
   background-position: -128px 0;
 }
 div.vCodecH264, div.vCodecXVID, div.vCodecDivX3, div.vCodecDivX5, div.vCodecAVC1, div.vCodecVP8, div.vCodecMPEG1, div.vCodecMPEG2, div.vCodecDVD, div.vCodecBluRay, div.vCodecVC1, div.vCodecFLV, div.vCodecUnknown {
-  float: left;
+  /*float: left;*/
+  display: inline-block;
   margin-right: 3px;
   background: url("../images/flagging/vCodecs.png") no-repeat scroll 0 0 transparent;
   height: 48px;
@@ -1379,7 +1436,8 @@ div.vCodecUnknown {
 
 div.aCodecAAC, div.aCodecAC3, div.aCodecAIF, div.aCodecAIFC, div.aCodecAPE, div.aCodecAVC, div.aCodecCDDA, div.aCodecDCA, div.aCodecDTS, div.aCodecDTSHD, div.aCodecDTSMA, div.aCodecEAC3, div.aCodecFLAC, 
 div.aCodecMP1, div.aCodecMP2, div.aCodecMP3, div.aCodecOGG, div.aCodecDDTrueHD, div.aCodecwav, div.aCodecwavpack, div.aCodecWMA, div.aCodecWMAPro, div.aCodecWMA2, div.aCodecPCM, div.aCodecALAC, div.aCodecUnknown {
-  float: left;
+  /*float: left;*/
+  display: inline-block;
   margin-right: 3px;
   background: url("../images/flagging/aCodecs.png") no-repeat scroll 0 0 transparent;
   height: 48px;
@@ -1464,15 +1522,16 @@ div.aCodecUnknown {
   background-position: -2500px 0;
 }
 div.vSubtitles {
-  float: left;
+  /*float: left;*/
+  display: inline-block;
   margin-right: 3px;
   background: url("../images/flagging/cc.png") no-repeat scroll 0 0 transparent;
   height: 48px;
   width: 64px;
 }
-div.vSubtitles {
+/*div.vSubtitles {
   background-position: 0 0;
-}
+}*/
 span.infoplay {
   background: url("../images/play.png") no-repeat scroll 0 0 transparent;
   float: right;
@@ -1582,6 +1641,11 @@ ul.fileList {
   margin: 0;
   padding: 0;
 }
+ul.fileList li.tworow {
+  display: inline-block;
+  width: 45%;
+  margin-right: 5px;
+}
 div.singleMovie, div.singleView {
   display: table;
   margin-left:auto;
@@ -1600,6 +1664,21 @@ div.movieTitle span.label, div.albumArtist span.label, div.tvshowTitle span.labe
 div.movieTitle span.label img, div.tvshowTitle span.label img {
   vertical-align: middle;
   margin-left: 5px;
+}
+img.watchedPoster {
+  position: absolute;
+  top: 175px;
+  left: 110px;
+}
+img.watchedClearart {
+  position: absolute;
+  top: 140px;
+  left: 255px;
+}
+img.watchedLandscape {
+  position: absolute;
+  top: 140px;
+  left: 255px;
 }
 div.singleMovie div.prev, div.singleView div.prev {
   display: inline-block;
@@ -1877,10 +1956,33 @@ div.movietags  img {
   margin-right: 3px;
 }
 div.movietags {
-  display: table-cell;
-  width: 580px;
+  width: auto;
+}
+div.movietags span.infoplay {
+  background: url("../images/play.png") no-repeat scroll 0 0 transparent;
+  float: none;
+  display: inline-block;
+  margin-right: 2px;
+  width: 50px;
+  height: 48px;
+}
+div.movietags span.infoqueue {
+  background: url("../images/play.png") no-repeat scroll -50px 0 transparent;
+  float: none;
+  display: inline-block;
+  width: 50px;
+  height: 48px;
+}
+div.movietags span.infotools {
+  background: url("../images/play.png") no-repeat scroll -150px 0 transparent;
+  float: none;
+  display: inline-block;
+  width: 50px;
+  height: 48px;
 }
 div.mkfOverlay div.dialogSystemControl {
+  float: none;
+  margin: 10px auto;
   width: 535px;
   height: 460px;
 }
@@ -1988,6 +2090,25 @@ div.episodeThumb {
   margin: 5px 5px 0 5px;
   float: left;
   position: relative; 
+  z-index:3;
+}
+div.thumbLarge {
+  width: 275px;
+  height: 230px;
+  margin: 5px 5px 0 5px;
+  float: left;
+  position: relative;
+  text-align: center;
+  z-index:3;
+}
+div.clearartLarge {
+  /*background-color: rgba(0,0,0,0.8);*/
+  width: 275px;
+  height: 155px;
+  margin: 5px 5px 0 5px;
+  float: left;
+  position: relative;
+  text-align: center;
   z-index:3;
 }
 div.episodeTitle {
@@ -2668,6 +2789,10 @@ div#controlsInput32 {
   background-position: -160px 0;
   margin-right: 0;  
 }
+#inputcontrols32 a.maximise {
+  background-position: -288px 0;
+  margin-right: 0;  
+}
 
 #inputcontrols a.button {
   background: url("../images/quick_controls.png") no-repeat scroll 0 0 transparent;
@@ -2705,6 +2830,91 @@ div#controlsInput32 {
 #inputcontrols a.contextMenu {
   background-position: -384px 0;
   margin-right: 0;  
+}
+#fullscreen a.minimise {
+  background: url("../images/quick_controls.png") no-repeat scroll -432px 0 transparent;
+  float: left;
+  margin: 10px 0 0 10px;
+  height: 48px;
+  width: 48px;
+  opacity: 0.5;
+}
+#fullscreen a.lyrics {
+  background: url("../images/quick_controls.png") no-repeat scroll -480px 0 transparent;
+  float: left;
+  margin: 10px 0 0 10px;
+  height: 48px;
+  width: 48px;
+  opacity: 0.5;
+}
+#fullscreen #playing {
+  height: 100%;
+}
+#fullscreen #FSartwork {
+  position: absolute;
+  bottom: 45px;
+  right: 20px;
+  z-index: 5;
+}
+#fullscreen #now {
+  background-color: rgba(0,0,0,0.8);
+  padding: 10px 0;
+  font-size: 2em;
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+  z-index: 5;
+}
+#fullscreen #nowspan {
+  display: block;
+  text-align: center;
+}
+#fullscreen #lyricContent {
+  display: none;
+  float: left;
+  margin: 70px 0 auto;
+  height: 80%;
+  width: 80%;
+  /*position: absolute;
+  background-color: rgba(0,0,0,0.8);
+  left: 60px;
+  right: 50px;
+  top: 70px;
+  bottom: 100px;*/
+  min-width: 550px;
+  min-height: 50px;
+  text-align: center;
+  z-index: 1;
+}
+#lyrics {
+  background-color: rgba(0,0,0,0.8);
+  overflow: auto;
+  height: 90%;
+}
+#lyrics div.lyricline {
+  margin: 3px;
+}
+#lyrics span.lyric {
+  font-size: 1.5em;
+}
+#lyrics div.current {
+  color: #599CFF;
+  font-weight: bold;
+}
+#lyricInfo {
+  position: relative;
+  background-color: rgba(0,0,0,0.8);
+  vertical-align: middle;
+  min-height: 1.7em;
+  font-size: 1.5em;
+}
+#lyricInfo span.label {
+  vertical-align: middle;
+  color: #fff;
+}
+#lyricInfo span.info {
+  vertical-align: middle;
+  color: #599CFF;
 }
 #displayoverlaybot #controls  #quick_con {
   /*background: url("../images/volume.png") no-repeat scroll 20px 10px #EAECE6;

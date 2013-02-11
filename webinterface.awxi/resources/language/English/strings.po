@@ -100,6 +100,10 @@ msgid "Library Tools"
 msgstr ""
 
 msgctxt "Page and menu"
+msgid "Addons"
+msgstr ""
+
+msgctxt "Page and menu"
 msgid "Advanced Search"
 msgstr ""
 
@@ -114,6 +118,10 @@ msgid "Find"
 msgstr ""
 
 msgctxt "Tool tip"
+msgid "Locate currently playing"
+msgstr ""
+
+msgctxt "Tool tip"
 msgid "Clear Playlist"
 msgstr ""
 
@@ -123,6 +131,18 @@ msgstr ""
 
 msgctxt "Tool tip"
 msgid "Refresh"
+msgstr ""
+
+msgctxt "Tool tip"
+msgid "Full Screen"
+msgstr ""
+
+msgctxt "Tool tip"
+msgid "Exit Full Screen"
+msgstr ""
+
+msgctxt "Tool tip"
+msgid "Show Lyrics"
 msgstr ""
 
 msgctxt "Popup message with addition"
@@ -213,6 +233,10 @@ msgstr ""
 
 msgctxt "Popup message"
 msgid "Failed to remove playlist item... "
+msgstr ""
+
+msgctxt "Popup message"
+msgid "Nothing is playing!"
 msgstr ""
 
 msgctxt "Initial window screen"
@@ -345,6 +369,58 @@ msgstr ""
 
 msgctxt "Label"
 msgid "Years"
+msgstr ""
+
+msgctxt "Label"
+msgid "Source"
+msgstr ""
+
+msgctxt "Label"
+msgid "Play URL"
+msgstr ""
+
+msgctxt "Label"
+msgid "Enqueue URL"
+msgstr ""
+
+msgctxt "Label"
+msgid "Custom Run"
+msgstr ""
+
+msgctxt "Label"
+msgid "Run Addon"
+msgstr ""
+
+msgctxt "Label"
+msgid "CD Arts"
+msgstr ""
+
+msgctxt "Label"
+msgid "Covers"
+msgstr ""
+
+msgctxt "Label"
+msgid "Fan Arts"
+msgstr ""
+
+msgctxt "Label"
+msgid "Logos"
+msgstr ""
+
+msgctxt "Label"
+msgid "Thumbnails"
+msgstr ""
+
+msgctxt "Label"
+msgid "All Arts"
+msgstr ""
+
+msgctxt "Label"
+msgid "Update Database"
+msgstr ""
+
+msgctxt "Label"
+msgid "(Re)build Database"
 msgstr ""
 
 msgctxt "Tool tip"
@@ -501,6 +577,10 @@ msgstr ""
 
 msgctxt "Tool tip"
 msgid "Enqueue"
+msgstr ""
+
+msgctxt "Tool tip"
+msgid "Tools and Addons"
 msgstr ""
 
 msgctxt "Tool tip"
@@ -811,6 +891,14 @@ msgid "Thumbnails (Details overlay)"
 msgstr ""
 
 msgctxt "Settings option"
+msgid "Thumbnails"
+msgstr ""
+
+msgctxt "Settings option"
+msgid "Clear Art"
+msgstr ""
+
+msgctxt "Settings option"
 msgid "Information List"
 msgstr ""
 
@@ -832,6 +920,10 @@ msgstr ""
 
 msgctxt "Settings option"
 msgid "Rotate CD art"
+msgstr ""
+
+msgctxt "Settings option"
+msgid "Prefer Logos"
 msgstr ""
 
 msgctxt "Settings option"
@@ -859,6 +951,10 @@ msgid "View Options"
 msgstr ""
 
 msgctxt "Settings label"
+msgid "Music Videos"
+msgstr ""
+
+msgctxt "Settings label"
 msgid "Number of items to list:"
 msgstr ""
 
@@ -882,12 +978,76 @@ msgctxt "Settings label"
 msgid "for TV based views."
 msgstr ""
 
+msgctxt "Settings label"
+msgid "for music video based views."
+msgstr ""
+
+msgctxt "Settings label"
+msgid "Manual File Directory"
+msgstr ""
+
 msgctxt "Settings"
 msgid "Settings are stored in cookies."
 msgstr "(Settings are stored in cookies. You need to enable cookies for this site.)"
 
 msgctxt "Settings"
 msgid "* Not recommended for a large amount of items."
+msgstr ""
+
+msgctxt "Label"
+msgid "Poster"
+msgstr ""
+
+msgctxt "Label"
+msgid "Fan Art"
+msgstr ""
+
+msgctxt "Label"
+msgid "Extra Fan Art"
+msgstr ""
+
+msgctxt "Label"
+msgid "Extra Thumbnails"
+msgstr ""
+
+msgctxt "Label"
+msgid "Clear Logo"
+msgstr ""
+
+msgctxt "Label"
+msgid "Clear Art"
+msgstr ""
+
+msgctxt "Label"
+msgid "Disc Art"
+msgstr ""
+
+msgctxt "Label"
+msgid "Thumbnail"
+msgstr ""
+
+msgctxt "Label"
+msgid "Banner"
+msgstr ""
+
+msgctxt "Label"
+msgid "Season Posters"
+msgstr ""
+
+msgctxt "Label"
+msgid "Season Thumbnails"
+msgstr ""
+
+msgctxt "Label"
+msgid "Season Banners"
+msgstr ""
+
+msgctxt "Label"
+msgid "Character Art"
+msgstr ""
+
+msgctxt "Label"
+msgid "All"
 msgstr ""
 
 msgctxt "Label"
@@ -904,6 +1064,10 @@ msgstr ""
 
 msgctxt "Label"
 msgid "Track:"
+msgstr ""
+
+msgctxt "Label"
+msgid "Lyrics:"
 msgstr ""
 
 msgctxt "Label"
@@ -1191,6 +1355,10 @@ msgctxt "Popup message"
 msgid "Running advanced search..."
 msgstr ""
 
+msgctxt "Popup message with addition"
+msgid "Running addon..."
+msgstr ""
+
 msgctxt "Popup message"
 msgid "Failed! Check your query."
 msgstr ""
@@ -1203,13 +1371,24 @@ msgctxt "Popup message"
 msgid "No matches found!"
 msgstr ""
 
+msgctxt "Popup message"
+msgid "Command sent to addon."
+msgstr ""
+
 msgid "LazyLoad info"
 msgstr "LazyLoad: \n"
 "If you activate LazyLoad, thumbnails will not be loaded until they become visible. This will save the server from many image-requests.\n"
 "But if you have many items (movies, albums,...) the webinterface can be laggy on scrolling if many thumbs are not loaded.\n"
 "If you deactivate LazyLoad, all thumbs will be loaded when the page is shown (movies page, albums page,...). It can take a short time until all thumbs are loaded.\n"
+"\nPrefer Logos:\n"
+"If a logo for an item is available use it instead of the title in information screens.\n"
 "\nTimeOut:\n"
-"If you have lots of movies (or albums...) it can take some time to get the complete movie list. You can increase the TimeOut-value to prevent errors when trying to show the movie list."
+"If you have lots of movies (or albums...) it can take some time to get the complete movie list. You can increase the TimeOut-value to prevent errors when trying to show the movie list.\n"
+"\nManual File Directory:\n"
+"Enter a directory location on your system that will be accessable via the "Files" menu. Invalid directories will not be shown.\n"
+
+msgid "Playable content"
+msgstr "See Files->Addons for playable content."
 
 msgid "Order By"
 msgstr ""

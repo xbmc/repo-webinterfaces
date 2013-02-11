@@ -63,3 +63,12 @@ AWXi uses Jed for translation strings. See http://slexaxton.github.com/Jed/
 Licensed under the WTFPL.
 
 --------------------------------------------------------------------------------
+
+lrc is licensed under the MIT license.
+git@github.com:justan/lrc.git
+
+--------------------------------------------------------------------------------
+
+jQuery ScrollTo is licensed under the MIT license.
+http://creativecommons.org/licenses/MIT/
+Copyright 2010-2012 [Benjamin Arthur Lupton](http://balupton.com)

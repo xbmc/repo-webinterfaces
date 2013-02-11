@@ -427,6 +427,7 @@
       '<a class="button home" href="" title="' + mkf.lang.get('Home', 'Tool tip') + '"></a><a class="button back" href="" title="' + mkf.lang.get('Back', 'Tool tip') + '"></a><a class="button up" href="" title="' + mkf.lang.get('Up', 'Tool tip') + '"></a>' +
       '<a class="button left" href="" title="' + mkf.lang.get('Left', 'Tool tip') + '"></a><a class="button select" href="" title="' + mkf.lang.get('Select', 'Tool tip') + '"></a><a class="button right" href="" title="' + mkf.lang.get('Right', 'Tool tip') + '"></a>' +
       '<a class="button down" href="" title="' + mkf.lang.get('Down', 'Tool tip') + '"></a><a class="button info" href="" title="' + mkf.lang.get('Information', 'Tool tip') + '"></a><a class="button contextMenu" href="" title="' + mkf.lang.get('Context Menu', 'Tool tip') + '"></a>' +
+      '<a class="button maximise" href="" title="' + mkf.lang.get('Full Screen', 'Tool tip') + '"></a>' +
       '</div>');
       
       $inputcontrols.find('.left').click(function() {
@@ -455,6 +456,9 @@
       });
       $inputcontrols.find('.info').click(function() {
         xbmc.input({type: 'Info', onError: failed}); return false;
+      });
+      $inputcontrols.find('.maximise').click(function() {
+        xbmc.fullScreen(true); return false;
       });
       
       this.each (function() {
@@ -854,6 +858,7 @@
       var lazyload = mkf.cookieSettings.get('lazyload', 'no');
       var timeout = mkf.cookieSettings.get('timeout', 20);
       var limitVideo = mkf.cookieSettings.get('limitVideo', 25);
+      var limitMusicVideo = mkf.cookieSettings.get('limitMusicVideo', 25);
       var limitTV = mkf.cookieSettings.get('limitTV', 25);
       var limitArtists = mkf.cookieSettings.get('limitArtists', 25);
       var limitAlbums = mkf.cookieSettings.get('limitAlbums', 25);
@@ -882,6 +887,8 @@
       var TVSort = mkf.cookieSettings.get('TVSort', 'label');
       var EpSort = mkf.cookieSettings.get('EpSort', 'episode');
       var albumSort = mkf.cookieSettings.get('albumSort', 'album');
+      var mvSort = mkf.cookieSettings.get('mvSort', 'artist');
+      var mvdesc = mkf.cookieSettings.get('mvdesc', 'no');
       var mdesc = mkf.cookieSettings.get('mdesc', 'no');
       var tvdesc = mkf.cookieSettings.get('tvdesc', 'no');
       var epdesc = mkf.cookieSettings.get('epdesc', 'no');
@@ -889,6 +896,8 @@
       var startPage = mkf.cookieSettings.get('startPage', 'recentTV');
       var showTags = mkf.cookieSettings.get('showTags', 'yes');
       var rotateCDart = mkf.cookieSettings.get('rotateCDart', 'no');
+      var manualPath = mkf.cookieSettings.get('manualPath');
+      var preferLogos = mkf.cookieSettings.get('preferLogos');
 
       var dialogHandle = mkf.dialog.show(
         {
@@ -908,11 +917,11 @@
         '<input type="radio" id="lightDarkUI" name="userinterface" value="lightDark" ' + (ui=='lightDark'? 'checked="checked"' : '') + '><label for="lightDarkUI">LightDark UI</label>' +
         '<input type="radio" id="uni" name="userinterface" value="uni" ' + (ui=='uni'? 'checked="checked"' : '') + '><label for="uni">Uni UI</label>' +
         '</fieldset>' +*/
-        '<fieldset>' +
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Language', 'Settings label') + '</legend>' +
         '<select name="lang" id="lang" size="1"></select>' +
         '</fieldset>' +
-        '<fieldset>' +
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Start Page', 'Settings label') + '</legend>' +
         '<select id="startPage" name="startPage">' +
         '<option value="recentAlbums" ' + (startPage=='recentAlbums'? 'selected' : '') + '>' + mkf.lang.get('Recently Added Albums', 'Settings option') + '</option>' +
@@ -925,9 +934,12 @@
         '<option value="musicPlaylist"' + (startPage=='musicPlaylist'? 'selected' : '') + '>' + mkf.lang.get('Music Playlists', 'Settings option') + '</option>' +
         '</select>' +
         '</fieldset>' +
-        
+        '<fieldset class="ui_views">' +
+        '<legend>' + mkf.lang.get('Manual File Directory', 'Settings label') + '</legend>' +
+        '<input type="text" name="manual_path" id="manual_path" style="width: 98%">' +
+        '</fieldset>' +
 
-        '<fieldset>' +
+        '<fieldset style="clear: left">' +
         '<legend>' + mkf.lang.get('Expert', 'Settings label') + '</legend>' +
         '<a href="" class="formButton expertHelp" title="' + mkf.lang.get('Help', 'Settings label') + '">' + mkf.lang.get('Help', 'Settings label') + '</a>' + 
         '<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('Use fan art as background', 'Settings option') + '</label>' +
@@ -936,6 +948,7 @@
         '<br /><input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('Use LazyLoad for Thumbnails', 'Settings option') + '</label>' +
         '<input type="checkbox" id="showTags" name="showTags" ' + (showTags=='yes'? 'checked="checked"' : '') + '><label for="showTags">' + mkf.lang.get('Show codec tags', 'Settings option') + '</label>' +
         '<input type="checkbox" id="rotateCDart" name="rotateCDart" ' + (rotateCDart=='yes'? 'checked="checked"' : '') + '><label for="rotateCDart">' + mkf.lang.get('Rotate CD art', 'Settings option') + '</label><br />' +
+        '<input type="checkbox" id="preferLogos" name="preferLogos" ' + (preferLogos=='yes'? 'checked="checked"' : '') + '><label for="preferLogos">' + mkf.lang.get('Prefer Logos', 'Settings option') + '</label><br />' +
         '<label for="timeout">' + mkf.lang.get('Time Out for Ajax-Requests:', 'Settings option') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('seconds', 'Settings label') +
         '</fieldset>' +
         '</form>' +
@@ -952,10 +965,13 @@
         '</option><option value="listin" ' + (filmView=='listin'? 'selected' : '') + '>' + mkf.lang.get('List (Details inline)', 'Settings option') +'</option><option value="accordion"' + (filmView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('Accordion (Details inline)', 'Settings option') + '</option>' +
         '<option value="singlePoster" ' + (filmView=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('Single Posters', 'Settings option') +'</option>' +
         '<option value="logo" ' + (filmView=='logo'? 'selected' : '') + '>' + mkf.lang.get('Logos', 'Settings option') +'</option>' +
+        '<option value="poster" ' + (filmView=='poster'? 'selected' : '') + '>' + mkf.lang.get('Posters', 'Settings option') +'</option>' +
+        '<option value="thumbnail" ' + (filmView=='thumbnail'? 'selected' : '') + '>' + mkf.lang.get('Thumbnails', 'Settings option') +'</option>' +
+        '<option value="clearart" ' + (filmView=='clearart'? 'selected' : '') + '>' + mkf.lang.get('Clear Art', 'Settings option') +'</option>' +
         '</select>' +
         '</fieldset>' +
         
-        '<fieldset>' +
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Movie Sets', 'Settings label') + '</legend>' +
         '<select name="filmViewSets"><option value="poster" ' + (filmViewSets=='poster'? 'selected' : '') + '>' + mkf.lang.get('Posters', 'Settings option') +
         '</option><option value="listover" ' + (filmViewSets=='listover'? 'selected' : '') + '>' + mkf.lang.get('List (Details overlay)', 'Settings option') + '</option>' +
@@ -973,7 +989,7 @@
         '</select>' +
         '</fieldset>' +
         
-        '<fieldset>' +
+        '<fieldset class="ui_views" style="clear: left">' +
         '<legend>' + mkf.lang.get('TV Shows', 'Settings label') + '</legend>' +
         '<select name="TVView">' +
         '<option value="banner" ' + (TVView=='banner'? 'selected' : '') + '>' + mkf.lang.get('Banners', 'Settings option') + '</option>' +
@@ -985,14 +1001,17 @@
         
         '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Recently Added TV Episodes', 'Settings label') + '</legend>' +
-        '<select name="TVViewRec"><option value="infolist" ' + (TVViewRec=='infolist'? 'selected' : '') + '>' + mkf.lang.get('Information List', 'Settings option') + '</option>' +
+        '<select name="TVViewRec">' +
+        '<option value="infolist" ' + (TVViewRec=='infolist'? 'selected' : '') + '>' + mkf.lang.get('Information List', 'Settings option') + '</option>' +
+        '<option value="thumbnail" ' + (TVViewRec=='thumbnail'? 'selected' : '') + '>' + mkf.lang.get('Thumbnails', 'Settings option') + '</option>' +
         '</select>' +
         '</fieldset>' +
 
-        '<fieldset>' +
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Episodes', 'Settings label') + '</legend>' +
         '<select name="EpView"><option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('List (Details overlay)', 'Settings option') + '</option>' +
-        '<option value="thumbnail" ' + (EpView=='thumbnail'? 'selected' : '') + '>' + mkf.lang.get('Thumbnails (Details overlay)', 'Settings option') + '</option>' +
+        '<option value="thumbnail" ' + (EpView=='thumbnail'? 'selected' : '') + '>' + mkf.lang.get('Information List', 'Settings option') + '</option>' +
+        '<option value="thumbnailnoplot" ' + (EpView=='thumbnailnoplot'? 'selected' : '') + '>' + mkf.lang.get('Thumbnails', 'Settings option') + '</option>' +
         '</select>' +
         '</fieldset>' +
         
@@ -1003,6 +1022,7 @@
         //'<input type="checkbox" id="cinex" name="cinex" ' + (cinex=='yes'? 'checked="checked"' : '') + '><label for="cinex">' + mkf.lang.get('label_cinex') + '</label>' +
         '<br /><label for="limitVideo">' + mkf.lang.get('Number of items to list:', 'Settings label') + ' </label><input type="text" id="limitVideo" name="limitVideo" value="' + limitVideo + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('for movie based views.', 'Settings label') +
         '<br /><label for="limitTV">' + mkf.lang.get('Number of items to list:', 'Settings label') + ' </label><input type="text" id="limitTV" name="limitTV" value="' + limitTV + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('for TV based views.', 'Settings label') +        
+        '<br /><label for="limitMusicVideo">' + mkf.lang.get('Number of items to list:', 'Settings label') + ' </label><input type="text" id="limitMusicVideo" name="limitMusicVideo" value="' + limitMusicVideo + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('for music video based views.', 'Settings label') +
         '</fieldset>' +
         //'<div class="formHint">' + mkf.lang.get('* Not recommended for a large amount of items.') + '</div>' +
         '</form>' +
@@ -1013,7 +1033,7 @@
         '<form name="settingsViewsMusic">' +
         
         //Artists
-        '<fieldset>' +
+        '<fieldset class="ui_views" style="min-width: 270px">' +
         '<legend>' + mkf.lang.get('Artists', 'Settings label') + '</legend>' +
         '<select id="artists" name="artistsView"><option value="cover" ' + (artistsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('Covers', 'Settings option') + '</option>' +
         '<option value="list" ' + (artistsView=='list'? 'selected' : '') + '>' + mkf.lang.get('List (Details overlay)', 'Settings option') + '</option>' +
@@ -1032,7 +1052,7 @@
         '</select>' +
         '</fieldset>' +
         
-        '<fieldset>' +
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Recently Added Albums', 'Settings label') + '</legend>' +
         '<select name="albumsViewRec"><option value="cover" ' + (albumsViewRec=='cover'? 'selected' : '') + '>' + mkf.lang.get('Covers', 'Settings option') +
         '</option><option value="list" ' + (albumsViewRec=='list'? 'selected' : '') + '>' + mkf.lang.get('List (Details overlay)', 'Settings option') +
@@ -1053,7 +1073,7 @@
         /*---- Sorting ----*/
         '<div id="tabs-4">' +
         '<form name="settingsSorting">' +
-        '<fieldset class="ui_albums">' +
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Albums', 'Settings label') + '</legend>' +
         '' + mkf.lang.get('Order By:', 'Settings label') +'<select name="albumSort"><option value="album" ' + (albumSort=='album'? 'selected' : '') + '>' + mkf.lang.get('Titles', 'Settings option') +
         '</option><option value="artist" ' + (albumSort=='artist'? 'selected' : '') + '>' + mkf.lang.get('Artists', 'Settings option') +
@@ -1062,7 +1082,18 @@
         '</select>' +
         '<input type="checkbox" id="adesc" name="adesc" ' + (adesc=='descending'? 'checked="checked"' : '') + '><label for="adesc">' + mkf.lang.get('Descending', 'Settings option') + '</label>' +
         '</fieldset>' +
-        '<fieldset>' +
+        
+        '<fieldset class="ui_views">' +
+        '<legend>' + mkf.lang.get('Music Videos', 'Settings label') + '</legend>' +
+        '' + mkf.lang.get('Order By:', 'Settings label') +'<select name="mvSort"><option value="album" ' + (mvSort=='album'? 'selected' : '') + '>' + mkf.lang.get('Titles', 'Settings option') +
+        '</option><option value="artist" ' + (mvSort=='artist'? 'selected' : '') + '>' + mkf.lang.get('Artists', 'Settings option') +
+        '</option><option value="year" ' + (mvSort=='year'? 'selected' : '') + '>' + mkf.lang.get('Years', 'Settings option') +'</option><option value="genre"' + (mvSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('Genres', 'Settings option') +'</option>' +
+        '<option value="dateadded" ' + (mvSort=='dateadded'? 'selected' : '') + '>' + mkf.lang.get('Date Added', 'Settings option') +
+        '</select>' +
+        '<input type="checkbox" id="mvdesc" name="mvdesc" ' + (mvdesc=='descending'? 'checked="checked"' : '') + '><label for="mvdesc">' + mkf.lang.get('Descending', 'Settings option') + '</label>' +
+        '</fieldset>' +
+        
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Movies', 'Settings label') + '</legend>' +
         '' + mkf.lang.get('Order By:', 'Settings label') +'<select name="filmSort"><option value="label" ' + (filmSort=='label'? 'selected' : '') + '>' + mkf.lang.get('Titles', 'Settings option') +
         '</option><option value="sorttitle" ' + (filmSort=='sorttitle'? 'selected' : '') + '>' + mkf.lang.get('Sort Titles', 'Settings option') +
@@ -1082,7 +1113,8 @@
         '</option><option value="episode" ' + (TVSort=='episode'? 'selected' : '') + '>' + mkf.lang.get('Episodes', 'Settings option') +'</option></select>' +
         '<input type="checkbox" id="tvdesc" name="tvdesc" ' + (tvdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('Descending', 'Settings option') + '</label>' +
         '</fieldset>' +
-        '<fieldset>' +
+        
+        '<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Episodes', 'Settings label') + '</legend>' +
         '' + mkf.lang.get('Order By:', 'Settings label') +'<select name="EpSort"><option value="label" ' + (EpSort=='label'? 'selected' : '') + '>' + mkf.lang.get('Titles', 'Settings option') +
         '</option>' +
@@ -1123,6 +1155,7 @@
       
       
       if (artistsPath) { $('input#artists_path').val(artistsPath) };
+      if (manualPath) { $('input#manual_path').val(manualPath) };
       
       $( "#tabs" ).tabs({ selected: 0 });
       
@@ -1152,6 +1185,11 @@
           limitVideo = 25;
         }
 
+        var limitMusicVideo = parseInt(document.settingsViewsVideo.limitMusicVideo.value);
+        if (isNaN(limitMusicVideo) || limitMusicVideo < 1 ) {
+          limitMusicVideo = 25;
+        }
+        
         var limitTV = parseInt(document.settingsViewsVideo.limitTV.value);
         if (isNaN(limitTV) || limitTV < 1 ) {
           limitTV = 25;
@@ -1197,6 +1235,12 @@
         );
         
         mkf.cookieSettings.add(
+          'manualPath',
+          document.settingsForm.manual_path.value
+        );
+        awxUI.settings.manualPath = document.settingsForm.manual_path.value;
+        
+        mkf.cookieSettings.add(
           'albumSort',
           document.settingsSorting.albumSort.value
         );
@@ -1231,6 +1275,18 @@
           document.settingsViewsMusic.albumsViewRec.value
         );
         awxUI.settings.albumsViewRec = document.settingsViewsMusic.albumsViewRec.value;
+        
+        mkf.cookieSettings.add(
+          'mvdesc',
+          document.settingsSorting.mvdesc.checked? 'descending' : 'ascending'
+        );
+        awxUI.settings.musicVideosdesc = document.settingsSorting.mvdesc.checked? 'descending' : 'ascending';
+        
+        mkf.cookieSettings.add(
+          'mvSort',
+          document.settingsSorting.mvSort.value
+        );
+        awxUI.settings.musicVideosSort = document.settingsSorting.mvSort.value;
         
         mkf.cookieSettings.add(
           'tvdesc',
@@ -1323,6 +1379,12 @@
         awxUI.settings.rotateCDart = document.settingsForm.rotateCDart.checked? true : false;
         
         mkf.cookieSettings.add(
+          'preferLogos',
+          document.settingsForm.preferLogos.checked? 'yes' : 'no'
+        );
+        awxUI.settings.preferLogos = document.settingsForm.preferLogos.checked? true : false;
+        
+        mkf.cookieSettings.add(
           'usefanart',
           document.settingsForm.usefanart.checked? 'yes' : 'no'
         );
@@ -1371,9 +1433,11 @@
         mkf.cookieSettings.add('limitAlbums', limitAlbums);
         mkf.cookieSettings.add('limitSongs', limitSongs);
         mkf.cookieSettings.add('limitVideo', limitVideo);
+        mkf.cookieSettings.add('limitMusicVideo', limitMusicVideo);
         mkf.cookieSettings.add('limitTV', limitTV);
         awxUI.settings.timeout = timeout;
         awxUI.settings.limitMovies = limitVideo;
+        awxUI.settings.limitMV = limitMusicVideo;
         awxUI.settings.limitTV = limitTV;
         awxUI.settings.limitArtists = limitArtists;
         awxUI.settings.limitAlbums = limitAlbums;
@@ -1513,6 +1577,18 @@
       $('<div class="goNextPrev"><a class="prevPage" href=""></a><a class="nextPage" href=""></a><div class="lastCount"><span class="npCount">' + (lastArtistCount > artistResult.limits.total? artistResult.limits.total : lastArtistCount) + '/' + artistResult.limits.total + '</span></div></div>').appendTo($artistsViewerElement);
       $artistsViewerElement.find('a.nextPage').on('click', { Page: 'next'}, awxUI[onPageShow]);
       $artistsViewerElement.find('a.prevPage').on('click', { Page: 'prev'}, awxUI[onPageShow]);
+      $(document).bind('keydown', 'Ctrl+Left', function() { $artistsViewerElement.find('a.prevPage').click(); } );
+      $(document).bind('keydown', 'Ctrl+Right', function() { $artistsViewerElement.find('a.nextPage').click(); } );
+      //$artistsViewerElement.keydown(function(event) {
+        //console.log(event);
+        
+        /*if (event.keyCode == 0x0D) {
+          onInputContentChanged();
+        }
+        if (event.keyCode == 0x1B || event.keyCode == 0x0D) {
+          $(this).parent().hide();
+        }*/
+      //})
     };
       
   }; // END defaultArtistsViewer
@@ -2073,6 +2149,18 @@
 
     if (!mvResult.limits.total > 0) { return };
     
+    totalMVCount = mvResult.limits.total;
+    //may be passed from set page. No limiting with movie sets.
+    if (!mvResult.isFilter) {
+      //Out of bound checking. Reset to start, really should cycle backwards.
+      if (typeof(lastMVCountStart) === 'undefined' || lastMVCountStart > mvResult.limits.total -1) {
+        lastMVCount = awxUI.settings.limitMV;
+        lastMVCountStart = 0;
+        awxUI.onMusicVideosTitleShow();
+        return
+      };
+    };
+    
     var useLazyLoad = awxUI.settings.lazyload;
     var view = awxUI.settings.musicVideoView;
     
@@ -2095,7 +2183,7 @@
         $mvViewerElement.find('img.thumb').lazyload(
           {
             queuedLoad: true,
-            container: ($('#main').length? $('#main'): $('#content')),  // TODO remove fixed #main
+            container: $('#content'),
             errorImage: 'images/thumb.png'
           }
         );
@@ -2103,6 +2191,13 @@
       setTimeout(loadThumbs, 100);
     }
 
+    if (!mvResult.isFilter) {
+      $('<div class="goNextPrev"><a class="prevPage" href=""></a><a class="nextPage" href=""></a><div class="lastCount"><span class="npCount">' + (lastMVCountStart+1) + '/' + mvResult.limits.total + '</span></div></div>').prependTo($mvViewerElement);
+      $('<div class="goNextPrev"><a class="prevPage" href=""></a><a class="nextPage" href=""></a><div class="lastCount"><span class="npCount">' + (lastMVCount > mvResult.limits.total? mvResult.limits.total : lastMVCount)+ '/' + mvResult.limits.total + '</span></div></div>').appendTo($mvViewerElement);
+      $mvViewerElement.find('a.nextPage').on('click', { Page: 'next'}, awxUI.onMusicVideosTitleShow);
+      $mvViewerElement.find('a.prevPage').on('click', { Page: 'prev'}, awxUI.onMusicVideosTitleShow);
+    }
+    
   }; // END defaultMusicVideosTitleViewer
   
   /* ########################### *\
@@ -2193,6 +2288,18 @@
     
   }; // END defaultTagsViewer
   
+    /* ########################### *\
+   |  Tags.
+   |
+   |  
+   |  @param parentPage    Page which is used as parent for new sub pages.
+   \* ########################### */
+  $.fn.defaultAddonsViewer = function(type, parentPage) {
+  
+    uiviews.AddonsViewList(type, parentPage).appendTo($(this));
+    
+  }; // END defaultTagsViewer
+  
   /* ########################### *\
    |  Movie root page
    |
@@ -2255,7 +2362,13 @@
 
     switch (view) {
       case 'poster':
+        uiviews.MovieViewPosters(movieResult, parentPage, settings).appendTo($movieContainer);        
+        break;
+      case 'thumbnail':
         uiviews.MovieViewThumbnails(movieResult, parentPage, settings).appendTo($movieContainer);        
+        break;
+      case 'clearart':
+        uiviews.MovieViewClearArt(movieResult, parentPage, settings).appendTo($movieContainer);        
         break;
       case 'listover':
         uiviews.MovieViewList(movieResult, parentPage, settings).appendTo($movieContainer);
@@ -2366,7 +2479,7 @@
     
     switch (view) {
       case 'poster':
-        uiviews.MovieViewThumbnails(movieResult, parentPage, settings).appendTo($movieContainer);
+        uiviews.MovieViewPosters(movieResult, parentPage, settings).appendTo($movieContainer);
         break;
       case 'listover':
         uiviews.MovieViewList(movieResult, parentPage, settings).appendTo($movieContainer);
@@ -2651,6 +2764,9 @@
       case 'listover':
         uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);
         break;
+      case 'thumbnailnoplot':
+        uiviews.TVEpThumbnail(episodesResult).appendTo(epsContainer);
+        break;
     };
     
     if (useLazyLoad) {
@@ -2689,6 +2805,9 @@
         break;
       case 'listover':
         uiviews.TVEpisodesViewList(episodesResult, unwatched).appendTo(epsContainer);
+        break;
+      case 'thumbnailnoplot':
+        uiviews.TVEpThumbnail(episodesResult).appendTo(epsContainer);
         break;
     };
     
@@ -2729,6 +2848,9 @@
     switch (view) {
       case 'infolist':
         uiviews.TVRecentViewInfoList(episodesResult, parentPage, options).appendTo(epsContainer);
+        break;
+      case 'thumbnail':
+        uiviews.TVRecentThumbnail(episodesResult, parentPage, options).appendTo(epsContainer);
         break;
     };
     
@@ -3476,7 +3598,7 @@
                   if (!file.file.startsWith('script://') && file.filetype == 'file') {
                     var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><div class="folderLinkWrapper file' + i + '">' +
                     (awxUI.settings.enqueue? '<a href="" class="button playlist" title="' + mkf.lang.get('Enqueue', 'Tool tip') + '"><span class="miniIcon enqueue" /></a>' : '') +
-                    (awxUI.settings.player? '<a href="" class="file play">' + file.file.slice(file.file.lastIndexOf('/')+1) + '</a>' : '<span class="label">' + file.file.slice(file.file.lastIndexOf('/')+1) + '</span>') +
+                    (awxUI.settings.player? '<a href="" class="file play">' + (file.label != ''? file.label : file.file.slice(file.file.lastIndexOf('/')+1)) + '</a>' : '<span class="label">' + (file.label != ''? file.label : file.file.slice(file.file.lastIndexOf('/')+1)) + '</span>') +
                     '</div></li>').appendTo($filelist);
                     $file.find('.play').bind('click', {file: file.file}, onFilePlayClick);
                     $file.find('.playlist').bind('click', {file: file.file}, onAddFileToPlaylistClick);
@@ -3517,26 +3639,24 @@
           async: false
         });
 
-        var manualMediaDir = '/mnt/itsuka/music/1/';
-        // TODO support Windows/OSX-Folders
-        // /media - Folder may exist (access to usb-sticks etc.)
-        xbmc.getDirectory({
-          //directory: '/media',
-          directory: manualMediaDir,
+        //access to usb-sticks etc.
+        //var manualPath = awxUI.settings.manualPath;
+        if (awxUI.settings.manualPath) {
+          xbmc.getDirectory({
+            //directory: '/media',
+            directory: awxUI.settings.manualPath,
 
-          onSuccess: function(result) {
-            var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><a href="" class="fileMedia">' + mkf.lang.get('Manual', 'Label') + '</a></li>').appendTo($filelist);
-            $file.bind('click', {folder: {name: mkf.lang.get('Manual', 'Label'), path:manualMediaDir}}, onFolderClick);
-          },
+            onSuccess: function(result) {
+              var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><a href="" class="fileMedia">' + mkf.lang.get('Manual File Directory', 'Settings label')  + ' (' + awxUI.settings.manualPath + ')' + '</a></li>').appendTo($filelist);
+              $file.bind('click', {folder: {name: mkf.lang.get('Manual File Directory', 'Settings label') + ' (' + awxUI.settings.manualPath + ')', path: awxUI.settings.manualPath}}, onFolderClick);
+            },
 
-          async: false
-        });
+            async: false
+          });
+        };
         
         var addonDir = 'addons://sources/' + (media == 'music'? 'audio' : media);
-        // TODO support Windows/OSX-Folders
-        // /media - Folder may exist (access to usb-sticks etc.)
         xbmc.getDirectory({
-          //directory: '/media',
           directory: addonDir,
 
           onSuccess: function(result) {
@@ -3567,7 +3687,7 @@
       
       var rotateCDart = awxUI.settings.rotateCDart;
 
-      var content = '<div id="now_next"><div id="now">' + mkf.lang.get('Now:', 'Footer label') + ' <span class="label" /><span class="nowArtist artist" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('Next:', 'Footer label') + ' <span class="nextTitle" /></div></div>';
+      var content = '<div id="now_next"><div id="now">' + mkf.lang.get('Now:', 'Footer label') + ' <span class="label" /><span class="seperator"></span><span class="nowArtist artist" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('Next:', 'Footer label') + ' <span class="nextTitle" /></div></div>';
       //content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>';
       //content += '<div id="controller"></div>';
       
@@ -3584,12 +3704,13 @@
       var seasonElement = '';
       var episodeElement = '';
       
-      var thumbElement = $('#artwork .artThumb');
-      var thumbDiscElement = $('#artwork .discThumb');
+      var thumbElement = $('.artThumb');
+      var thumbDiscElement = $('.discThumb');
       
-      var nowLabelElement = $footerNowBox.find('span.label');
-      var nowArtistElement = $footerNowBox.find('span.nowArtist');
-      var nowElement = $footerNowBox.find('span.nowTitle');
+      var nowLabelElement = $('div#now span.label');
+      var nowArtistElement = $('div#now span.nowArtist');
+      var nowElement = $('div#now span.nowTitle');
+      var seperator = $('div#now span.seperator');
       var nextElement = $footerNowBox.find('span.nextTitle');
       var timeCurRemain = $footerStatusBox.find('span.timeRemain');
       var timeCurRemainTotal = $footerStatusBox.find('span.timeRemainTotal');
@@ -3625,7 +3746,8 @@
               awxUI.onMusicPlaylistShow();
             };
             nowLabelElement.text(titleElement);
-            nowArtistElement.text(' - ' + artistElement);
+            nowArtistElement.text(artistElement);
+            seperator.text(' - ');
             nowElement.text(' - ' + albumElement);
           };
         } else if (currentFile.xbmcMediaType == 'video') {
@@ -3636,9 +3758,10 @@
             tvshowElement = currentFile.showtitle;
             seasonElement = currentFile.season;
             episodeElement = currentFile.episode;
+            seperator.text(' - ');
             
             nowLabelElement.text(titleElement);
-            nowElement.text(' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+            nowElement.text(tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
 
           } else if (currentFile.type == 'channel') {
             //label = channel, title = program name
@@ -3803,6 +3926,7 @@
           nowLabelElement.text('');
           nowArtistElement.text('');
           nowElement.text('');
+          seperator.text('');
           nextElement.text('');
           timeCurRemain.text('00:00');
           timeCurRemainTotal.text('00:00');
@@ -3870,15 +3994,197 @@
   }; // END uniFooterStatus
   
   /* ########################### *\
-   |  FindBox
+   |  FindBox whole library
   \* ########################### */
-  $.fn.defaultFindBox = function(options) {
+  $.fn.defaultFindBox = function(options, params, parentPage) {
+    //library: 'video', [open: 'continue', searchAndOr: '', searchFields: 'title', searchOps: 'contains', searchTerms: ''],
     var settings = {
       id: 'defaultFindBox',
       searchItems: '.findable',
       top: 0,
-      left: 0/*,
-      delay: 500*/
+      left: 0,
+    };
+    var searchParams = {
+      fields: [{
+        open: 'continue',
+        searchAndOr: '',
+        searchFields: 'title',
+        searchOps: 'contains',
+        searchTerms: ''
+      }],
+      searchType: 'tvshow',
+      library: 'video'
+    };
+    
+    if(options) {
+      $.extend(settings, options);
+    }
+    $.extend(searchParams, params);
+    var self = this;
+    //var timeout;
+    
+    var $searchItems = $(self).find(settings.searchItems);
+    var $box = $('#' + settings.id);
+
+    // Always create box
+    var $div = $('<div id="' + settings.id + '" class="findBox"><input type="text" /></div>')
+      .appendTo($('body'))
+      .css({'left': settings.left, 'top': settings.top});
+
+    if ($div.width() + $div.position().left > $(window).width()) {
+      $div.css({'left': settings.left-$div.width()});
+    }
+    var input = $div.find('input');
+
+    function onInputContentChanged() {
+      searchParams.fields[0].searchTerms = input.val();
+      if (searchParams.field) { searchParams.fields[0].searchFields = searchParams.field };
+      var messageHandle = mkf.messageLog.show(mkf.lang.get('Running advanced search...', 'Popup message'));
+      
+      xbmc.getAdFilter({
+        options: searchParams,
+        onSuccess: function(result) {
+          result.Type = searchParams.searchType;
+          if (result.limits.total > 0) {
+            mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 2000, mkf.messageLog.status.success);
+            
+            //make sub page for result
+            var $vadFilterRContent = $('<div class="pageContentWrapper"></div>');
+            var vadFilterRPage = mkf.pages.createTempPage(parentPage, {
+              title: mkf.lang.langMsg.translate('Result').withContext('Page').ifPlural( result.limits.total, 'Results' ).fetch( result.limits.total ), //mkf.lang.get('page_title_results'),
+              content: $vadFilterRContent
+            });
+            var fillPage = function() {
+              $vadFilterRContent.addClass('loading');
+              switch (result.Type) {
+                case 'movies':
+                  result.isFilter = true; //result.isFilter = true; <- change to
+                  $vadFilterRContent.defaultMovieTitleViewer(result, vadFilterRPage);
+                  $vadFilterRContent.removeClass('loading');
+                break;
+                case 'tvshows':
+                  result.isFilter = true;
+                  $vadFilterRContent.defaultTvShowTitleViewer(result, vadFilterRPage);
+                  $vadFilterRContent.removeClass('loading');
+                break;
+                case 'episodes':
+                  result.isFilter = true;
+                  $vadFilterRContent.defaultEpisodesViewer(result, vadFilterRPage);
+                  $vadFilterRContent.removeClass('loading');
+                break;
+                case 'musicvideos':
+                  result.isFilter = true;
+                  $vadFilterRContent.defaultMusicVideosTitleViewer(result, vadFilterRPage);
+                  $vadFilterRContent.removeClass('loading');
+                break;
+                case 'artists':
+                  result.isFilter = true;
+                  $vadFilterRContent.defaultArtistsTitleViewer(result, vadFilterRPage);
+                  $vadFilterRContent.removeClass('loading');
+                break;
+                case 'albums':
+                  result.isFilter = true;
+                  $vadFilterRContent.defaultAlbumTitleViewer(result, vadFilterRPage);
+                  $vadFilterRContent.removeClass('loading');
+                break;
+                case 'songs':
+                  result.isFilter = true;
+                  result.showDetails = true;
+                  $vadFilterRContent.defaultSonglistViewer(result, vadFilterRPage);
+                  $vadFilterRContent.removeClass('loading');
+                break;
+              }
+              
+              
+
+            }
+            vadFilterRPage.setContextMenu(
+              [
+                {
+                  'icon':'close', 'title':mkf.lang.get('Close', 'Tool tip'), 'shortcut':'Ctrl+1', 'onClick':
+                  function() {
+                    mkf.pages.closeTempPage(vadFilterRPage);
+                    return false;
+                  }
+                },
+                {
+                  'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
+                    function(){
+                      $vadFilterRContent.empty();
+                      fillPage();
+                      return false;
+                    }
+                }
+              ]
+            );
+            
+            mkf.pages.showTempPage(vadFilterRPage);
+            fillPage();
+            $vadFilterRContent.removeClass('loading');
+
+            return false;
+          } else {
+            //No results
+            mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('No matches found!', 'Popup message'), 6000, mkf.messageLog.status.error);
+          };
+        },
+        onError: function(error) {
+          mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('Failed! Check your query.', 'Popup message'), 6000, mkf.messageLog.status.error);
+        }          
+      });
+     /* $(self).find('.findBoxTitle').remove();
+      if (input.val()) {
+        $(self).prepend('<div class="findBoxTitle"><span>' + mkf.lang.get('Search result within this page for', 'Label') + ' : ' + [input.val()] + '</span></div>');
+      }
+      if (settings.searchItems == '.folderLinkWrapper' || settings.searchItems == 'a' ){
+      $searchItems.parent().removeAttr("style");
+      } else {
+      $searchItems.removeAttr("style");
+      }
+      if (settings.searchItems == '.folderLinkWrapper' || settings.searchItems == 'a' ){
+      $searchItems.not(":contains('" + input.val().toLowerCase() + "')").parent().hide();
+      } else {
+      $searchItems.not(":contains('" + input.val().toLowerCase() + "')").hide();
+      }*/
+      $(window).trigger('resize'); // ugly but best performance: trigger 'resize' because lazy-load-images may be visible now and should be loaded.
+    };
+
+    input
+      .blur(function() {
+        $(this).parent().hide();
+      })
+      .keydown(function(event) {
+        if (event.keyCode == 0x0D) {
+          onInputContentChanged();
+        }
+        if (event.keyCode == 0x1B || event.keyCode == 0x0D) {
+          $(this).parent().hide();
+        }
+      })
+      /*.keyup(function() {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+        timeout = setTimeout(onInputContentChanged, settings.delay);
+      })*/
+      .focus(function() {
+        this.select();
+      })
+      .focus();
+
+    return false;
+  };
+  
+  /* ########################### *\
+   |  FindBox
+  \* ########################### */
+  /*$.fn.defaultFindBox = function(options) {
+    var settings = {
+      id: 'defaultFindBox',
+      searchItems: '.findable',
+      top: 0,
+      left: 0,
+      delay: 500
     };
 
     if(options) {
@@ -3931,17 +4237,12 @@
           $(this).parent().hide();
         }
       })
-      /*.keyup(function() {
-        if (timeout) {
-          clearTimeout(timeout);
-        }
-        timeout = setTimeout(onInputContentChanged, settings.delay);
-      })*/
       .focus(function() {
         this.select();
       })
       .focus();
 
     return false;
-  }; // END defaultFindBox
+  }; */ 
+  // END defaultFindBox
 })(jQuery);

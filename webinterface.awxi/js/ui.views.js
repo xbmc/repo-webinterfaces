@@ -43,21 +43,43 @@ var uiviews = {};
           if ( useFanart ) {
             $('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(artistdetails.fanart) + '")');
           };
+          //Text info may drop below poster, basic check and half poster size.
+          var imgHeight = ($('#background').height() + 150 > $('#background').width()? $('#background').height() / 2 : $('#background').height() -20);
           
-          var thumb = (artistdetails.thumbnail? xbmc.getThumbUrl(artistdetails.thumbnail) : 'images/thumb.png');
-          var dialogContent = $('<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
-            '<h1 class="underline">' + artistdetails.label + '</h1>' +
-            //'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
-            (artistdetails.genre? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( artistdetails.genre.length, 'Genres:' ).fetch( artistdetails.genre.length ) + '</span><span class="labelinfo">' + artistdetails.genre.join(', ') + '</span></div>' : '') +
-            (artistdetails.mood[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Mood:').withContext('Label').ifPlural( artistdetails.mood.length, "Moods:" ).fetch( artistdetails.mood.length ) + '</span><span class="labelinfo">' + artistdetails.mood.join(', ') + '</span></div>' : '') +
-            (artistdetails.style[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Style:').withContext('Label').ifPlural( artistdetails.style.length, "Styles:" ).fetch( artistdetails.style.length ) + '</span><span class="labelinfo">' +  artistdetails.style.join(', ') + '</span></div>' : '') +
-            (artistdetails.born? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Born:', 'Label') + '</span><span class="labelinfo">' + artistdetails.born + '</span></div>' : '') +
-            (artistdetails.formed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Formed:', 'Label') + '</span><span class="labelinfo">' + artistdetails.formed + '</span></div>' : '') +
-            (artistdetails.died? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Died:', 'Label') + '</span><span class="labelinfo">' + artistdetails.died + '</span></div>' : '') +
-            (artistdetails.disbanded? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Disbanded:', 'Label') + '</span><span class="labelinfo">' + artistdetails.disbanded + '</span></div>' : '') +
-            (artistdetails.yearsactive[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Years active:', 'Label') + '</span><span class="labelinfo">' + artistdetails.yearsactive + '</span></div>' : '') +
-            (artistdetails.instrument[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Instrument:').withContext('Label').ifPlural( artistdetails.instrument.length, "Instruments:" ).fetch( artistdetails.instrument.length ) + '</span><span class="labelinfo">' + artistdetails.instrument + '</span></div>' : '') +
-            '<p class="artistdesc">' + artistdetails.description + '</p>');
+          //var thumb = (artistdetails.thumbnail? xbmc.getThumbUrl(artistdetails.thumbnail) : 'images/empty_cover_artist.png');
+          var thumb = new Image();
+          if (artistdetails.thumbnail) { thumb.src = xbmc.getThumbUrl(artistdetails.thumbnail) };
+          
+          var dialogContent = $(($('#background').width() > 615? '<div class="thumb" style="float: left; margin-right: 10px"></div>' : '') +
+          //'<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
+            '<div><h1 class="underline">' + artistdetails.label + '</h1></div>' +
+            '<div class="textinfo">' +
+              
+              //'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
+              (artistdetails.genre? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( artistdetails.genre.length, 'Genres:' ).fetch( artistdetails.genre.length ) + '</span><span class="labelinfo">' + artistdetails.genre.join(', ') + '</span></div>' : '') +
+              (artistdetails.mood[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Mood:').withContext('Label').ifPlural( artistdetails.mood.length, "Moods:" ).fetch( artistdetails.mood.length ) + '</span><span class="labelinfo">' + artistdetails.mood.join(', ') + '</span></div>' : '') +
+              (artistdetails.style[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Style:').withContext('Label').ifPlural( artistdetails.style.length, "Styles:" ).fetch( artistdetails.style.length ) + '</span><span class="labelinfo">' +  artistdetails.style.join(', ') + '</span></div>' : '') +
+              (artistdetails.born? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Born:', 'Label') + '</span><span class="labelinfo">' + artistdetails.born + '</span></div>' : '') +
+              (artistdetails.formed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Formed:', 'Label') + '</span><span class="labelinfo">' + artistdetails.formed + '</span></div>' : '') +
+              (artistdetails.died? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Died:', 'Label') + '</span><span class="labelinfo">' + artistdetails.died + '</span></div>' : '') +
+              (artistdetails.disbanded? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Disbanded:', 'Label') + '</span><span class="labelinfo">' + artistdetails.disbanded + '</span></div>' : '') +
+              (artistdetails.yearsactive[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Years active:', 'Label') + '</span><span class="labelinfo">' + artistdetails.yearsactive + '</span></div>' : '') +
+              (artistdetails.instrument[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Instrument:').withContext('Label').ifPlural( artistdetails.instrument.length, "Instruments:" ).fetch( artistdetails.instrument.length ) + '</span><span class="labelinfo">' + artistdetails.instrument + '</span></div>' : '') +
+              '<p class="artistdesc">' + artistdetails.description + '</p>' +
+            '</div>');
+          
+          thumb.onload = function() {
+              if ((thumb.width *2) > $('#background').width()) { imgHeight = imgHeight /2 };
+              dialogContent.filter('div.thumb').append('<img src="' + thumb.src + '" class="thumb">').children().css({'width': 'auto', 'height': (imgHeight > thumb.height? thumb.height : imgHeight ) });
+          };
+          
+          if (awxUI.settings.preferLogos) {
+            var artistfile = awxUI.settings.artistsPath + artistdetails.label + '/';
+            //art property not available for music.
+            xbmc.getLogo({path: artistfile, type: 'logo', format: '.png'}, function(logo) {
+              if (logo != '') { dialogContent.find('.underline').empty().append('<img src="' + logo + '" class="thumbLogo">') };
+            });
+          };
           
           mkf.dialog.setContent(dialogHandle, dialogContent);
           
@@ -84,19 +106,40 @@ var uiviews = {};
           if ( useFanart ) {
             $('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(albumdetails.fanart) + '")');
           };
+          //Text info may drop below poster, basic check and half poster size.
+          var imgHeight = ($('#background').height() + 150 > $('#background').width()? $('#background').height() / 2 : $('#background').height() -20);
           
-          var thumb = (albumdetails.thumbnail? xbmc.getThumbUrl(albumdetails.thumbnail) : 'images/thumb.png');
-          var dialogContent = $('<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
-            '<h1 class="underline">' + albumdetails.label + '</h1>' +
-            (albumdetails.artist? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Artist:', 'Label') + '</span><span class="labelinfo">' + albumdetails.artist + '</span></div>' : '') +
-            (albumdetails.genre? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( albumdetails.genre.length, 'Genres:' ).fetch( albumdetails.genre.length ) + '</span><span class="labelinfo">' + albumdetails.genre.join(', ') + '</span></div>' : '') +
-            (albumdetails.mood.length > 0 && albumdetails.mood[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Mood:').withContext('Label').ifPlural( albumdetails.mood.length, 'Moods:' ).fetch( albumdetails.mood.length ) + '</span><span class="labelinfo">' + albumdetails.mood.join(', ') + '</span></div>' : '') +
-            (albumdetails.style.length > 0 && albumdetails.style[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Style:').withContext('Label').ifPlural( albumdetails.style.length, 'Styles:' ).fetch( albumdetails.style.length ) + '</span><span class="labelinfo">' +  albumdetails.style.join(', ') + '</span></div>' : '') +
-            (albumdetails.rating? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="labelinfo">' + albumdetails.rating + '</span></div>' : '') +
-            (albumdetails.year? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Year:', 'Label') + '</span><span class="labelinfo">' + albumdetails.year + '</span></div>' : '') +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="labelinfo">' + albumdetails.playcount + '</span></div>' +
-            (albumdetails.albumlabel? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Record Label:', 'Label') + '</span><span class="labelinfo">' + albumdetails.albumlabel + '</span></div>' : '') +
-            '<p class="artistdesc">' + albumdetails.description + '</p>');
+         // var thumb = (albumdetails.thumbnail? xbmc.getThumbUrl(albumdetails.thumbnail) : 'images/empty_cover_music.png');
+         var thumb = new Image();
+         if (albumdetails.thumbnail) { thumb.src = xbmc.getThumbUrl(albumdetails.thumbnail) };
+          
+          var dialogContent = $(($('#background').width() > 615? '<div class="thumb" style="float: left; margin-right: 10px"></div>' : '') +
+          //'<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
+            '<div class="textinfo">' +
+              '<h1 class="underline">' + albumdetails.label + '</h1>' +
+              (albumdetails.artist? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Artist:', 'Label') + '</span><span class="labelinfo">' + albumdetails.artist + '</span></div>' : '') +
+              (albumdetails.genre.length > 0 && albumdetails.genre[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( albumdetails.genre.length, 'Genres:' ).fetch( albumdetails.genre.length ) + '</span><span class="labelinfo">' + albumdetails.genre.join(', ') + '</span></div>' : '') +
+              (albumdetails.mood.length > 0 && albumdetails.mood[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Mood:').withContext('Label').ifPlural( albumdetails.mood.length, 'Moods:' ).fetch( albumdetails.mood.length ) + '</span><span class="labelinfo">' + albumdetails.mood.join(', ') + '</span></div>' : '') +
+              (albumdetails.style.length > 0 && albumdetails.style[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Style:').withContext('Label').ifPlural( albumdetails.style.length, 'Styles:' ).fetch( albumdetails.style.length ) + '</span><span class="labelinfo">' +  albumdetails.style.join(', ') + '</span></div>' : '') +
+              (albumdetails.rating && albumdetails.rating != -1? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="labelinfo">' + albumdetails.rating + '</span></div>' : '') +
+              (albumdetails.year? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Year:', 'Label') + '</span><span class="labelinfo">' + albumdetails.year + '</span></div>' : '') +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="labelinfo">' + albumdetails.playcount + '</span></div>' +
+              (albumdetails.albumlabel? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Record Label:', 'Label') + '</span><span class="labelinfo">' + albumdetails.albumlabel + '</span></div>' : '') +
+              '<p class="artistdesc">' + albumdetails.description + '</p>' +
+            '</div>');
+          
+          thumb.onload = function() {
+            if ((thumb.width *2) > $('#background').width()) { imgHeight = imgHeight /2 };
+            dialogContent.filter('div.thumb').append('<img src="' + thumb.src + '" class="thumb">').children().css({'width': 'auto', 'height': (imgHeight > thumb.height? thumb.height : imgHeight) });
+          };
+          
+          if (awxUI.settings.preferLogos) {
+            var artistfile = awxUI.settings.artistsPath + albumdetails.artist[0] + '/';
+            //art property not available for music.
+            xbmc.getLogo({path: artistfile, type: 'logo', format: '.png'}, function(logo) {
+              if (logo != '') { dialogContent.find('.underline').prepend('<img src="' + logo + '" class="thumbLogo" style="display: block">') };
+            });
+          };
           
           mkf.dialog.setContent(dialogHandle, dialogContent);
           
@@ -122,20 +165,41 @@ var uiviews = {};
           if ( useFanart ) {
             $('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(songdetails.fanart) + '")');
           };
+          //Text info may drop below poster, basic check and half poster size.
+          var imgHeight = ($('#background').height() + 150 > $('#background').width()? $('#background').height() / 2 : $('#background').height() -20);
           
-          var thumb = (songdetails.thumbnail? xbmc.getThumbUrl(songdetails.thumbnail) : 'images/thumb.png');
-          var dialogContent = $('<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
-            '<h1 class="underline">' + songdetails.label + '</h1>' +
-            (songdetails.artist[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Artist:', 'Label') + '</span><span class="labelinfo">' + songdetails.artist[0] + '</span></div>' : '') +
-            (songdetails.genre? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( songdetails.genre.length, 'Genres:' ).fetch( songdetails.genre.length ) + '</span><span class="labelinfo">' + songdetails.genre.join(', ') + '</span></div>' : '') +
-            (songdetails.track > 0? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Track:', 'Label') + '</span><span class="labelinfo">' + songdetails.track + '</span></div>' : '') +
-            (songdetails.album? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Album:', 'Label') + '</span><span class="labelinfo">' +  songdetails.album + '</span></div>' : '') +
-            (songdetails.rating? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="labelinfo">' + songdetails.rating + '</span></div>' : '') +
-            (songdetails.duration? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Duration:', 'Label') + '</span><span class="labelinfo">' + xbmc.formatTime(songdetails.duration) + '</span></div>' : '') +
-            (songdetails.year? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Year:', 'Label') + '</span><span class="labelinfo">' + songdetails.year + '</span></div>' : '') +
-            (songdetails.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="labelinfo">' + songdetails.lastplayed + '</span></div>' : '') +
-            (songdetails.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="labelinfo">' + songdetails.playcount + '</span></div>' : '') +
-            '<p class="artistdesc">' + songdetails.lyrics + '</p>');
+          //var thumb = (songdetails.thumbnail? xbmc.getThumbUrl(songdetails.thumbnail) : 'images/empty_cover_music.png');
+          var thumb = new Image();
+          if (songdetails.thumbnail) { thumb.src = xbmc.getThumbUrl(songdetails.thumbnail) };
+          
+          var dialogContent = $(($('#background').width() > 615? '<div class="thumb" style="float: left; margin-right: 10px"></div>' : '') +
+          //'<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
+            '<div class="textinfo">' +
+              '<h1 class="underline">' + songdetails.label + '</h1>' +
+              (songdetails.artist[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Artist:', 'Label') + '</span><span class="labelinfo">' + songdetails.artist[0] + '</span></div>' : '') +
+              (songdetails.genre? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( songdetails.genre.length, 'Genres:' ).fetch( songdetails.genre.length ) + '</span><span class="labelinfo">' + songdetails.genre.join(', ') + '</span></div>' : '') +
+              (songdetails.track > 0? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Track:', 'Label') + '</span><span class="labelinfo">' + songdetails.track + '</span></div>' : '') +
+              (songdetails.album? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Album:', 'Label') + '</span><span class="labelinfo">' +  songdetails.album + '</span></div>' : '') +
+              (songdetails.rating && songdetails.rating != -1? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="labelinfo">' + songdetails.rating + '</span></div>' : '') +
+              (songdetails.duration? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Duration:', 'Label') + '</span><span class="labelinfo">' + xbmc.formatTime(songdetails.duration) + '</span></div>' : '') +
+              (songdetails.year? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Year:', 'Label') + '</span><span class="labelinfo">' + songdetails.year + '</span></div>' : '') +
+              (songdetails.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="labelinfo">' + songdetails.lastplayed + '</span></div>' : '') +
+              (songdetails.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="labelinfo">' + songdetails.playcount + '</span></div>' : '') +
+              '<p class="artistdesc">' + songdetails.lyrics + '</p>' +
+            '</div>');
+          
+          thumb.onload = function() {
+            if ((thumb.width *2) > $('#background').width()) { imgHeight = imgHeight /2 };
+            dialogContent.filter('div.thumb').append('<img src="' + thumb.src + '" class="thumb">').children().css({'width': 'auto', 'height': (imgHeight > thumb.height? thumb.height : imgHeight) });
+          };
+          
+          if (awxUI.settings.preferLogos) {
+            var artistfile = awxUI.settings.artistsPath + songdetails.artist[0] + '/';
+            //art property not available for music.
+            xbmc.getLogo({path: artistfile, type: 'logo', format: '.png'}, function(logo) {
+              if (logo != '') { dialogContent.find('.underline').prepend('<img src="' + logo + '" class="thumbLogo" style="display: block">') };
+            });
+          };
           
           mkf.dialog.setContent(dialogHandle, dialogContent);
           
@@ -545,6 +609,8 @@ var uiviews = {};
           if ( useFanart ) {
             $('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(mv.fanart) + '")');
           };
+          //Text info may drop below poster, basic check and half poster size.
+          var imgHeight = ($('#background').height() + 150 > $('#background').width()? $('#background').height() / 2 : $('#background').height() -20);
           
           if (typeof(mv.streamdetails.video[0]) != 'undefined') {
             if (typeof(mv.streamdetails.subtitle[0]) != 'undefined') { streamdetails.hasSubs = true };
@@ -563,24 +629,30 @@ var uiviews = {};
           streamdetails.aCodec = xbmc.getAcodec(mv.streamdetails.audio[0].codec);
           };
           
-          var thumb = (mv.thumbnail? xbmc.getThumbUrl(mv.thumbnail) : 'images/thumb.png');
-          var dialogContent = $('<div><img src="' + thumb + '" class="thumb dialogThumb" />' +
-            '<div><h1 class="underline">' + mv.title + '</h1></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Run Time:', 'Label') + '</span><span class="value">' + (mv.runtime? mv.runtime : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( mv.genre.length, 'Genres:' ).fetch( mv.genre.length ) + '</span><span class="value">' + (mv.genre? mv.genre : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Years active:', 'Label') + '</span><span class="value">' + (mv.year? mv.year : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            (mv.director? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Director:').withContext('Label').ifPlural( mv.director.length, 'Directors:' ).fetch( mv.director.length ) + '</span><span class="value">' + mv.director + '</span></div>' : '') +
-            (mv.writer? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Writer:').withContext('Label').ifPlural( mv.writer.length, 'Writers:' ).fetch( mv.writer.length ) + '</span><span class="value">' + mv.writer + '</span></div>' : '') +
-            (mv.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="value">' + mv.lastplayed + '</span></div>' : '') +
-            (mv.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="value">' + mv.playcount + '</span></div>' : '') +
-            '<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + mv.file + '</a>' + '</span></div></div>' +
-            '<br /><div class="movietags">' +
-            (awxUI.settings.enqueue? '<span class="infoqueue" title="' + mkf.lang.get('Enqueue', 'Tool tip') + '" />' : '') +
-            (awxUI.settings.player? '<span class="infoplay" title="' + mkf.lang.get('Play', 'Tool tip') + '" />' : '') +
+          //var thumb = (mv.thumbnail? xbmc.getThumbUrl(mv.thumbnail) : 'images/empty_cover_musicvideo.png');
+          var thumb = new Image();
+          if (mv.thumbnail) { thumb.src = xbmc.getThumbUrl(mv.thumbnail) };
+          
+          var dialogContent = $(($('#background').width() > 615? '<div class="thumb" style="float: left; margin-right: 10px"></div>' : '') +
+          //'<div><img src="' + thumb + '" class="thumb dialogThumb" />' +
+            '<div class="textinfo">' +
+              '<div><h1 class="underline">' + mv.title + '</h1></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Run Time:', 'Label') + '</span><span class="value">' + (mv.runtime? xbmc.formatTime(mv.runtime) : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( mv.genre.length, 'Genres:' ).fetch( mv.genre.length ) + '</span><span class="value">' + (mv.genre? mv.genre : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Years active:', 'Label') + '</span><span class="value">' + (mv.year? mv.year : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              (mv.director && mv.director[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Director:').withContext('Label').ifPlural( mv.director.length, 'Directors:' ).fetch( mv.director.length ) + '</span><span class="value">' + mv.director + '</span></div>' : '') +
+              (mv.writer && mv.writer[0] != ''? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Writer:').withContext('Label').ifPlural( mv.writer.length, 'Writers:' ).fetch( mv.writer.length ) + '</span><span class="value">' + mv.writer + '</span></div>' : '') +
+              (mv.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="value">' + mv.lastplayed + '</span></div>' : '') +
+              (mv.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="value">' + mv.playcount + '</span></div>' : '') +
+              '<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + mv.file.slice(mv.file.lastIndexOf('/')+1) + '</a>' + '</span></div></div>' +
+              '<div class="movieinfo"><div class="movietags">' +
+              (awxUI.settings.enqueue? '<span class="infoqueue" title="' + mkf.lang.get('Enqueue', 'Tool tip') + '" />' : '') +
+              (awxUI.settings.player? '<span class="infoplay" title="' + mkf.lang.get('Play', 'Tool tip') + '" />' : '') +
+              '</div></div>' +
             '</div>');
 
           if (typeof(mv.streamdetails.video[0]) != 'undefined') {
-            dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+            dialogContent.find('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
             '<div class="aspect' + streamdetails.aspect + '" />' +
             '<div class="vCodec' + streamdetails.vCodec + '" />' +
             '<div class="aCodec' + streamdetails.aCodec + '" />' +
@@ -590,6 +662,8 @@ var uiviews = {};
 
           $(dialogContent).find('.infoplay').on('click', {idMusicVideo: mv.musicvideoid, strMovie: mv.label}, uiviews.MusicVideoPlay);
           $(dialogContent).find('.infoqueue').on('click', {idMusicVideo: mv.musicvideoid, strMovie: mv.label}, uiviews.AddMusicVideoToPlaylist);
+          
+          thumb.onload = function() { dialogContent.filter('div.thumb').append('<img src="' + thumb.src + '" class="thumbFanart">').children().css({'width': 'auto', 'height': (imgHeight > thumb.height? thumb.height : imgHeight) }) };
           
           mkf.dialog.setContent(dialogHandle, dialogContent);
           return false;
@@ -608,7 +682,7 @@ var uiviews = {};
 
     /*------*/
     MoviePlay: function(event) {
-      var dialogHandle = mkf.dialog.show();
+      //var dialogHandle = mkf.dialog.show();
       
       //Check for resume point
       xbmc.getMovieInfo({
@@ -624,7 +698,7 @@ var uiviews = {};
               itemId: movieID,
               onSuccess: function() {
                 mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 2000, mkf.messageLog.status.success);
-                $('div#mkfDialog' + dialogHandle).find('a.close').click();
+                //$('div#mkfDialog' + dialogHandle).find('a.close').click();
               },
               onError: function(errorText) {
                 mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
@@ -636,6 +710,7 @@ var uiviews = {};
           
           //Play from resume point
           var playResume = function() {
+            var dialogHandle = mkf.dialog.show();
             var messageHandle = mkf.messageLog.show(mkf.lang.get('Playing...', 'Popup message with addition'));
 
             xbmc.playerOpen({
@@ -681,7 +756,7 @@ var uiviews = {};
     },
 
     /*------*/
-    FilePlay: function(event) {
+    FilePlay: function(e) {
       var messageHandle = mkf.messageLog.show(mkf.lang.get('Playing...', 'Popup message with addition'));
 
       xbmc.playerOpen({
@@ -719,7 +794,7 @@ var uiviews = {};
     /*-------------*/
     MovieInfo: function(film, callback) {
       movieID = film.IdMovie;
-      var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+      var useFanart = awxUI.settings.useFanart;
       
       xbmc.getMovieInfo({
         movieid: movieID,
@@ -727,17 +802,7 @@ var uiviews = {};
           //var dialogContent = '';
           var fileDownload = '';
           
-          xbmc.getPrepDownload({
-            path: movie.file,
-            onSuccess: function(result) {
-              fileDownload = xbmc.getUrl(result.details.path);
-              // no better way?
-              $('.filelink').find('a').attr('href',fileDownload);
-            },
-            onError: function(errorText) {
-              $('.filelink').find('a').replaceWith(movie.file);
-            },
-          });
+          
           
           var streamdetails = {
             vFormat: 'SD',
@@ -779,42 +844,76 @@ var uiviews = {};
 
           var thumb = new Image();
           if (movie.art.poster) { thumb.src = xbmc.getThumbUrl(movie.art.poster) };
-          
-          var dialogContent = $('<div style="float: left; margin-right: 5px;"><img src="images/empty_poster_film.png" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+
+          //Text info may drop below poster, basic check and half poster size.
+          var imgHeight = ($('#background').height() + 150 > $('#background').width()? $('#background').height() / 2 : $('#background').height() -20);
+
+          var dialogContent = $('' +
+            ($('#background').width() > 615? '<div><img src="images/empty_poster_film.png" class="thumb thumbPosterLarge dialogThumb"></div>' : '') +
             //(cinex? '<div style="float: left; position: absolute; margin-top: 288px"><a href="#" class="cinexplay">' + mkf.lang.get('label_cinex_play') + '</a></div>' : '') + '</div>' +
-            (!film.Inline? '<div><h1 class="underline">' + movie.title + '</h1></div>' : '') +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Original Title:', 'Label') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Run Time:', 'Label') + '</span><span class="value">' + (movie.runtime? xbmc.formatTime(movie.runtime) : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( movie.genre.length, 'Genres:' ).fetch( movie.genre.length ) + '</span><span class="value">' + (movie.genre? movie.genre.join(', ') : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Votes:', 'Label') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Year:', 'Label') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            (movie.director? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Director:').withContext('Label').ifPlural( movie.director.length, 'Directors:' ).fetch( movie.director.length ) + '</span><span class="value">' + movie.director.join(', ') + '</span></div>' : '') +
-            (movie.writer? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Writer:').withContext('Label').ifPlural( movie.writer.length, 'Writers:' ).fetch( movie.writer.length ) + '</span><span class="value">' + movie.writer.join(', ') + '</span></div>' : '') +
-            (movie.studio? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Studio:').withContext('Label').ifPlural( movie.studio.length, 'Studios:' ).fetch( movie.studio.length ) + '</span><span class="value">' + movie.studio.join(', ') + '</span></div>' : '') +
-            (movie.tagline? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Tag Line:', 'Label') + '</span><span class="value">' + movie.tagline + '</span></div>' : '') +
-            (movie.trailer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Trailer:', 'Label') + '</span><span class="value"><a href="' + movie.trailer + '">' + mkf.lang.get('Link', 'Label') + '</a>' +
-            '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-            (awxUI.settings.player? '<a href="#" class="trailerplay">' + mkf.lang.get('Play in XBMC', 'Label') + '</a>' : '') +
-            '</span></div></div>' : '') +
-            
-            (movie.set[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Set:', 'Label') + '</span><span class="value">' + movie.set + '</span></div>' : '') +
-            (movie.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="value">' + movie.lastplayed + '</span></div>' : '') +
-            (movie.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="value">' + movie.playcount + '</span></div>' : '') +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Audio Stream:').withContext('Label').ifPlural( streamdetails.aStreams, 'Audio Streams:' ).fetch( streamdetails.aStreams ) + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            (movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div></div>' : '') +
-            '<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file.slice(movie.file.lastIndexOf('/')+1) + '</a>' + '</span></div></div>' +
-            //(cinex? '<div class="cinex"><a href="#" class="cinexplay">' + mkf.lang.get('label_cinex_play') + '</a>' : '') + '</div>' +
-            '<p class="plot">' + movie.plot + '</p>' +
-            '<div class="movietags">' +
-            (awxUI.settings.enqueue? '<span class="infoqueue" title="' + mkf.lang.get('Enqueue', 'Tool tip') + '" />' : '') +
-            (awxUI.settings.player? '<span class="infoplay" title="' + mkf.lang.get('Play', 'Tool tip') + '" />' : '')  +
+            '<div>' +
+            (!film.Inline? '<div class="title"><h1 class="underline">' + movie.title + '</h1></div>' : '') +
+            '<div class="textinfo">' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Original Title:', 'Label') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Run Time:', 'Label') + '</span><span class="value">' + (movie.runtime? xbmc.formatTime(movie.runtime) : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( movie.genre.length, 'Genres:' ).fetch( movie.genre.length ) + '</span><span class="value">' + (movie.genre? movie.genre.join(', ') : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Votes:', 'Label') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Year:', 'Label') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              (movie.director? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Director:').withContext('Label').ifPlural( movie.director.length, 'Directors:' ).fetch( movie.director.length ) + '</span><span class="value">' + movie.director.join(', ') + '</span></div>' : '') +
+              (movie.writer? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Writer:').withContext('Label').ifPlural( movie.writer.length, 'Writers:' ).fetch( movie.writer.length ) + '</span><span class="value">' + movie.writer.join(', ') + '</span></div>' : '') +
+              (movie.studio? '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Studio:').withContext('Label').ifPlural( movie.studio.length, 'Studios:' ).fetch( movie.studio.length ) + '</span><span class="value">' + movie.studio.join(', ') + '</span></div>' : '') +
+              (movie.tagline? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Tag Line:', 'Label') + '</span><span class="value">' + movie.tagline + '</span></div>' : '') +
+              (movie.trailer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Trailer:', 'Label') + '</span><span class="value"><a href="' + movie.trailer + '">' + mkf.lang.get('Link', 'Label') + '</a>' +
+              '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+              (awxUI.settings.player? '<a href="#" class="trailerplay">' + mkf.lang.get('Play in XBMC', 'Label') + '</a>' : '') +
+              '</span></div>' : '') +
+              
+              (movie.set[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Set:', 'Label') + '</span><span class="value">' + movie.set + '</span></div>' : '') +
+              (movie.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="value">' + movie.lastplayed + '</span></div>' : '') +
+              (movie.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="value">' + movie.playcount + '</span></div>' : '') +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Audio Stream:').withContext('Label').ifPlural( streamdetails.aStreams, 'Audio Streams:' ).fetch( streamdetails.aStreams ) + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              (movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div>' : '') +
+              '<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file.slice(movie.file.lastIndexOf('/')+1) + '</a>' + '</span></div>' +
+              //(cinex? '<div class="cinex"><a href="#" class="cinexplay">' + mkf.lang.get('label_cinex_play') + '</a>' : '') + '</div>' +
+              '<div class="movieinfo"><p class="plot">' + movie.plot + '</p></div>' +
+            '</div>' +
+            '<div class="movieinfo"><div class="movietags">' +
+              (awxUI.settings.enqueue? '<span class="infoqueue" title="' + mkf.lang.get('Enqueue', 'Tool tip') + '" />' : '') +
+              (awxUI.settings.player? '<span class="infoplay" title="' + mkf.lang.get('Play', 'Tool tip') + '" />' : '')  +
+              (awxUI.settings.player? '<span class="infotools" title="' + mkf.lang.get('Tools and Addons', 'Tool tip') + '" /><div class="addons"></div>' : '')  +
+            '</div></div>' +
             '</div>');
 
-          thumb.onload = function() { dialogContent.find('img.thumbPosterLarge').attr('src', thumb.src) };
-            
+          thumb.onload = function() {
+            if (!film.Inline) {
+              //console.log(thumb.height)
+              dialogContent.find('img.thumbPosterLarge').attr('src', thumb.src).css({'width': 'auto', 'height': (imgHeight > thumb.height? thumb.height : imgHeight) });
+            } else {
+              dialogContent.find('img.thumbPosterLarge').attr('src', thumb.src);
+            };
+          };
+          
+          xbmc.getPrepDownload({
+            path: movie.file,
+            onSuccess: function(result) {
+              fileDownload = xbmc.getUrl(result.details.path);
+              // no better way?
+              dialogContent.find('div.filelink a').attr('href',fileDownload);
+            },
+            onError: function(errorText) {
+              dialogContent.find('div.filelink a').replaceWith(movie.file);
+            },
+          });
+          
+          if (awxUI.settings.preferLogos && movie.art.clearlogo) {
+            var logo = new Image();
+            logo.src = xbmc.getThumbUrl(movie.art.clearlogo);
+            logo.onload = function() { dialogContent.find('.underline').empty().append('<img src="' + logo.src + '" class="thumbLogo">') };
+          };
+          
           if (typeof(movie.streamdetails.video[0]) != 'undefined') {
-            dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+            dialogContent.find('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
             '<div class="aspect' + streamdetails.aspect + '" />' +
             '<div class="vCodec' + streamdetails.vCodec + '" />' +
             '<div class="aCodec' + streamdetails.aCodec + '" />' +
@@ -824,9 +923,10 @@ var uiviews = {};
 
           $(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
           $(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.AddMovieToPlaylist);
-          $(dialogContent).find('.cinexplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.CinExPlay);
+          $(dialogContent).find('.infotools').on('click', {dbid: movie.movieid, media: 'video', mediatype: 'movie', movie: movie.label}, uiviews.ToolsAddons);
+          //$(dialogContent).find('.cinexplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.CinExPlay);
           $(dialogContent).find('.trailerplay').on('click', {file: movie.trailer}, uiviews.FilePlay);
-          
+
           callback(dialogContent);
         },
         onError: function() {
@@ -1089,21 +1189,45 @@ var uiviews = {};
             $('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(tvshow.fanart) + '")');
           };
           
-          var thumb = new Image();
-          if (tvshow.art.banner) { thumb.src = xbmc.getThumbUrl(tvshow.art.banner) };
+          //Text info may drop below poster, basic check and half poster size.
+          var imgHeight = ($('#background').height() + 150 > $('#background').width()? $('#background').height() / 2 : $('#background').height() -20);
           
-          var valueClass = 'valueBanner';
-          var dialogContent = $('<img src="images/empty_banner_tv.png" class="thumb thumbBanner dialogThumbBanner" />' +
-            '<h1 class="underline center">' + tvshow.title + '</h1>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( tvshow.genre.length, 'Genres:' ).fetch( tvshow.genre.length ) + '</span><span class="'+valueClass+'">' + (tvshow.genre? tvshow.genre : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Premiered:', 'Label') + '</span><span class="'+valueClass+'">' + (tvshow.premiered? tvshow.premiered : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Episodes:',  'Label') + '</span><span class="'+valueClass+'">' + tvshow.episode + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="'+valueClass+'">' + tvshow.playcount + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
-            '<p>' + tvshow.plot + '</p>');
+          var banner = new Image();
+          if (tvshow.art.banner) { banner.src = xbmc.getThumbUrl(tvshow.art.banner) };
+          var poster = new Image();
+          if (tvshow.art.poster) { poster.src = xbmc.getThumbUrl(tvshow.art.poster) };
+          
+          var valueClass = 'value';
+          var dialogContent = $(($('#background').width() > 615? '<div class="poster" style="float: left; margin-right: 10px"></div>' : '') +
+            (awxUI.settings.preferLogos? '' : '<img src="images/empty_banner_tv.png" class="thumb thumbBanner">') +
+            
+            '<div class="textinfo">' +
+            '<div class="title"><h1 class="underline">' + tvshow.title + '</h1></div>' +
+              //'<h1 class="underline center">' + tvshow.title + '</h1>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Genre:').withContext('Label').ifPlural( tvshow.genre.length, 'Genres:' ).fetch( tvshow.genre.length ) + '</span><span class="'+valueClass+'">' + (tvshow.genre? tvshow.genre : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Premiered:', 'Label') + '</span><span class="'+valueClass+'">' + (tvshow.premiered? tvshow.premiered : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Episodes:',  'Label') + '</span><span class="'+valueClass+'">' + tvshow.episode + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="'+valueClass+'">' + tvshow.playcount + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
+              '<p>' + tvshow.plot + '</p>' +
+              (awxUI.settings.player? '<div class="movieinfo"><div class="movietags">' + 
+                '<span class="infotools" title="' + mkf.lang.get('Tools and Addons', 'Tool tip') + '" /><div class="addons"></div>' +
+              '</div></div>' : '')  +
+            '</div>');
 
-          thumb.onload = function() { dialogContent.filter('img.thumb').attr('src', thumb.src) };
+          banner.onload = function() { dialogContent.filter('img.thumb').attr('src', banner.src) };
+          poster.onload = function() {
+              dialogContent.filter('div.poster').append('<img src="' + poster.src + '" class="thumb thumbPosterLarge">').children().css({'width': 'auto', 'height': (imgHeight > poster.height? poster.height : imgHeight) });
+          };
+          
+          if (awxUI.settings.preferLogos && tvshow.art.clearlogo) {
+            var logo = new Image();
+            logo.src = xbmc.getThumbUrl(tvshow.art.clearlogo);
+            logo.onload = function() { dialogContent.find('.underline').empty().append('<img src="' + logo.src + '" class="thumbLogo">') };
+          };
+          
+          $(dialogContent).find('.infotools').on('click', {dbid: e.data.tvshow.tvshowid, media: 'video', mediatype: 'tvshow'}, uiviews.ToolsAddons);
           
           mkf.dialog.setContent(dialogHandle, dialogContent);
           
@@ -1162,29 +1286,38 @@ var uiviews = {};
             $('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(ep.fanart) + '")');
           };  
           
+          //Text info may drop below poster, basic check and half poster size.
+          var imgHeight = ($('#background').height() + 150 > $('#background').width()? $('#background').height() / 2 : $('#background').height() -20);
+          
+          var banner = new Image();
+          if (ep.art.banner) { banner.src = xbmc.getThumbUrl(ep.art.banner) };
+          
           var thumb = new Image();
           if (ep.thumbnail) { thumb.src = xbmc.getThumbUrl(ep.thumbnail) };
 
-          var dialogContent = $('<div><img src="images/empty_thumb_tv.png" class="thumbFanart dialogThumb" /></div>' +
-            '<div><h1 class="underline">' + ep.title + '</h1></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Episode:',  'Label') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Season:',  'Label') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Run Time:', 'Label') + '</span><span class="value">' + (ep.runtime? xbmc.formatTime(ep.runtime) : mkf.lang.get('N/A', 'Label')) + '</span></div>' +            
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Votes:', 'Label') + '</span><span class="value">' + (ep.votes? ep.votes : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('First Aired:', 'Label') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="value">' + (ep.lastplayed? ep.lastplayed : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="value">' + (ep.playcount? ep.playcount : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Audio Stream:').withContext('Label').ifPlural( streamdetails.aStreams, 'Audio Streams:' ).fetch( streamdetails.aStreams ) + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
-            '<div class="movieinfo"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + ep.file + '</a>' + '</span></div></div>' +
-            '<p class="plot">' + ep.plot + '</p>' +
-            '<div class="movietags">' +
-            (awxUI.settings.enqueue? '<span class="infoqueue" title="' + mkf.lang.get('Enqueue', 'Tool tip') + '" />' : '') +
-            (awxUI.settings.player? '<span class="infoplay" title="' + mkf.lang.get('Play', 'Tool tip') + '" />' : '')  +
+          var dialogContent = $(($('#background').width() > 615? '<div class="thumb" style="float: left; margin-right: 10px"></div>' : '') +
+          //'<div><img src="images/empty_thumb_tv.png" class="thumbFanart dialogThumb" /></div>' +
+            '<div class="textinfo">' +
+            '<div class="title"><h1 class="underline">' + ep.title + '</h1></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Episode:',  'Label') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Season:',  'Label') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Run Time:', 'Label') + '</span><span class="value">' + (ep.runtime? xbmc.formatTime(ep.runtime) : mkf.lang.get('N/A', 'Label')) + '</span></div>' +            
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Votes:', 'Label') + '</span><span class="value">' + (ep.votes? ep.votes : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('First Aired:', 'Label') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Last Played:', 'Label') + '</span><span class="value">' + (ep.lastplayed? ep.lastplayed : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('Played:', 'Label') + '</span><span class="value">' + (ep.playcount? ep.playcount : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.langMsg.translate('Audio Stream:').withContext('Label').ifPlural( streamdetails.aStreams, 'Audio Streams:' ).fetch( streamdetails.aStreams ) + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('N/A', 'Label')) + '</span></div>' +
+              '<div class="movieinfo"><span class="label">' + mkf.lang.get('File:', 'Label') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + ep.file + '</a>' + '</span></div></div>' +
+              '<div class="movieinfo"><p class="plot">' + ep.plot + '</p></div>' +
+              '<div class="movieinfo"><div class="movietags">' +
+              (awxUI.settings.enqueue? '<span class="infoqueue" title="' + mkf.lang.get('Enqueue', 'Tool tip') + '" />' : '') +
+              (awxUI.settings.player? '<span class="infoplay" title="' + mkf.lang.get('Play', 'Tool tip') + '" />' : '')  +
+              '</div></div>' +
             '</div>');
 
           if (typeof(ep.streamdetails.video[0]) != 'undefined') {
-            dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+            dialogContent.find('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
             '<div class="aspect' + streamdetails.aspect + '" />' +
             '<div class="vCodec' + streamdetails.vCodec + '" />' +
             '<div class="aCodec' + streamdetails.aCodec + '" />' +
@@ -1204,7 +1337,14 @@ var uiviews = {};
             },
           });
           
-          thumb.onload = function() { dialogContent.find('img.thumbFanart').attr('src', thumb.src) };
+          //thumb.onload = function() { dialogContent.find('img.thumbFanart').attr('src', thumb.src) };
+          dialogContent.filter('div.thumb').append('<img src="' + thumb.src + '" class="thumbFanart">').children().css({'width': 'auto', 'height': (imgHeight > thumb.height? thumb.height : imgHeight) });
+          
+          if (awxUI.settings.preferLogos && ep.art["tvshow.clearlogo"]) {
+            var logo = new Image();
+            logo.src = xbmc.getThumbUrl(ep.art["tvshow.clearlogo"]);
+            logo.onload = function() { dialogContent.find('.underline').empty().append('<img src="' + logo.src + '" class="thumbLogo">') };
+          };
           
           $(dialogContent).find('.infoplay').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, uiviews.EpisodePlay);
           $(dialogContent).find('.infoqueue').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, uiviews.AddEpisodeToPlaylist);
@@ -1320,7 +1460,9 @@ var uiviews = {};
               mkf.messageLog.show(mkf.lang.get('No unwatched episodes!', 'Popup message'), mkf.messageLog.status.error, 5000);
               return false;
             } else {
-              $unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
+              var eps = {};
+              eps.episodes = result;
+              $unwatchedEpsContent.defaultunwatchedEpsViewer(eps, e.data.idTvShow, unwatchedEpsPage);
               $unwatchedEpsContent.removeClass('loading');
               mkf.pages.showTempPage(unwatchedEpsPage);
             };
@@ -1738,6 +1880,20 @@ var uiviews = {};
       });
 
       return false;
+    },
+    
+    ToolsAddons: function(e) {
+    
+      var addonContent = $(this).parentsUntil('.movieinfo').find('div.addons');
+      addonContent.show();
+      
+      if (e.data.media == 'video' && xbmc.addons.artwork) { $('<div class="addon"><img src="' + xbmc.getThumbUrl(xbmc.addons.artwork.thumb) +'" alt="' + xbmc.addons.artwork.name + '" class="thumb addon" /><a href="" class="artwork">' + xbmc.addons.artwork.name + '</a></div>').appendTo(addonContent) };
+      if (e.data.media == 'video' && e.data.mediatype == 'movie' && xbmc.addons.cinex) { $('<div class="addon"><img src="' + xbmc.getThumbUrl(xbmc.addons.cinex.thumb) +'" alt="' + xbmc.addons.cinex.name + '" class="thumb addon" /><a href="" class="cinex">' + xbmc.addons.cinex.name + '</a></div>').appendTo(addonContent) };
+      if (e.data.media == 'audio' && xbmc.addons.cdart) { $('<div class="addon"><img src="' + xbmc.getThumbUrl(xbmc.addons.cdart.thumb) +'" alt="' + xbmc.addons.artwork.name + '" class="thumb addon" /><a href="" class="cdart">' + xbmc.addons.cdart.name + '</a></div>').appendTo(addonContent) };
+      
+      addonContent.find('a.artwork').on('click', {dbid: e.data.dbid, mediatype: e.data.mediatype}, uiviews.addonAD);
+      addonContent.find('a.cinex').on('click', function() { addons.cineEx(e.data.movie) });
+      
     },
     
 /*----------*/
@@ -2446,8 +2602,97 @@ var uiviews = {};
       return $moviesList;
     },
       
-    /*----Movie poster thumbnail view----*/
+    /*----Movie thumbnail view----*/
     MovieViewThumbnails: function(movies, parentPage, options) {
+      var $moviesList = $('<div></div>');
+      $.each(movies.movies, function(i, movie) {
+        var watched = false;
+        if (movie.playcount > 0 && !awxUI.settings.hideWatchedMark) { watched = true; };
+        
+        var thumb = new Image();
+        if (movie.art.landscape) { thumb.src = xbmc.getThumbUrl(movie.art.landscape) };
+        
+        var $movie = $(
+          '<div class="movie'+movie.movieid+' thumbEpWrapper" style="display: inline">' +
+            '<div class="thumbLarge">' +
+            '<div class="linkEpWrapper">' + 
+              (awxUI.settings.player? '<a href="" class="play">' + mkf.lang.get('Play', 'Tool tip') + '</a>' : '') +
+              (awxUI.settings.enqueue? '<a href="" class="playlist">' + mkf.lang.get('Enqueue', 'Tool tip') + '</a>' : '') +
+              '<a href="" class="info">' + mkf.lang.get('Information',  'Tool tip') + '</a>' +
+            '</div>' +
+            (awxUI.settings.lazyload?
+              '<img src="images/empty_poster_film.png" alt="' + movie.label + '" class="thumb thumbFanartLarge" data-original="' + thumb.src + '" />':
+              '<img src="images/empty_poster_film.png" alt="' + movie.label + '" class="thumb thumbFanartLarge" />'
+            ) +
+            '<div class="movieTitle"><span class="label">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" class="watchedLandscape">' : '') + '</span></div>' +
+            '</div>' +
+          '</div>').appendTo($moviesList);
+          
+        $movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
+        $movie.find('.playlist').bind('click', {idMovie: movie.movieid}, uiviews.AddMovieToPlaylist);
+        $movie.find('.info').bind('click', {idMovie: movie.movieid}, uiviews.MovieInfoOverlay);
+        
+        if (!awxUI.settings.lazyload) {
+          thumb.onload = function() { $movie.find('img.thumbFanartLarge').attr('src', thumb.src) };
+        } else {
+          thumb.onload = function() { $movie.find('img.thumbFanartLarge').attr('data-original', thumb.src) };
+        };
+        
+      });
+      
+      $moviesList.find('.thumbLarge').on(awxUI.settings.hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });          
+      $moviesList.find('.thumbLarge').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+      
+      return $moviesList;
+    },
+    
+    /*----Movie clear art view----*/
+    MovieViewClearArt: function(movies, parentPage, options) {
+      var $moviesList = $('<div></div>');
+      $.each(movies.movies, function(i, movie) {
+        var watched = false;
+        if (movie.playcount > 0 && !awxUI.settings.hideWatchedMark) { watched = true; };
+        
+        var thumb = new Image();
+        if (movie.art.clearart) { thumb.src = xbmc.getThumbUrl(movie.art.clearart) };
+        
+        var $movie = $(
+          '<div class="movie'+movie.movieid+' clearartWrapper">' +
+            '<div class="clearartLarge">' +
+            '<div class="linkEpWrapper">' + 
+              (awxUI.settings.player? '<a href="" class="play">' + mkf.lang.get('Play', 'Tool tip') + '</a>' : '') +
+              (awxUI.settings.enqueue? '<a href="" class="playlist">' + mkf.lang.get('Enqueue', 'Tool tip') + '</a>' : '') +
+              '<a href="" class="info">' + mkf.lang.get('Information',  'Tool tip') + '</a>' +
+            '</div>' +
+            (awxUI.settings.lazyload?
+              '<img src="images/empty_poster_film.png" alt="' + movie.label + '" class="thumb thumbFanartLarge" data-original="' + thumb.src + '" />':
+              '<img src="images/empty_poster_film.png" alt="' + movie.label + '" class="thumb thumbFanartLarge" />'
+            ) +
+            '</div>' +
+            '<div class="movieTitle"><span class="label">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" class="watchedClearart">' : '') + '</span></div>' +
+            
+          '</div>').appendTo($moviesList);
+          
+        $movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
+        $movie.find('.playlist').bind('click', {idMovie: movie.movieid}, uiviews.AddMovieToPlaylist);
+        $movie.find('.info').bind('click', {idMovie: movie.movieid}, uiviews.MovieInfoOverlay);
+        
+        if (!awxUI.settings.lazyload) {
+          thumb.onload = function() { $movie.find('img.thumbFanartLarge').attr('src', thumb.src) };
+        } else {
+          thumb.onload = function() { $movie.find('img.thumbFanartLarge').attr('data-original', thumb.src) };
+        };
+        
+      });
+      
+      $moviesList.find('.thumbLarge').on(awxUI.settings.hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });          
+      $moviesList.find('.thumbLarge').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+      
+      return $moviesList;
+    },
+    
+    /*----Movie poster thumbnail view----*/
+    MovieViewPosters: function(movies, parentPage, options) {
       var $moviesList = $('<div></div>');
       $.each(movies.movies, function(i, movie) {
         var watched = false;
@@ -2468,7 +2713,7 @@ var uiviews = {};
               '<img src="images/empty_poster_film.png" alt="' + movie.label + '" class="thumb thumbPoster" data-original="' + thumb.src + '" />':
               '<img src="images/empty_poster_film.png" alt="' + movie.label + '" class="thumb thumbPoster" />'
             ) +
-            '<div class="movieTitle"><span class="label">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</span></div>' +
+            '<div class="movieTitle"><span class="label">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" class="watchedPoster">' : '') + '</span></div>' +
             '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
           '</div>').appendTo($moviesList);
           
@@ -2499,17 +2744,28 @@ var uiviews = {};
     var contentHeight = ($('#content').height());
     
     var getSingleMovie = function(callback) {
-      xbmc.getMovies({
-        filter: filter,
-        start: currentNum,
-        end: currentNum +1,
-        onError: function() {
-          mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
-        },
-        onSuccess: function(result) {
-          callback(result.movies[0]);
-        }
-      });
+      if (parentPage.className == 'recentMovies') {
+        xbmc.getRecentlyAddedMovies({
+          onError: function() {
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
+          },
+          onSuccess: function(result) {
+            callback(result.movies[currentNum]);
+          }
+        });
+      } else {
+        xbmc.getMovies({
+          filter: filter,
+          start: currentNum,
+          end: currentNum +1,
+          onError: function() {
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
+          },
+          onSuccess: function(result) {
+            callback(result.movies[0]);
+          }
+        });
+      };
     };
     
     //Hide watched, filter out watched titles.
@@ -2907,7 +3163,7 @@ var uiviews = {};
     TVEpThumbnailList: function(eps, options) {
       var genlist = eps.episodes;
       
-      if (options) genlist = eps;
+      //if (options) genlist = eps;
       
       var $episodeList = $('<ul class="RecentfileList"></ul>');
 
@@ -2948,8 +3204,61 @@ var uiviews = {};
           
         });
 
-      $episodeList.find('.episodeThumb').on(awxUI.settings.hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });          
+      $episodeList.find('.episodeThumb').on(awxUI.settings.hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });
       $episodeList.find('.episodeThumb').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+          
+      return $episodeList;
+    },
+    
+    /*----Ep thumb no plot view----*/
+    TVEpThumbnail: function(eps, options) {
+      
+      var genlist = eps.episodes;
+      
+      //if (options) genlist = eps;
+      //console.log(genlist)
+      var $episodeList = $('<div></div>');
+
+        $.each(genlist, function(i, episode)  {
+          var watched = false;  
+          if (episode.playcount > 0 && !awxUI.settings.hideWatchedMark) { watched = true; }
+          
+          var thumb = new Image();
+          if (episode.thumbnail) { thumb.src = xbmc.getThumbUrl(episode.thumbnail) };
+          
+          var $episode = $('<div class="thumbEpWrapper" style="display: inline">' + 
+            '<div class="thumbLarge">' +
+              '<div class="linkEpWrapper">' + 
+                (awxUI.settings.player? '<a href="" class="play">' + mkf.lang.get('Play', 'Tool tip') + '</a>' : '') +
+                (awxUI.settings.enqueue? '<a href="" class="playlist">' + mkf.lang.get('Enqueue', 'Tool tip') + '</a>' : '') +
+                '<a href="" class="info">' + mkf.lang.get('Information',  'Tool tip') + '</a>' +
+              '</div>' +
+              (awxUI.settings.lazyload?
+              '<img src="images/empty_thumb_tv.png" alt="' + episode.label + '" class="thumb thumbFanartLarge episode" data-original="' + thumb.src + '" />' :
+              '<img src="images/empty_thumb_tv.png" alt="' + episode.label + '" class="thumbFanartLarge episode" />'
+              ) +
+              '' +
+              '<div class="movieTitle"><span class="label">' + episode.title + (watched? '<img src="images/OverlayWatched_Small.png" class="watchedLandscape">' : '') + '</span>' +
+              '<div class="recentTVtitle"><span>' + mkf.lang.get('Season',  'Label') + ' ' + episode.season + ' - ' + mkf.lang.get('Episode',  'Label') + ' ' +episode.episode + '</span></div></div>' +
+              //'<div class="label">' + mkf.lang.get('Season',  'Label') + ' ' + episode.season + ' - ' + mkf.lang.get('Episode',  'Label') + ' ' +episode.episode + '</div>' +
+              //'<div class="episodeRating"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span><div class="smallRating' + Math.round(episode.rating) + '"></div></span></div>' +
+            '</div>' +
+          '</div>').appendTo($episodeList);
+          
+          $episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
+          $episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
+          $episode.find('.info').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodeInfo);
+          
+          if (!awxUI.settings.lazyload) {
+            thumb.onload = function() { $episode.find('img.episode').attr('src', thumb.src) };
+          } else {
+            thumb.onload = function() { $episode.find('img.episode').attr('data-original', thumb.src) };
+          };
+          
+        });
+
+      $episodeList.find('.thumbLarge').on(awxUI.settings.hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });
+      $episodeList.find('.thumbLarge').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
           
       return $episodeList;
     },
@@ -3003,6 +3312,57 @@ var uiviews = {};
       return $episodeList;
     },
     
+    /*----Ep recent thumb no plot view----*/
+    TVRecentThumbnail: function(eps, parentPage, options) {
+      
+      var $episodeList = $('<div></div>');
+
+        $.each(eps.episodes, function(i, episode)  {
+          var watched = false;  
+          if (episode.playcount > 0 && !awxUI.settings.hideWatchedMark) { watched = true; }
+          
+          var thumb = new Image();
+          if (episode.thumbnail) { thumb.src = xbmc.getThumbUrl(episode.thumbnail) };
+          
+          var $episode = $('<div class="thumbEpWrapper" style="display: inline">' + 
+            '<div class="thumbLarge">' +
+              '<div class="linkEpWrapper">' + 
+                (awxUI.settings.player? '<a href="" class="play">' + mkf.lang.get('Play', 'Tool tip') + '</a>' : '') +
+                (awxUI.settings.enqueue? '<a href="" class="playlist">' + mkf.lang.get('Enqueue', 'Tool tip') + '</a>' : '') +
+                '<a href="" class="unwatchedEps">' + mkf.lang.get('Unwatched',  'Tool tip') + '</a>' +
+              '</div>' +
+            (awxUI.settings.lazyload?
+            '<img src="images/empty_thumb_tv.png" alt="' + episode.label + '" class="thumb thumbFanartLarge episode" data-original="' + thumb.src + '" />' :
+            '<img src="images/empty_thumb_tv.png" alt="' + episode.label + '" class="thumbFanartLarge episode" />'
+            ) +
+            '' +
+            '<div class="movieTitle">' +
+              '<div class="recentTVshowName">' + episode.showtitle + '</div>' +
+              '<span class="label">' + episode.title + (watched? '<img src="images/OverlayWatched_Small.png" class="watchedLandscape">' : '') + '</span>' +
+              '<div class="recentTVtitle"><span>' + mkf.lang.get('Season',  'Label') + ' ' + episode.season + ' - ' + mkf.lang.get('Episode',  'Label') + ' ' +episode.episode + '</span></div>' +
+            '</div>' +
+            //'<div class="label">' + mkf.lang.get('Season',  'Label') + ' ' + episode.season + ' - ' + mkf.lang.get('Episode',  'Label') + ' ' +episode.episode + '</div>' +
+            //'<div class="episodeRating"><span class="label">' + mkf.lang.get('Rating:', 'Label') + '</span><span><div class="smallRating' + Math.round(episode.rating) + '"></div></span></div>' +
+          '</div>' +
+          '</div>').appendTo($episodeList);
+          
+          $episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
+          $episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
+          $episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
+          
+          if (!awxUI.settings.lazyload) {
+            thumb.onload = function() { $episode.find('img.episode').attr('src', thumb.src) };
+          } else {
+            thumb.onload = function() { $episode.find('img.episode').attr('data-original', thumb.src) };
+          };
+          
+        });
+
+      $episodeList.find('.thumbLarge').on(awxUI.settings.hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });
+      $episodeList.find('.thumbLarge').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+          
+      return $episodeList;
+    },
     
 /*----------------*/
 /* Playlist views */
@@ -3152,6 +3512,51 @@ var uiviews = {};
       return page;    
     },
     
+/*--------*/
+/* Addons */
+/*--------*/  
+    /*----Artwork downloader----*/
+    addonAD: function(e) {
+      var dialogHandle = mkf.dialog.show();
+      var options = {
+        mode: 'custom',
+        silent: true,
+        mediatype: e.data.mediatype,
+        dbid: e.data.dbid
+      };
+      
+      //mediatype = tvshow, movie or musicvideo
+      // http://wiki.xbmc.org/index.php?title=Add-on:Artwork_Downloader#Script_options
+      var item = $('<ul class="fileList">' +
+        '<li class="tworow"><a href="" class="poster">' + mkf.lang.get('Poster', 'Label') + '</a></li>' +
+        '<li class="tworow"><a href="" class="fanart">' + mkf.lang.get('Fan Art', 'Label') + '</a></li>' +
+        '<li class="tworow"><a href="" class="extrafanart">' + mkf.lang.get('Extra Fan Art', 'Label') + '</a></li>' +
+        '<li class="tworow"><a href="" class="extrathumbs">' + mkf.lang.get('Extra Thumbnails', 'Label') + '</a></li>' +
+        '<li class="tworow"><a href="" class="clearlogo">' + mkf.lang.get('Clear Logo', 'Label') + '</a></li>' +
+        '<li class="tworow"><a href="" class="clearart">' + mkf.lang.get('Clear Art', 'Label') + '</a></li>' +
+        (e.data.mediatype == 'tvshow'? '' : '<li class="tworow"><a href="" class="discart">' + mkf.lang.get('Disc Art', 'Label') + '</a></li>') +
+        (e.data.mediatype == 'musicvideo'? '' : '<li class="tworow"><a href="" class="thumb">' + mkf.lang.get('Thumbnail', 'Label') + '</a></li>') +
+        (e.data.mediatype == 'musicvideo'? '' : '<li class="tworow"><a href="" class="banner">' + mkf.lang.get('Banner', 'Label') + '</a></li>') +
+        (e.data.mediatype == 'tvshow'? '<li class="tworow"><a href="" class="seasonposter">' + mkf.lang.get('Season Posters', 'Label') + '</a></li>' : '') +
+        (e.data.mediatype == 'tvshow'? '<li class="tworow"><a href="" class="seasonthumb">' + mkf.lang.get('Season Thumbnails', 'Label') + '</a></li>' : '') +
+        (e.data.mediatype == 'tvshow'? '<li class="tworow"><a href="" class="seasonbanner">' + mkf.lang.get('Season Banners', 'Label') + '</a></li>' : '') +
+        (e.data.mediatype == 'tvshow'? '<li class="tworow"><a href="" class="characterart">' + mkf.lang.get('Character Art', 'Label') + '</a></li>' : '') +
+        '<li><a href="" class="all">' + mkf.lang.get('All', 'Label') + '</a></li>' +
+      '</ul>');
+      
+      item.find('a').click(function() {
+        options.art = $(this)[0].className;
+        if (options.art == 'all') { options.mode = '' };
+        addons.artworkDownloader(options);
+        $('#mkfDialog' + dialogHandle + ' a.close').click();
+        return false;
+      });
+      
+      mkf.dialog.setContent(dialogHandle, item);
+      
+      return false;
+    },
+
 /*------------*/
 /* Misc views */
 /*------------*/  
@@ -3242,6 +3647,202 @@ var uiviews = {};
         $tagsList.find('.tag' + tag.id).on('click', {strTag: tag.label, lib: lib, objParentPage: parentPage}, uiviews.TagsItems);
       });
       return $tagsList;
+    },
+    
+    /*----Addons list view----*/
+    AddonsViewList: function(type, parentPage) {
+      
+      var $addonsList = $('<div class="addons" style="padding: 5px"></div>');
+      
+      if (type == 'video' && xbmc.addons.artwork) {
+        $('<div class="addon artwork">' +
+            '<div class="thumbWrapper"><div class="linkWrapper">' + 
+              '<a href="" class="run">' + mkf.lang.get('Run Addon', 'Label') + '</a>' +
+              '<a href="" class="adcustomrun">' + mkf.lang.get('Custom Run', 'Label') + '</a>' +
+            '</div>' +
+            '<img src="' + xbmc.getThumbUrl(xbmc.addons.artwork.thumb) +'" alt="' + xbmc.addons.artwork.name + '" class="thumb addon" />' +
+            '<span class="label">' + xbmc.addons.artwork.name + '</span>' +
+          '</div></div>').appendTo($addonsList);
+          
+        $addonsList.find('.artwork a.run').on('click', function() { addons.exeAddon({addonid: 'script.artwork.downloader'}); return false; });
+        $addonsList.find('a.adcustomrun').on('click', function() {
+          var dialogContent = $('<div><ul class="fileList">' +
+            '<li class="tworow"><a href="" class="poster">' + mkf.lang.get('Poster', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="fanart">' + mkf.lang.get('Fan Art', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="extrafanart">' + mkf.lang.get('Extra Fan Art', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="extrathumbs">' + mkf.lang.get('Extra Thumbnails', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="clearlogo">' + mkf.lang.get('Clear Logo', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="clearart">' + mkf.lang.get('Clear Art', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="discart">' + mkf.lang.get('Disc Art', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="thumb">' + mkf.lang.get('Thumbnail', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="banner">' + mkf.lang.get('Banner', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="seasonposter">' + mkf.lang.get('Season Posters', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="seasonthumb">' + mkf.lang.get('Season Thumbnails', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="seasonbanner">' + mkf.lang.get('Season Banners', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="characterart">' + mkf.lang.get('Character Art', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="all">' + mkf.lang.get('All', 'Label') + '</a></li>' +
+          '</ul></div>');
+          
+          dialogContent.find('a').click(function() {
+            var options = {
+              mode: 'custom',
+              silent: true,
+            };
+            options.art = $(this)[0].className;
+            if (options.art == 'all') { options.mode = '' };
+            addons.artworkDownloader(options);
+            $('#mkfDialog' + dialogHandle + ' a.close').click();
+            return false;
+          });
+          var dialogHandle = mkf.dialog.show({content: dialogContent});
+          
+          return false;
+        });
+      };
+      
+      if (type == 'video' && xbmc.addons.youtube) {
+        $('<div class="addon youtube">' +
+            '<div class="thumbWrapper">' +
+              '<div class="linkWrapper">' + 
+              '<a href="" class="run">' + mkf.lang.get('Run Addon', 'Label') + '</a>' +
+              '<a href="" class="playurl">' + mkf.lang.get('Play URL', 'Label') + '</a>' +
+              '<a href="" class="enqurl">' + mkf.lang.get('Enqueue URL', 'Label') + '</a>' +
+              '</div>' +
+            '<img src="' + xbmc.getThumbUrl(xbmc.addons.youtube.thumb) +'" alt="' + xbmc.addons.youtube.name + '" class="thumb addon" />' +
+            
+            '<span class="label">' + xbmc.addons.youtube.name + '</span>' +
+          '</div>' +
+        '<div class="youtubeurlplay" style="display: none; position: absolute; top: 80px; left: 155px;"><form name="youtubeplay" id="youtubeplay"><input id="ytplay" type="text" style="width: 300px"><input type="submit" value="' + mkf.lang.get('Play', 'Tool tip') + '"><a href="" class="close"></a></form></div>' +
+        '<div class="youtubeurlenq" style="display: none; position: absolute; top: 115px; left: 155px;"><form name="youtubeenq" id="youtubeenq"><input id="ytenq" type="text" style="width: 300px"><input type="submit" value="' + mkf.lang.get('Enqueue', 'Tool tip') + '"><a href="" class="close"></a></form></div>' +
+        '</div>').appendTo($addonsList);
+        
+        $addonsList.find('a.close').on('click', function() {
+          if ($(this).parent()[0].id =='youtubeplay') {
+            $addonsList.find('div.youtubeurlplay').hide();
+          } else {
+            $addonsList.find('div.youtubeurlenq').hide();
+          }
+          return false;
+        });
+        $addonsList.find('.youtube a.run').on('click', function() { addons.exeAddon({addonid: 'plugin.video.youtube'}); return false; });
+        $addonsList.find('a.playurl').on('click', function() {
+          //Show input box
+          $addonsList.find('div.youtubeurlplay').show();
+          $addonsList.find('form#youtubeplay').on('submit', function() {
+            var messageHandle = mkf.messageLog.show(mkf.lang.get('Playing...', 'Popup message with addition'));
+            //Grab you tube id and make playable uri.
+            var ytid = $('input#ytplay').val().substr($('input#ytplay').val().lastIndexOf("=") + 1);
+            var fullURL = 'plugin://plugin.video.youtube/?action=play_video&videoid=' + ytid;
+            
+            xbmc.playerOpen({
+              item: 'file',
+              itemStr: fullURL,
+              onSuccess: function() {
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 2000, mkf.messageLog.status.success);
+                $addonsList.find('div.youtubeurlplay').hide();
+              },
+              onError: function(errorText) {
+                mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+              }
+            });
+            return false;
+          });
+          
+          return false;
+        });
+        
+        $addonsList.find('a.enqurl').on('click', function() {
+          $addonsList.find('div.youtubeurlenq').show();
+          $addonsList.find('form#youtubeenq').on('submit', function() {
+            var messageHandle = mkf.messageLog.show(mkf.lang.get('Adding to playlist...', 'Popup message with addition'));
+            console.log($('input#ytenq').val().substr($('input#ytenq').val().lastIndexOf("=") + 1))
+            var ytid = $('input#ytenq').val().substr($('input#ytenq').val().lastIndexOf("=") + 1);
+            var fullURL = 'plugin://plugin.video.youtube/?action=play_video&videoid=' + ytid;
+            
+            xbmc.addVideoFileToPlaylist({
+              file: fullURL,
+              onSuccess: function() {
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 2000, mkf.messageLog.status.success);
+                $addonsList.find('div.youtubeurlenq').hide();
+              },
+              onError: function(errorText) {
+                mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+              }
+            });
+            return false;
+          });
+          
+          return false;
+        });
+      };
+      
+      if (type == 'audio' && xbmc.addons.cdart) {
+        $('<div class="addon cdart">' +
+          '<div class="thumbWrapper"><div class="linkWrapper">' + 
+              '<a href="" class="run">' + mkf.lang.get('Run Addon', 'Label') + '</a>' +
+              '<a href="" class="cdcustomrun">' + mkf.lang.get('Custom Run', 'Label') + '</a>' +
+            '</div>' +
+            '<img src="' + xbmc.getThumbUrl(xbmc.addons.cdart.thumb) +'" alt="' + xbmc.addons.cdart.name + '" class="thumb addon" />' +
+            '<span class="label">' + xbmc.addons.cdart.name + '</span>' +
+        '</div></div>').appendTo($addonsList);
+        
+        $addonsList.find('.cdart a.run').on('click', function() { addons.exeAddon({addonid: 'script.cdartmanager'}); return false; });
+        $addonsList.find('a.cdcustomrun').on('click', function() {
+          var dialogContent = $('<div><ul class="fileList">' +
+            '<li class="tworow"><a href="" class="autocdart">' + mkf.lang.get('CD Arts', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="autocover">' + mkf.lang.get('Covers', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="autofanart">' + mkf.lang.get('Fan Arts', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="autologo">' + mkf.lang.get('Logos', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="autothumb">' + mkf.lang.get('Thumbnails', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="autoall">' + mkf.lang.get('All Arts', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="update">' + mkf.lang.get('Update Database', 'Label') + '</a></li>' +
+            '<li class="tworow"><a href="" class="database">' + mkf.lang.get('(Re)build Database', 'Label') + '</a></li>' +
+          '</ul></div>');
+          
+          dialogContent.find('a').click(function() {
+            var mode = '"' + $(this)[0].className + '"';
+            //if (options.art == 'all') { options.mode = '' };
+            addons.cdart(mode);
+            $('#mkfDialog' + dialogHandle + ' a.close').click();
+            return false;
+          });
+          var dialogHandle = mkf.dialog.show({content: dialogContent});
+          
+          return false;
+        });
+      };
+      
+      if (type == 'audio' && xbmc.addons.culrclyrics) {
+        $('<div class="addon culrclyrics">' +
+          '<div class="thumbWrapper"><div class="linkWrapper">' + 
+              '<a href="" class="run">' + mkf.lang.get('Run Addon', 'Label') + '</a>' +
+            '</div>' +
+            '<img src="' + xbmc.getThumbUrl(xbmc.addons.culrclyrics.thumb) +'" alt="' + xbmc.addons.culrclyrics.name + '" class="thumb addon" />' +
+            '<span class="label">' + xbmc.addons.culrclyrics.name + '</span>' +
+        '</div></div>').appendTo($addonsList);
+        
+        $addonsList.find('.culrclyrics a.run').on('click', function() {
+          /*var dialogContent = $('<div id="lyricContent"><div id="lyricInfo"></div><div id="lyrics"></div></div>');
+          xbmc.lyrics = (xbmc.lyrics? false : true);
+          if (xbmc.lyrics) { addons.culrcLyrics(); };
+          
+          var dialogHandle = mkf.dialog.show({content: dialogContent});*/
+          xbmc.lyrics = (xbmc.lyrics? false : true);
+          if (xbmc.lyrics) { addons.culrcLyrics(); };
+          xbmc.fullScreen(true);
+          $('div#lyricContent').show();
+          return false;
+        });
+      };
+      
+      $('<div class="addon">' +
+        '<div style="font-size: 1.2em; margin-left: 10px; margin-top: 50px">' + mkf.lang.get('Playable content') + '</div>' +
+      '</div>').appendTo($addonsList);
+      
+      $addonsList.find('.thumbWrapper').on(awxUI.settings.hoverOrClick, function() { $(this).children('.linkWrapper').show() });
+      $addonsList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkWrapper').hide() });
+      
+      return $addonsList;
     },
     
     /*-----------*/
@@ -3454,6 +4055,7 @@ var uiviews = {};
           } else {
             var messageHandle = mkf.messageLog.show(mkf.lang.get('Running advanced search...', 'Popup message'));
 
+            console.log(searchParams)
             xbmc.getAdFilter({
               options: searchParams,
               onSuccess: function(result) {

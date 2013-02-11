@@ -753,6 +753,15 @@ var mkf = {};
             '</div>' +
           '</div>');
 
+        //Scale overlay height to avoid seeing behind the curtain
+        $( window ).resize( xbmc.debouncer( function ( e ) {
+            if ($(document).height() > $('#mkfDialog' + dialogHandle).height()) {
+              $('#mkfDialog' + dialogHandle).css('height', $(document).height());
+            } else {
+              $('#mkfDialog' + dialogHandle).css('height', $(window).height());
+            };
+          } ) );
+          
         if (settings.closeButton) {
           $('#mkfDialog' + dialogHandle + ' .close')
             .click(function () {
@@ -785,7 +794,10 @@ var mkf = {};
 
       setContent: function(dialogHandle, html, loading) {
         this.setLoading(dialogHandle, loading);
-        $('#mkfDialog' + dialogHandle + ' .dialogContent').html(html);
+        $('#mkfDialog' + dialogHandle + ' .dialogContent').html(html).animate({ height: 'show', opacity: 1 }, 100, function() {
+          //console.log($(this).height())
+          if ( $('.mkfOverlay').height() < $(this).height() ) { $('.mkfOverlay').height( $(this).height() +20 ) };
+        });
       },
 
       appendContent: function(dialogHandle, html, loading) {

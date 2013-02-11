@@ -316,30 +316,35 @@ var xbmc = {};
           media: 'files',
           async: true,
           onSuccess: function(result) {
-            for (n=0; n<result.files.length; n++) {
-              var file = result.files[n];
-              if (file.file.split('.').pop().toLowerCase() == 'jpg') { xart.push(file.file) };
-              
-              if (n == result.files.length-1) {
-                var count = 0;
-                for(i=0; i<xart.length; i++) {
-                  var filename = xart[i];
-                  xbmc.getPrepDownload({
-                    path: filename,
-                    async: true,
-                    onSuccess: function(full) {
-                      count++;
-                      xartFull.push((location.protocol + '//' + location.host + '/' + full.details.path));
-                      if (count == xart.length) { callback(xartFull) };
-                    },
-                    onError: function(errorText) {
-                      count++;
-                      if (count == xart.length && xart.length >0) { console.log('getPrep failed'); console.log(errorText); callback() };
-                    },
-                  });
+            if (result.files) {
+              for (n=0; n<result.files.length; n++) {
+                var file = result.files[n];
+                if (file.file.split('.').pop().toLowerCase() == 'jpg') { xart.push(file.file) };
+                
+                if (n == result.files.length-1) {
+                  var count = 0;
+                  for(i=0; i<xart.length; i++) {
+                    var filename = xart[i];
+                    xbmc.getPrepDownload({
+                      path: filename,
+                      async: true,
+                      onSuccess: function(full) {
+                        count++;
+                        xartFull.push((location.protocol + '//' + location.host + '/' + full.details.path));
+                        if (count == xart.length) { callback(xartFull) };
+                      },
+                      onError: function(errorText) {
+                        count++;
+                        if (count == xart.length && xart.length >0) { console.log('getPrep failed'); console.log(errorText); callback() };
+                      },
+                    });
+                  };
                 };
               };
-            };
+            } else {
+              //file: null
+              callback('');
+            }
           },
           onError: function(errorText) {
             callback('');
@@ -388,7 +393,12 @@ var xbmc = {};
           //Check we aren't swapping to the same image.
           if ('url(' + xbmc.xart[rnd] + ')' != $('#secondBG').css('background-image')) {
             xbmc.$backgroundFanart == xbmc.xart[rnd];
-            $('#firstBG').css('background-image', 'url("' + xbmc.xart[rnd] + '")');
+            //Preload image
+            $('<img/>').attr('src', xbmc.xart[rnd]).load(function() {
+              //Switch image
+              $('#firstBG').css('background-image', 'url("' + xbmc.xart[rnd] + '")');
+            });
+            //$('#firstBG').css('background-image', 'url("' + xbmc.xart[rnd] + '")');
             //Better performance with CSS3 but not available in IE9
             if (BrowserVersion >10) {
               $('#firstBG').toggleClass( 'transparent');
@@ -401,19 +411,30 @@ var xbmc = {};
         } else {
           if ('url(' + xbmc.xart[rnd] + ')' != $('#firstBG').css('background-image')) {
             xbmc.$backgroundFanart2nd == xbmc.xart[rnd];
-            $('#secondBG').css('background-image', 'url("' + xbmc.xart[rnd] + '")');
+            $('<img/>').attr('src', xbmc.xart[rnd]).load(function() {
+              $('#secondBG').css('background-image', 'url("' + xbmc.xart[rnd] + '")');
+            });
             if (BrowserVersion >10) {
               $('#firstBG').toggleClass( 'transparent');
             } else {
               $('#firstBG').toggleClass( 'transparent', 3000, 'easeInCubic');
             };
           } else {
+            //Try again.
             xbmc.switchFanart();
           };
         };
       } else if (xbmc.xart.length == 2) {
-        $('#firstBG').css('background-image', 'url("' + xbmc.xart[1] + '")');
-        $('#secondBG').css('background-image', 'url("' + xbmc.xart[0] + '")');
+        //Preload image
+        $('<img/>').attr('src', xbmc.xart[1]).load(function() {
+          //Switch image
+          $('#firstBG').css('background-image', 'url("' + xbmc.xart[1] + '")');
+        });
+        $('<img/>').attr('src', xbmc.xart[0]).load(function() {
+          $('#secondBG').css('background-image', 'url("' + xbmc.xart[0] + '")');
+        });
+        //$('#firstBG').css('background-image', 'url("' + xbmc.xart[1] + '")');
+        //$('#secondBG').css('background-image', 'url("' + xbmc.xart[0] + '")');
         xbmc.$backgroundFanart == xbmc.xart[1];
         xbmc.$backgroundFanart2nd == xbmc.xart[0];
         if (BrowserVersion >10) {
@@ -423,6 +444,49 @@ var xbmc = {};
         };
       } else {
         return false;
+      };
+    },
+    
+    fullScreen: function(max) {
+      if (max) {
+        if (xbmc.activePlayerid == 1 || xbmc.activePlayerid == 0) {
+          xbmc.fullScreen == true;
+          //Stop flashing with FF
+          $('#background').hide();
+          $('div#fullscreen').show();
+          $('#firstBG').css('z-index', '51');
+          $('#secondBG').css('z-index', '50');
+          $('#fullscreen a.minimise').click(function() {
+            xbmc.fullScreen(false);
+            return false; 
+          });
+          
+          xbmc.nowPlaying(true);
+        } else {
+          //Not playing
+          mkf.messageLog.show(mkf.lang.get('Nothing is playing!', 'Popup message'), mkf.messageLog.status.error, 5000);
+        }
+      } else {
+        xbmc.fullScreen == false;
+        $('#background').show();
+        $('div#lyricContent').hide();
+        $('div#fullscreen').hide();
+        $('div#playing').hide();
+        $('#firstBG').css('z-index', '4');
+        $('#secondBG').css('z-index', '3');
+        xbmc.lyrics = false;
+        $('#lyrics').empty();
+        $('#lyricInfo').empty();
+      };
+    },
+    
+    nowPlaying: function(show) {
+      if (show && xbmc.fullScreen) {
+        $('div#playing').fadeIn(800, function() {
+          setTimeout(function() { xbmc.nowPlaying(false) }, 20000);
+        });
+      } else if (!show && xbmc.fullScreen) {
+        $('div#playing').fadeOut(800);
       };
     },
     
@@ -504,7 +568,7 @@ var xbmc = {};
       $.extend(settings, options);
       
       var bools = '';
-      for (i=0; i<settings.bool.length; i++) {
+      for (var i=0; i<settings.bool.length; i++) {
         if (i == settings.bool.length -1) {
           bools += '"' + settings.bool[i] + '"';
         } else {
@@ -523,38 +587,31 @@ var xbmc = {};
       );
     },
     
-    getAddons: function(options) {
+    getInfoLabels: function(options) {
       var settings = {
-        enabled: true,
-        content: 'unknown',
+        labels: ['System.HasPVR'],
         onSuccess: null,
         onError: null
       };
       $.extend(settings, options);
       
+      var labels = '';
+      for (var i=0; i<settings.labels.length; i++) {
+        if (i == settings.labels.length -1) {
+          labels += '"' + settings.labels[i] + '"';
+        } else {
+          labels += '"' + settings.labels[i] + '",';
+        };
+      };
+      
       xbmc.sendCommand(
-        '{"jsonrpc": "2.0", "method": "Addons.GetAddons", "params": { "enabled": ' + settings.enabled + ', "content": "' + settings.content + '", "properties": [ "name", "thumbnail", "version", "author" ] }, "id": "libAddons"}',
+        '{"jsonrpc": "2.0", "method": "XBMC.GetInfoLabels", "params": { "labels": [ ' + labels + ' ] }, "id": "libLabels"}',
         function(reponse) {
           settings.onSuccess(reponse.result);
         },
-        settings.onError
-      );
-    },
-    
-    exeAddon: function(options) {
-      var settings = {
-        addonid: true,
-        wait: true,
-        params: '', //"mediatype=tvshow", "medianame=Last Resort"
-        onSuccess: null,
-        onError: null
-      };
-      $.extend(settings, options);
-      
-      xbmc.sendCommand(
-        '{"jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": ' + settings.wait + ', "addonid": "' + settings.addonid + '", "params": [ ' + settings.params + ' ] },  "id": "libExeAddon"}',
-        settings.onSuccess,
-        settings.onError
+        function(response) {
+          settings.onError(mkf.lang.get('Failed to send command!', 'Popup message'));
+        }
       );
     },
     
@@ -880,7 +937,7 @@ var xbmc = {};
     
     playerOpen: function(options) {
       var settings = {
-        item: 'albumid',
+        item: '',
         itemId: -1,
         itemStr: '',
         position: -1,
@@ -1757,15 +1814,26 @@ var xbmc = {};
         onError: null
       };
       $.extend(settings, options);
-
+      
+      xbmc.playerOpen({
+        item: 'file',
+        itemStr: settings.file,
+        playlistid: 0,
+        onSuccess: settings.onSuccess,
+        onError: function(errorText) {
+          settings.onError(errorText);
+        }
+      })
       //Fix: change to use player.open
-      this.clearAudioPlaylist({
+      /*this.clearAudioPlaylist({
         onSuccess: function() {
           xbmc.addAudioFileToPlaylist({
             file: settings.file,
 
             onSuccess: function() {
-              xbmc.playAudio({
+              xbmc.playerOpen({
+                position: 0,
+                playlistid: 0,
                 onSuccess: settings.onSuccess,
                 onError: function(errorText) {
                   settings.onError(errorText);
@@ -1782,7 +1850,7 @@ var xbmc = {};
         onError: function() {
           settings.onError();
         }
-      });
+      });*/
     },
 
     playAudioFolder: function(options) {
@@ -1800,7 +1868,10 @@ var xbmc = {};
             folder: settings.folder,
 
             onSuccess: function() {
-              xbmc.playAudio({
+              xbmc.playerOpen({
+                position: 0,
+                item: 'playlistid',
+                itemId: 0,
                 onSuccess: settings.onSuccess,
                 onError: function(errorText) {
                   settings.onError(errorText);
@@ -1956,7 +2027,9 @@ var xbmc = {};
             folder: settings.folder,
 
             onSuccess: function() {
-              xbmc.playVideo({
+              xbmc.playerOpen({
+                position: 0,
+                playlistid: 1,
                 onSuccess: settings.onSuccess,
                 onError: function(errorText) {
                   settings.onError(errorText);
@@ -2140,7 +2213,7 @@ var xbmc = {};
       $.extend(settings, options);
       
       xbmc.sendCommand(
-        '{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { ' + (settings.item == ''? (settings.filter != ''? settings.filter : '') : (settings.filter != ''? settings.filter + ', ' : '') + '"' + settings.item + '": ' + (settings.itemId != -1? (settings.season != -1? settings.itemId + ', "season": ' + settings.season : settings.itemId) : (settings.season != -1? '"season": ' + settings.season + ', ' + '"' + settings.itemStr + '"' : '"' + settings.itemStr + '"') ) ) + ', "limits": { "start" : ' + settings.start + ', "end": ' + settings.end + ' }, "properties": ["episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail", "rating"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": "libEps"}',
+        '{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { ' + (settings.item == ''? (settings.filter != ''? settings.filter : '') : (settings.filter != ''? settings.filter + ', ' : '') + '"' + settings.item + '": ' + (settings.itemId != -1? (settings.season != -1? settings.itemId + ', "season": ' + settings.season : settings.itemId) : (settings.season != -1? '"season": ' + settings.season + ', ' + '"' + settings.itemStr + '"' : '"' + settings.itemStr + '"') ) ) + ', "limits": { "start" : ' + settings.start + ', "end": ' + settings.end + ' }, "properties": ["title", "episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail", "rating"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": "libEps"}',
         function(response) {
           settings.onSuccess(response.result);
         },
@@ -2158,7 +2231,7 @@ var xbmc = {};
       $.extend(settings, options);
 
       xbmc.sendCommand(
-        '{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodeDetails", "params": { "episodeid": ' + settings.episodeid + ', "properties": ["season", "episode", "firstaired", "plot", "title", "runtime", "rating", "thumbnail", "playcount", "file", "fanart", "streamdetails", "resume"] }, "id": 2}',
+        '{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodeDetails", "params": { "episodeid": ' + settings.episodeid + ', "properties": ["art", "season", "episode", "firstaired", "plot", "title", "runtime", "rating", "thumbnail", "playcount", "file", "fanart", "streamdetails", "resume"] }, "id": 2}',
         function(response) {
           settings.onSuccess(response.result.episodedetails);
         },
@@ -2268,7 +2341,7 @@ var xbmc = {};
       var eps = [];
       
       xbmc.sendCommand(
-        '{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode","thumbnail","rating","plot"], "sort": { "order": "ascending", "method": "episode" }}}',
+        '{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["title","season","playcount","episode","thumbnail","rating","plot"], "sort": { "order": "ascending", "method": "episode" }}}',
 
         function(response) {
           var n = 0;
@@ -2630,6 +2703,15 @@ var xbmc = {};
         if (typeof xbmc.periodicUpdater.subsenabled === 'undefined') {
           xbmc.periodicUpdater.subsenabled = false;
         }
+        if (typeof xbmc.fullScreen === 'undefined') {
+          xbmc.fullScreen = false;
+        }
+        if (typeof xbmc.lyrics === 'undefined') {
+          xbmc.lyrics = false;
+        }
+        if (typeof xbmc.addons === 'undefined') {
+          xbmc.addons = [];
+        }
         
         var useFanart = awxUI.settings.useFanart;
         var showInfoTags = awxUI.settings.showTags;
@@ -2718,6 +2800,8 @@ var xbmc = {};
               xbmc.clearBackground();
             };
 
+            xbmc.fullScreen(false);
+            
             $('#streamdets .vFormat').removeClass().addClass('vFormat');
             $('#streamdets .aspect').removeClass().addClass('aspect');
             $('#streamdets .channels').removeClass().addClass('channels');
@@ -2869,6 +2953,9 @@ var xbmc = {};
                     $('#firstBG').css('background-image', 'url(' + xbmc.$backgroundFanart + ')');
                   };
                   xbmc.getExtraArt({path: currentItem.file, type: 'extrafanart', tvid: currentItem.tvshowid, library: currentItem.type}, function(xart) { xbmc.xart = xart; xbmc.switchFanart() } );
+                } else if (useFanart && currentItem.fanart == '') {
+                    xbmc.$backgroundFanart = xbmc.getThumbUrl('images/black.gif');
+                    $('#firstBG').css('background-image', 'url(' + xbmc.$backgroundFanart + ')');
                 };
 
                 if (xbmc.periodicUpdater.currentlyPlayingFile != currentItem.file) {
@@ -2876,6 +2963,7 @@ var xbmc = {};
                   $.extend(currentItem, {
                     xbmcMediaType: xbmc.activePlayer
                   });
+                  if (xbmc.fullScreen) { xbmc.nowPlaying(true); };
                   //hack for party mode
                   if (xbmc.playerPartyMode) {
                     $.extend(currentItem, {
@@ -2968,6 +3056,17 @@ var xbmc = {};
       
       if ((xbmc.periodicUpdater.loopCount % 15) == 0 && xbmc.periodicUpdater.loopCount > 14 && awxUI.settings.useXtraFanart && xbmc.xart.length > 0) {
         xbmc.switchFanart();
+      }
+      
+      //Look for lyric time
+      //console.log($('div#lyrics span.time').filter(function() { return $.text([this]) == '#' + xbmc.periodicUpdater.progress }).length)
+      //if (xbmc.activePlayer == 'audio' && xbmc.lyrics && $('div#lyrics span.time:contains(#' + xbmc.periodicUpdater.progress + ')').length > 0) {
+      if (xbmc.activePlayer == 'audio' && xbmc.lyrics && $('div#lyrics span.time').filter(function() { return $.text([this]) == '#' + xbmc.periodicUpdater.progress }).length > 0) {
+        $('div#lyrics div').removeClass('current');
+        $('div#lyrics span.time').filter(function() { return $.text([this]) == '#' + xbmc.periodicUpdater.progress }).parent().addClass('current');
+        //$('div#lyrics span.time:contains(#' + xbmc.periodicUpdater.progress + ')').parent().addClass('current');
+        $('div#lyrics .current').ScrollTo({offsetTop: $('div#lyricContent').height()/2 });
+        //$('div#lyrics .current')[0].scrollIntoView( true );
       }
       //Initial time grab and checking for time slip every 10%.
       if (xbmc.periodicUpdater.progressEnd != 0) {
@@ -3089,6 +3188,15 @@ var xbmc = {};
         }
         if (typeof xbmc.xart === 'undefined') {
           xbmc.xart = [];
+        }
+        if (typeof xbmc.fullScreen === 'undefined') {
+          xbmc.fullScreen = false;
+        }
+        if (typeof xbmc.lyrics === 'undefined') {
+          xbmc.lyrics = false;
+        }
+        if (typeof xbmc.addons === 'undefined') {
+          xbmc.addons = [];
         }
         
         var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
@@ -3235,6 +3343,9 @@ var xbmc = {};
                           if ( xbmc.$backgroundFanart != xbmc.getThumbUrl(currentItem.fanart) && useFanart && currentItem.fanart != '' ) {
                             xbmc.$backgroundFanart = xbmc.getThumbUrl(currentItem.fanart);
                             $('#firstBG').css('background-image', 'url(' + xbmc.$backgroundFanart + ')');
+                          } else if (useFanart && currentItem.fanart == '') {
+                            xbmc.$backgroundFanart = xbmc.getThumbUrl('images/black.gif');
+                            $('#firstBG').css('background-image', 'url(' + xbmc.$backgroundFanart + ')');
                           };
                           
                           if (xbmc.periodicUpdater.currentlyPlayingFile != currentItem.file) {
@@ -3379,11 +3490,11 @@ var xbmc = {};
             
             if (pollTimeRunning === false) { xbmc.pollTimeStart() };
             
+            if (xbmc.lyrics) { addons.culrcLyrics() };
             //Also activated on item change. Check incase it's slideshow.
             if (xbmc.activePlayer != 'none') {
               var request = '';
-              //var curtime = 0;
-              //var curruntime = 0;
+              if (xbmc.fullScreen) { xbmc.nowPlaying(true); };
 
               if (xbmc.activePlayer == 'audio') {
                 request = '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["art", "title", "album", "artist", "duration", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 0 }, "id": "OnPlayGetItem"}';
@@ -3413,6 +3524,7 @@ var xbmc = {};
                         xbmc.xart = xart;
                         $('#firstBG').removeClass('transparent');
                         $('#firstBG').css('background-image', 'url(' + xart[0] + ')');
+                        xbmc.$backgroundFanart = xart[0];
                         //xbmc.switchFanart();
                       } else {
                         //No fan xtra art found.
@@ -3424,9 +3536,10 @@ var xbmc = {};
                           $('#firstBG').css('background-image', 'url(' + xbmc.$backgroundFanart + ')');
                         } else {
                           //No fan art at all, set a 1x1px transparent base64 gif.
-                          $('#firstBG').css('background-image', 'url(data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==)');
+                          $('#firstBG').css('background-image', 'images/black.gif');
                           $('#secondBG').css('background-image', 'url(data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==)');
                           $('#firstBG').removeClass('transparent');
+                          xbmc.$backgroundFanart = xbmc.getThumbUrl('images/black.gif');
                         }
                       }
                     });
@@ -3567,6 +3680,9 @@ var xbmc = {};
             xbmc.activePlayer = 'none';
             
             xbmc.clearBackground();
+            xbmc.fullScreen(false);
+            xbmc.lyrics = false;
+            xbmc.$backgroundFanart = '';
 
             $('#streamdets .vFormat').removeClass().addClass('vFormat');
             $('#streamdets .aspect').removeClass().addClass('aspect');
@@ -3649,6 +3765,10 @@ var xbmc = {};
             } else {
               mkf.messageLog.show(mkf.lang.get('Finished Video Library Scan', 'Popup message'), mkf.messageLog.status.success, 3000);
             };
+            //Clear recent
+            /*awxUI.$musicVideosRecentContent.empty();
+            awxUI.$tvShowsRecentlyAddedContent.empty();
+            awxUI.$moviesRecentContent.empty();*/
           break;
           case 'AudioLibrary.OnScanStarted':
             //Set to messageid so we can clear it on finish.
@@ -3662,7 +3782,32 @@ var xbmc = {};
             } else {
               mkf.messageLog.show(mkf.lang.get('Finished Music Library Scan', 'Popup message'), mkf.messageLog.status.success, 3000);
             };
-            
+          break;
+          case 'VideoLibrary.OnCleanStarted':
+            //Set to messageid so we can clear it on finish.
+            xbmc.vidOnCleanStartedMsgId = mkf.messageLog.show(mkf.lang.get('Started Video Library Clean', 'Popup message'), mkf.messageLog.status.loading, 0);
+          break;
+          case 'VideoLibrary.OnCleanFinished':
+            if (xbmc.vidOnCleanStartedMsgId != -1) {
+              mkf.messageLog.replaceTextAndHide(xbmc.vidOnCleanStartedMsgId, mkf.lang.get('Finished Video Library Clean', 'Popup message'), 2000, mkf.messageLog.status.success);
+              //Reset
+              xbmc.vidOnCleanStartedMsgId = -1;
+            } else {
+              mkf.messageLog.show(mkf.lang.get('Finished Video Library Clean', 'Popup message'), mkf.messageLog.status.success, 3000);
+            };
+          break;
+          case 'AudioLibrary.OnCleanStarted':
+            //Set to messageid so we can clear it on finish.
+            xbmc.audOnCleanStartedMsgId = mkf.messageLog.show(mkf.lang.get('Started Music Library Clean', 'Popup message'), mkf.messageLog.status.loading, 0);
+          break;
+          case 'AudioLibrary.OnCleanFinished':
+            if (xbmc.audOnCleanStartedMsgId != -1) {
+              mkf.messageLog.replaceTextAndHide(xbmc.audOnCleanStartedMsgId, mkf.lang.get('Finished Music Library Clean', 'Popup message'), 2000, mkf.messageLog.status.success);
+              //Reset
+              xbmc.audOnCleanStartedMsgId = -1;
+            } else {
+              mkf.messageLog.show(mkf.lang.get('Finished Music Library Clean', 'Popup message'), mkf.messageLog.status.success, 3000);
+            };
           break;
           case 'Input.OnInputRequested':
             //Add masking for passwords

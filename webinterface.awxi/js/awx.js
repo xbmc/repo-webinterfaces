@@ -87,9 +87,8 @@ var awx = {};
           awxUI.settings.epdesc = mkf.cookieSettings.get('epdesc', 'ascending');
           awxUI.settings.albumSort = mkf.cookieSettings.get('albumSort', 'album');
           awxUI.settings.adesc = mkf.cookieSettings.get('adesc', 'ascending');
-          //TODO
-          awxUI.settings.musicVideosSort = mkf.cookieSettings.get('musicVideosSort', 'artist');
-          awxUI.settings.musicVideosdesc = mkf.cookieSettings.get('musicVideosdesc', 'ascending');
+          awxUI.settings.musicVideosSort = mkf.cookieSettings.get('mvSort', 'artist');
+          awxUI.settings.musicVideosdesc = mkf.cookieSettings.get('mvdesc', 'ascending');
           
           //Limits
           awxUI.settings.limitMovies = mkf.cookieSettings.get('limitVideo', 25);
@@ -97,6 +96,7 @@ var awx = {};
           awxUI.settings.limitArtists = mkf.cookieSettings.get('limitArtists', 25);
           awxUI.settings.limitAlbums = mkf.cookieSettings.get('limitAlbums', 25);
           awxUI.settings.limitSongs = mkf.cookieSettings.get('limitSongs', 25);
+          awxUI.settings.limitMV = mkf.cookieSettings.get('limitMusicVideo', 25);
           
           //General
           awxUI.settings.lazyload = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
@@ -112,7 +112,11 @@ var awx = {};
           awxUI.settings.showTags = mkf.cookieSettings.get('showTags', 'yes')=='yes'? true : false;
           awxUI.settings.rotateCDart = mkf.cookieSettings.get('rotateCDart', 'no')=='yes'? true : false;
           awxUI.settings.artistsPath = mkf.cookieSettings.get('artistsPath');
-      
+          awxUI.settings.manualPath = mkf.cookieSettings.get('manualPath');
+          awxUI.settings.preferLogos = mkf.cookieSettings.get('preferLogos')=='yes'? true : false;
+
+          awxUI.settings.remoteActive = false;
+          
           /*if (ui == 'light') {
             uiScript = 'ui.light/ui.light.js';
           } else if (ui == 'default') {
