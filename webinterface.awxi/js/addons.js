@@ -45,6 +45,7 @@ var addons = {};
     
     regAddons: function(options) {
       //addons we can use
+      
       xbmc.addons.cdart = false;
       xbmc.addons.iplayer = false;
       xbmc.addons.youtube = false;

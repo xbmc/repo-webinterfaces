@@ -3136,7 +3136,7 @@ var uiviews = {};
       var genlist = eps.episodes;
       
       //For unwatched listing
-      if (options) genlist = eps;
+      //if (options) genlist = eps;
       
       var $episodeList = $('<ul class="fileList"></ul>');
 

@@ -2713,6 +2713,8 @@ var xbmc = {};
           xbmc.addons = [];
         }
         
+        addons.regAddons();
+        
         var useFanart = awxUI.settings.useFanart;
         var showInfoTags = awxUI.settings.showTags;
         
@@ -3198,6 +3200,8 @@ var xbmc = {};
         if (typeof xbmc.addons === 'undefined') {
           xbmc.addons = [];
         }
+        
+        addons.regAddons();
         
         var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
         var showInfoTags = awxUI.settings.showTags;
