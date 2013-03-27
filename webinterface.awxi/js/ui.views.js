@@ -681,9 +681,7 @@ var uiviews = {};
 /*--------------------*/
 
     /*------*/
-    MoviePlay: function(event) {
-      //var dialogHandle = mkf.dialog.show();
-      
+    MoviePlay: function(event) {      
       //Check for resume point
       xbmc.getMovieInfo({
         movieid: event.data.idMovie,
@@ -698,7 +696,7 @@ var uiviews = {};
               itemId: movieID,
               onSuccess: function() {
                 mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 2000, mkf.messageLog.status.success);
-                //$('div#mkfDialog' + dialogHandle).find('a.close').click();
+                $('div#mkfDialog' + dialogHandle).find('a.close').click();
               },
               onError: function(errorText) {
                 mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
@@ -710,7 +708,7 @@ var uiviews = {};
           
           //Play from resume point
           var playResume = function() {
-            var dialogHandle = mkf.dialog.show();
+            
             var messageHandle = mkf.messageLog.show(mkf.lang.get('Playing...', 'Popup message with addition'));
 
             xbmc.playerOpen({
@@ -743,6 +741,7 @@ var uiviews = {};
                 mkf.dialog.setContent(dialogHandle, mkf.lang.get('Failed to retrieve information!', 'Popup message')) 
               };
             });
+            var dialogHandle = mkf.dialog.show();
           } else {
             playStart();
           };
