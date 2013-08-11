@@ -1,0 +1,33 @@
+v 0.2.0 (20130726)
+- Added Frodo compatibility
+- Changed button from Hibernate to Suspend
+- Show artists on the songs
+- Bug fix: Fixed the control box toggling when hitting Play Movie / TV Show
+- Bug fix: Fixed getting a javascript error when the media ends
+- Bug fix: Fixed unused and undeclared javascript variables
+
+v 0.1.4 (20120605)
+- Added the possibility for browsing the artists by album
+- Bug fix: firing multiple actions on remote is fixed
+
+v 0.1.3 (20120527)
+- Bug fix: now the currently playing time shows hours too
+
+v 0.1.2 (20120524)
+- Added playback buttons in footer
+- Page data is stored locally (no loss on refresh anymore)
+- Added bookmark icon
+- Core is made more stable (better performance)
+- Minor bug fixes
+
+v 0.1.1 (20120517)
+- First build
+- Remote control to control the GUI (basic input functions, playback and volume)
+- Accessing the movie, TV show and music libraries
+- Sorting the libraries by first letter (ignoring the article)
+- Possibility to search each list
+- Library item details
+- Play items from the detail screen
+- Show currently playing
+- Scan libraries
+- Control the system (shutdown, reboot, hibernate and exit XBMC)
