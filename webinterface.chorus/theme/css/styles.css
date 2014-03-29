@@ -511,7 +511,7 @@ body {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
   color: #2c3e50;
   color: #34495e;
   outline: none;
@@ -4340,7 +4340,19 @@ ul.video-list li .card .actions-wrapper .movie-play {
   font-size: 190%;
 }
 ul.video-list li.next-page {
-  display: none;
+  display: block;
+  clear: both;
+  background: #fff;
+  border-bottom: 2px solid #ccc;
+  color: #777;
+  font-size: 15px;
+  padding: 8px;
+  margin: 15px 80px;
+  text-align: center;
+  cursor: pointer;
+}
+ul.video-list li.next-page:hover {
+  background: #f1f1f1;
 }
 @media (min-width: 1360px) {
   ul.video-list li {
@@ -4360,6 +4372,12 @@ ul.video-list li.next-page {
 }
 .section-movies #content {
   padding-top: 9px;
+}
+
+.section-tvshows #content,
+.section-movies #content {
+  padding-bottom: 20px;
+  overflow: hidden;
 }
 
 /** MOVIE *******************/
