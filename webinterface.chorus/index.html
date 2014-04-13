@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Chorus.</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- FavIco -->
     <link rel="shortcut icon" href="favicon.png" type="image/png">
@@ -24,6 +26,9 @@
     <!-- Loading Chorus css -->
     <link href="theme/css/styles.css" rel="stylesheet">
 
+    <!-- Sound Manager (streaming audio) -->
+    <script src="lib/soundmanager/script/soundmanager2-nodebug-jsmin.js"></script>
+
   </head>
   <body>
 
@@ -33,10 +38,6 @@
 
     <!-- Chorus combined change to chorus.min.js for uglified version -->
     <script src="chorus.min.js"></script>
-
-    <!-- Sound Manager (streaming audio) -->
-    <!--<script src="lib/soundmanager/script/soundmanager2-nodebug-jsmin.js"></script>-->
-    <script src="lib/soundmanager/script/soundmanager2-nodebug-jsmin.js"></script>
 
   </body>
 </html>

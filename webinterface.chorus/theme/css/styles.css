@@ -825,10 +825,203 @@ input[type="text"] {
   background: #F4F4F4;
 }
 
+.filter-wrapper {
+  margin: -10px 0 5px;
+  padding: 0;
+  background: #F6F5F3;
+}
+@media (min-width: 1360px) {
+  .filter-wrapper {
+    margin: 0px 0 5px;
+    background: none;
+    position: fixed;
+    top: 0;
+    left: 115px;
+    right: 610px;
+    z-index: 50;
+  }
+}
+.filter-wrapper:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.filter-wrapper a, .filter-wrapper .btn {
+  color: #444;
+  padding: 14px 25px;
+}
+@media (min-width: 1360px) {
+  .filter-wrapper a, .filter-wrapper .btn {
+    padding: 14px 25px;
+    color: #eee;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .filter-wrapper a:hover, .filter-wrapper .btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+.filter-wrapper .show-watched-btn {
+  padding: 14px 16px;
+  float: left;
+  background: none;
+  opacity: 0.5;
+  font-size: 13px;
+}
+.filter-wrapper .show-watched-btn i {
+  padding: 0 !important;
+}
+.filter-wrapper .links {
+  float: left;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+.filter-wrapper .links a {
+  float: left;
+}
+.filter-wrapper .links a.active {
+  background: #DFDFDF;
+  color: #444;
+}
+.filter-wrapper .sort-wrapper {
+  float: right;
+  margin-right: 10px;
+  text-transform: capitalize;
+  min-width: 180px;
+}
+@media (min-width: 1360px) {
+  .filter-wrapper .sort-wrapper {
+    margin-right: 0;
+  }
+}
+.filter-wrapper .sort-wrapper .btn {
+  text-transform: capitalize;
+  float: right;
+}
+.filter-wrapper .sort-wrapper .btn i {
+  padding-right: 5px;
+}
+.filter-wrapper .dropdown-menu li:hover i {
+  color: #555;
+}
+.filter-wrapper .dropdown-menu li i {
+  color: #ddd;
+  padding-right: 5px;
+  font-size: 110%;
+  float: right;
+  padding-top: 4px;
+}
+.filter-wrapper .sort-items-menu {
+  display: none;
+}
+.filter-wrapper.active-tab-all .sort-items-menu {
+  display: block;
+}
+
+@media (min-width: 1360px) {
+  .fixed-header .filter-wrapper .links a.active {
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.hide-watched .show-watched-btn {
+  opacity: 1;
+}
+.hide-watched .show-watched-btn i:before {
+  content: "\f111";
+}
+.hide-watched .card.watched-yes {
+  display: none !important;
+}
+
+.sidebar-content .links {
+  margin-top: 0px;
+}
+.sidebar-content .links a {
+  display: block;
+  color: #4F5861;
+  text-align: left;
+  padding: 10px 10px 11px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.44);
+}
+.sidebar-content .links a:hover {
+  background: #f8f8f8;
+}
+.sidebar-content .links a.active {
+  background: #6e7374;
+  color: #f7f7f7;
+}
+
+.section-music #sidebar-first {
+  background: #F0F0F0;
+}
+.section-music #page-header h1 a {
+  background: #fafafa;
+}
+
+.content-actions {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+}
+.content-actions .btn {
+  background: none;
+  padding: 10px 13px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  float: left;
+  color: #f6f6f6;
+}
+.content-actions .btn:focus, .content-actions .btn:hover {
+  background: transparent;
+  color: #2b2f30;
+}
+.content-actions.thumbs-up .fa-thumbs-up {
+  color: #e67e22;
+}
+
+.content-fanart {
+  overflow: hidden;
+  height: 210px;
+  margin-top: -60px;
+  cursor: pointer;
+  display: none;
+}
+@media (min-width: 800px) {
+  .content-fanart {
+    height: 280px;
+    display: block;
+  }
+  .content-fanart img {
+    min-width: 600px;
+  }
+}
+.content-fanart img {
+  cursor: pointer;
+  width: 100%;
+  margin-top: -6%;
+  min-width: 400px;
+}
+.content-fanart.full-size {
+  height: auto;
+}
+.content-fanart.full-size img {
+  margin-top: 0%;
+}
+
+.inline-loading {
+  padding: 20px;
+  font-size: 17px;
+  text-align: center;
+  color: #555;
+}
+
 .card {
   white-space: nowrap;
   display: inline-block;
-  margin: 5px;
+  margin: 5px 10px;
   border-radius: 2px;
   background: #FFF;
   overflow: hidden;
@@ -837,8 +1030,8 @@ input[type="text"] {
   font-weight: 300;
   cursor: default;
   zoom: 0.8;
-  min-width: 170px;
-  height: 205px;
+  min-width: 163px;
+  height: 235px;
 }
 .card.watched-progress .video-progress span,
 .card.watched-progress .video-progress {
@@ -856,16 +1049,16 @@ input[type="text"] {
   position: relative;
   z-index: 5;
 }
-.card.watched-yes {
-  opacity: 0.5;
-}
-.card.watched-yes:hover {
-  opacity: 1;
+.card.watched-yes .is-watched {
+  display: block;
 }
 @media (min-width: 500px) {
   .card {
     zoom: 1;
   }
+}
+.card:hover .item-sub-sub-title {
+  display: block;
 }
 .card .image {
   display: block;
@@ -896,18 +1089,17 @@ input[type="text"] {
   font-size: 13px;
   line-height: 16px;
   height: 16px;
-  color: #AAA;
+  color: #DDD;
   margin: 1px 0;
 }
 .card p.item-sub-sub-title a, .card p.item-sub-title a {
   color: #AAA;
 }
 .card p.item-sub-sub-title {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dotted #eee;
+  padding-top: 2px;
   font-style: italic;
   display: none;
+  font-size: 12px;
 }
 .card p:after {
   display: block;
@@ -929,11 +1121,11 @@ input[type="text"] {
   top: 0;
   left: 0;
   right: 0;
-  height: 205px;
+  height: 235px;
   opacity: 0;
   background: rgba(0, 0, 0, 0.5);
   width: auto !important;
-  min-width: 170px;
+  min-width: 163px;
   cursor: pointer;
   -webkit-transition: 0.2s all linear;
   -moz-transition: 0.2s all linear;
@@ -968,22 +1160,37 @@ input[type="text"] {
   right: 4px;
   left: auto;
 }
-.card.thumbs-up button.thumbs-up {
+.card .thumbs-up button.thumbs-up, .card.thumbs-up button.thumbs-up {
   color: #e67e22;
 }
+.card.watched-yes button.watched-btn i.fa:before {
+  content: "\f058";
+  color: #e67e22;
+}
+.card .is-watched {
+  position: absolute;
+  bottom: 10px;
+  z-index: 10;
+  color: #e67e22;
+  right: 10px;
+  display: none;
+  font-size: 16px;
+}
 .card .image {
-  min-width: 170px;
-  height: 170px;
+  min-width: 163px;
+  height: 163px;
 }
 .card.card-large {
-  width: 370px;
-  height: 400px;
+  width: 200px;
+  height: 170px;
 }
 .card.card-large .image {
   min-width: initial;
-  height: 370px;
+  min-height: 160px;
+  height: 160px;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: 50%;
 }
 .card.card-large .details {
   left: 0;
@@ -1205,11 +1412,12 @@ input[type="text"] {
   color: #2b2f30;
 }
 #header .mainnav ul li.active a {
-  color: rgba(100, 100, 100, 0.28);
+  color: #2B2F30;
+  background: #f7f7f7;
 }
 @media (min-width: 800px) {
   #header .mainnav {
-    margin-top: 115px;
+    margin-top: 110px;
   }
 }
 @media (min-width: 1360px) {
@@ -1248,6 +1456,12 @@ body.fixed-header #search-box {
     margin-right: 260px;
   }
 }
+#content:after {
+  content: "";
+  clear: both;
+  display: block;
+  height: 20px;
+}
 
 #page-header {
   background: rgba(59, 63, 64, 0.84);
@@ -1264,11 +1478,16 @@ body.fixed-header #search-box {
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
+#page-header i {
+  color: rgba(246, 245, 243, 0.55);
+  padding-right: 5px;
+  font-size: 16px;
+}
 #page-header h1 {
   font-weight: normal;
   margin: 0px;
   color: #eeeeee;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 50px;
   padding-left: 20px;
   display: none;
@@ -1285,7 +1504,11 @@ body.fixed-header #search-box {
   overflow: hidden;
   position: relative;
   white-space: nowrap;
-  background: #F6F5F3;
+  background: rgba(255, 255, 255, 0.96);
+  font-size: 17px;
+}
+#page-header h1 a i {
+  color: rgba(0, 0, 0, 0.3);
 }
 #page-header h1 span {
   color: rgba(246, 245, 243, 0.55);
@@ -1371,7 +1594,7 @@ body.fixed-header #search-box {
 
 #sidebar-first {
   right: 0;
-  background: #f9f9f9;
+  background: #f7f7f7;
   position: fixed;
   top: 50px;
   left: 0;
@@ -1695,7 +1918,7 @@ body.fixed-header #search-box {
   width: auto;
   background: #f8f8f8;
   position: fixed;
-  top: 50px;
+  top: 0px;
   right: 0;
   left: 0;
   bottom: 0;
@@ -1960,11 +2183,11 @@ body.section-artists #content {
     display: block;
   }
 }
-body.section-album #sidebar-first, body.section-artist #sidebar-first {
+body.section-tvshows #sidebar-first, body.section-movies #sidebar-first, body.section-music #sidebar-first, body.section-album #sidebar-first, body.section-artist #sidebar-first {
   display: none;
 }
 @media (min-width: 800px) {
-  body.section-album #sidebar-first, body.section-artist #sidebar-first {
+  body.section-tvshows #sidebar-first, body.section-movies #sidebar-first, body.section-music #sidebar-first, body.section-album #sidebar-first, body.section-artist #sidebar-first {
     display: block;
   }
 }
@@ -2345,6 +2568,27 @@ body.section-search #sidebar-first {
   }
 }
 
+#browser-progress-bar {
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+}
+
+#browser-progress-buffer {
+  -webkit-transition: 2s all linear;
+  -moz-transition: 2s all linear;
+  -ms-transition: 2s all linear;
+  -o-transition: 2s all linear;
+  transition: 2s all linear;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  z-index: 0;
+  background: #606364;
+  height: 20px;
+}
+
 #browser-player-footer {
   display: none;
   background: #7f8486;
@@ -2363,6 +2607,14 @@ body.section-search #sidebar-first {
 #browser-player-footer #browser-volume.ui-slider:hover .ui-slider-handle,
 #browser-player-footer #browser-progress-bar.ui-slider:hover .ui-slider-handle {
   background: rgba(255, 255, 255, 0.9);
+}
+
+a.party-mode i {
+  display: none;
+  float: right;
+  color: #e67e22;
+  font-size: 12px;
+  padding-top: 5px;
 }
 
 body.notconnected #header #logo {
@@ -2485,6 +2737,9 @@ body.bp-mute #browser-player-footer .footer-right .actions-wrapper .browser-play
 }
 body.section-remote #footer #now-playing .song-image .fa-chevron-up {
   display: none;
+}
+body.partymode-on a.party-mode i {
+  display: block;
 }
 
 .xbmc-remote-wrapper {
@@ -3108,55 +3363,6 @@ body.section-remote #footer #progress-bar.ui-slider .ui-slider-range {
   padding-right: 8px;
 }
 
-.content-actions {
-  position: absolute;
-  right: 5px;
-  top: 0px;
-}
-.content-actions .btn {
-  background: none;
-  padding: 10px 13px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-  float: left;
-  color: #f6f6f6;
-}
-.content-actions .btn:focus, .content-actions .btn:hover {
-  background: transparent;
-  color: #2b2f30;
-}
-.content-actions.thumbs-up .fa-thumbs-up {
-  color: #e67e22;
-}
-
-.content-fanart {
-  overflow: hidden;
-  height: 210px;
-  margin-top: -55px;
-  cursor: pointer;
-}
-@media (min-width: 800px) {
-  .content-fanart {
-    height: 342px;
-  }
-  .content-fanart img {
-    min-width: 600px;
-  }
-}
-.content-fanart img {
-  cursor: pointer;
-  width: 100%;
-  margin-top: -5%;
-  min-width: 400px;
-}
-.content-fanart.full-size {
-  height: auto;
-  margin-top: 0;
-}
-
 .genres {
   margin: 20px 0 0;
   border-bottom: 1px dotted rgba(70, 70, 70, 0.11);
@@ -3201,11 +3407,18 @@ body.home .playlist div.playlist-item.playing-row .playlist-meta a {
     background-color: transparent !important;
   }
 }
-body.section-tvshows, body.section-movies, body.section-artists, body.section-albums {
-  background: #DFDFDF;
+body.section-tvshows, body.section-movies {
+  background: #fafafa;
 }
-body.section-tvshows #content, body.section-movies #content, body.section-artists #content, body.section-albums #content {
-  background: #DFDFDF;
+body.section-tvshows #content, body.section-movies #content {
+  background: #fff;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFAFAFA', endColorstr='#FFFFFFFF');
+  background-image: -moz-linear-gradient(top, rgba(250, 250, 250, 0) 1%, rgba(250, 250, 250, 0) 41%, rgba(250, 250, 250, 0.97) 98%, #fafafa 100%);
+  background-image: -o-linear-gradient(top, rgba(250, 250, 250, 0) 1%, rgba(250, 250, 250, 0) 41%, rgba(250, 250, 250, 0.97) 98%, #fafafa 100%);
+  background-image: -webkit-linear-gradient(top, rgba(250, 250, 250, 0) 1%, rgba(250, 250, 250, 0) 41%, rgba(250, 250, 250, 0.97) 98%, #fafafa 100%);
+  background-image: linear-gradient(to bottom, rgba(250, 250, 250, 0) 1%, rgba(250, 250, 250, 0) 41%, rgba(250, 250, 250, 0.97) 98%, #fafafa 100%);
+  min-height: 400px;
 }
 body.section-files #page-header h1 a {
   width: 330px;
@@ -3218,6 +3431,33 @@ body.section-files #main {
 }
 body.section-thumbsup .playlist-song-list li .song-actions-wrapper .btn.song-remove {
   display: none !important;
+}
+@media (min-width: 800px) {
+  body.section-movies #page-header h1 a, body.section-movie-genre #page-header h1 a, body.section-tvshows #page-header h1 a, body.section-mymusic #page-header h1 a, body.section-mymovies #page-header h1 a, body.section-mytv #page-header h1 a, body.section-music #page-header h1 a {
+    width: 185px;
+    background: rgba(255, 255, 255, 0.96);
+  }
+  body.section-movies #sidebar-first, body.section-movie-genre #sidebar-first, body.section-tvshows #sidebar-first, body.section-mymusic #sidebar-first, body.section-mymovies #sidebar-first, body.section-mytv #sidebar-first, body.section-music #sidebar-first {
+    width: 185px;
+    background: #f7f7f7;
+  }
+  body.section-movies #sidebar-first .active-recent a:first-child, body.section-movie-genre #sidebar-first .active-recent a:first-child, body.section-tvshows #sidebar-first .active-recent a:first-child, body.section-mymusic #sidebar-first .active-recent a:first-child, body.section-mymovies #sidebar-first .active-recent a:first-child, body.section-mytv #sidebar-first .active-recent a:first-child, body.section-music #sidebar-first .active-recent a:first-child {
+    background: #6e7374;
+    color: #f7f7f7;
+  }
+  body.section-movies #sidebar-first .links .btn, body.section-movie-genre #sidebar-first .links .btn, body.section-tvshows #sidebar-first .links .btn, body.section-mymusic #sidebar-first .links .btn, body.section-mymovies #sidebar-first .links .btn, body.section-mytv #sidebar-first .links .btn, body.section-music #sidebar-first .links .btn {
+    font-size: 14px;
+  }
+  body.section-movies #sidebar-first .links .btn.active, body.section-movie-genre #sidebar-first .links .btn.active, body.section-tvshows #sidebar-first .links .btn.active, body.section-mymusic #sidebar-first .links .btn.active, body.section-mymovies #sidebar-first .links .btn.active, body.section-mytv #sidebar-first .links .btn.active, body.section-music #sidebar-first .links .btn.active {
+    background: #6e7374;
+  }
+  body.section-movies #main, body.section-movie-genre #main, body.section-tvshows #main, body.section-mymusic #main, body.section-mymovies #main, body.section-mytv #main, body.section-music #main {
+    margin-left: 235px !important;
+  }
+}
+body.section-movie-genre #sidebar-first .sublink-genres {
+  background: #6E7374;
+  color: #F7F7F7;
 }
 
 #artist-tabs .nav-tabs {
@@ -3311,20 +3551,20 @@ body.section-thumbsup .playlist-song-list li .song-actions-wrapper .btn.song-rem
   margin-right: 2px;
 }
 .rand-list li.card.card-large {
-  height: 280px;
+  height: 160px;
 }
 .rand-list li.card.card-large .image {
   background-repeat: cover;
-  height: 205px;
+  height: 198px;
 }
 .rand-list li.card.card-large .details {
   position: absolute;
 }
 .rand-list li.card.card-large .actions-wrapper .play {
-  bottom: 25px;
+  bottom: 10px;
 }
 .rand-list li.card.card-large:nth-child(4n+4) {
-  width: 270px;
+  width: 263px;
 }
 
 /* Album list */
@@ -3439,27 +3679,24 @@ body.section-thumbsup .playlist-song-list li .song-actions-wrapper .btn.song-rem
   width: 100%;
 }
 
-.album-list-landing li.has-thumb:nth-child(8), .album-list-landing li.has-thumb:nth-child(18), .album-list-landing li.has-thumb:nth-child(25), .album-list-landing li.has-thumb:first-child {
-  width: 370px;
-  height: 400px;
-}
-.album-list-landing li.has-thumb:nth-child(8) .image, .album-list-landing li.has-thumb:nth-child(18) .image, .album-list-landing li.has-thumb:nth-child(25) .image, .album-list-landing li.has-thumb:first-child .image {
-  min-width: initial;
-  height: 370px;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.album-list-landing li.has-thumb:nth-child(8) .details, .album-list-landing li.has-thumb:nth-child(18) .details, .album-list-landing li.has-thumb:nth-child(25) .details, .album-list-landing li.has-thumb:first-child .details {
-  left: 0;
-  right: 0;
-  bottom: 0;
+.album-list-landing {
+  margin: 0px;
+  padding: 10px 0px;
   background: #fff;
 }
-.album-list-landing li.has-thumb:nth-child(8) .actions-wrapper .play, .album-list-landing li.has-thumb:nth-child(18) .actions-wrapper .play, .album-list-landing li.has-thumb:nth-child(25) .actions-wrapper .play, .album-list-landing li.has-thumb:first-child .actions-wrapper .play {
-  bottom: 8px;
+@media (min-width: 1360px) {
+  .album-list-landing {
+    padding: 15px 10px;
+  }
 }
-.album-list-landing li.has-thumb:nth-child(8) p.item-sub-sub-title, .album-list-landing li.has-thumb:nth-child(18) p.item-sub-sub-title, .album-list-landing li.has-thumb:nth-child(25) p.item-sub-sub-title, .album-list-landing li.has-thumb:first-child p.item-sub-sub-title {
+.album-list-landing:after {
+  content: "";
+  clear: both;
   display: block;
+}
+.album-list-landing li {
+  min-height: 235px;
+  width: 163px;
 }
 
 /* Track listing */
@@ -3721,6 +3958,63 @@ body.section-thumbsup .playlist-song-list li .song-actions-wrapper .btn.song-rem
 
 .playlist-song-list {
   padding: 10px;
+}
+
+.tag-list {
+  padding: 10px;
+  padding-bottom: 70px;
+}
+.tag-list:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+.tag-list .tag-list-item .tag-label {
+  padding: 0 10px;
+  margin: 5px;
+  background: #F7F7F7;
+  font-size: 14px;
+  display: block;
+  height: 37px;
+  line-height: 37px;
+  overflow: hidden;
+}
+@media (min-width: 500px) {
+  .tag-list .tag-list-item .tag-label {
+    width: 200px;
+    float: left;
+  }
+}
+.tag-list .tag-list-item .tag-label:hover {
+  background: #6e7374;
+  color: #f7f7f7;
+}
+.tag-list .tag-container {
+  display: none;
+}
+.tag-list .open {
+  clear: left;
+  padding: 10px 0;
+  margin: 0 -10px;
+}
+.tag-list .open .tag-label {
+  float: none;
+  background: rgba(110, 115, 116, 0.61);
+  color: #f7f7f7;
+  padding: 0px 15px;
+  font-size: 16px;
+  width: auto;
+  display: block;
+  margin: 0;
+}
+.tag-list .open .tag-container {
+  display: block;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+.tag-list .open .tag-container .album-list-landing {
+  background: none;
+  padding: 8px 2px;
 }
 
 .active-player-tabs {
@@ -4161,6 +4455,19 @@ body.section-thumbsup .playlist-song-list li .song-actions-wrapper .btn.song-rem
   right: 0;
   left: auto;
 }
+.playlist li.list-item.playing-row .thumb, .playlist li.list-item.browser-playing-row .thumb,
+.playlist div.playlist-item.playing-row .thumb,
+.playlist div.playlist-item.browser-playing-row .thumb,
+.custom-lists li.list-item.playing-row .thumb,
+.custom-lists li.list-item.browser-playing-row .thumb,
+.custom-lists div.playlist-item.playing-row .thumb,
+.custom-lists div.playlist-item.browser-playing-row .thumb,
+.browser-playlist-song-list li.list-item.playing-row .thumb,
+.browser-playlist-song-list li.list-item.browser-playing-row .thumb,
+.browser-playlist-song-list div.playlist-item.playing-row .thumb,
+.browser-playlist-song-list div.playlist-item.browser-playing-row .thumb {
+  box-shadow: -17px 0 10px -5px #eee;
+}
 .playlist li.list-item.playing-row .playlist-song-actions-wrapper, .playlist li.list-item.browser-playing-row .playlist-song-actions-wrapper,
 .playlist div.playlist-item.playing-row .playlist-song-actions-wrapper,
 .playlist div.playlist-item.browser-playing-row .playlist-song-actions-wrapper,
@@ -4311,7 +4618,7 @@ body.section-thumbsup .playlist-song-list li .song-actions-wrapper .btn.song-rem
 }
 
 ul.video-list {
-  margin: 0px 12px 20px 10px;
+  margin: 10px 10px 20px 10px;
   text-align: center;
 }
 ul.video-list li {
@@ -4361,23 +4668,13 @@ ul.video-list li.next-page:hover {
   }
 }
 
-.section-movies #sidebar-first {
-  display: none;
-}
-.section-movies #main {
-  margin-left: 50px;
-}
+.section-tvshows .nav,
 .section-movies .nav {
   margin-bottom: 0;
 }
-.section-movies #content {
-  padding-top: 9px;
-}
-
 .section-tvshows #content,
 .section-movies #content {
-  padding-bottom: 20px;
-  overflow: hidden;
+  padding-top: 9px;
 }
 
 /** MOVIE *******************/
@@ -4670,7 +4967,7 @@ ul.video-list li.next-page:hover {
 .section-tvshow #details .tab-wrapper .nav-tabs,
 .section-movie #details .tab-wrapper .nav-tabs {
   position: absolute;
-  margin-top: -48px;
+  margin-top: -47px;
   font-weight: bold;
 }
 .section-tvshow #details .tab-wrapper .nav-tabs li a,
@@ -4882,11 +5179,8 @@ ul.video-list li.next-page:hover {
   position: relative;
   z-index: 5;
 }
-#seasons ul.video-list li .card.watched-yes {
-  opacity: 0.5;
-}
-#seasons ul.video-list li .card.watched-yes:hover {
-  opacity: 1;
+#seasons ul.video-list li .card.watched-yes .is-watched {
+  display: block;
 }
 #seasons.episodes ul.video-list li .card {
   width: 228px;
