@@ -836,7 +836,7 @@ input[type="text"] {
     background: none;
     position: fixed;
     top: 0;
-    left: 115px;
+    left: 330px;
     right: 610px;
     z-index: 50;
   }
@@ -1566,6 +1566,9 @@ body.fixed-header #search-box {
 }
 #page-header .mobile-menu li {
   float: left;
+  color: #ccc;
+}
+#page-header .mobile-menu li a {
   width: 50px;
   height: 50px;
   color: #ccc;
@@ -1573,11 +1576,9 @@ body.fixed-header #search-box {
   line-height: 49px;
   font-size: 1.5em;
   cursor: pointer;
+  display: block;
 }
-#page-header .mobile-menu li a {
-  color: #ccc;
-}
-#page-header .mobile-menu li a:hover {
+#page-header .mobile-menu li a:hover i {
   color: #fff;
 }
 @media (min-width: 800px) {
@@ -1918,7 +1919,7 @@ body.fixed-header #search-box {
   width: auto;
   background: #f8f8f8;
   position: fixed;
-  top: 0px;
+  top: 50px;
   right: 0;
   left: 0;
   bottom: 0;
@@ -3433,25 +3434,25 @@ body.section-thumbsup .playlist-song-list li .song-actions-wrapper .btn.song-rem
   display: none !important;
 }
 @media (min-width: 800px) {
-  body.section-movies #page-header h1 a, body.section-movie-genre #page-header h1 a, body.section-tvshows #page-header h1 a, body.section-mymusic #page-header h1 a, body.section-mymovies #page-header h1 a, body.section-mytv #page-header h1 a, body.section-music #page-header h1 a {
+  body.section-movies #page-header h1 a, body.section-movie-genre #page-header h1 a, body.section-tv #page-header h1 a, body.section-mymusic #page-header h1 a, body.section-mymovies #page-header h1 a, body.section-mytv #page-header h1 a, body.section-music #page-header h1 a {
     width: 185px;
     background: rgba(255, 255, 255, 0.96);
   }
-  body.section-movies #sidebar-first, body.section-movie-genre #sidebar-first, body.section-tvshows #sidebar-first, body.section-mymusic #sidebar-first, body.section-mymovies #sidebar-first, body.section-mytv #sidebar-first, body.section-music #sidebar-first {
+  body.section-movies #sidebar-first, body.section-movie-genre #sidebar-first, body.section-tv #sidebar-first, body.section-mymusic #sidebar-first, body.section-mymovies #sidebar-first, body.section-mytv #sidebar-first, body.section-music #sidebar-first {
     width: 185px;
     background: #f7f7f7;
   }
-  body.section-movies #sidebar-first .active-recent a:first-child, body.section-movie-genre #sidebar-first .active-recent a:first-child, body.section-tvshows #sidebar-first .active-recent a:first-child, body.section-mymusic #sidebar-first .active-recent a:first-child, body.section-mymovies #sidebar-first .active-recent a:first-child, body.section-mytv #sidebar-first .active-recent a:first-child, body.section-music #sidebar-first .active-recent a:first-child {
+  body.section-movies #sidebar-first .active-recent a:first-child, body.section-movie-genre #sidebar-first .active-recent a:first-child, body.section-tv #sidebar-first .active-recent a:first-child, body.section-mymusic #sidebar-first .active-recent a:first-child, body.section-mymovies #sidebar-first .active-recent a:first-child, body.section-mytv #sidebar-first .active-recent a:first-child, body.section-music #sidebar-first .active-recent a:first-child {
     background: #6e7374;
     color: #f7f7f7;
   }
-  body.section-movies #sidebar-first .links .btn, body.section-movie-genre #sidebar-first .links .btn, body.section-tvshows #sidebar-first .links .btn, body.section-mymusic #sidebar-first .links .btn, body.section-mymovies #sidebar-first .links .btn, body.section-mytv #sidebar-first .links .btn, body.section-music #sidebar-first .links .btn {
+  body.section-movies #sidebar-first .links .btn, body.section-movie-genre #sidebar-first .links .btn, body.section-tv #sidebar-first .links .btn, body.section-mymusic #sidebar-first .links .btn, body.section-mymovies #sidebar-first .links .btn, body.section-mytv #sidebar-first .links .btn, body.section-music #sidebar-first .links .btn {
     font-size: 14px;
   }
-  body.section-movies #sidebar-first .links .btn.active, body.section-movie-genre #sidebar-first .links .btn.active, body.section-tvshows #sidebar-first .links .btn.active, body.section-mymusic #sidebar-first .links .btn.active, body.section-mymovies #sidebar-first .links .btn.active, body.section-mytv #sidebar-first .links .btn.active, body.section-music #sidebar-first .links .btn.active {
+  body.section-movies #sidebar-first .links .btn.active, body.section-movie-genre #sidebar-first .links .btn.active, body.section-tv #sidebar-first .links .btn.active, body.section-mymusic #sidebar-first .links .btn.active, body.section-mymovies #sidebar-first .links .btn.active, body.section-mytv #sidebar-first .links .btn.active, body.section-music #sidebar-first .links .btn.active {
     background: #6e7374;
   }
-  body.section-movies #main, body.section-movie-genre #main, body.section-tvshows #main, body.section-mymusic #main, body.section-mymovies #main, body.section-mytv #main, body.section-music #main {
+  body.section-movies #main, body.section-movie-genre #main, body.section-tv #main, body.section-mymusic #main, body.section-mymovies #main, body.section-mytv #main, body.section-music #main {
     margin-left: 235px !important;
   }
 }
@@ -4015,6 +4016,90 @@ body.section-movie-genre #sidebar-first .sublink-genres {
 .tag-list .open .tag-container .album-list-landing {
   background: none;
   padding: 8px 2px;
+}
+
+.channel-list {
+  padding: 10px;
+}
+.channel-list .row-item {
+  background: #eee;
+  padding: 0;
+  text-align: left;
+  font-size: 20px;
+  position: relative;
+  height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.channel-list .row-item .thumb-wrapper {
+  float: left;
+  position: relative;
+  height: 50px;
+  width: 50px;
+}
+.channel-list .row-item .thumb-wrapper .btn,
+.channel-list .row-item .thumb-wrapper .thumb {
+  height: 50px;
+  width: 50px;
+  display: block;
+}
+.channel-list .row-item .thumb-wrapper .btn {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0;
+  width: 10px;
+  padding: 15px;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.53);
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+  width: 50px;
+}
+.channel-list .row-item .thumb-wrapper .btn:hover {
+  opacity: 1;
+}
+.channel-list .row-item .name {
+  display: block;
+  padding: 15px 10px;
+  margin: 0px;
+  height: 20px;
+  overflow: hidden;
+  color: #888;
+}
+.channel-list .row-item i {
+  color: #bbb;
+}
+.channel-list .row-item:hover .name {
+  color: #444;
+}
+.channel-list .channel-actions-wrapper {
+  display: none;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 90%;
+  opacity: 0;
+  background: #eee;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+.channel-list .channel-actions-wrapper .btn:hover i {
+  color: #888;
+}
+@media (min-width: 500px) {
+  .channel-list {
+    padding-right: 0;
+  }
+  .channel-list .row-item {
+    float: left;
+    width: 249px;
+    margin: 0 10px 10px 0;
+  }
 }
 
 .active-player-tabs {

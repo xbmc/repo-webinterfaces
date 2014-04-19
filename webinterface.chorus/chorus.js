@@ -14198,80 +14198,6 @@ $(document).ready(function(){
 
 
 
-  /********************************************************************************
-   * Image helpers
-   ********************************************************************************/
-
-
-  /**
-   * Get default image
-   */
-  app.helpers.getDefaultImage = function(type){
-
-    // @TODO move elsewhere
-    var files = [
-        'wallpaper-443657.jpg',
-        'wallpaper-45040.jpg',
-        'wallpaper-765190.jpg',
-        'wallpaper-84050.jpg'
-      ],
-      random = files[app.helpers.getRandomInt(0, (files.length - 1))];
-
-    // return random
-    return 'theme/images/fanart_default/' + random;
-
-  };
-
-
-  /**
-   * Is default image
-   */
-  app.helpers.isDefaultImage = function(img){
-    return (app.helpers.varGet('defaultImage') == img);
-  };
-
-
-  /**
-   * Freewall Layout
-   * @param selector
-   */
-  app.helpers.addFreewall = function(selector){
-    var wall = new freewall(selector);
-    wall.reset({
-      selector: 'li',
-      animate: false,
-      cellW: 160,
-      cellH: '230',
-      gutterY: 15,
-      gutterX: 15,
-      onResize: function() {
-        wall.fitWidth();
-      }
-    });
-    wall.fitWidth();
-  };
-
-
-  /**
-   * Freewall Poster Layout
-   * @param selector
-   */
-  app.helpers.addPosterFreewall = function(selector){
-    var wall = new freewall(selector);
-    wall.reset({
-      selector: 'li',
-      animate: false,
-      cellW: 170,
-      cellH: '305',
-      gutterY: 15,
-      gutterX: 15,
-      onResize: function() {
-        wall.fitWidth();
-      }
-    });
-    wall.fitWidth();
-  };
-
 
 
   /********************************************************************************
@@ -14456,7 +14382,7 @@ $(document).ready(function(){
       // if homepage backstretch exists and changed, update
       var $bs = $('.backstretch img'),
         origImg = $bs.attr('src'),
-        newImg = app.parseImage(fanart, 'fanart');
+        newImg = app.image.url(fanart, 'fanart');
       // if image is different
       if($bs.length > 0 && origImg != newImg){
         $.backstretch(newImg);
@@ -14464,73 +14390,6 @@ $(document).ready(function(){
     }
   };
 
-
-
- /********************************************************************************
-   * Title
-   ********************************************************************************/
-
-
-  /**
-   * Wrapper for setting page title
-   * @param value
-   * @param options
-   *   tabs = {url:title, url:title}
-   *   addATag = wraps the value in an a tag
-   * @returns {boolean}
-   */
-  app.helpers.setTitle = function(value, options){
-    var defaults = {
-      addATag: false,
-      tabs: false,
-      activeTab: 0,
-      subTitle: '',
-      icon: false
-    };
-
-    var settings = $.extend(defaults,options),
-      $title = $('#title'), ico = '';
-
-    $title.empty();
-
-    if(settings.icon !== false){
-      ico = '<i class="fa fa-' + settings.icon + '"></i> ';
-    }
-
-    // add <a> tag if set
-    if(settings.addATag){
-      $title.append($('<a class="title-sub" href="' + settings.addATag + '">' + ico + value + '</a>'));
-      $title.append(settings.subTitle);
-    }
-
-    // append tabs
-    var n = 0;
-    if(settings.tabs !== false){
-      var $tabs = $('<div class="nav nav-tabs"></div>');
-      for(var i in settings.tabs){
-        var $el = $('<a href="' + i + '" class="nav-tab">' + settings.tabs[i] + '</a>');
-        $tabs.append( $el );
-        n++;
-      }
-      $title.append($tabs);
-    }
-
-    // if value not added, as that in a wrapper
-    if(!settings.addATag){
-      $title.append('<div class="title-main">' + ico + value + '</div>');
-    }
-
-    //cache
-    app.currentPageTitle = ico + value;
-  };
-
-
-  /**
-   * Wrapper for getting page title
-   */
-  app.helpers.getTitle = function(){
-    return app.currentPageTitle;
-  };
 
 
   /********************************************************************************
@@ -14986,25 +14845,6 @@ $(document).ready(function(){
    ********************************************************************************/
 
 
-  /**
-   * returns a url to the image
-   */
-  app.parseImage = function(rawPath, type){
-    type = (typeof type == 'undefined' ? 'default' : type);
-    if(type == 'space'){
-      return 'theme/images/space.png';
-    }
-    //no image, return placeholder
-    if(rawPath === undefined || rawPath === ''){
-      if(type == 'fanart'){
-        return app.helpers.getDefaultImage(type);
-      }
-      return app.helpers.varGet('defaultImage');
-    }
-    return 'image/' + encodeURIComponent(rawPath);
-  };
-
-
 
   /**
    *  nl2br
@@ -15153,240 +14993,6 @@ $(document).ready(function(){
     defaultImage: 'theme/images/default.png'
   },
 
-  // fields to grab from xbmc
-  artistFields: [
-    "instrument",
-    "style",
-    "mood",
-    "born",
-    "formed",
-    "description",
-    "genre",
-    "died",
-    "disbanded",
-    "yearsactive",
-    "musicbrainzartistid",
-    "fanart",
-    "thumbnail"
-],
-  albumFields: [
-    "title",
-    "description",
-    "artist",
-    "genre",
-    "theme",
-    "mood",
-    "style",
-    "type",
-    "albumlabel",
-    "rating",
-    "year",
-    //"musicbrainzalbumid",
-    //"musicbrainzalbumartistid",
-    "fanart",
-    "thumbnail",
-    "playcount",
-    "genreid",
-    "artistid",
-    "displayartist"
-  ],
-  songFields: ["title",
-    "artist",
-    "albumartist",
-    "genre",
-    "year",
-    "rating",
-    "album",
-    "track",
-    "duration",
-    //"comment",
-    //"lyrics",
-    //"musicbrainztrackid",
-    //"musicbrainzartistid",
-    //"musicbrainzalbumid",
-    //"musicbrainzalbumartistid",
-    "playcount",
-    "fanart",
-    "thumbnail",
-    "file",
-    "albumid",
-    "lastplayed",
-    "disc",
-    "genreid",
-    "artistid",
-    "displayartist",
-    "albumartistid"
-  ],
-  movieFields: [
-    "title",
-    "genre",
-    "year",
-    "rating",
-    "director",
-    "trailer",
-    "tagline",
-    "plot",
-    "plotoutline",
-    "originaltitle",
-    "lastplayed",
-    "playcount",
-    "writer",
-    "studio",
-    "mpaa",
-    "cast",
-    "country",
-    "imdbnumber",
-    "runtime",
-    "set",
-    "showlink",
-    "streamdetails",
-    "top250",
-    "votes",
-    "fanart",
-    "thumbnail",
-    "file",
-    "sorttitle",
-    "resume",
-    "setid",
-    "dateadded",
-    "tag",
-    "art"
-  ],
-
-  tvshowFields: [
-    "title",
-    "genre",
-    "year",
-    "rating",
-    "plot",
-    "studio",
-    "mpaa",
-    "cast",
-    "playcount",
-    "episode",
-    "imdbnumber",
-    "premiered",
-    "votes",
-    "lastplayed",
-   // "fanart",
-    "thumbnail",
-    "file",
-    "originaltitle",
-    "sorttitle",
-    "episodeguide",
-    "season",
-    "watchedepisodes",
-    "dateadded",
-    "tag",
-    "art"
-  ],
-
-  tvepisodeFields: [
-    "title",
-    "plot",
-    "votes",
-    "rating",
-    "writer",
-    "firstaired",
-    "playcount",
-    "runtime",
-    "director",
-    "productioncode",
-    "season",
-    "episode",
-    "originaltitle",
-    "showtitle",
-    "cast",
-    "streamdetails",
-    "lastplayed",
-    "fanart",
-    "thumbnail",
-    "file",
-    "resume",
-    "tvshowid",
-    "dateadded",
-    "uniqueid",
-    "art"
-  ],
-
-  tvseasonFields: [
-    "season",
-    "showtitle",
-    "playcount",
-    "episode",
-    "fanart",
-    "thumbnail",
-    "tvshowid",
-    "watchedepisodes",
-    "art"
-  ],
-
-  fileFields: [
-    'title', 'size', 'mimetype', 'file', 'dateadded', 'thumbnail', 'artistid', 'albumid', 'uniqueid'
-  ],
-
-  playlistItemFields: [
-    "title",
-    "artist",
-    "albumartist",
-    "genre",
-    "year",
-    "rating",
-    "album",
-    "track",
-    "duration",
-    "playcount",
-    "director",
-    "tagline",
-    "plotoutline",
-    "originaltitle",
-    "lastplayed",
-    "mpaa",
-    "cast",
-    "country",
-    "imdbnumber",
-    "premiered",
-    "runtime",
-    "showlink",
-    "streamdetails",
-    "votes",
-    "firstaired",
-    "season",
-    "episode",
-    "showtitle",
-    "thumbnail",
-    "fanart",
-    "file",
-    "resume",
-    "artistid",
-    "albumid",
-    "tvshowid",
-    "setid",
-    "watchedepisodes",
-    "disc",
-    "tag",
-    "art",
-    "genreid",
-    "displayartist",
-    "albumartistid",
-    "description",
-    "theme",
-    "mood",
-    "style",
-    "albumlabel",
-    "sorttitle",
-    "uniqueid",
-    "dateadded",
-    "channel",
-    "channeltype",
-    "hidden",
-    "locked",
-    "channelnumber",
-    "starttime",
-    "endtime"
-  ],
-
-
   // filters
   albumFilters: [],
   songFilters: [],
@@ -15417,7 +15023,8 @@ $(document).ready(function(){
     "TvshowListItemView",
     "TvSeasonListItemView",
     "TvshowView",
-    "RemoteView"
+    "RemoteView",
+    "PvrChannelListItem"
   ],
 
   tpl: {} // for templates that are lazy loaded
@@ -15435,6 +15042,7 @@ app.Router = Backbone.Router.extend({
     "artist/:id/:task":         "artist",
     "artists":                  "artists",
     "album/:id":                "album",
+    "music/radio":              "pvr",
     "albums":                   "music",
     "mymusic":                  "music",
     "music/:page":              "music",
@@ -15452,11 +15060,12 @@ app.Router = Backbone.Router.extend({
     "movies":                   "moviesLanding",
     "mymovies":                 "moviesLanding",
     "movie/:id":                "movie",
-    "tvshows/page/:num/:sort":  "tvshows",
-    "tvshows":                  "tvshowsLanding",
+    "tv/page/:num/:sort":       "tvshows",
+    "tv":                       "tvshowsLanding",
+    "tv/live":                  "pvr",
     "mytv":                     "tvshowsLanding",
-    "tvshows/:tag/:id":         "tvshowTag",
-    "tvshows/:tag":             "tvshowTag",
+    "tv/:tag/:id":              "tvshowTag",
+    "tv/:tag":                  "tvshowTag",
     "tvshow/:id":               "tvshow",
     "tvshow/:tvid/:seas":       "season",
     "tvshow/:tv/:s/:e":         "episode",
@@ -15496,7 +15105,7 @@ app.Router = Backbone.Router.extend({
     this.$content.html('');
 
     // title
-    app.helpers.setTitle('');
+    app.ui.setTitle('');
 
     // menu
     app.shellView.selectMenuItem('home', 'no-sidebar');
@@ -15514,7 +15123,7 @@ app.Router = Backbone.Router.extend({
     // Add Backstretch it doesnt exist
     if($('.backstretch').length === 0){
       // on initial page load this will be empty but if playing, state will be updated onPlay
-      var fa = app.parseImage(backstretchImage, 'fanart');
+      var fa = app.image.url(backstretchImage, 'fanart');
       $.backstretch(fa);
     }
 
@@ -15538,9 +15147,15 @@ app.Router = Backbone.Router.extend({
    * @param q
    */
   searchLanding: function (q) {
-    this.$content.html('<div class="loading-box">Type to search</div>');
-    app.shellView.selectMenuItem('search', 'no-sidebar');
-    $('#search').focus();
+    var $s = $('#search');
+    if($s.val().length > 0){
+      app.shellView.search($s.val());
+    } else {
+      this.$content.html('<div class="loading-box">Type to search</div>');
+      app.shellView.selectMenuItem('search', 'no-sidebar');
+      $s.focus();
+    }
+
   },
 
 
@@ -15557,19 +15172,19 @@ app.Router = Backbone.Router.extend({
       task = 'view';
     }
 
-    this.$content.html('<div class="loading-box">Loading Artist</div>');
+    app.ui.setLoading('Artist');
 
     app.artistsView = new app.ArtistsView();
     app.artistsView.render();
 
-    var artist = new app.Artist({"id": parseInt(id), "fields":app.artistFields}),
+    var artist = new app.Artist({"id": parseInt(id), "fields":app.fields.get('artist')}),
           self = this;
 
     artist.fetch({
       success: function (data) {
 
         self.$content.html(new app.ArtistView({model: data}).render().el);
-        app.helpers.setTitle('Artists', {addATag: '#artists', icon: 'microphone', subTitle: data.attributes.artist});
+        app.ui.setTitle('Artists', {addATag: '#artists', icon: 'microphone', subTitle: data.attributes.artist});
 
         // set menu
         app.shellView.selectMenuItem('artists', 'sidebar');
@@ -15591,7 +15206,7 @@ app.Router = Backbone.Router.extend({
     $('#content').html($el);
 
     // title
-    app.helpers.setTitle('Artists', {addATag: '#artists', icon: 'microphone'});
+    app.ui.setTitle('Artists', {addATag: '#artists', icon: 'microphone'});
 
     // set menu
     app.shellView.selectMenuItem('artists', 'sidebar');
@@ -15603,6 +15218,8 @@ app.Router = Backbone.Router.extend({
    * @param id
    */
   album: function (id) {
+
+    app.ui.setLoading('Album');
 
     // get album
     var model = {'attributes': {"albumid" : id}};
@@ -15638,17 +15255,12 @@ app.Router = Backbone.Router.extend({
     if(id !== undefined){
       m.id = id;
     } else {
-      this.$content.html('<div class="loading-box">Loading Music</div>');
-      app.helpers.setFirstSidebarContent('');
+      app.ui.setLoading('Playlist', true);
     }
-    // Set page state
-    app.helpers.setTitle('Music', {addATag:"#mymusic"});
-    app.shellView.selectMenuItem('music', 'sidebar');
 
     // menu
     app.filters.renderFilters('music');
     $('.music-filters').addClass('active-' + page);
-
 
     // pass the page to musicView to do rendering
     app.cached.musicView = new app.MusicView({model: m});
@@ -15667,7 +15279,7 @@ app.Router = Backbone.Router.extend({
     app.cached.fileCollection.fetch({'name': 'sources', 'success': function(sources){
 
       // title / menu
-      app.helpers.setTitle('Files', {addATag: '#files', icon: 'align-justify', subTitle: '<span id="folder-name"></span>'});
+      app.ui.setTitle('Files', {addATag: '#files', icon: 'align-justify', subTitle: '<span id="folder-name"></span>'});
       app.shellView.selectMenuItem('files', 'sidebar');
 
       // the view writes to content,
@@ -15685,16 +15297,19 @@ app.Router = Backbone.Router.extend({
    */
   playlist: function(id){
 
+    var self = this;
+    app.ui.setLoading('Playlist');
+
     app.cached.playlistCustomListSongCollection = new app.PlaylistCustomListSongCollection();
     app.cached.playlistCustomListSongCollection.fetch({"name":id, "success": function(res){
 
       // render page
       app.cached.customPlaylistSongListView = new app.CustomPlaylistSongListView({"model":res});
-      $('#content').html(app.cached.customPlaylistSongListView.render().el);
+      self.$content.html(app.cached.customPlaylistSongListView.render().el);
 
       // set title
       var list = app.playlists.getCustomPlaylist(id);
-      app.helpers.setTitle('Playlist', {addATag: '#playlist/' + list.id, icon: 'music', subTitle: list.name});
+      app.ui.setTitle('Playlist', {addATag: '#playlist/' + list.id, icon: 'music', subTitle: list.name});
 
       // set menu
       app.shellView.selectMenuItem('playlist', 'no-sidebar');
@@ -15708,7 +15323,7 @@ app.Router = Backbone.Router.extend({
    * playlists
    */
   playlists: function(){
-    app.helpers.setTitle('Playlists');
+    app.ui.setTitle('Playlists');
     // set menu
     app.shellView.selectMenuItem('playlists', 'no-sidebar');
   },
@@ -15762,6 +15377,7 @@ app.Router = Backbone.Router.extend({
 
     // change the hash without triggering the router (for back action)
     app.router.navigate('movies/page/' + num + '/' + sort);
+
     // remember last sort setting
     app.settings.set('movieSort', sort);
 
@@ -15769,11 +15385,8 @@ app.Router = Backbone.Router.extend({
     if(isNewPage === true){
 
       // Loading
-      $content.html('<div class="loading-box">Loading Movies</div>');
+      app.ui.setLoading('Movies', true);
       app.helpers.setFirstSidebarContent('');
-
-      // set title and add some tabs
-      app.helpers.setTitle('Movies', {addATag: '#mymovies', icon: 'film', subTitle: 'All Movies'});
 
       // set menu
       app.shellView.selectMenuItem('movies', 'sidebar');
@@ -15862,16 +15475,16 @@ app.Router = Backbone.Router.extend({
   moviesLanding: function () {
 
     var self = this;
-    app.helpers.setTitle('Movies', {addATag: '#mymovies', icon: 'film', subTitle: 'Recently Added'});
 
     // loading
-    self.$content.html('<div class="loading-box">Loading Movies</div>');
+    app.ui.setLoading('Movies', true);
 
     // get recent collection
     app.movieRecentCollection = new app.MovieRecentCollection();
     app.movieRecentCollection.fetch({"success": function(collection){
 
       app.cached.movieListView = new app.MovieListView({model: collection});
+
       // render
       self.$content.html(app.cached.movieListView.render().$el);
 
@@ -15883,13 +15496,13 @@ app.Router = Backbone.Router.extend({
 
       // no pagination
       self.$content.find('.next-page').remove();
+
       // change class
       self.$content.find('ul').removeClass('movie-page-list').addClass('movie-recent-list');
 
-      // set menu
-      app.shellView.selectMenuItem('movies', 'sidebar');
       // lazyload
       app.image.triggerContentLazy();
+
       // scroll to top
       $(window).scrollTo(0);
     }});
@@ -15904,11 +15517,10 @@ app.Router = Backbone.Router.extend({
   moviesTag: function (tag, id) {
 
     app.cached.movieTagView = new app.MovieTagListView({model: {type: 'movie', tag: tag, id: id}});
-    app.helpers.setTitle('Movies', {addATag: '#mymovies', icon: 'film'});
 
     if(id === undefined){
       // Loading
-      this.$content.html('<div class="loading-box">Loading Movies</div>');
+      app.ui.setLoading('Movies', true);
       // Full list
       app.cached.movieTagView.render();
     } else {
@@ -15952,14 +15564,14 @@ app.Router = Backbone.Router.extend({
     var movie = new app.Movie({"id": parseInt(id)}),
       self = this;
 
-    self.$content.html('<div class="loading-box">Loading Movie</div>');
+    app.ui.setLoading('Movie');
 
     movie.fetch({
       success: function (data) {
         // render content
         self.$content.html(new app.MovieView({model: data}).render().el);
 
-        app.helpers.setTitle('Movies', {
+        app.ui.setTitle('Movies', {
           addATag: '#mymovies',
           icon: 'film',
           subTitle: data.attributes.title + ' <span>' + data.attributes.year + '</span>'
@@ -15983,9 +15595,7 @@ app.Router = Backbone.Router.extend({
     var $content = $('#content');
 
     // set menu
-    app.shellView.selectMenuItem('tvshows', 'no-sidebar');
-    $content.html('<div class="loading-box">Loading TV Shows</div>');
-    app.helpers.setTitle('TVShows', { addATag: '#tvshows', icon: 'desktop', subTitle: 'All TV' });
+    app.ui.setLoading('TV Shows', true);
 
     // init the collection
     app.cached.tvCollection = new app.TvshowAllCollection();
@@ -16000,7 +15610,6 @@ app.Router = Backbone.Router.extend({
       // filters
       $content.prepend(app.filters.renderFilters('tvshow'));
 
-
       // lazyload
       app.image.triggerContentLazy();
 
@@ -16013,9 +15622,7 @@ app.Router = Backbone.Router.extend({
     var $content = $('#content');
 
     // set menu
-    app.shellView.selectMenuItem('tvshows', 'no-sidebar');
-    $content.html('<div class="loading-box">Loading TV Shows</div>');
-    app.helpers.setTitle('TVShows', { addATag: '#tvshows', icon: 'desktop', subTitle: 'Recently Added' });
+    app.ui.setLoading('TV Shows', true);
 
     // init the collection
     app.cached.recentTvCollection = new app.RecentTvepisodeCollection();
@@ -16047,11 +15654,10 @@ app.Router = Backbone.Router.extend({
   tvshowTag: function (tag, id) {
 
     app.cached.tvTagView = new app.TvshowTagListView({model: {type: 'tvshow', tag: tag, id: id}});
-    app.helpers.setTitle('TV', {addATag: '#tvshows', icon: 'desktop'});
 
     if(id === undefined){
       // Loading
-      this.$content.html('<div class="loading-box">Loading TV</div>');
+      app.ui.setLoading('TV', true);
       // Full list
       app.cached.tvTagView.render();
     } else {
@@ -16071,14 +15677,16 @@ app.Router = Backbone.Router.extend({
     var tv = new app.TVShow({"id": parseInt(id)}),
       self = this;
 
-    self.$content.html('<div class="loading-box">Loading TV Show</div>');
+    app.ui.setLoading('TV Show');
 
     tv.fetch({
       success: function (data) {
 
         // render content
         self.$content.html(new app.TvshowView({model: data}).render().el);
-        app.helpers.setTitle('TVShows', { addATag: '#tvshows', icon: 'desktop', subTitle: data.attributes.label });
+
+        // title
+        app.ui.setTitle('TVShows', { addATag: '#mytv', icon: 'desktop', subTitle: data.attributes.label });
 
         // set menu
         app.shellView.selectMenuItem('tvshow', 'sidebar');
@@ -16098,7 +15706,7 @@ app.Router = Backbone.Router.extend({
     var tv = new app.TVShow({"id": parseInt(tvshowid)}),
       self = this;
 
-    self.$content.html('<div class="loading-box">Loading TV Show</div>');
+    app.ui.setLoading('Season');
 
     tv.fetch({
       success: function (data) {
@@ -16119,7 +15727,7 @@ app.Router = Backbone.Router.extend({
 
         // render content
         self.$content.html(new app.TvshowView({model: data}).render().el);
-        app.helpers.setTitle( '<i class="fa fa-desktop"></i>' +
+        app.ui.setTitle( '<i class="fa fa-desktop"></i>' +
           '<a href="#tvshow/' + data.attributes.tvshowid + '">' + data.attributes.label + '</a>Season ' + season);
 
         // set menu
@@ -16140,10 +15748,12 @@ app.Router = Backbone.Router.extend({
     var tv = new app.TVEpisode({"id": parseInt(episodeid)}),
       self = this;
 
-    self.$content.html('<div class="loading-box">Loading TV Show</div>');
+    app.ui.setLoading('Episode');
 
     tv.fetch({
       success: function (data) {
+
+        var ep = data.attributes;
 
         // force ep view
         data.attributes.type = 'episode';
@@ -16154,9 +15764,11 @@ app.Router = Backbone.Router.extend({
         self.$content.html(new app.TvshowView({model: data}).render().el);
 
         // title
-        app.helpers.setTitle( '<i class="fa fa-desktop"></i>' +
-          '<a href="#tvshow/' + data.attributes.tvshowid + '">' + data.attributes.showtitle + '  Season ' + season + '</a>' +
-          'E' + data.attributes.episode + '. ' + data.attributes.label);
+        app.ui.setTitle(ep.showtitle + '  Season ' + season, {
+          addATag: '#tvshow/' + ep.tvshowid,
+          icon: 'desktop',
+          subTitle: 'E' + ep.episode + '. ' + ep.label
+        });
 
         // set menu
         app.shellView.selectMenuItem('tvshow', 'sidebar');
@@ -16168,13 +15780,45 @@ app.Router = Backbone.Router.extend({
 
 
   /**
+   * PVR
+   *
+   *  tv or radio
+   */
+  pvr: function(){
+
+    var self = this,
+      pvrType = app.pvr.getTypeFromPath();
+
+    app.ui.setLoading(pvrType.niceName + ' channels', true);
+
+    // get channels
+    app.cached.pvrChannelCollection = new app.PvrChannelCollection();
+    app.cached.pvrChannelCollection.fetch({"type": pvrType.type, "success": function(collection){
+
+      // render view
+      app.cached.pvrChannelsView = new app.PvrChannelsView({model: collection});
+      self.$content.html(app.cached.pvrChannelsView.render().$el);
+
+      // filters
+      self.$content.prepend(app.filters.renderFilters(pvrType.filters));
+
+    }});
+
+
+
+  },
+
+
+
+
+  /**
    * Toggle Remote control
    */
   remoteControl: function(){
     // Set Player
     app.playlists.changePlaylistView('xbmc');
     // set title
-    app.helpers.setTitle('Remote');
+    app.ui.setTitle('Remote');
     // set menu
     app.shellView.selectMenuItem('remote', 'no-sidebar');
   },
@@ -16196,7 +15840,7 @@ app.Router = Backbone.Router.extend({
       app.notification('Started ' + type + ' Scan');
       app.shellView.selectMenuItem('scan', 'no-sidebar');
       self.$content.html('<div class="loading-box">Scanning ' + type + ' library</div>');
-      app.helpers.setTitle('<i class="fa fa-refresh"></i> ' + type + ' scan');
+      app.ui.setTitle('<i class="fa fa-refresh"></i> ' + type + ' scan');
     });
 
   },
@@ -16212,7 +15856,7 @@ app.Router = Backbone.Router.extend({
     $('#content').html(app.cached.xbmcView.render().$el);
 
     // set title
-    app.helpers.setTitle('<a href="#xbmc/home">XBMC</a>');
+    app.ui.setTitle('XBMC', {addATag: '#xbmc/home'});
 
     // set menu
     app.shellView.selectMenuItem('xbmc', 'no-sidebar');
@@ -16250,7 +15894,267 @@ $(document).on("ready", function () {
 
 
 });
-;app.filters = {
+;/**
+ * All core XBMC fields, used when retrieving collections
+ * can be used to tweak performance but limit functionality
+ *
+ * @type {{}}
+ */
+
+app.fields = {
+
+  get: function(type){
+    if(app.fields.data[type] !== undefined){
+      return app.fields.data[type];
+    }
+    return [];
+  },
+
+  data: {
+    // fields to grab from xbmc
+    artist: [
+      "instrument",
+      "style",
+      "mood",
+      "born",
+      "formed",
+      "description",
+      "genre",
+      "died",
+      "disbanded",
+      "yearsactive",
+      "musicbrainzartistid",
+      "fanart",
+      "thumbnail"
+    ],
+    album: [
+      "title",
+      "description",
+      "artist",
+      "genre",
+      "theme",
+      "mood",
+      "style",
+      "type",
+      "albumlabel",
+      "rating",
+      "year",
+      "fanart",
+      "thumbnail",
+      "playcount",
+      "genreid",
+      "artistid",
+      "displayartist"
+    ],
+    song: ["title",
+      "artist",
+      "albumartist",
+      "genre",
+      "year",
+      "rating",
+      "album",
+      "track",
+      "duration",
+      "playcount",
+      "fanart",
+      "thumbnail",
+      "file",
+      "albumid",
+      "lastplayed",
+      "disc",
+      "genreid",
+      "artistid",
+      "displayartist",
+      "albumartistid"
+    ],
+    movie: [
+      "title",
+      "genre",
+      "year",
+      "rating",
+      "director",
+      "trailer",
+      "tagline",
+      "plot",
+      "plotoutline",
+      "originaltitle",
+      "lastplayed",
+      "playcount",
+      "writer",
+      "studio",
+      "mpaa",
+      "cast",
+      "country",
+      "imdbnumber",
+      "runtime",
+      //"set",
+      "showlink",
+      "streamdetails",
+      //"top250",
+      "votes",
+      "fanart",
+      "thumbnail",
+      "file",
+      "sorttitle",
+      "resume",
+      //"setid",
+      "dateadded",
+      "tag",
+      "art"
+    ],
+
+    tvshow: [
+      "title",
+      "genre",
+      "year",
+      "rating",
+      "plot",
+      "studio",
+      "mpaa",
+      "cast",
+      "playcount",
+      "episode",
+      "imdbnumber",
+      "premiered",
+      "votes",
+      "lastplayed",
+      // "fanart",
+      "thumbnail",
+      "file",
+      "originaltitle",
+      "sorttitle",
+      "episodeguide",
+      "season",
+      "watchedepisodes",
+      "dateadded",
+      "tag",
+      "art"
+    ],
+
+    tvepisode: [
+      "title",
+      "plot",
+      "votes",
+      "rating",
+      "writer",
+      "firstaired",
+      "playcount",
+      "runtime",
+      "director",
+      "productioncode",
+      "season",
+      "episode",
+      "originaltitle",
+      "showtitle",
+      "cast",
+      "streamdetails",
+      "lastplayed",
+      "fanart",
+      "thumbnail",
+      "file",
+      "resume",
+      "tvshowid",
+      "dateadded",
+      "uniqueid",
+      "art"
+    ],
+
+    tvseason: [
+      "season",
+      "showtitle",
+      "playcount",
+      "episode",
+      "fanart",
+      "thumbnail",
+      "tvshowid",
+      "watchedepisodes",
+      "art"
+    ],
+
+    file: [
+      'title',
+      'size',
+      'mimetype',
+      'file',
+      'dateadded',
+      'thumbnail',
+      'artistid',
+      'albumid',
+      'uniqueid'
+    ],
+
+    playlistItem: [
+      "title",
+      "artist",
+      "albumartist",
+      "genre",
+      "year",
+      "rating",
+      "album",
+      "track",
+      "duration",
+      "playcount",
+      "director",
+      "tagline",
+      "plotoutline",
+      "originaltitle",
+      "lastplayed",
+      "mpaa",
+      "cast",
+      "country",
+      "imdbnumber",
+      "premiered",
+      "runtime",
+      "showlink",
+      "streamdetails",
+      "votes",
+      "firstaired",
+      "season",
+      "episode",
+      "showtitle",
+      "thumbnail",
+      "fanart",
+      "file",
+      "resume",
+      "artistid",
+      "albumid",
+      "tvshowid",
+      "watchedepisodes",
+      "disc",
+      "tag",
+      "art",
+      "genreid",
+      "displayartist",
+      "albumartistid",
+      "description",
+      "theme",
+      "mood",
+      "style",
+      "albumlabel",
+      "sorttitle",
+      "uniqueid",
+      "dateadded",
+      "channel",
+      "channeltype",
+      "hidden",
+      "locked",
+      "channelnumber",
+      "starttime",
+      "endtime"
+    ],
+
+    channel: [
+      "thumbnail",
+      "channeltype",
+      "hidden",
+      "locked",
+      "channel",
+      "lastplayed"
+    ]
+  }
+
+
+};;app.filters = {
 
   movieLastSort: 'title:ascending',
   tvshowLastSort: 'title:ascending',
@@ -16288,22 +16192,22 @@ $(document).on("ready", function () {
   },
 
   tvshowFilters: {
-    title: 'TV Show',
-    basePath: '#tvshows/page/',
+    title: 'TV',
+    basePath: '#tv/page/',
     video: true,
     paths: [{
       title: 'Recently Added',
-      path: 'tvshows',
+      path: 'tv',
       argOne: '',
       key: 'recent'
     }, {
       title: 'All TV',
-      path: 'tvshows/page/0/title:ascending',
+      path: 'tv/page/0/title:ascending',
       argOne: 'page',
       key: 'all'
     },{
       title: 'Genres',
-      path: 'tvshows/genreid',
+      path: 'tv/genreid',
       argOne: 'genreid',
       key: 'genreid'
     }],
@@ -16347,9 +16251,25 @@ $(document).on("ready", function () {
     }]
   },
 
+  /**
+   * Get all filters for a type
+   *
+   * @param type
+   * @returns {*}
+   */
+  getFilters: function(type){
+    return app.filters[type + 'Filters'];
+  },
 
-
-
+  /**
+   * Add a path to a filter
+   *
+   * @param type
+   * @param pathObj
+   */
+  addFilterPath: function(type, pathObj){
+    app.filters[type + 'Filters'].paths.push(pathObj);
+  },
 
   /**
    * Creates a filter bar give a type/structure
@@ -16362,13 +16282,18 @@ $(document).on("ready", function () {
     // is a sidebar filter
     var side = (type == 'music' ? 'sidebar-' : '');
 
+    // menu
+    app.shellView.selectMenuItem(type + (type != 'music' ? 's' : ''), 'sidebar');
+
     // make our containers and get structure
     var $container = $('<div/>', {class: side + 'filter-wrapper ' + type + '-filters'}),
       $links = $('<div/>', {class: 'links'}),
       $sort = $('<div/>', {class: 'sort-wrapper dropdown'}),
-      structure = app.filters[type + 'Filters'],
+      structure = app.filters.getFilters(type),
       sort = app.helpers.getSort(),
-      $body = $('body');
+      $body = $('body'),
+      pageTitle = '';
+
 
     // tabs/links/sidebar
     $.each(structure.paths, function(i,d){
@@ -16377,6 +16302,7 @@ $(document).on("ready", function () {
         active = (act ? ' active' : '');
       if(act){
         $container.addClass('active-tab-' + d.key);
+        pageTitle = d.title;
       }
       // append link
       $links.append($('<a href="#' + d.path + '" class="btn sublink-' + d.key + active + '">' + d.title + '</a>'));
@@ -16432,6 +16358,13 @@ $(document).on("ready", function () {
     // menu
     app.helpers.setFirstSidebarContent($links);
 
+    // title
+    app.ui.setTitle(structure.title, {
+      addATag: document.location.hash,
+      icon: app.image.getIcon(type),
+      subTitle: pageTitle
+    });
+
     return $container;
   },
 
@@ -16455,15 +16388,112 @@ $(document).on("ready", function () {
 app.image = {
 
 
+  /**
+   * Entity Icons
+   */
+  icons: {
+    music: 'music',
+    video: 'film',
+    song: 'music',
+    artist: 'microphone',
+    album: 'th-large',
+    tvshow: 'desktop',
+    movie: 'film'
+  },
+
 
   /**
-   * Gets a random fanart from a collection of models (with fanart)
+   * Get a generic logo/icon
    *
-   * @param models
-   *  collection
-   * @returns {*|jQuery|HTMLElement}
-   *  renderable element
+   * @param type
+   *  entity type
+   * @param tag
+   *  bool, true = tag is rendered
+   * @returns {string}
+   *  fallback to cloud
    */
+  getIcon: function(type, tag){
+    tag = (tag !== undefined && tag === true);
+    var ico = (this.icons[type] !== undefined ? this.icons[type] : 'cloud');
+    if(tag){
+      return '<i class="fa fa-' + ico + ' entity-icon"></i>';
+    }
+    return ico;
+  },
+
+
+  /**
+  * Builds a url to an image from a given path, if empty returns default image
+  *
+  * @param rawPath
+  * @param type
+  * @returns {*}
+  */
+  url: function(rawPath, type){
+    type = (typeof type == 'undefined' ? 'default' : type);
+    if(type == 'space'){
+      return 'theme/images/space.png';
+    }
+    //no image, return placeholder
+    if(rawPath === undefined || rawPath === ''){
+      return app.image.defaultImage(type);
+    }
+    // return image with correct path
+    return app.settings.get('basePath', '/') + 'image/' + encodeURIComponent(rawPath);
+  },
+
+
+  /**
+  * Default fanart
+  *
+  * @param type
+  * @returns {string}
+  */
+  defaultImage: function(type){
+
+    var img = '';
+    if(type == 'fanart'){
+      // @TODO move elsewhere
+      var files = [
+          'wallpaper-443657.jpg',
+          'wallpaper-45040.jpg',
+          'wallpaper-765190.jpg',
+          'wallpaper-84050.jpg'
+        ],
+        random = files[app.helpers.getRandomInt(0, (files.length - 1))];
+
+      // return random
+      img = 'theme/images/fanart_default/' + random;
+    } else {
+      // return default
+      img = app.helpers.varGet('defaultImage');
+    }
+
+    return img;
+
+  },
+
+
+  /**
+  * Is default image
+  *
+  * @param img
+  * image path
+  * @returns {boolean}
+  */
+  isDefaultImage: function(img){
+    return (app.helpers.varGet('defaultImage') == img);
+  },
+
+
+  /**
+  * Gets a random fanart from a collection of models (with fanart)
+  *
+  * @param models
+  *  collection
+  * @returns {*|jQuery|HTMLElement}
+  *  renderable element
+  */
   getFanartFromCollection: function(models){
 
     var self = this, m, arts = [],
@@ -16482,7 +16512,7 @@ app.image = {
 
     if(arts.length > 0){
       arts = app.helpers.shuffle(arts);
-      $art.append($('<img />', {src: app.parseImage(arts[0].fanart)}));
+      $art.append($('<img />', {src: app.image.url(arts[0].fanart)}));
     }
 
     $('#content').prepend($art);
@@ -16492,18 +16522,59 @@ app.image = {
 
 
   /**
-   * Trigger lazyload on content items
-   */
+  * Trigger lazyload on content items
+  */
   triggerContentLazy: function(){
     _.defer(function(){
       $('#content').find('img').lazyload({threshold : 200});
       $(window).trigger('scroll');
     });
+  },
+
+
+  /**
+  * Freewall Layout
+  * @param selector
+  */
+  addFreewall: function(selector){
+    var wall = new freewall(selector);
+    wall.reset({
+      selector: 'li',
+      animate: false,
+      cellW: 160,
+      cellH: '230',
+      gutterY: 15,
+      gutterX: 15,
+      onResize: function() {
+        wall.fitWidth();
+      }
+    });
+    wall.fitWidth();
+  },
+
+
+  /**
+  * Freewall Poster Layout
+  * @param selector
+  */
+  addPosterFreewall: function(selector){
+    var wall = new freewall(selector);
+    wall.reset({
+      selector: 'li',
+      animate: false,
+      cellW: 170,
+      cellH: '305',
+      gutterY: 15,
+      gutterX: 15,
+      onResize: function() {
+        wall.fitWidth();
+      }
+    });
+    wall.fitWidth();
   }
 
+
 };
-
-
 ;/**
  * Helper functionality for creating paginated pages
  */
@@ -16650,6 +16721,7 @@ app.settings = {
    */
   defaultSettings: {
     init: true,
+    basePath: '/',
     hideWatched: false,
     lastPlayer: 'xbmc',
     movieSort: 'title:ascending'
@@ -16700,7 +16772,96 @@ app.settings = {
 
 
 
-};;
+};;/**
+ * UI helpers
+ */
+
+
+app.ui = {
+
+  setLoading: function(text, sidebar){
+
+    // empty sidebar?
+    sidebar = (sidebar !== undefined && sidebar === true);
+    if(sidebar){
+      app.helpers.setFirstSidebarContent('');
+    }
+
+    // content
+    $('#content').html('<div class="loading-box">Loading ' + text + '</div>');
+
+    // title
+    app.ui.setTitle('Loading', { addATag: '#', icon: 'refresh'});
+
+  },
+
+
+  /**
+   * Wrapper for setting page title
+   *
+   * @param value
+   * @param options
+   *   tabs = {url:title, url:title}
+   *   addATag = wraps the value in an a tag
+   */
+  setTitle: function(value, options){
+    var defaults = {
+      addATag: false,
+      tabs: false,
+      activeTab: 0,
+      subTitle: '',
+      icon: false
+    };
+
+    var settings = $.extend(defaults,options),
+      $title = $('#title'), ico = '';
+
+    $title.empty();
+
+    if(settings.icon !== false){
+      ico = '<i class="fa fa-' + settings.icon + '"></i> ';
+    }
+
+    // add <a> tag if set
+    if(settings.addATag){
+      $title.append($('<a class="title-sub" href="' + settings.addATag + '">' + ico + value + '</a>'));
+      $title.append(settings.subTitle);
+    }
+
+    // append tabs - DEPRECATED see filter.js @todo remove
+    var n = 0;
+    if(settings.tabs !== false){
+      var $tabs = $('<div class="nav nav-tabs"></div>');
+      for(var i in settings.tabs){
+        var $el = $('<a href="' + i + '" class="nav-tab">' + settings.tabs[i] + '</a>');
+        $tabs.append( $el );
+        n++;
+      }
+      $title.append($tabs);
+    }
+
+    // if value not added, as that in a wrapper
+    if(!settings.addATag){
+      $title.append('<div class="title-main">' + ico + value + '</div>');
+    }
+
+    //cache
+    app.currentPageTitle = ico + value;
+
+  },
+
+
+  /**
+   * Wrapper for getting page title
+   */
+  getTitle: function(){
+    return app.currentPageTitle;
+  }
+
+};
+
+
+;
 /**
  * Artist
  * @type {extend|*}
@@ -16814,7 +16975,7 @@ app.Tag = Backbone.Model.extend({
 ;
 
 /**
- * Album
+ * File
  * @type {extend|*}
  */
 app.File = Backbone.Model.extend({
@@ -16825,6 +16986,32 @@ app.File = Backbone.Model.extend({
   sync: function(method, model, options) {
     if (method === "read") {
       // options.success(data);
+    }
+  }
+
+});
+;
+
+/**
+ * Channel
+ * @type {extend|*}
+ */
+app.PvrChannel = Backbone.Model.extend({
+
+  initialize:function () {},
+  defaults: {
+    "thumbnail": null,
+    "channeltype": null,
+    "hidden": null,
+    "locked": null,
+    "channel": null,
+    "lastplayed": null,
+    "channelid": 0
+  },
+
+  sync: function(method, model, options) {
+    if (method === "read") {
+
     }
   }
 
@@ -16860,7 +17047,7 @@ app.Movie = Backbone.Model.extend({
   sync: function(method, model, options) {
     if (method === "read") {
 
-      app.xbmcController.command('VideoLibrary.GetMovieDetails',[parseInt(this.id), app.movieFields], function(data){
+      app.xbmcController.command('VideoLibrary.GetMovieDetails',[parseInt(this.id), app.fields.get('movie')], function(data){
         var m = data.result.moviedetails;
         // get thumbsup
         m.thumbsup = app.playlists.getThumbsUp('movie', m.movieid);
@@ -16888,7 +17075,7 @@ app.TVShow = Backbone.Model.extend({
       // options.success(data);
 
       // add fanart to full load
-      var fields = app.tvshowFields;
+      var fields = app.fields.get('tvshow');
       if($.inArray('fanart', fields) == -1){
         fields.push('fanart');
       }
@@ -16929,7 +17116,7 @@ app.TVEpisode = Backbone.Model.extend({
     if (method === "read") {
       // options.success(data);
 
-      app.xbmcController.command('VideoLibrary.GetEpisodeDetails',[parseInt(this.id), app.tvepisodeFields], function(data){
+      app.xbmcController.command('VideoLibrary.GetEpisodeDetails',[parseInt(this.id), app.fields.get('tvepisode')], function(data){
         var m = data.result.episodedetails;
         // get thumbsup
         m.thumbsup = app.playlists.getThumbsUp('episode', m.episodeid);
@@ -17439,7 +17626,7 @@ app.AudioController.getNowPlayingSong = function(callback, forceFull){
 
   // fields to get
   var fields = {
-    item: app.playlistItemFields,
+    item: app.fields.get('playlistItem'),
     player: [ "playlistid", "speed", "position", "totaltime", "time", "percentage", "shuffled", "repeat", "canrepeat", "canshuffle", "canseek", "partymode" ]
   };
   var ret = {'status':'notPlaying'},
@@ -18070,7 +18257,7 @@ app.audioStreaming = {
 
   updatePlayingState: function(song){
     // image
-    $('#browser-playing-thumb').attr('src', app.parseImage(song.thumbnail));
+    $('#browser-playing-thumb').attr('src', app.image.url(song.thumbnail));
     // title
     $('.browser-playing-song-title').html(song.label);
     $('.browser-playing-song-meta').html(song.artist[0]);
@@ -18411,6 +18598,83 @@ app.audioStreaming = {
     // save
     app.audioStreaming.setPlaylistItems(collection);
     app.audioStreaming.renderPlaylistItems();
+  }
+
+};
+
+;/**
+ * Handle all keyboard requests of significance
+ */
+
+
+/**
+ * Keys allowed only after shell ready
+ */
+$(window).on('shellReady', function(){
+  app.keymap.init();
+});
+
+
+/**
+ * Keymap obj
+ * @type {*}
+ */
+app.keymap = {
+
+  /**
+   * Ready for keyboard commands
+   */
+  init: function(){
+
+    $(document).keydown(function(e){
+      app.keymap.execute(e);
+    });
+
+  },
+
+
+  /**
+   * Bind key to controller / mapping
+   * @param e
+   */
+  execute: function(e){
+
+    // not searching
+    // @todo maybe change to input:focus
+    if($(e.target).is("input, textarea")){
+      return;
+    }
+
+    var controller = app.xbmcController;
+
+    switch (e.which) {
+      case 37: // left
+        controller.input('Left');
+        break;
+      case 38: // up
+        controller.input('Up');
+        break;
+      case 39: // right
+        controller.input('Right');
+        break;
+      case 40: // down
+        controller.input('Down');
+        break;
+      case 8: // backspace
+        controller.input('Back');
+        break;
+      case 13: // enter
+        controller.input('Select');
+        break;
+      case 67: // c
+        controller.input('ContextMenu');
+        break;
+      default:
+        return;
+    }
+
+    //success!
+    e.preventDefault();
   }
 
 };
@@ -19477,7 +19741,7 @@ app.playlists.getXbmcPlaylist = function(playlistId, callback){
   app.xbmcController.command('Playlist.GetItems',
     [
       playlistId,
-      app.playlistItemFields
+      app.fields.get('playlistItem')
     ], function(result){
       var res = result.result;
       // set playlistId on models and collection
@@ -19718,6 +19982,117 @@ app.playlists.getNowPlaying = function(key){
 
 };
 ;/**
+ * Talk to the PVR
+ * @type {{}}
+ */
+
+//$(window).on('shellReady', function(){
+//  app.pvr.setIsEnabled(function(enabled){
+//    if(enabled){
+//      app.pvr.addPaths();
+//    }
+//  });
+//});
+
+_.defer(function(){
+  app.pvr.setIsEnabled(function(enabled){
+    if(enabled){
+      app.pvr.addPaths();
+    }
+  });
+});
+
+app.pvr = {
+
+  types: ['tv', 'radio'],
+
+  limits: {start: 0, end: 5000},
+
+  enabled: false,
+
+
+  playChannel: function(channelid, callback){
+    var params = [{channelid: channelid}];
+    app.xbmcController.command('Player.Open', params, function(res){
+      callback(res);
+    });
+  },
+
+  /**
+   * Set if pvr is enabled
+   */
+  setIsEnabled: function(callback){
+    var params = ['xbmc.pvrclient', 'unknown', true];
+    app.xbmcController.command('Addons.GetAddons', params, function(res){
+      app.pvr.enabled = (res.result.addons !== undefined);
+      callback(app.pvr.enabled);
+    });
+  },
+
+
+  getAllChannels: function(group, callback){
+
+    // lookup
+    app.pvr.getChannelGroups(type, function(groups){
+      $.each(groups, function(i,d){
+        app.pvr.getChannels(d.id, function(channels){
+          groups[i].channels = channels;
+        });
+      });
+    });
+
+  },
+
+  getTypeFromPath: function(){
+    var ret = {type: 'alltv', filters: 'tvshow', niceName: 'LiveTV'};
+    if(app.helpers.arg(1) == 'radio'){
+      // Radio
+      ret = {
+        type: 'allradio',
+        filters: 'music',
+        niceName: 'Radio'
+      };
+    }
+    return ret;
+  },
+
+
+  getChannels: function(group, callback){
+
+    // lookup
+    app.xbmcController.command('PVR.GetChannels', [group, app.fields.get('channel')], function(data){
+      console.log(data.result);
+      callback(data.result.channels);
+    });
+
+  },
+
+  getChannelGroups: function(type, callback){
+
+    // lookup
+    app.xbmcController.command('PVR.GetChannelGroups', [type], function(data){
+      callback(data.result.channelgroups);
+    });
+
+  },
+
+
+  addPaths: function(){
+    app.filters.addFilterPath('tvshow', {
+      title: 'Live TV',
+      path: 'tv/live',
+      key: 'live',
+      argOne: 'live'
+    });
+    app.filters.addFilterPath('music', {
+      title: 'Digital Radio',
+      path: 'music/radio',
+      key: 'radio',
+      argOne: 'radio'
+    });
+  }
+
+};;/**
  * A controller to handle all saves back to the xbmc database
  */
 
@@ -20352,19 +20727,19 @@ app.xbmcController.entityLoadMultiple = function(type, items, callback){
       method: 'AudioLibrary.GetSongDetails',
       id: 'songid',
       returnKey: 'songdetails',
-      fields: app.songFields
+      fields: app.fields.get('song')
     },
     movie: {
       method: 'VideoLibrary.GetMovieDetails',
       id: 'movieid',
       returnKey: 'moviedetails',
-      fields: app.movieFields
+      fields: app.fields.get('movie')
     },
     tvshow: {
       method: 'VideoLibrary.GetTVShowDetails',
       id: 'tvshowid',
       returnKey: 'tvshowdetails',
-      fields: app.tvshowFields
+      fields: app.fields.get('tvshow')
     }
 
   };
@@ -20529,7 +20904,7 @@ app.SongFilteredXbmcCollection = Backbone.Collection.extend({
   //model
   model: app.Song,
   //collection params
-  arg1: app.songFields, //fields
+  arg1: app.fields.get('song'), //fields
   arg2: {"start": 0, "end": 500}, //count
   arg3: {"sort": {"method": "dateadded", "order": "descending"}},
   //apply our filter - Required! or call will fail
@@ -20561,7 +20936,7 @@ app.AlbumXbmcCollection = Backbone.Collection.extend({
   //model
   model: app.Album,
   //collection params
-  arg1: app.albumFields, //properties
+  arg1: app.fields.get('album'), //properties
   arg2: {"start": 0, "end": 15000}, //count
   arg3: {"sort": {"method": "dateadded", "order": "descending"}},
   //method/params
@@ -20588,7 +20963,7 @@ app.AlbumFilteredXbmcCollection = Backbone.Collection.extend({
   //model
   model: app.Album,
   //collection params
-  arg1: app.albumFields, //properties
+  arg1: app.fields.get('album'), //properties
   arg2: {"start": 0, "end": 15000}, //count
   arg3: {"sort": {"method": "album", "order": "ascending"}},
   arg4: function(){
@@ -20619,7 +20994,7 @@ app.AlbumRecentlyAddedXbmcCollection = Backbone.Collection.extend({
   //model
   model: app.Album,
   //collection params
-  arg1: app.albumFields, //properties
+  arg1: app.fields.get('album'), //properties
   arg2: {"start": 0, "end": 200}, //count
   //method/params
   methods: {
@@ -20650,7 +21025,7 @@ app.AlbumRecentlyPlayedXbmcCollection = Backbone.Collection.extend({
   //model
   model: app.Album,
   //collection params
-  arg1: app.albumFields, //properties
+  arg1: app.fields.get('album'), //properties
   arg2: {"start": 0, "end": 200}, //count
   //method/params
   methods: {
@@ -20683,7 +21058,7 @@ app.ArtistXbmcCollection = Backbone.Collection.extend({
   model: app.Artist,
   //collection params
   arg1: true, //albumartistsonly
-  arg2: app.artistFields, //properties
+  arg2: app.fields.get('artist'), //properties
   arg3: {"start": 0, "end": 10000}, //count
   arg4: {"sort": {"method": "artist"}},
   //method/params
@@ -20770,7 +21145,7 @@ app.AllTvshowXbmcCollection = Backbone.Collection.extend({
   //model
   model: app.TVShow,
   //collection params
-  arg1: app.tvshowFields, //properties
+  arg1: app.fields.get('tvshow'), //properties
   arg2: {"start": 0, "end": 10000}, //count
   arg3: function(){
     return this.models[0].attributes.sort;
@@ -20955,7 +21330,7 @@ app.MovieRecentCollection = Backbone.Collection.extend({
 
   sync: function(method, model, options) {
 
-    var opt = [app.movieFields, {'end': 100, 'start': 0}];
+    var opt = [app.fields.get('movie'), {'end': 100, 'start': 0}];
     app.xbmcController.command('VideoLibrary.GetRecentlyAddedMovies', opt, function(data){
       options.success(data.result.movies);
     });
@@ -20979,7 +21354,7 @@ app.MovieFilteredCollection = Backbone.Collection.extend({
     }
 
     var sort = {"sort": {"method": "title"}},
-      opt = [app.movieFields, {'end': 500, 'start': 0}, sort, options.filter],
+      opt = [app.fields.get('movie'), {'end': 500, 'start': 0}, sort, options.filter],
       key = 'movies:key:filter';
 
     // cache
@@ -21078,7 +21453,7 @@ app.VideoGenreCollection = Backbone.Collection.extend({
         d.label = (d.label === '' ? '- none -' : d.label);
         d.id = d.genreid;
         d.type = 'movieGenre';
-        d.url = '#' + options.type + 's/genreid/' + d.id;
+        d.url = '#' + (options.type == 'tvshow' ? 'tv' : options.type + 's') + '/genreid/' + d.id;
         list.push(d);
       });
       // return
@@ -21226,7 +21601,6 @@ app.TvepisodeCollection = Backbone.Collection.extend({
       app.stores.TvEpisodes = {};
     }
 
-
     var sort = {"sort": {"method": "title"}},
       opt = [],
       key = 'episodes:' + options.tvshowid + ':' + options.season;
@@ -21235,7 +21609,7 @@ app.TvepisodeCollection = Backbone.Collection.extend({
     opt.push(parseInt(options.tvshowid));
     if(options.season !== undefined){
       opt.push(parseInt(options.season));
-      opt.push(app.tvepisodeFields);
+      opt.push(app.fields.get('tvepisode'));
     }
 
     // if cache use that
@@ -21285,7 +21659,7 @@ app.RecentTvepisodeCollection = Backbone.Collection.extend({
     var opt = [];
 
     // constuct params
-    opt.push(app.tvepisodeFields); // tv eps
+    opt.push(app.fields.get('tvepisode')); // tv eps
     opt.push({end: 10000, start: 0}); // show all
     opt.push({method: 'date', order: 'descending'}); // new first
 
@@ -21330,7 +21704,7 @@ app.TvshowFilteredCollection = Backbone.Collection.extend({
     }
 
     var sort = {"sort": {"method": "title"}},
-      opt = [app.tvshowFields, {'end': 500, 'start': 0}, sort, options.filter],
+      opt = [app.fields.get('tvshow'), {'end': 500, 'start': 0}, sort, options.filter],
       key = 'tvshows:key:filter';
 
     // cache
@@ -22247,7 +22621,7 @@ app.FileCollection = Backbone.Collection.extend({
   getDirectory: function(type, dir, callback){
     var self = this;
 
-    app.xbmcController.command('Files.GetDirectory', [dir, type, app.fileFields,  {"method": "title", "order": "ascending"}], function(res){
+    app.xbmcController.command('Files.GetDirectory', [dir, type, app.fields.get('file'),  {"method": "title", "order": "ascending"}], function(res){
 
       var files = self.parseData(res.result.files, type);
 
@@ -22306,7 +22680,23 @@ app.FileCollection = Backbone.Collection.extend({
 
 });
 
-;app.AlbumView = Backbone.View.extend({
+;/**
+ * A collection of recent episodes
+ */
+app.PvrChannelCollection = Backbone.Collection.extend({
+
+  model: app.PvrChannel,
+
+  sync: function(method, model, options) {
+
+    // remove above
+    app.pvr.getChannels(options.type, function(items){
+      options.success(items);
+    });
+
+  }
+
+});;app.AlbumView = Backbone.View.extend({
 
   initialize:function () {
   },
@@ -22326,7 +22716,7 @@ app.FileCollection = Backbone.Collection.extend({
       var $al = $('#album-list').html(self.albumsView.render().el);
 
       // set title
-      app.helpers.setTitle('<a href="#artist/' + alb.artistid + '">' + alb.artist + '</a>' + alb.album);
+      app.ui.setTitle('<a href="#artist/' + alb.artistid + '">' + alb.artist + '</a>' + alb.album);
 
       // add actions to title
       //var $actions = $al.find('.album-actions-wrapper').clone(true, true);
@@ -22363,7 +22753,7 @@ app.AlbumArtistView = Backbone.View.extend({
 
   initialize:function () {
 
-    this.artistModel = new app.Artist({"id": this.model.attributes.artistid, "fields":app.artistFields});
+    this.artistModel = new app.Artist({"id": this.model.attributes.artistid, "fields": app.fields.get('artist')});
     this.artistAlbums = {};
   },
 
@@ -22510,7 +22900,7 @@ app.AlbumItemSmallView = Backbone.View.extend({
     // enrich the model
     model.title = ( typeof model.label != "undefined" ? model.label : model.album );
     model.url = '#album/' + model.albumid;
-    model.img = app.parseImage(model.thumbnail);
+    model.img = app.image.url(model.thumbnail);
     model.recenttext = (typeof model.recent != 'undefined' ? 'Recently ' + model.recent : '');
     model.artisturl = (model.artistid !== '' ? '#artist/' + model.artistid : '#artists');
 
@@ -22518,7 +22908,7 @@ app.AlbumItemSmallView = Backbone.View.extend({
     this.$el.html(this.template(model));
 
     // classes
-    if(!app.helpers.isDefaultImage(model.img)){
+    if(!app.image.isDefaultImage(model.img)){
       this.$el.addClass('has-thumb');
     }
     if(app.playlists.isThumbsUp('album', model.albumid)){
@@ -22786,7 +23176,7 @@ app.ArtistSummaryView = Backbone.View.extend({
       $('#main-content').html(this.artistsRandView.render().el);
 
       //add isotope
-      app.helpers.addFreewall('ul.rand-list');
+      app.image.addFreewall('ul.rand-list');
     }});
 
 
@@ -22955,7 +23345,7 @@ app.ArtistLargeItemView = Backbone.View.extend({
     this.$el.html(this.template(model));
 
     // classes
-    if(!app.helpers.isDefaultImage(model.img)){
+    if(!app.image.isDefaultImage(model.img)){
       this.$el.addClass('has-thumb');
     }
     if(app.playlists.isThumbsUp('artist', model.artistid)){
@@ -23802,15 +24192,6 @@ app.MixedView = Backbone.View.extend({
 
   entities: ['artist', 'album', 'song', 'movie', 'tvshow'],
 
-  icons: {
-    music: 'fa-music',
-    video: 'fa-film',
-    song: 'fa-music',
-    artist: 'fa-microphone',
-    album: 'fa-th-large',
-    tvshow: 'fa-desktop',
-    movie: 'fa-film'
-  },
 
   initialize:function () {
 
@@ -23944,18 +24325,9 @@ app.MixedView = Backbone.View.extend({
    * @returns {string}
    */
   getHeading: function(type, text, classes){
-    return '<h3 class="' + type + '-type-heading ' + this.model.key + '-heading entity-heading ' + classes + '">' + this.getLogo(type) + text + '</h3>';
+    return '<h3 class="' + type + '-type-heading ' + this.model.key + '-heading entity-heading ' + classes + '">' + app.image.getIcon(type, true) + text + '</h3>';
   },
 
-
-  /**
-   * Get a generic logo/icon
-   * @param type
-   * @returns {string}
-   */
-  getLogo: function(type){
-    return '<i class="fa ' + (this.icons[type] !== undefined ? this.icons[type] : 'fa-cloud') + ' entity-icon"></i>';
-  },
 
   /**
    * Force Lazy loading images
@@ -24245,7 +24617,7 @@ app.MovieView = Backbone.View.extend({
     // backstretch
     _.defer(function(){
       var $fart = $('#fanart-background',self.$el),
-        fart = app.parseImage(model.fanart, 'fanart');
+        fart = app.image.url(model.fanart, 'fanart');
       $fart.backstretch(fart);
     });
 
@@ -24378,7 +24750,7 @@ app.MovieTagListView = Backbone.View.extend({
     }
 
     // title
-    app.helpers.setTitle('Movies', {addATag: '#movies', icon: 'film', subTitle: title});
+    app.ui.setTitle('Movies', {addATag: '#movies', icon: 'film', subTitle: title});
 
     // get/render items
     list.fetch({"type": "movie", "success": function(data){
@@ -24454,24 +24826,19 @@ app.MusicView = Backbone.View.extend({
    */
   render:function () {
 
-    var title = '<a href="#mymusic"><i class="fa fa-music"></i> Music</a>';
     var $list = $('.tag-list');
 
     switch(this.model.page){
       case 'recently-played':
-        title += ' Recently Played';
         this.recentPlayed();
         break;
       case 'recent':
-        title += ' Recent Music';
         this.recent();
         break;
       case 'recently-added':
-        title += ' Recently Added';
         this.recentAdded();
         break;
       case 'genres':
-        title += ' Genres';
         if($list.length > 0){
           this.genre(this.model.id);
         } else {
@@ -24479,7 +24846,6 @@ app.MusicView = Backbone.View.extend({
         }
         break;
       case 'years':
-        title += ' Genres';
         if($list.length > 0){
           this.year(this.model.id);
         } else {
@@ -24487,8 +24853,6 @@ app.MusicView = Backbone.View.extend({
         }
         break;
     }
-
-    app.helpers.setTitle(title);
 
     return this;
 
@@ -24712,7 +25076,7 @@ app.playerStateView = Backbone.View.extend({
     this.$songs = $('.song');
 
     // enrich
-    data.playingItemChanged = (lastPlaying != data.item.file);
+    data.playingItemChanged = (lastPlaying != this.playingKey(data));
     data.status = (data.status == 'notPlaying' ? 'stopped' : (app.helpers.exists(data.player.speed) && data.player.speed === 0 ? 'paused' : data.status));
     app.state = data.status;
 
@@ -24720,7 +25084,7 @@ app.playerStateView = Backbone.View.extend({
     app.cached.nowPlaying = data;
 
     // set current as last playing var
-    app.helpers.varSet('lastPlaying', (data.item !== undefined ? data.item.file : null));
+    app.helpers.varSet('lastPlaying', this.playingKey(data));
 
     // body classes
     this.bodyClasses();
@@ -24749,6 +25113,19 @@ app.playerStateView = Backbone.View.extend({
 
     $window.trigger('playerUpdate', data);
 
+  },
+
+
+  /**
+   * Get a unique key for the playing item to determine if it has changed
+   * @param data
+   *  now playing object
+   * @returns {key}
+   */
+  playingKey: function(data){
+    return (data.item !== undefined ?
+      (data.item.file !== undefined ? data.item.file : data.item.type + data.item.id)
+      : null);
   },
 
 
@@ -24829,7 +25206,7 @@ app.playerStateView = Backbone.View.extend({
 
     // If episode is playing, remove cache so watched status is updated
     if(data.item.type == 'episode'){
-      app.VideoController.invalidateCache('episode');
+      app.VideoController.invalidateCache('episode', data.item);
     }
 
   },
@@ -24844,7 +25221,7 @@ app.playerStateView = Backbone.View.extend({
 
     //set thumb
     this.$nowPlaying.find('#playing-thumb')
-      .css('background-image',"url('" + app.parseImage(data.item.thumbnail) + "')");
+      .css('background-image',"url('" + app.image.url(data.item.thumbnail) + "')");
 
     if(app.cached.nowPlaying.activePlayer == 1){
       this.$nowPlaying.find('#playing-thumb').attr("#remote"); //('href', '#' + data.item.type + '/' + data.item.albumid);
@@ -24861,14 +25238,14 @@ app.playerStateView = Backbone.View.extend({
       // if homepage backstretch exists and changed, update
       var $bs = $('.backstretch img'),
         origImg = $bs.attr('src'),
-        newImg = app.parseImage(data.item.fanart, 'fanart');
+        newImg = app.image.url(data.item.fanart, 'fanart');
       // if image is different
       if($bs.length > 0 && origImg != newImg){
         $.backstretch(newImg);
       }
     }
 
-    $('.playing-fanart').css('background-image', 'url("' + app.parseImage(data.item.fanart, 'fanart') + '")');
+    $('.playing-fanart').css('background-image', 'url("' + app.image.url(data.item.fanart, 'fanart') + '")');
 
     // refresh playlist
     var controller;
@@ -24934,7 +25311,7 @@ app.playerStateView = Backbone.View.extend({
     app.shellView.$progressSlider.slider( "value",0);
     //set thumb
     this.$nowPlaying.find('#playing-thumb')
-      .attr('src',app.parseImage(''))
+      .attr('src',app.image.url(''))
       .attr('title', '')
       .parent().attr('href', '#albums');
     //time
@@ -25302,6 +25679,88 @@ app.PlaylistCustomListItemView = Backbone.View.extend({
 
 
 
+;/**
+ * Music views
+ */
+
+
+/**
+ * Channel List
+ */
+app.PvrChannelsView = Backbone.View.extend({
+
+  tagName:"ul",
+
+  className: "channel-list",
+
+  initialize:function () {
+
+
+  },
+
+
+  render:function () {
+    this.$el.empty();
+    _.each(this.model.models, function (channel) {
+      this.$el.append(new app.PvrChannelListItem({model:channel}).render().$el);
+    }, this);
+    return this;
+  }
+
+});
+
+
+
+/**
+ * Channel item
+ */
+app.PvrChannelListItem = Backbone.View.extend({
+
+  tagName:"li",
+  className:'row-item',
+
+
+  events: {
+    "dblclick .name": "play",
+    "click .channel-play": "play",
+    "click .channel-thumbsup": "thumbsUp",
+    "click .channel-menu": "menu"
+  },
+
+
+  initialize:function () {
+    this.model.on("change", this.render, this);
+    this.model.on("destroy", this.close, this);
+  },
+
+
+  render:function () {
+    // add if thumbs up
+    if( app.playlists.isThumbsUp('channel', this.model.attributes.channelid) ) {
+      this.$el.addClass('thumbs-up');
+    }
+    // render
+    this.$el.html(this.template(this.model.attributes));
+    return this;
+  },
+
+  play: function(e){
+    app.pvr.playChannel(this.model.attributes.channelid, function(res){
+
+    });
+  },
+
+  thumbsUp: function(e){
+
+  },
+
+  menu: function(e){
+
+  }
+
+
+});
+
 ;app.RemoteView = Backbone.View.extend({
 
   tagName:'div',
@@ -25327,7 +25786,7 @@ app.PlaylistCustomListItemView = Backbone.View.extend({
     this.$el.html(this.template(vars));
 
     var data = app.playlists.getNowPlaying();
-    $('.playing-fanart', this.$el).css('background-image', 'url("' + app.parseImage(data.item.fanart, 'fanart') + '")');
+    $('.playing-fanart', this.$el).css('background-image', 'url("' + app.image.url(data.item.fanart, 'fanart') + '")');
 
     $('.fa', this.$el).disableSelection();
 
@@ -25479,7 +25938,7 @@ app.searchView = Backbone.View.extend({
       $content.html( $el );
 
       // Title
-      app.helpers.setTitle('<a href="#search">Search </a>');
+      app.ui.setTitle('<a href="#search">Search </a>');
 
       // Search Addons
       self.searchAddOns(key);
@@ -25904,7 +26363,8 @@ app.searchView = Backbone.View.extend({
     var keyDelay = 200, self = this;
 
     // set and clear timeout to leave a gap
-    $('#search').keyup(function () {
+    $('#search').keyup(function (e) {
+    //  e.preventDefault();
       clearTimeout(app.cached.keyupTimeout); // doesn't matter if it's 0
       app.cached.keyupTimeout = setTimeout(function(){
         document.location = '#search/' + encodeURIComponent( $('#search').val() );
@@ -26277,7 +26737,7 @@ app.SongView = Backbone.View.extend({
 
   render:function () {
     // add if thumbs up
-    if( app.playlists.isThumbsUp(this.model.attributes.songid) ) {
+    if( app.playlists.isThumbsUp('song', this.model.attributes.songid) ) {
       this.$el.addClass('thumbs-up');
     }
     // render
@@ -26511,7 +26971,7 @@ app.ThumbsupView = Backbone.View.extend({
     app.shellView.selectMenuItem('thumbsup', 'no-sidebar');
 
     // set title
-    app.helpers.setTitle('<i class="fa fa-thumbs-up"></i> Thumbs Up');
+    app.ui.setTitle('<i class="fa fa-thumbs-up"></i> Thumbs Up');
 
     if(!anyThumbs){ // No thumbs
       // no thumbs
@@ -26826,7 +27286,7 @@ app.TvshowView = Backbone.View.extend({
     // backstretch
     _.defer(function(){
       var $fart = $('#fanart-background',this.$el),
-        fart = app.parseImage(model.fanart, 'fanart');
+        fart = app.image.url(model.fanart, 'fanart');
       $fart.backstretch(fart);
     });
 
@@ -27153,7 +27613,7 @@ app.TvshowTagListView = Backbone.View.extend({
     }
 
     // title/loading
-    app.helpers.setTitle('TV', {addATag: '#tvshows', icon: 'desktop', subTitle: title});
+    app.ui.setTitle('TV', {addATag: '#mytv', icon: 'desktop', subTitle: title});
     $content.html('<div class="loading-box">Loading TV</div>');
 
     // get/render items
@@ -27332,7 +27792,7 @@ app.XbmcChorusChangeLog = Backbone.View.extend({
       // render
       self.$el.html(app.nl2br(data));
       // set title
-      app.helpers.setTitle('<a href="#xbmc/home">XBMC</a>Chorus ChangeLog');
+      app.ui.setTitle('<a href="#xbmc/home">XBMC</a>Chorus ChangeLog');
     });
 
     return this;
@@ -27367,7 +27827,7 @@ app.XbmcJSONrpcView = Backbone.View.extend({
   render:function () {
 
     // set title
-    app.helpers.setTitle('<a href="#xbmc/home">XBMC</a>jsonRPC');
+    app.ui.setTitle('<a href="#xbmc/home">XBMC</a>jsonRPC');
 
     this.$el.empty();
 
