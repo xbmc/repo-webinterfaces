@@ -1,0 +1,58 @@
+
+                          THX to these Projects:
+
+--------------------------------------------------------------------------------
+
+AWXi uses the JavaScript Library jQuery and jQuery UI. These projects are
+licensed under both MIT and GPL licenses.
+Have a look at
+	http://jquery.com
+	http://jqueryui.com
+
+--------------------------------------------------------------------------------
+
+AWXi uses some icons of the "Tango Base Icon Theme" which is released to the
+Public Domain.
+Have a look at http://tango.freedesktop.org.
+
+--------------------------------------------------------------------------------
+
+AWXi uses some icons from the Confluence skin.
+
+--------------------------------------------------------------------------------
+
+AWXi uses some icons from the "Open Icon Library" available at
+http://openiconlibrary.sourceforge.net/
+
+--------------------------------------------------------------------------------
+
+AWXi uses a modified version of the "Lazy Load"-jQuery-plugin by Mika Tuupola.
+It is licensed under the MIT license:
+	http://www.opensource.org/licenses/mit-license.php
+Have a look at http://www.appelsiini.net/projects/lazyload.
+
+--------------------------------------------------------------------------------
+
+AWXi uses the "jQuery Hotkeys Plugin" by John Resig.
+It is licensed under both MIT and GPL licenses.
+Have a look at http://github.com/jeresig/jquery.hotkeys.
+
+--------------------------------------------------------------------------------
+
+AWXi uses the "Simple JavaScript Inheritance"-Plugin by John Resig.
+It is licensed under the MIT license.
+Have a look at http://ejohn.org/blog/simple-javascript-inheritance/.
+
+--------------------------------------------------------------------------------
+
+AWXi uses jQueryRotate from http://code.google.com/p/jqueryrotate/
+It is licensed under MIT.
+
+--------------------------------------------------------------------------------
+
+Tranlations:
+German - MKay
+Russian - Scaramush
+French - DanoneKiD
+Polish - cienislaw
+Chinese - Taxigps
