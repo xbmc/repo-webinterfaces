@@ -18,50 +18,50 @@
 
 (function($) {
 
-	$.queuedImageLoader = {
-		maxLoading	:	1,	/* number of parallel image-loadings */
-		waitTime	:	50,	/* milliseconds to wait before loading next image */
-		loading		:	0,
-		queue		:	[],
+  $.queuedImageLoader = {
+    maxLoading  :  1,  /* number of parallel image-loadings */
+    waitTime  :  50,  /* milliseconds to wait before loading next image */
+    loading    :  0,
+    queue    :  [],
 
-		load : function(element, src) {
-			this.queue.push({"element" : element, "src" : src});
-			this.loadNext();
-		},
+    load : function(element, src) {
+      this.queue.push({"element" : element, "src" : src});
+      this.loadNext();
+    },
 
-		loadNext : function() {
-			if (this.loading < this.maxLoading &&
-				this.queue.length > 0) {
+    loadNext : function() {
+      if (this.loading < this.maxLoading &&
+        this.queue.length > 0) {
 
-				this.loading++;
-				var next = this.queue.shift();
+        this.loading++;
+        var next = this.queue.shift();
 
-				$(next.element)
-					.bind("load", $.proxy($.queuedImageLoader, "onLoaded"))
-					.bind("error", $.proxy($.queuedImageLoader, "onLoaded"))
-					.attr("src", next.src);
-			}
-		},
+        $(next.element)
+          .bind("load", $.proxy($.queuedImageLoader, "onLoaded"))
+          .bind("error", $.proxy($.queuedImageLoader, "onLoaded"))
+          .attr("src", next.src);
+      }
+    },
 
-		onLoaded : function() {
-			this.loading--;
-			setTimeout($.proxy(this, "loadNext"), this.waitTime);
-		}
+    onLoaded : function() {
+      this.loading--;
+      setTimeout($.proxy(this, "loadNext"), this.waitTime);
+    }
 
-	};
+  };
 
-	$.fn.queuedImageLoad = function(options) {
-		var settings = {
-			src	:	''
-		}
+  $.fn.queuedImageLoad = function(options) {
+    var settings = {
+      src  :  ''
+    }
 
-		if (options) {
-			$.extend(settings, options);
-		}
+    if (options) {
+      $.extend(settings, options);
+    }
 
-		this.each(function() {
-			$.queuedImageLoader.load(this, settings.src);
-		});
-	};
+    this.each(function() {
+      $.queuedImageLoader.load(this, settings.src);
+    });
+  };
 
 })(jQuery);

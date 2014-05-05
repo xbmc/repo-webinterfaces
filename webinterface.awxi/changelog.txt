@@ -1,3 +1,72 @@
+0.7.2
+  - Switch profile function.
+  - Restart websocket if closed and XBMC is ponging.
+
+0.7.1
+  - Additional languages and updates: bg cz de el en fr_CA gl he hr hu it nl pl pt pt_BR sv zh
+
+0.7.0
+  - Initial Gotham build.
+  - Load language files from manifest.json.
+
+0.6.5
+  - Updated language files from Transifex
+  - IE10 websockets.
+  - Fix check ACodec
+  - Fix Playing files in Windows.
+  - Confirmation on exit actions.
+  
+0.6.4
+  - Fixed resume when playing movies.
+0.6.3
+  - Fixed Addons race condition.
+  - Fixed Episode list view for unwatched.
+0.6.2
+  - Added full screen mode.
+  - Added thumbnail episode view with no plot.
+  - Added movie cleart and landscape views.
+  - Added music video limiting.
+  - Added scroll to currently playing item in music playlist.
+  - Search for titles in relevent pages.
+  - Replicate XBMC key functions. If you have the control window open (press the remote icon bottom right); home, left, backspace, x, c etc. act the same as in XBMC GUI.
+  - Lyric support in full screen. Requires CU LRC Lyrics 1.0.2+. Thanks ronie.
+  
+0.6.1
+  - Extra fan art support for random playing background.
+  - Ability to disable functions via js/settings.json.
+  - Browse addons VFS in the file menu. This is unsupported by XBMC and thus the same by AWXi.
+  - Read cookies once and set variable. Read variable for views, limits and sorting: no need for browser page refresh on changes.
+  - Single views use proper limiting.
+  - Changed sorting 'none' to 'date added' which retains the old/expected behaviour.
+  - Added Artist banner view. Requires banner.jpg in artist directory (same as logo.png).
+  - Added default images for all image types.
+  - Changed how images are loaded so any 404s are handled nicely.
+  - Changed overlay to inlay and added the ability to hide artwork. Controls can be left open. WIP.
+  - Disabled "find" in page. Please use the more powerful "Advanced Search" for now.
+  - Fix limited views with hide watched (Oppsie).
+  - Fix start from 1 for limits label.
+  - Fix playing and enqueuing songs.
+  - Fix open and close unwatched episodes page if there were no unwatched episodes.
+  - Fix passwords are hidden on input text request.
+  
+0.6.0
+ - Initial build for Frodo.
+ - Websockets - near instant responce to notifications.
+ - Changed to Jed gettext support. Translators see http://forum.xbmc.org/showthread.php?tid=141158
+ - New control overlay.
+ - Limiting on library items.
+ - Info and context buttons.
+ - All available controls in large overlay.
+ - Popup when entering text is required.
+ - Advanced search.
+ - Submenus.
+ - Extra pages: Songs, Years, Tags, Genres, Recently played.
+ - Party mode support.
+ - jQuery 1.8.2.
+ - Playlists sends batch (one big send instead of lots of singles).
+ - Remove old UIs.
+ - Clean up/reduce/merge functions.
+
 0.5.4
  - Added Music Videos page.
  - Fixed Season order 10+.
