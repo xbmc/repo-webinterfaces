@@ -2486,6 +2486,8 @@ body.section-search #sidebar-first {
 
 #now-playing,
 #browser-now-playing {
+  position: absolute;
+  white-space: nowrap;
   font-size: 12px;
   margin-right: 0;
   margin-left: 0;
@@ -5115,14 +5117,14 @@ ul.video-list li.next-page:hover {
 }
 
 #tv-watch .col-1,
-#tvshow-detail .col-1,
+#tv-season .col-1,
 #movie-watch .col-1,
 #movie-detail .col-1 {
   margin-bottom: 20px;
 }
 @media (min-width: 800px) {
   #tv-watch .col-1,
-  #tvshow-detail .col-1,
+  #tv-season .col-1,
   #movie-watch .col-1,
   #movie-detail .col-1 {
     width: 65.51724%;
@@ -5134,7 +5136,7 @@ ul.video-list li.next-page:hover {
 }
 @media (min-width: 800px) {
   #tv-watch .col-2,
-  #tvshow-detail .col-2,
+  #tv-season .col-2,
   #movie-watch .col-2,
   #movie-detail .col-2 {
     width: 31.03448%;
@@ -5145,7 +5147,7 @@ ul.video-list li.next-page:hover {
   }
 }
 #tv-watch .col-2 .rating,
-#tvshow-detail .col-2 .rating,
+#tv-season .col-2 .rating,
 #movie-watch .col-2 .rating,
 #movie-detail .col-2 .rating {
   margin-bottom: 30px;
@@ -5154,8 +5156,8 @@ ul.video-list li.next-page:hover {
 }
 #tv-watch .col-2 .rating .fa-star,
 #tv-watch .col-2 .rating .value,
-#tvshow-detail .col-2 .rating .fa-star,
-#tvshow-detail .col-2 .rating .value,
+#tv-season .col-2 .rating .fa-star,
+#tv-season .col-2 .rating .value,
 #movie-watch .col-2 .rating .fa-star,
 #movie-watch .col-2 .rating .value,
 #movie-detail .col-2 .rating .fa-star,
@@ -5167,14 +5169,14 @@ ul.video-list li.next-page:hover {
   float: right;
 }
 #tv-watch .col-2 .rating .fa-star,
-#tvshow-detail .col-2 .rating .fa-star,
+#tv-season .col-2 .rating .fa-star,
 #movie-watch .col-2 .rating .fa-star,
 #movie-detail .col-2 .rating .fa-star {
   font-size: 50px;
   color: rgba(43, 47, 48, 0.3);
 }
 #tv-watch .col-2 .rating .votes,
-#tvshow-detail .col-2 .rating .votes,
+#tv-season .col-2 .rating .votes,
 #movie-watch .col-2 .rating .votes,
 #movie-detail .col-2 .rating .votes {
   clear: both;
@@ -5183,7 +5185,7 @@ ul.video-list li.next-page:hover {
   margin: 5px 0;
 }
 #tv-watch .col-2 h4,
-#tvshow-detail .col-2 h4,
+#tv-season .col-2 h4,
 #movie-watch .col-2 h4,
 #movie-detail .col-2 h4 {
   text-align: right;
@@ -5210,6 +5212,7 @@ ul.video-list li.next-page:hover {
 }
 
 #seasons {
+  clear: both;
   overflow: hidden;
   padding-bottom: 20px;
   margin-right: -10px;
@@ -5310,23 +5313,6 @@ h1.video-title {
   color: #444;
   letter-spacing: -1px;
   font-weight: normal;
-}
-h1.video-title.tv-title {
-  padding: 0 15px;
-}
-@media (min-width: 800px) {
-  h1.video-title {
-    display: none;
-  }
-}
-
-.tvtype-episode h1.video-title {
-  margin: 20px 0 -20px;
-}
-@media (min-width: 800px) {
-  .tvtype-episode h1.video-title {
-    display: block;
-  }
 }
 
 /**
