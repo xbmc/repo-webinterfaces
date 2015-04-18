@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.awxi"
-  version="0.7.3"
+  version="0.7.4"
   name="AWXi"
   provider-name="MKay, Mizaki et al">
   <requires>
@@ -37,7 +37,7 @@
   <summary lang="sk">AWXi - webové rozhranie pre XBMC založené na technológii Ajax</summary>
   <summary lang="sv">AWXi - Ajaxbaserat webbgränssnitt för XBMC</summary>
   <summary lang="zh">AWXi - 基于Ajax的XBMC Web界面</summary>
-  <description lang="be">You can use this webinterface to control the Audio/Video Section of XBMC: play/pause/stop/skip, show artists/albums/movies/tv shows and play them or add them to the playlist. It's designed for use on PCs or laptops with a browser like FireFox which supports JavaScript.&#10;&#10;Minimum requirements: XBMC Frodo &#10;Tested Browsers:&#10; - FireFox&#10; - Chromium&#10; - Internet Explorer 9&#10;Not supported: Internet Explorer 6&#10;&#10;Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser. It is highly recommended that you use a browser capable of using web sockets. IE 9 is not one of them.</description>
+  <description lang="be">You can use this webinterface to control the Audio/Video Section of XBMC: play/pause/stop/skip, show artists/albums/movies/tv shows and play them or add them to the playlist. It's designed for use on PCs or laptops with a browser like FireFox which supports JavaScript.&#10;&#10;Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser. It is highly recommended that you use a browser capable of using web sockets. IE 9 is not one of them.</description>
   <description lang="bg">Чрез уебинтерфейсът можете да: контролирате Музикалната и Видео секцията на XBMC - възпроизвеждане, пауза, стоп, пропускане; прегледате артистите, албумите, филмите и ТВ сериали, да ги възпроизведете или добавите към плейлист. Изграден е за ползване от компютри или лаптопи с браузър, като FireFox, който поддържа JavaScript.&#10;&#10;Минимални изисквания: XBMC Frodo &#10;Изпробвани браузъри:&#10; - FireFox&#10; - Chromium&#10; - Internet Explorer 9&#10;Браузъри, които не се поддържат: Internet Explorer 6&#10;&#10;Съвет: Може да се наложи да изчистите кеша на браузъра преди да отворите нов прозорец на новоинсталиран/актуализиран уебинтерфейс. Препоръчително е ползването на браузър който поддържа web sockets. Internet Explorer 9 не поддържа.</description>
   <description lang="da">Du kan bruge dette webinterface til at styre Lyd/Video delen af XBMC: afspil/pause/stop/spol, vis kunstnere/albummer/film/tv-serier og afspil dem eller føj dem til afspilningslisten. Det er designet til brug på PC'er eller bærbare med en browser såsom Firefox som understøtter JavaScript.&#10;&#10;Minimumskrav: XBMC Frodo &#10;Testede Browsere:&#10; - FireFox&#10; - Chromium&#10; - Internet Explorer 9&#10;Ikke understøttet: Internet Explorer 6&#10;&#10;Tip: Du skal muligvis rydde din browser-cache, før du åbner det installerede/opdaterede webinterface i din browser. Det anbefales at du anvender en browser, som kan håndtere web-sockets. IE 9 er ikke én af dem.</description>
   <description lang="de">Mit diesem Webinterface laesst sich die Audio- und Video-Sektion von XBMC steuern: play/pause/stop/skip, sowie Anzeigen/Abspielen von Interpreten/Alben/Filmen/Serien. Es wurde fuer den Einsatz an einem PC oder Laptop mit einem JavaScript-faehigen Browser wie FireFox entwickelt.&#10;&#10;Mindestvoraussetzung: XBMC Eden&#10;Getestete Browser:&#10; - FireFox&#10; - Chromium&#10; - Internet Explorer 9&#10;Nicht unterstuetzt: Internet Explorer 6&#10;&#10;Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/aktualisierte Webinterface in Ihrem Browser laden.</description>
@@ -61,5 +61,7 @@
   <description lang="zh">你可以使用此Web界面控制XBMC音/视频：播放/暂停/停止/跳过，显示艺人/专辑/电影/剧集并播放或加入播放列表。用于台式机或便携机上支持JavaScript的浏览器，如FireFox。[CR][CR]最低要求：XBMC Frodo[CR]测试浏览器：[CR] - FireFox[CR] - Chromium[CR] - Internet Explorer 9[CR]不支持：Internet Explorer 6[CR][CR]提示：当你在浏览器打开新安装或升级的Web界面前，可能需要先清除浏览器缓存。强烈建议使用支持web sockets的浏览器，这不包括IE 9。</description>
   <language></language>
   <platform>all</platform>
+  <forum>http://forum.kodi.tv/showthread.php?tid=112956</forum>
+  <source>https://github.com/mizaki/awxi</source>
   </extension>
 </addon>

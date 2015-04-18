@@ -1,3 +1,16 @@
+0.7.4
+  - Switch from LOTS of cookies to one and local storage.
+  - Cast.
+  - Indicate control keys (for controling Kodi, x=stop, space=pause, etc.) are active.
+  - Button to switch control keys on and off (in controller view).
+  - Switch control keys back on after a search if they were active beforehand.
+  - Better fallback from websocket failure.
+  - Fix lyrics in fullscreen. Requires lyric window to be open.
+  - Show controls when playing (default to yes). In general settings.
+
+0.7.3
+  - Lost to the ether!
+
 0.7.2
   - Switch profile function.
   - Restart websocket if closed and XBMC is ponging.

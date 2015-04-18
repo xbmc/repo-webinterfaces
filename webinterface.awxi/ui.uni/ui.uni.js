@@ -730,7 +730,7 @@
       musicPlaylistContextMenu.push({
         'id':'findPlaylistButton', 'icon':'locate', 'title':mkf.lang.get('Locate currently playing', 'Tool tip'), 'shortcut':'Ctrl+2', 'onClick':
           function(){
-            $('.musicPlaylist .playlistItemCur').ScrollTo()
+            $('.musicPlaylist').scrollTo($('.playlistItemCur'));
             return false;
           }
       });
@@ -1556,6 +1556,7 @@
                 '<img src="images/empty_banner_film.png" alt="Preload 26" />' +
                 '<img src="images/empty_banner_tv.png" alt="Preload 27" />' +
                 '<img src="images/empty_thumb_tv.png" alt="Preload 28" />' +
+                '<img src="images/emptyActor.png" alt="Preload 29" />' +
 
               '</div>' +
               '<div id="fullscreen" style="display: none; position: absolute; z-index: 60; width: 100%; height: 100%;"><a class="button minimise" href="" title="' + mkf.lang.get('Exit Full Screen', 'Tool tip') + '"></a><a class="button lyrics" href="" title="' + mkf.lang.get('Show Lyrics', 'Tool tip') + '"></a>' +
@@ -1623,37 +1624,9 @@
         //awxUI.settings.remoteActive = ( awxUI.settings.remoteActive? false : true );
         //Duplicate XBMC key functions
         if (!awxUI.settings.remoteActive) {
-          awxUI.settings.remoteActive = true;
-          $(document).on('keydown', function(e) {
-            //console.log(e.keyCode)
-            if (e.keyCode == 32) { xbmc.control({type: 'play'}); return false; };
-            if (e.keyCode == 88) { xbmc.control({type: 'stop'}); return false; };
-            if (e.keyCode == 37) { xbmc.input({type: 'Left'}); return false; };
-            if (e.keyCode == 39) { xbmc.input({type: 'Right'}); return false; };
-            if (e.keyCode == 38) { xbmc.input({type: 'Up'}); return false; };
-            if (e.keyCode == 40) { xbmc.input({type: 'Down'}); return false; };
-            if (e.keyCode == 13) { xbmc.input({type: 'Select'}); return false; };
-            if (e.keyCode == 73) { xbmc.input({type: 'Info'}); return false; };
-            if (e.keyCode == 67) { xbmc.input({type: 'ContextMenu'}); return false; };
-            if (e.keyCode == 8) { xbmc.input({type: 'Back'}); return false; };
-            if (e.keyCode == 36) { xbmc.input({type: 'Home'}); return false; };
-            if (e.keyCode == 109 || e.keyCode == 189) { xbmc.setVolumeInc({volume: 'decrement'}); return false; };
-            if (e.keyCode == 107 || e.keyCode == 187) { xbmc.setVolumeInc({volume: 'increment'}); return false; };
-            if (e.keyCode == 70) { xbmc.controlSpeed({type: 'increment'}); return false; };
-            if (e.keyCode == 82) { xbmc.controlSpeed({type: 'decrement'}); return false; };
-            if (e.keyCode == 76) { xbmc.setSubtitles({command: 'next'}); return false; };
-            if (e.keyCode == 84) { xbmc.setSubtitles({command: (xbmc.periodicUpdater.subsenabled? 'off' : 'on')}); return false; };
-            if (e.keyCode == 219) { xbmc.executeAction({action: 'bigstepback'}); return false; };
-            if (e.keyCode == 221) { xbmc.executeAction({action: 'bigstepforward'}); return false; };
-            if (e.keyCode == 65) { xbmc.executeAction({action: 'audiodelay'}); return false; };
-            if (e.keyCode == 192) { xbmc.executeAction({action: 'smallstepback'}); return false; };
-            if (e.keyCode == 188) { xbmc.executeAction({action: 'skipprevious'}); return false; };
-            if (e.keyCode == 190) { xbmc.executeAction({action: 'skipnext'}); return false; };
-            if (e.keyCode == 9 || e.keyCode == 27) { xbmc.executeAction({action: 'togglefullscreen'}); return false; };
-          });
+          xbmc.inputKeys('on');
         } else {
-          awxUI.settings.remoteActive = false;
-          $(document).off('keydown');
+          xbmc.inputKeys('off');
         };
         
         $('#displayoverlayleft').toggle();
@@ -1690,48 +1663,48 @@
       //Set menu width to largest item. Can't seem to do this with CSS. IE9 and FF work but Chrome doubles parent UL width.
       setTimeout(function() {
       
-      //Show menus so we can grab the widths.
-      $('#navigation ul.mkfMenu .mkfSubMenu1, ul.systemMenu ul').show();
-      
-      $('.mkfSubMenu2').parent().addClass('subMenu');
-      
-      //Set root menu (music and video) width as it can't (QED) be done in CSS. Timeout is to allow the menu to draw.
-      $("#navigation ul.mkfMenu .music .mkfSubMenu1").each(function() { // Loop through all the menu items that got submenu items
-        var Widest=0; 
-        var ThisWidth=0;
+        //Show menus so we can grab the widths.
+        $('#navigation ul.mkfMenu .mkfSubMenu1, ul.systemMenu ul').show();
+        
+        $('.mkfSubMenu2').parent().addClass('subMenu');
+        
+        //Set root menu (music and video) width as it can't (QED) be done in CSS. Timeout is to allow the menu to draw.
+        $("#navigation ul.mkfMenu .music .mkfSubMenu1").each(function() { // Loop through all the menu items that have submenu items
+          var Widest=0; 
+          var ThisWidth=0;
 
-        $($(this).children()).each(function() {
-          ThisWidth=parseInt($(this).css('width'));
+          $($(this).children()).each(function() {
+            ThisWidth=parseInt($(this).css('width'));
 
-          if (ThisWidth>Widest) {
-            Widest=ThisWidth;
-          }
+            if (ThisWidth>Widest) {
+              Widest=ThisWidth;
+            }
+          });
+
+          Widest+='px';
+
+          $(this).hide();
+          $(this).children().children().css('width',Widest);
         });
+        
+        
+        $("#navigation ul.mkfMenu .videos .mkfSubMenu1").each(function() { 
+          var Widest=0; 
+          var ThisWidth=0; 
 
-        Widest+='px';
+          $($(this).children()).each(function() { 
+            ThisWidth=parseInt($(this).css('width'));
 
-        $(this).hide();
-        $(this).children().children().css('width',Widest);
-      });
-      
-      
-      $("#navigation ul.mkfMenu .videos .mkfSubMenu1").each(function() { 
-        var Widest=0; 
-        var ThisWidth=0; 
+            if (ThisWidth>Widest) { 
+              Widest=ThisWidth;
+            }
+          });
 
-        $($(this).children()).each(function() { 
-          ThisWidth=parseInt($(this).css('width'));
+          Widest+='px'; // Add the unit
 
-          if (ThisWidth>Widest) { 
-            Widest=ThisWidth;
-          }
+          $(this).hide();
+          $(this).children().children().css('width',Widest);
         });
-
-        Widest+='px'; // Add the unit
-
-        $(this).hide();
-        $(this).children().children().css('width',Widest);
-      });
       }, 500);
       
       // Hover for menus
@@ -1756,7 +1729,7 @@
       
       
       
-      $('.' + mkf.cookieSettings.get('startPage', 'recentTV') + ' a').click();
+      $('.' + awxUI.settings.startPage + ' a').click();
       
       xbmc.musicPlaylist = $('div.musicPlaylist');
       xbmc.videoPlaylist = $('div.videoPlaylist');

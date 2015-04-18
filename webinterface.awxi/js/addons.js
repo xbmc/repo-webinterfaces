@@ -176,6 +176,7 @@ var addons = {};
         });
       };
       var lrcDisplay = function(lyrics) {
+        //console.log(lyrics);
         $('#lyrics').empty();
         if (lyrics.lines.length > 0) {
           $('div#lyricInfo').append((lyrics.tags.title !=''? '<span class="label">' + mkf.lang.get('Track:', 'Label') + ' </span><span class="info">' + lyrics.tags.title + '</span> ' : '' ) +
@@ -199,11 +200,18 @@ var addons = {};
         addonid: 'script.cu.lrclyrics',
 
         onError: function() {
+          mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('Failed!', 'Addon: CU LRC Lyrics not installed!'), 5000, mkf.messageLog.status.error);
           return false;
         },
 
         onSuccess: function(response) {
           if (response.addon.enabled && response.addon.version > '1.0.1') {
+            //Set Full Screen to get lyrics [hack as something broke in culrc lyrics?]
+            xbmc.sendCommand(
+              '{ "jsonrpc": "2.0", "method": "GUI.SetFullscreen", "params": { "fullscreen": true }, "id": "setFS" }',
+              null,
+              null
+            );
             xbmc.getInfoLabels({
               labels: ['Window(Home).Property(culrc.lyrics)', 'Window(Home).Property(culrc.source)' , 'Window(Home).Property(culrc.running)'],
               onError: function() {

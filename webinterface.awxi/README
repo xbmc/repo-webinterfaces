@@ -1,13 +1,4 @@
-You can use this webinterface to control the Audio/Video Section of XBMC: play/pause/stop/skip, 
-show artists/albums/movies/tv shows/playlists and play them or add them to the playlist. 
-It's designed for use on PCs or laptops with a browser like FireFox which supports JavaScript.
-The recommended interface for tablets is light or lightDark.
-
-Minimum requirements: XBMC (pre) Eden
-Tested Browsers:
-   - FireFox
-   - Chromium
-   - Internet Explorer 9
-Not supported: Internet Explorer 6
+You can use this webinterface to control the Audio/Video/PVR (limited) sections of XBMC: play/pause/stop/skip, show artists/albums/movies/tv shows/playlists and play them or add them to the playlist. 
+It's designed for use on PCs or laptops with a modern browser which supports JavaScript.
 
 Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser.

@@ -750,6 +750,9 @@ img.epWatched {
   left:0px; 
   z-index:4
 }
+img.actor {
+  height: 200px;
+}
 /*div.inputcontrols {
   background-color: #808080;
   border-radius: 5px 5px 5px 5px;
@@ -842,14 +845,14 @@ div.linkArtistWrapper {
   position: absolute;
   width: 90%;
 }
-div.addons {
-  
+div.movieinfo div.addons {
+  display: none;
 }
 div.addons  div.addon {
   width: 130px;
   margin-right: 5px;
   display: inline-block;
-  float: left;
+  /*float: left;*/
 }
 div.addons  div.addon  img {
   float: none;
@@ -1560,6 +1563,44 @@ div.genres {
   width: 415px;
   margin: auto;
   padding-top: 5px;
+}
+div.cast {
+  display: none;
+}
+.movieinfo button {
+  background: none repeat scroll 0 0 #222;
+  border: 3px solid #55f;
+  border-radius: 5px;
+  color: #fff;
+  padding: 5px 10px;
+  margin: 5px 5px 5px 0;
+}
+div.cast div.actorimg {
+  position: relative;
+  display: inline;
+  padding: 0 5px 5px 0;
+}
+div.cast div.actortext {
+  background: rgba(0,0,0,0.8);
+  bottom: 8px;
+  display: inline;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+div.actortext span.actorname {
+  color: #55f;
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+}
+div.actortext span.actorrole {
+  color: #0f0;
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
 }
 span.genres {
   background: url("../images/genres.png") no-repeat scroll 0 0 #9B9B9B;
@@ -2811,6 +2852,13 @@ div#controlsInput32 {
 #inputcontrols32 a.maximise {
   background-position: -288px 0;
   margin-right: 0;  
+}
+#inputcontrols32 a.inputcontrols {
+  background-position: -320px 0;
+  margin-right: 0;  
+}
+#inputcontrols32 a.inputcontrols.active {
+  background-position: -352px 0;
 }
 
 #inputcontrols a.button {

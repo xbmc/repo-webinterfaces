@@ -4,8 +4,8 @@
  */
 
 var Lrc = (function(){
-  //Date.now = Date.now || (new Date).getTime;
-  var timeExp = /\[(\d{2,})\:(\d{2})(?:\.(\d{2}))?\]/g
+  Date.now = Date.now || (new Date).getTime;
+  var timeExp = /\[(\d{2,})\:(\d{2})(?:\.(\d{2,3}))?\]/g
     , tagsRegMap = {
         title: 'ti'
       , artist: 'ar'
@@ -33,7 +33,8 @@ var Lrc = (function(){
     this.curLine = 0;//
     this.state = 0;// 0: stop, 1: playing
         
-    var res, line, time, lines = lrc.split(/\n/);
+    var res, line, time, lines = lrc.split(/\n/)
+      , _last;
     
     for(var tag in tagsRegMap){
       res = lrc.match(new RegExp('\\[' + tagsRegMap[tag] + ':([^\\]]*)\\]', 'i'));
@@ -43,7 +44,9 @@ var Lrc = (function(){
     timeExp.lastIndex = 0;
     for(var i = 0, l = lines.length; i < l; i++){
       while(time = timeExp.exec(lines[i])){
+        _last = timeExp.lastIndex;
         line = Parser.trim(lines[i].replace(timeExp, ''));
+        timeExp.lastIndex = _last;
         this.lines.push({
             time: time[1] * 60 * 1000 + time[2] * 1000 + (time[3] || 0) * 10
           , originLineNum: i
@@ -59,7 +62,7 @@ var Lrc = (function(){
   };
   
   //按照时间点确定歌词行数
-  /*function findCurLine(time){
+  function findCurLine(time){
     for(var i = 0, l = this.lines.length; i < l; i++){
       if(time <= this.lines[i].time){
         break;
@@ -73,10 +76,10 @@ var Lrc = (function(){
         originLineNum: this.lines[i].originLineNum
       , lineNum: i
     })
-  }*/
+  }
   
   //lrc stream control and output
-  /*Parser.prototype = {
+  Parser.prototype = {
       //time: 播放起点, skipLast: 是否忽略即将播放歌词的前一条(可能是正在唱的)
       play: function(time, skipLast){
         var that = this;
@@ -128,7 +131,7 @@ var Lrc = (function(){
         this.state = 0;
         clearTimeout(this._timer);
       }
-  };*/
+  };
     
   Parser.trim = function(lrc){
     return lrc.replace(/(^\s*|\s*$)/m, '')
