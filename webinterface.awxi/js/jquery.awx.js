@@ -906,6 +906,9 @@
 
     var $settingsButton = $('<a href="" class="settings"></a>');
     $settingsButton.click(function() {
+      //For switching off key binds
+      inputControls = false;
+      
       var lazyload = (awxUI.settings.lazyload? awxUI.settings.lazyload : 'no');
       var timeout = (awxUI.settings.timeout? awxUI.settings.timeout : 20);
       var limitVideo = (awxUI.settings.limitMovies? awxUI.settings.limitMovies : 25);
@@ -945,21 +948,21 @@
       var epdesc = (awxUI.settings.epdesc == 'descending'? 'descending' : 'ascending');
       var adesc = (awxUI.settings.adesc == 'descending'? 'descending' : 'ascending');
       var startPage = (awxUI.settings.startPage? awxUI.settings.startPage : 'recentTV');
-      var showTags = (awxUI.settings.showTags? awxUI.settings.showTags : 'yes');
+      var showTags = (awxUI.settings.showTags? 'yes' : 'no');
       var rotateCDart = (awxUI.settings.rotateCDart? awxUI.settings.rotateCDart : 'no');
       var manualPath = mkf.cookieSettings.get('manualPath');
       var preferLogos = (awxUI.settings.preferLogos? 'yes' : 'no');
       var controllerOnPlay = (awxUI.settings.controllerOnPlay? 'yes' : 'no');
+      var inputKey = (awxUI.settings.inputKey? awxUI.settings.inputKey : 0);
+      var actionOnPlay = (awxUI.settings.actionOnPlay? awxUI.settings.actionOnPlay : 0);
       
-      var dialogHandle = mkf.dialog.show(
-        {
-        content :
-        '<h1 id="systemControlTitle" class="title">' + mkf.lang.get('Settings', 'Settings tab') + '</h1>' +
+      var dialogContent = $('<h1 id="systemControlTitle" class="title">' + mkf.lang.get('Settings', 'Settings tab') + '</h1>' +
         '<div class="tabs"><div id="tabs">' +
         '<ul><li><a href="#tabs-1">' + mkf.lang.get('General', 'Settings tab') +'</a></li>' +
           '<li><a href="#tabs-2">' + mkf.lang.get('Video Views', 'Settings tab') +'</a></li>' +
           '<li><a href="#tabs-3">' + mkf.lang.get('Music Views', 'Settings tab') +'</a></li>' +
-          '<li><a href="#tabs-4">' + mkf.lang.get('Sorting', 'Settings tab') +'</a></li></ul>' +
+          '<li><a href="#tabs-4">' + mkf.lang.get('Sorting', 'Settings tab') +'</a></li>' +
+          '<li><a href="#tabs-5">' + mkf.lang.get('Kodi Settings', 'Settings tab') +'</a></li></ul>' +
         '<div id="tabs-1">' +
         '<form name="settingsForm">' +
         /*'<fieldset class="ui_settings">' +
@@ -986,6 +989,27 @@
         '<option value="musicPlaylist"' + (startPage=='musicPlaylist'? 'selected' : '') + '>' + mkf.lang.get('Music Playlists', 'Settings option') + '</option>' +
         '</select>' +
         '</fieldset>' +
+        
+        '<fieldset class="ui_views">' +
+        '<legend>' + mkf.lang.get('Input keys', 'Settings label') + '</legend>' +
+        '<select id="inputKey" name="inputKey">' +
+        '<option value=0 ' + (inputKey==0? 'selected' : '') + '>' + mkf.lang.get('Always inactive', 'Settings option') + '</option>' +
+        '<option value=1 ' + (inputKey==1? 'selected' : '') + '>' + mkf.lang.get('Active when playing', 'Settings option') + '</option>' +
+        '<option value=2 ' + (inputKey==2? 'selected' : '') + '>' + mkf.lang.get('Always active', 'Settings option') + '</option>' +
+        '</select>' +
+        '</fieldset>' +
+        
+        '<fieldset class="ui_views">' +
+        '<legend>' + mkf.lang.get('Action on play', 'Settings label') + '</legend>' +
+        '<select id="actionOnPlay" name="actionOnPlay">' +
+        '<option value=0 ' + (actionOnPlay==0? 'selected' : '') + '>' + mkf.lang.get('Show player controls', 'Settings option') + '</option>' +
+        '<option value=1 ' + (actionOnPlay==1? 'selected' : '') + '>' + mkf.lang.get('Do nothing', 'Settings option') + '</option>' +
+        '<option value=2 ' + (actionOnPlay==2? 'selected' : '') + '>' + mkf.lang.get('Fullscreen mode', 'Settings option') + '</option>' +
+        '<option value=3 ' + (actionOnPlay==3? 'selected' : '') + '>' + mkf.lang.get('Fullscreen mode with lyrics', 'Settings option') + '</option>' +
+        '<option value=4 ' + (actionOnPlay==4? 'selected' : '') + '>' + mkf.lang.get('Always show player controls', 'Settings option') + '</option>' +
+        '</select>' +
+        
+        '</fieldset>' +
         /*'<fieldset class="ui_views">' +
         '<legend>' + mkf.lang.get('Manual File Directory', 'Settings label') + '</legend>' +
         '<input type="text" name="manual_path" id="manual_path" style="width: 98%">' +
@@ -1001,9 +1025,10 @@
         '<input type="checkbox" id="showTags" name="showTags" ' + (showTags=='yes'? 'checked="checked"' : '') + '><label for="showTags">' + mkf.lang.get('Show codec tags', 'Settings option') + '</label>' +
         '<input type="checkbox" id="rotateCDart" name="rotateCDart" ' + (rotateCDart=='yes'? 'checked="checked"' : '') + '><label for="rotateCDart">' + mkf.lang.get('Rotate CD art', 'Settings option') + '</label><br />' +
         '<input type="checkbox" id="preferLogos" name="preferLogos" ' + (preferLogos=='yes'? 'checked="checked"' : '') + '><label for="preferLogos">' + mkf.lang.get('Prefer Logos', 'Settings option') + '</label>' +
-        '<input type="checkbox" id="controllerOnPlay" name="controllerOnPlay" ' + (controllerOnPlay=='yes'? 'checked="checked"' : '') + '><label for="controllerOnPlay">' + mkf.lang.get('Control display when playing', 'Settings option') + '</label><br />' +
-        '<label for="timeout">' + mkf.lang.get('Time Out for Ajax-Requests:', 'Settings option') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('seconds', 'Settings label') +
+        //'<input type="checkbox" id="controllerOnPlay" name="controllerOnPlay" ' + (controllerOnPlay=='yes'? 'checked="checked"' : '') + '><label for="controllerOnPlay">' + mkf.lang.get('Control display when playing', 'Settings option') + '</label><br />' +
+        '<br /><label for="timeout">' + mkf.lang.get('Time Out for Ajax-Requests:', 'Settings option') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('seconds', 'Settings label') +
         '</fieldset>' +
+        '<a href="" class="formButton save">' + mkf.lang.get('Save', 'Settings label') + '</a>' + 
         '</form>' +
         '</div>' +
         
@@ -1078,6 +1103,7 @@
         '<br /><label for="limitMusicVideo">' + mkf.lang.get('Number of items to list:', 'Settings label') + ' </label><input type="text" id="limitMusicVideo" name="limitMusicVideo" value="' + limitMusicVideo + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('for music video based views.', 'Settings label') +
         '</fieldset>' +
         //'<div class="formHint">' + mkf.lang.get('* Not recommended for a large amount of items.') + '</div>' +
+        '<a href="" class="formButton save">' + mkf.lang.get('Save', 'Settings label') + '</a>' + 
         '</form>' +
         '</div>' +
         
@@ -1119,6 +1145,7 @@
         '<br /><label for="limitAlbums">' + mkf.lang.get('Number of items to list:', 'Settings label') + ' </label><input type="text" id="limitAlbums" name="limitAlbums" value="' + limitAlbums + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('for album based views.', 'Settings label') +
         '<br /><label for="limitSongs">' + mkf.lang.get('Number of items to list:', 'Settings label') + ' </label><input type="text" id="limitSongs" name="limitSong" value="' + limitSongs + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('for song based views.', 'Settings label') +
         '</fieldset>' +
+        '<a href="" class="formButton save">' + mkf.lang.get('Save', 'Settings label') + '</a>' + 
         //'<div class="formHint">' + mkf.lang.get('label_settings_warning') + '</div>' +
         '</form>' +
         '</div>' +
@@ -1176,16 +1203,26 @@
         '</option><option value="episode" ' + (EpSort=='episode'? 'selected' : '') + '>' + mkf.lang.get('Episodes', 'Settings option') +'</option></select>' +
         '<input type="checkbox" id="epdesc" name="epdesc" ' + (epdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('Descending', 'Settings option') + '</label>' +
         '</fieldset>' +
-        
+        '<a href="" class="formButton save">' + mkf.lang.get('Save', 'Settings label') + '</a>' + 
         '</form>' +
         '</div>' +
+        
+        //Kodi settings
+        '<div id="tabs-5">' +
+        //insert from uiviews.kodiSettings()
+          //uiviews.kodiSettings() +
         '</div>' +
-        '<a href="" class="formButton save">' + mkf.lang.get('Save', 'Settings label') + '</a>' + 
-        '<div class="formHint">' + mkf.lang.get('(Settings are stored in cookies. You need to enable cookies for this site.)', 'Settings') + '</div>' +
-        '</div>'
-        }
-      );
 
+        /*'</div>' +
+        '<a href="" class="formButton save">' + mkf.lang.get('Save', 'Settings label') + '</a>' + 
+        '<div class="formHint">' + mkf.lang.get('(Settings are stored in cookies. You need to enable cookies for this site.)', 'Settings') + '</div>' +*/
+        '</div>');
+        
+      var dialogHandle = mkf.dialog.show();
+      mkf.dialog.setContent(dialogHandle, dialogContent);
+      
+      dialogContent.find('#tabs-5').append(uiviews.kodiSettings());
+      
       //Populate langs
       mkf.lang.getLanguages(function(objls) {
         if (!objls) {
@@ -1206,6 +1243,16 @@
         };
       });
       
+      dialogContent.find('input[type=text]').blur(function() {
+        if (inputControls) {
+          xbmc.inputKeys('on');
+        }
+      }).focus(function() {
+        if (awxUI.settings.inputKeysActive) {
+        inputControls = true;
+        xbmc.inputKeys('off');
+      };
+      });
       $('#artists').change(function() {
         $('#artists_path').css('display', ($(this).val() == 'logo' || $(this).val() == 'logosingle' || $(this).val() == 'banner') ? 'block' : 'none');
       });
@@ -1297,7 +1344,9 @@
         awxUI.settings.showTags = document.settingsForm.showTags.checked? true : false;
         awxUI.settings.rotateCDart = document.settingsForm.rotateCDart.checked? true : false;
         awxUI.settings.preferLogos = document.settingsForm.preferLogos.checked? true : false;
-        awxUI.settings.controllerOnPlay = document.settingsForm.controllerOnPlay.checked? true : false;
+        //awxUI.settings.controllerOnPlay = document.settingsForm.controllerOnPlay.checked? true : false;
+        awxUI.settings.inputKey = document.settingsForm.inputKey.value;
+        awxUI.settings.actionOnPlay = document.settingsForm.actionOnPlay.value;
         
         if (awxUI.settings.useFanart && !document.settingsForm.usefanart.checked? true : false) {
           //Change in fan art, may need to remove current.
@@ -1330,6 +1379,7 @@
         }
         /*if (oldui != ui) alert(mkf.lang.get('settings_need_to_reload_awx'));*/
         mkf.dialog.close(dialogHandle);
+
 
         return false;
       });
@@ -1640,11 +1690,11 @@
             $.each(result.files, function(i, file) {
               if (file.type == 'album') {
                 //add to playlist by albumid, returned as id
-                sendBatch[i] = '{"jsonrpc": "2.0", "method": "Playlist.Add", "params": { "item": { "albumid": ' + file.id + ' }, "playlistid": 0 }, "id": "batchAPL"}';
+                sendBatch.push('{"jsonrpc": "2.0", "method": "Playlist.Add", "params": { "item": { "albumid": ' + file.id + ' }, "playlistid": 0 }, "id": "batchAPL"}');
 
               } else if (file.type == 'song') {
                 //add to playlist by songid, returned as id
-                sendBatch[i] = '{"jsonrpc": "2.0", "method": "Playlist.Add", "params": { "item": { "songid": ' + file.id + ' }, "playlistid": 0 }, "id": "batchAPL"}';
+                sendBatch.push('{"jsonrpc": "2.0", "method": "Playlist.Add", "params": { "item": { "songid": ' + file.id + ' }, "playlistid": 0 }, "id": "batchAPL"}');
 
               } else {
                 //it's not any of those, error
@@ -1666,9 +1716,9 @@
         });
       };
       
-      //should be normal playlist. m3u only? Can use playlist.add directory addAudioFolderToPlaylist
+      //should be normal playlist. m3u only? Can NOT use playlist.add directory as it doesn't honour track order.
       if (!isSmart && e.data.playlistinfo.type == 'unknown' && e.data.playlistinfo.filetype == 'directory') {
-        var messageHandle = mkf.messageLog.show(mkf.lang.get('Adding to playlist...', 'Popup message with addition'));
+        /* messageHandle = mkf.messageLog.show(mkf.lang.get('Adding to playlist...', 'Popup message with addition'));
         xbmc.playlistAdd({
           playlistid: 0,
           item: 'directory',
@@ -1679,6 +1729,44 @@
           },
           onError: function(errorText) {
             mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+          }
+        });*/
+        xbmc.getDirectory({
+          directory: e.data.playlistinfo.file,
+          isPlaylist: true,
+          
+          onError: function() {
+            mkf.messageLog.show(mkf.lang.get('Failed!', 'Popup message addition'), mkf.messageLog.status.error, 5000);
+          },
+
+          onSuccess: function(result) {
+            var sendBatch = [];
+            var messageHandle = mkf.messageLog.show(mkf.lang.get('Adding to playlist...', 'Popup message with addition'));
+            
+            $.each(result.files, function(i, file) {
+              if (file.type == 'file') {
+                //add to playlist file
+                sendBatch.push('{"jsonrpc": "2.0", "method": "Playlist.Add", "params": { "item": { "file": ' + file.file + ' }, "playlistid": 0 }, "id": "batchAPL"}');
+
+              } else if (file.type == 'song') {
+                //add to playlist by songid, returned as id
+                sendBatch.push('{"jsonrpc": "2.0", "method": "Playlist.Add", "params": { "item": { "songid": ' + file.id + ' }, "playlistid": 0 }, "id": "batchAPL"}');
+
+              } else {
+                //it's not any of those, error
+                mkf.messageLog.show(mkf.lang.get('Failed!', 'Popup message addition'), mkf.messageLog.status.error, 5000);
+              };
+            });
+            //Send batch command
+            xbmc.sendBatch({
+              batch: sendBatch,
+              onSuccess: function() {
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('OK', 'Popup message addition'), 2000, mkf.messageLog.status.success);
+              },
+              onError: function() {
+                mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('Failed!', 'Popup message addition'), mkf.messageLog.status.error, 5000);
+              }
+            });
           }
         });
       };
@@ -2524,6 +2612,20 @@
     if (!pvrchanResult.limits.total > 0) { return };
     
     uiviews.PVRchanViewList(pvrchanResult, parentPage).appendTo($(this));
+    
+  }; // END PVRchanViewer
+  
+  
+  /* ########################### *\
+   |  Show PVR EPG grid
+   |
+   |  @param pvrchanResult
+  \* ########################### */
+  $.fn.defaultEPGgridViewer = function(pvrchanResult, parentPage) {
+
+    if (!pvrchanResult.limits.total > 0) { return };
+    
+    uiviews.PVRepgGrid(pvrchanResult, parentPage).appendTo($(this));
     
   }; // END PVRchanViewer
   
@@ -3599,7 +3701,7 @@
       var seperator = $('div#now span.seperator');
       var nextElement = $footerNowBox.find('span.nextTitle');
       var timeCurRemain = $footerStatusBox.find('span.timeRemain');
-      var timeCurRemainTotal = $footerStatusBox.find('span.timeRemainTotal');
+      var timeCurRemainTotal = $footerStatusBox.find('span.timeTotal');
       var sliderElement = $('.playingSliderWrapper .playingSlider');
       
       sliderElement.slider({
@@ -3607,199 +3709,6 @@
         value: 0,
         stop: function(event, ui) {
           if (awxUI.settings.player) { xbmc.seekPercentage({percentage: ui.value}); }
-        }
-      });
-
-      xbmc.periodicUpdater.addCurrentlyPlayingChangedListener(function(currentFile) {
-        // ALL: AUDIO, VIDEO, PICTURE
-        if (currentFile.title && currentFile.title != '') { titleElement=currentFile.title; } else { titleElement = (currentFile.label? currentFile.label : mkf.lang.get('N/A', 'Label')) ; }
-
-        if (currentFile.xbmcMediaType == 'audio') {
-          // AUDIO
-          if (currentFile.type == 'channel') {
-            //label = channel, title = program name
-            if (currentFile.title) { titleElement = currentFile.title; } else { titleElement = mkf.lang.get('N/A', 'Label'); }
-            if (currentFile.label) { channelElement = currentFile.label; } else { channelElement = mkf.lang.get('N/A', 'Label'); }
-            
-            nowLabelElement.text(titleElement);
-            nowElement.text(' - ' + channelElement);
-          } else {
-            if (currentFile.artist) { artistElement = currentFile.artist; } else { artistElement = mkf.lang.get('N/A', 'Label'); }
-            if (currentFile.album) { albumElement = currentFile.album; } else { albumElement = mkf.lang.get('N/A', 'Label'); }
-            
-            //If in partymode refresh the playlist on item change.
-            if (currentFile.partymode) {
-              awxUI.onMusicPlaylistShow();
-            };
-            nowLabelElement.text(titleElement);
-            nowArtistElement.text(artistElement);
-            seperator.text(' - ');
-            nowElement.text(' - ' + albumElement);
-          };
-        } else if (currentFile.xbmcMediaType == 'video') {
-          // VIDEO
-
-          if (currentFile.type == 'episode') {
-
-            tvshowElement = currentFile.showtitle;
-            seasonElement = currentFile.season;
-            episodeElement = currentFile.episode;
-            seperator.text(' - ');
-            
-            nowLabelElement.text(titleElement);
-            nowElement.text(tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
-
-          } else if (currentFile.type == 'channel') {
-            //label = channel, title = program name
-            if (currentFile.title) { titleElement = currentFile.title; } else { titleElement = mkf.lang.get('N/A', 'Label'); }
-            if (currentFile.label) { channelElement = currentFile.label; } else { channelElement = mkf.lang.get('N/A', 'Label'); }
-            
-            nowLabelElement.text(titleElement);
-            nowElement.text(' - ' + channelElement);
-          } else if (currentFile.type == 'musicvideo') {
-            if (currentFile.artist) { artistElement = currentFile.artist; } else { artistElement = mkf.lang.get('N/A', 'Label'); }
-            if (currentFile.album) { albumElement = currentFile.album; } else { albumElement = mkf.lang.get('N/A', 'Label'); }
-            
-            //hack for partymode playlist refresh - *change to playlist notification*
-            if (currentFile.partymode) {
-              awxUI.onVideoPlaylistShow();
-            };
-            nowLabelElement.text(titleElement);
-            nowElement.text(' - ' + artistElement);
-          } else {
-            nowLabelElement.text(titleElement);
-          }
-        }
-        
-        //thumbElement.attr('src', 'images/thumbPoster.png');
-        var thumb = new Image();
-        //if (currentFile.thumbnail != '') { thumb.src = xbmc.getThumbUrl(currentFile.thumbnail) };
-        
-        //if (currentFile.thumbnail != '') {
-          //thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
-          if (currentFile.type == 'episode') {
-            //if ($('#displayoverlay').css('width') != '656px') { $('#displayoverlay').css('width','656px') };
-            thumbElement.attr('src', 'images/empty_thumb_tv.png');
-            if (currentFile.thumbnail != '') { thumb.src = xbmc.getThumbUrl(currentFile.thumbnail) };
-            thumb.onload = function() { thumbElement.attr('src', thumb.src) };
-            thumbElement.css('margin-top', '120px');
-            thumbElement.css('margin-left', '5px');
-            thumbElement.css('width', '255px');
-            thumbElement.css('height', '163px');
-            
-            /*xbmc.getLogo({path: currentFile.file, type: 'logo'}, function(logo) {
-              console.log(currentFile);
-              thumbDiscElement.attr('src', logo);
-              if (thumbDiscElement.css('width') != '200px') { thumbDiscElement.css('width','200px'); thumbDiscElement.css('height','78px'); };
-              thumbDiscElement.show();
-              
-            });*/
-          } else if (currentFile.xbmcMediaType == 'audio') {
-            //if ($('#displayoverlay').css('width') != '510px') { $('#displayoverlay').css('width','510px') };
-            thumbElement.attr('src', 'images/empty_cover_musicO.png');
-            if (currentFile.thumbnail != '') { thumb.src = xbmc.getThumbUrl(currentFile.thumbnail) };
-            thumb.onload = function() { thumbElement.attr('src', thumb.src) };
-            thumbElement.css('margin-top', '57px');
-            thumbElement.css('margin-left', '35px');
-            thumbElement.css('height', '225px');
-            thumbElement.css('width', '225px');
-            if (thumbDiscElement.css('width') != '225px') { thumbDiscElement.css('width','225px'); thumbDiscElement.css('height','225px'); };
-              
-            xbmc.getLogo({path: currentFile.file, type: 'cdart'}, function(cdart) {
-              if (cdart == '') {
-                thumbDiscElement.hide();
-              } else {thumbDiscElement.css('margin-left','35px');
-                thumbDiscElement.attr('src', cdart);
-                thumbDiscElement.show();
-                
-                if (rotateCDart) {
-                  var angle = 0;
-                  spinCDArt = setInterval(function(){
-                  angle+=3;
-                    thumbDiscElement.rotate(angle);
-                  },75);
-                };
-              };
-            });
-          } else if (currentFile.type == 'channel') {
-            thumbElement.css('margin-top', '57px');
-            thumbElement.css('margin-left', '35px');
-            thumbElement.css('height', '225px');
-            thumbElement.css('width', '225px');
-            
-          } else if (currentFile.type == 'movie') {
-            thumbElement.attr('src', 'images/empty_poster_film.png');
-            if (currentFile.thumbnail != '') { thumb.src = xbmc.getThumbUrl(currentFile.thumbnail) };
-            thumb.onload = function() { thumbElement.attr('src', thumb.src) };
-            
-            thumbElement.css('margin-top', '0px');
-            thumbElement.css('margin-left', '70px');
-            thumbElement.css('height', '280px');
-            thumbElement.css('width', '187px');
-            xbmc.getLogo({path: currentFile.file, type: 'disc'}, function(cdart) {
-              if (cdart != '') {
-                $('#displayoverlay').css('width','720px');
-                thumbElement.css('margin-right','100px');
-                //#displayoverlay width: 600px;
-                //.discThumb width: 270px; height: 270px; margin-left: 20px;
-                thumbDiscElement.css('width','270px');
-                thumbDiscElement.css('height','270px');
-                thumbDiscElement.css('margin-left','-20px');
-                thumbDiscElement.attr('src', cdart);
-                thumbDiscElement.show();
-                
-                if (rotateCDart) {
-                  var angle = 0;
-                  spinCDArt = setInterval(function(){
-                  angle+=3;
-                    thumbDiscElement.rotate(angle);
-                  },75);
-                }
-              }
-            });
-            
-          } else if (currentFile.type == 'musicvideo') {
-            thumbElement.attr('src', 'images/empty_cover_musicvideo.png');
-            if (currentFile.thumbnail != '') { thumb.src = xbmc.getThumbUrl(currentFile.thumbnail) };
-            thumb.onload = function() { thumbElement.attr('src', thumb.src) };
-            thumbElement.css('margin-top', '57px');
-            thumbElement.css('margin-left', '35px');
-            thumbElement.css('height', '225px');
-            thumbElement.css('width', '225px');
-          };
-
-        //}
-      });
-      
-      xbmc.periodicUpdater.addNextPlayingChangedListener(function(nextFile) {
-        // ALL: AUDIO, VIDEO, PICTURE
-        if (nextFile.title) { titleElement=nextFile.title; } else { titleElement = (nextFile.label? nextFile.label : '') ; }
-
-        if (nextFile.xbmcMediaType == 'audio') {
-          // AUDIO
-          if (nextFile.artist) { artistElement = nextFile.artist; } else { artistElement = mkf.lang.get('N/A', 'Label'); }
-          if (nextFile.album) { albumElement = nextFile.album; } else { albumElement = mkf.lang.get('N/A', 'Label'); }
-          
-          nextElement.text(titleElement + ' - ' + artistElement + ' - ' + albumElement);
-          //nowElement.text(' - ' + artistElement + ' - ' + albumElement);
-        } else {
-          // VIDEO
-
-          if (nextFile.season &&
-            nextFile.episode &&
-            nextFile.showtitle) {
-
-            thumbDiscElement.attr('src', '');
-            tvshowElement = nextFile.showtitle;
-            seasonElement = nextFile.season;
-            episodeElement = nextFile.episode;
-            
-            nextElement.text(titleElement + ' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
-            //nowElement.text(' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
-
-          } else {
-            nextElement.text(titleElement);
-          }
         }
       });
         
@@ -3870,8 +3779,20 @@
       });
       
       xbmc.periodicUpdater.addProgressChangedListener(function(progress) {
-        timeCurRemain.text(xbmc.formatTime(progress.total - progress.time));
-        timeCurRemainTotal.text(xbmc.formatTime(progress.total));
+        //console.log(progress);
+        
+        //Send time to display function
+        awxUIdisplay.timeKeeping(progress.time, progress.total);
+        
+        progress.total = Math.floor(progress.total / 1000);
+        progress.time = Math.floor(progress.time / 1000);
+        
+        //console.log(progress.time);
+        //console.log(xbmc.formatTime(progress.total - progress.time));
+        
+        
+        /*timeCurRemain.text(xbmc.formatTime(progress.total - progress.time));
+        timeCurRemainTotal.text(xbmc.formatTime(progress.total));*/
         //durationElement.text(progress.total);
         sliderElement.slider("option", "value", 100 * progress.time / progress.total);
       });
@@ -3886,7 +3807,7 @@
     //library: 'video', [open: 'continue', searchAndOr: '', searchFields: 'title', searchOps: 'contains', searchTerms: ''],
     var inputControls = false;
     //Switch off key binds
-    if (awxUI.settings.remoteActive) {
+    if (awxUI.settings.inputKeysActive) {
       //Restore input keys after searching
       inputControls = true;
       xbmc.inputKeys('off');

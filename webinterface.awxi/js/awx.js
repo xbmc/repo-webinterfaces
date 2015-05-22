@@ -118,6 +118,8 @@ var awx = {};
             if (typeof awxUI.settings.artistsPath === 'undefined') {  awxUI.settings.artistsPath = ''; }
             if (typeof awxUI.settings.preferLogos === 'undefined') {  awxUI.settings.preferLogos = false; }
             if (typeof awxUI.settings.controllerOnPlay === 'undefined') {  awxUI.settings.controllerOnPlay = true; }
+            if (typeof awxUI.settings.inputKey === 'undefined') {  awxUI.settings.inputKey = 0; }
+            if (typeof awxUI.settings.actionOnPlay === 'undefined') {  awxUI.settings.actionOnPlay = 0; }
           } else {
             //Views
             awxUI.settings.artistsView = mkf.cookieSettings.get('artistsView', 'list');
@@ -168,9 +170,12 @@ var awx = {};
             awxUI.settings.manualPath = mkf.cookieSettings.get('manualPath');
             awxUI.settings.preferLogos = mkf.cookieSettings.get('preferLogos')=='yes'? true : false;
             awxUI.settings.controllerOnPlay = mkf.cookieSettings.get('controllerOnPlay', 'yes')=='yes'? true : false;
+            awxUI.settings.inputKey = mkf.cookieSettings.get('inputKey', 0);
+            awxUI.settings.actionOnPlay = mkf.cookieSettings.get('actionOnPlay', 0);
           }
 
           awxUI.settings.remoteActive = false;
+          awxUI.settings.inputKeysActive = false;
           
           /*if (ui == 'light') {
             uiScript = 'ui.light/ui.light.js';

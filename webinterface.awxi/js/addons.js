@@ -29,13 +29,14 @@ var addons = {};
       var settings = {
         enabled: true,
         content: 'unknown',
+        type: 'unknown',
         onSuccess: null,
         onError: null
       };
       $.extend(settings, options);
       
       xbmc.sendCommand(
-        '{"jsonrpc": "2.0", "method": "Addons.GetAddons", "params": { "enabled": ' + settings.enabled + ', "content": "' + settings.content + '", "properties": [ "name", "thumbnail", "version", "author" ] }, "id": "libAddons"}',
+        '{"jsonrpc": "2.0", "method": "Addons.GetAddons", "params": { "enabled": ' + settings.enabled + ', "content": "' + settings.content + '", "type": "' + settings.type + '", "properties": [ "name", "thumbnail", "version", "author" ] }, "id": "libAddons"}',
         function(reponse) {
           settings.onSuccess(reponse.result);
         },

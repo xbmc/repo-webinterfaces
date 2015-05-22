@@ -1563,6 +1563,7 @@
                 '<div id="lyricContent"><div id="lyricInfo"></div><div id="lyrics"></div></div>' +
                 '<div id="playing" style="display: none">' +
                   '<div id="now"><span id="nowspan"><span class="label" /><span class="seperator"></span><span class="nowArtist artist" /><span class="nowTitle" /></span></div>' +
+                  '<div id="nowTime"><span id="nowspan"><span class="timePlayed" /><span class="seperator">/</span><span class="timeTotal" /></span></div>' +
                   '<div id="FSartwork" ><a href="" class="artclose"></a><img class="discThumb" src="images/blank_cdart.png" style="display: none; width: 194px; height: 194px; position: absolute; z-index: -1;"><img class="artThumb" src="images/empty_poster_overlay.png"></div>' +
                 '</div>' +
               '</div>' +
@@ -1591,8 +1592,9 @@
               '<div id="footer">' +
                 '<div id="simple_controls"></div><div id="infoContainer"></div>' +
                 '<div id="statPlayerContainer"><div id="streamdets"><div class="vFormat" /><div class="aspect" /><div class="vCodec" /><div class="aCodec" /><div class="channels" /><div class="vSubtitles" style="display: none" /></div>' +
+                '<div id="statusInputkey"><a class="button inputcontrols" href="" title="Control Keys"></a></div>' +
                 '<div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div>' +
-                '<div id="remainPlayer"><div id="remaining">' + mkf.lang.get('Remaining:', 'Footer label') + ' <span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('Total:', 'Footer label') + ' <span class="timeRemainTotal">00:00</span></div></div>' +
+                '<div id="remainPlayer"><div id="remaining">' + mkf.lang.get('Remaining:', 'Footer label') + ' <span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('Total:', 'Footer label') + ' <span class="timeTotal">00:00</span></div></div>' +
               //'<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">Remaing:</div><div id="plTotal">Playlist Total:</div></div>' +
                 '<div id="controller"></div></div>' +
               '</div>' +
@@ -1619,21 +1621,26 @@
       $('#controlsInput24').controlsInput24();
       $('#artwork a.artclose').click(function() { $('#artwork').hide(); return false; } );
       $('#infoContainer').uniFooterStatus();
+      $('#statusInputkey a.inputcontrols').on('click', function() {
+        xbmc.inputKeys('toggle');
+        return false;
+      });
       $('#controller').on('click', function() {
 
         //awxUI.settings.remoteActive = ( awxUI.settings.remoteActive? false : true );
         //Duplicate XBMC key functions
-        if (!awxUI.settings.remoteActive) {
+        /*if (!awxUI.settings.remoteActive) {
           xbmc.inputKeys('on');
         } else {
           xbmc.inputKeys('off');
-        };
+        };*/
+        
         
         $('#displayoverlayleft').toggle();
         $('#displayoverlaytop').toggle();
         $('#displayoverlaybot').toggle();
         $('#content').toggleClass('controls');
-        $('#artwork').show();
+        $('#artwork').show().fadeOut(8000);
       });
       
       $('#fullscreen a.lyrics').click(function() {
@@ -1734,6 +1741,17 @@
       xbmc.musicPlaylist = $('div.musicPlaylist');
       xbmc.videoPlaylist = $('div.videoPlaylist');
 
+      //Set player controls and input keys to on if required
+      if (awxUI.settings.inputKey == 2) {
+        xbmc.inputKeys('on');
+      }
+      if (awxUI.settings.actionOnPlay == 4) {
+        $('#displayoverlayleft').toggle();
+        $('#displayoverlaytop').toggle();
+        $('#displayoverlaybot').toggle();
+        $('#content').toggleClass('controls');
+        $('#artwork').show().fadeOut(8000);
+      }      
     },
     
      /**************************************
@@ -2821,6 +2839,29 @@
         $contentBox.addClass('loading');
 
         xbmc.pvrGetChannelGroups({
+          onError: function() {
+            //mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
+            $contentBox.removeClass('loading');
+          },
+
+          onSuccess: function(result) {
+            $contentBox.defaultPVRViewer(result, pvrtvPage);
+            $contentBox.removeClass('loading');
+          }
+        });
+      }
+    },
+    
+    /*********************************************
+     * Called when PVR EPG Page is shown.    *
+     *********************************************/
+    onPVRepgGrid: function() {
+      if (this.$pvrepgContent.html() == '') {
+        var pvrepgPage = this.pvrepgPage;
+        var $contentBox = this.$pvrepgContent;
+        $contentBox.addClass('loading');
+
+        xbmc.pvrGetChannels({
           onError: function() {
             //mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
             $contentBox.removeClass('loading');

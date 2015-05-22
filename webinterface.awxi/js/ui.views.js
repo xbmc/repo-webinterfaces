@@ -1091,6 +1091,57 @@ var uiviews = {};
       return false;
     },
     
+        /*--------*/
+    PVRepgChannels: function(e) {
+      // open new page to show epg channels
+      var $pvrepgChanContent = $('<div class="pageContentWrapper"></div>');
+      var pvrepgChanPage = mkf.pages.createTempPage(e.data.objParentPage, {
+        title: 'EPG',
+        content: $pvrepgChanContent
+      });
+      var fillPage = function() {
+        $pvrepgChanContent.addClass('loading');
+        xbmc.pvrGetChannels({
+          channelgroupid: e.data.idChannelGroup,
+
+          onError: function() {
+            //mkf.messageLog.show(mkf.lang.get('message_failed_pvr_genre'), mkf.messageLog.status.error, 5000);
+            $pvrepgChanContent.removeClass('loading');
+          },
+
+          onSuccess: function(result) {
+            $pvrepgChanContent.defaultEPGgridViewer(result, pvrepgChanPage);
+            $pvrepgChanContent.removeClass('loading');
+          }
+        });
+      }
+      pvrepgChanPage.setContextMenu(
+        [
+          {
+            'icon':'close', 'title':mkf.lang.get('Close', 'Tool tip'), 'shortcut':'Ctrl+1', 'onClick':
+            function() {
+              mkf.pages.closeTempPage(pvrepgChanPage);
+              return false;
+            }
+          },
+          {
+            'icon':'refresh', 'title':mkf.lang.get('Refresh', 'Tool tip'), 'onClick':
+              function(){
+                $pvrepgChanContent.empty();
+                fillPage();
+                return false;
+              }
+          }
+        ]
+      );
+      mkf.pages.showTempPage(pvrepgChanPage);
+
+      // pvr tv Chan
+      fillPage();
+
+      return false;
+    },
+    
 /*-----------------*/
 /* TV UI functions */
 /*-----------------*/
@@ -3170,9 +3221,10 @@ var uiviews = {};
       var $pvrlist = $('<ul class="fileList"></ul>');
 
         $.each(pvrchans.channelgroups, function(i, changrp)  {          
-          var $changrp = $('<li' + (i%2==0? ' class="even"': '') + '><div class="linkWrapper"> <a href="" class="pvrchan' + i +
-          '">' + changrp.label + '</a></div></li>').appendTo($pvrlist);
+          var $changrp = $('<li' + (i%2==0? ' class="even"': '') + '><div class="linkWrapper"><a href="" class="pvrchan' + i +
+          '"><button class="epg"><span class="epg">EPG</span></button>' + changrp.label + '</a></div></li>').appendTo($pvrlist);
           $changrp.find('a').on('click',{idChannelGroup: changrp.channelgroupid, strChannel: changrp.label, objParentPage: parentPage}, uiviews.PVRtvChannels);
+          $changrp.find('button.epg').on('click',{idChannelGroup: changrp.channelgroupid, strChannel: changrp.label, objParentPage: parentPage}, uiviews.PVRepgChannels);
         });
 
       return $pvrlist;
@@ -3193,6 +3245,142 @@ var uiviews = {};
         });
 
       return $pvrchan;
+    },
+    
+    /*----PVR EPG----*/
+    PVRepgGrid: function(pvrchan, parentPage) {
+      //Time now from local system, then have to take account of timezone...
+      var timeNow = new Date();
+      //One minute of programme time equals two pixels - 1m = 2px. Change the var below to alter.
+      var minToPx = 3;
+      var pvrEPG = $('<div class="epgGrid"><div class="nowTime"></div><div class="timeBar"><div class="timeBarBlank"></div><div class="timeBarTimes"></div></div></div>');
+      
+      //generate timeline bar
+      for (i=0;i<24;i++) {
+        pvrEPG.find('.timeBarTimes').append('<div class="timeBarHour"><span class="hours">' + Math.floor(timeNow.getHours() + i)%24 + '</span><div class="timeBarHalfHour"></div></div>');
+      }
+      //pvrEPG.find('.timeBarTimes').css('left', (timeNow.getHours() == 0? timeNow.getHours()*60*minToPx +100 : '-' + Math.abs(timeNow.getHours()*60*minToPx -100) + 'px'));
+      
+      $.each(pvrchan.channels, function(i, chan)  {
+        
+        var chanEPG = $('<div class="epgChan chanid' + chan.channelid + '" data-channelid="' + chan.channelid + '"><div class="channelName"><a href="" class="epgChannel' + chan.channelid + '" title="' + mkf.lang.get('Switch to channel', 'Label') + '">' + (chan.thumbnail != ''? '<img src="'+ xbmc.getThumbUrl(chan.thumbnail) +'" height="60px" class="chanIcon epgChannel">' : '<span class="epgChannel">' + chan.label + '</span>') + '</a></div></div>').appendTo(pvrEPG);
+        chanEPG.find('a.epgChannel' + chan.channelid).on('click',{idChannel: chan.channelid, strChannel: chan.label}, uiviews.pvrSwitchChannel);
+        
+        xbmc.pvrGetBroadcasts({
+          channelid: chan.channelid,
+          onSuccess: function(response) {
+            if (response.broadcasts) {
+              var firstTimeCheck = true;
+              var earliestTime = new Date().getTime();
+              var latestTime = new Date().getTime();
+              
+              var chanProgrammes = $('<div class="programmes loading"></div>');
+              
+              $.each(response.broadcasts, function(i, programme) {
+                //Ignore anything earlier than 30 minutes ago
+                //if (xbmc.sqlToEpoch(programme.endtime) > (timeNow.getTime() - 3600000) - Math.abs(timeNow.getTimezoneOffset()*60*1000)) {
+                  //Check for earliest time
+                  if (firstTimeCheck) {
+                    //console.log(xbmc.sqlToEpoch(programme.starttime))
+                    if (xbmc.sqlToEpoch(programme.starttime) < earliestTime) {
+                      //console.log(programme.broadcastid);
+                      //console.log(new Date(earliestTime).toUTCString());
+                      earliestTime = xbmc.sqlToEpoch(programme.starttime); 
+                      firstTimeCheck = false;
+                      //console.log(new Date(earliestTime).toUTCString());
+                    }
+                  }
+                  //Check for latest time
+                  if (response.broadcasts.length == i) {
+                    if (xbmc.sqlToEpoch(programme.endtime) > latestTime) { latestTime = xbmc.sqlToEpoch(programme.endtime); }
+                  }
+                  chanProgrammes.append('<div class="programme '+ programme.genre[0].replace(/\/|\s|\'/gi, '-') + '" style="width: ' + Math.floor(programme.runtime*minToPx-2) + 'px" data-broadcastid="' + programme.broadcastid + '" data-runtime="' + programme.runtime + '" data-starttime="' + programme.starttime + '" data-endtime="' + programme.endtime + '"><div class="programmeLabel"><span class="programmeLabel">' + programme.label + '</span></div>' +
+                    /*Can't really do any recording other than current, no timer support at all.
+                    '<div class="epgButtons">' +
+                      '<a href="" class="button info information" title="Information"><span class="miniIconSmall information"></span></a>' +
+                      '<a href="" class="button switch play" title="Switch"><span class="miniIconSmall play"></span></a>' +
+                      '<a href="" class="button rec recoff" title="Record"><span class="miniIconSmall recoff"></span></a>' +
+                    '</div>' +*/
+                    (programme.hastimer? '<div style="margin-top: 3px;"><img src="images/timer.png"></div>' : '') +
+                  '</div>');
+                  pvrEPG.find('.epgChan.chanid' + chan.channelid).append(chanProgrammes);
+                  if (programme.hastimer) console.log('timer: ' + programme.label);
+                  
+                  chanProgrammes.find('[data-broadcastid="' + programme.broadcastid + '"]').on({
+                    'click': function(e) {
+                      //Firefox doesn't set offset
+                      if (typeof e.offsetY === 'undefined') { e.offsetY = e.pageY - $(this).offset().top; }
+                      var parentOffset = $(this).parent().offset();
+                      var infoLeft = e.clientX;
+                      var infoTop = e.clientY - e.offsetY + $('#content').scrollTop();
+                      
+                      pvrEPG.find('.programmeInfo').empty().append('<span>' + programme.label + '</span>'+
+                        '<span>' + mkf.lang.get('Start Time:', 'Label') + xbmc.sqlToDatePlusOffset(programme.starttime).toLocaleString() + '</span>' +
+                        '<span>' + mkf.lang.get('End Time:', 'Label') + xbmc.sqlToDatePlusOffset(programme.endtime).toLocaleString() + '</span>' +
+                        '<span>' + mkf.lang.get('Run Time:', 'Label') + programme.runtime + '</span>' +
+                        '<span>' + programme.plot + '</span>' +
+                      '');
+                      
+                      //Check info window is within the page
+                      if ((infoLeft + pvrEPG.find('.programmeInfo').outerWidth() + 20) > $(document).width()) {
+                        infoLeft -= pvrEPG.find('.programmeInfo').outerWidth() + 25;
+                        pvrEPG.find('.programmeInfo').css({'left': infoLeft +'px'});
+                      } else if (infoLeft < 100) {
+                        infoLeft += pvrEPG.find('.programmeInfo').outerWidth();
+                      } else {
+                        pvrEPG.find('.programmeInfo').css({'left': infoLeft +'px'});
+                      }
+                      
+                      if ((infoTop + pvrEPG.find('.programmeInfo').height() + 20) > pvrEPG.height()) {
+                        infoTop -= pvrEPG.find('.programmeInfo').height() + 25;
+                        pvrEPG.find('.programmeInfo').css({'top': infoTop +'px'});
+                        //console.log(infoTop +'bottom change');
+                      } else if (infoTop < 10) {
+                        infoTop += pvrEPG.find('.programmeInfo').height();
+                        //console.log(infoTop +'top change');
+                      } else {
+                        pvrEPG.find('.programmeInfo').css({'top': infoTop +'px'});
+                        //console.log(infoTop +'no change');
+                      }
+                      
+                      pvrEPG.find('.programmeInfo').addClass('show');
+                      
+                      return false;
+                    }
+                  });
+                  chanProgrammes.removeClass('loading');
+                //}
+              });
+              //Offset programme times.
+              var offsetNow = timeNow.getTime() - (timeNow.getMinutes()*60*1000); //- (Math.abs(timeNow.getTimezoneOffset()*60*1000));
+              var offsetTime = earliestTime - offsetNow;
+              chanProgrammes.css('left', (offsetTime/60/1000)*minToPx + 'px');
+            }
+          },
+          onError: function(response) {
+            console.log(response);
+            mkf.messageLog.show(mkf.lang.get('Failed to retrieve list!', 'Popup message'), mkf.messageLog.status.error, 5000);
+          }
+        });
+      });
+      pvrEPG.append('<div class="programmeInfo"></div>');
+      pvrEPG.find('.programmeInfo').on({
+        /*'mouseleave': function() {
+          $(this).removeClass('show');
+        },*/
+        'click': function() {
+          $(this).removeClass('show');
+        }
+      });
+      //Show time past
+      setTimeout(function() {
+        pvrEPG.find('.nowTime').css({'height': pvrEPG[0].offsetHeight});
+        pvrEPG.find('.nowTime').animate({width: timeNow.getMinutes() *minToPx + 'px'}, 500);    
+        //console.log(pvrEPG[0].offsetHeight); 
+      }, 500);
+            
+            
+      return pvrEPG;
     },
     
     /*----TV episodes list----*/
@@ -3909,6 +4097,479 @@ var uiviews = {};
       return $addonsList;
     },
     
+    /*----Kodi Settings----*/
+    kodiSettings: function(e) {
+      //var dialogHandle = mkf.dialog.show();
+      var dialogContent = $('<div id="kodiSettings"><ul id="kodiSettingsSections"></ul></div>');
+      
+      var loadAddons = function(type, setting, allowEmpty) {
+        //Because of a bug pre-Isengard change xbmc.audioencoder type to unknown and parse out unwanted results after.
+        var wasAudioencoder = false;
+        if (type == 'xbmc.audioencoder') { 
+          type = 'unknown';
+          wasAudioencoder = true;
+        }
+        
+        addons.getAddons({
+          type: type,
+          onSuccess: function(result) {
+            var dialogAddonsHandle = mkf.dialog.show();
+            var dialogAddonsContent = $('<div><div>Available Addons</div></div>');
+            
+            //Parse out unwanted types.
+            if (wasAudioencoder) {
+              $.each(result.addons, function(idx, addon) {
+                if(addon.type != 'xbmc.audioencoder') {
+                  result.addons = result.addons.filter(function(el) {
+                    return el.type == 'xbmc.audioencoder';
+                  });
+                }
+              });
+            }
+            
+            if (allowEmpty) {
+              //Create an empty option
+              result.addons.push({
+                addonid: 'None',
+                author: 'None',
+                name: 'None',
+                thumbnail: '',
+                type: type,
+                version: "0.0"
+              });
+            }
+            
+            $.each(result.addons, function(idx, addon) {
+              dialogAddonsContent.append('<div class="addonsList"><div class="switchTo"><a href="#" id="' + addon.addonid.replace(/\./g,'-') + '">' + mkf.lang.get('Select', 'Tool tip') + '</a></div><img src="' + (addon.thumbnail == ''? 'images/emptyAddon.png' : xbmc.getThumbUrl(addon.thumbnail)) + '" class="">' +
+                '<div class="movieinfo"><span class="label">Name:</span><span class="value">' + addon.name + '</span></div>' +
+                '<div class="movieinfo"><span class="label">Author:</span><span class="value">' + addon.author + '</span></div>' +
+                '<div class="movieinfo"><span class="label">Version:</span><span class="value">' + addon.version + '</span></div>' +
+                //'<div class="switchTo"><a href="#" id="' + addon.addonid.replace(/\./g,'-') + '">Use</a></div>' +
+                '</div>');
+                
+                dialogAddonsContent.find('a#'+ addon.addonid.replace(/\./g,'-')).button().on('click', function() {
+                  xbmc.setSettingValue({
+                    setting: setting,
+                    value: (addon.addonid == 'None'? '' : addon.addonid),
+                    onSuccess: function() {
+                      mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      //As we get a Yes/No box on skin changes, wait a sec then left, select to confirm.
+                      if (type == 'xbmc.gui.skin') {
+                        setTimeout(
+                          xbmc.sendBatch({
+                            batch: ['{"jsonrpc": "2.0", "method": "Input.Left", "id": "skinInputLeft"},{"jsonrpc": "2.0", "method": "Input.Select", "id": "skinInputSelect"}'],
+                            onSuccess: function(result) {
+                              console.log(result);
+                            },
+                            onError: function(result) {
+                              console.log(result);
+                            }
+                          })
+                        , 1500);
+                      }
+                      //Close window
+                      //dialogAddonsContent.parent().find('a.close').click();
+                      mkf.dialog.close(dialogAddonsHandle);
+                    },
+                    onError: function() {
+                      mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                    }
+                  });
+                });
+            });
+            mkf.dialog.setContent(dialogAddonsHandle, dialogAddonsContent);
+            return false;
+          },
+          onError: function() {
+            console.log('failed to get addon list');
+          }        
+        });
+      }
+      
+      var loadSettings = function(ui) {
+        var tab = ui.newPanel;
+        //console.log(ui.newPanel.parent().parent()[0].id);
+        //console.log(ui.newPanel[0].id);
+        xbmc.getSettings({
+          section: ui.newPanel.parent().parent()[0].id,
+          category: ui.newPanel[0].id,
+          onSuccess: function(result) {
+            tab.empty();
+            $.each(result.settings, function(idx, setting) {
+              switch (setting.control.type) {
+                case 'spinner':
+                  if (setting.type == 'string') {
+                    tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><select class="KsettingSpin" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '"></select><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                    if (typeof setting.options !== 'undefined') {
+                      $.each(setting.options, function(idx, option) {
+                        tab.find('select#' + setting.id.replace(/\./g,'-')).append('<option value="' + option.value + '"' + (option.value == setting.value? 'selected' : '') + '>' + option.label + '</option>');
+                      });
+                    }
+                  } else if (setting.type == 'integer' && typeof setting.options !== 'undefined') {
+                    //Int value but with no logical stepping so select it is.
+                    tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><select class="KsettingSpin" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '"></select><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                    if (typeof setting.options !== 'undefined') {
+                      $.each(setting.options, function(idx, option) {
+                        tab.find('select#' + setting.id.replace(/\./g,'-')).append('<option value="' + option.value + '"' + (option.value == setting.value? 'selected' : '') + '>' + option.label + '</option>');
+                      });
+                    }
+                  } else {
+                    //Assume number
+                    tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingSpin" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" value="' + setting.value + '"><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                    var spinner = tab.find('input#' + setting.id.replace(/\./g,'-')).spinner();
+                    if (typeof setting.maximum !=='undefined') { spinner.spinner('option', 'max', setting.maximum); }
+                    if (typeof setting.minimum !=='undefined') { spinner.spinner('option', 'min', setting.minimum); }
+                    if (typeof setting.step !=='undefined') { spinner.spinner('option', 'step', setting.step); }
+                    
+                    tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                      var sendValue = $(this).parent().find('input#' + setting.id.replace(/\./g,'-')).val();
+                      xbmc.setSettingValue({
+                        setting: setting.id,
+                        value: sendValue,
+                        onSuccess: function() {
+                          mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                        },
+                        onError: function() {
+                          mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                        }
+                      });
+                    });
+                    tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                      xbmc.setSettingValue({
+                        setting: setting.id,
+                        value: setting.default,
+                        onSuccess: function() {
+                          mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                        },
+                        onError: function() {
+                          mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                        }
+                      });
+                    });
+                  }
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                    var sendValue = $(this).parent().find('select#' + setting.id.replace(/\./g,'-')).val();
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: sendValue,
+                      onSuccess: function() {
+                        mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                  });
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: setting.default,
+                      onSuccess: function() {
+                        mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                  });
+                break;
+                
+                case 'checkmark':
+                  tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingCheck" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" type="checkbox" value="' + setting.value + '" ' + (setting.value? 'checked' : '') + '><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                    var sendValue = $(this).parent().find('input#' + setting.id.replace(/\./g,'-')).is(':checked');
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: sendValue,
+                      onSuccess: function() {
+                        mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                  });
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: setting.default,
+                      onSuccess: function() {
+                      mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                  });
+                break;
+                
+                case 'toggle':
+                  tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingCheck" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" type="checkbox" value="' + setting.value + '" ' + (setting.value? 'checked' : '') + '><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                    var sendValue = $(this).parent().find('input#' + setting.id.replace(/\./g,'-')).is(':checked');
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: sendValue,
+                      onSuccess: function() {
+                      mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                  });
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: setting.default,
+                      onSuccess: function() {
+                      mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                  });
+                break;
+                
+                case 'edit':
+                  tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingEdit" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" type="text" value="' + setting.value + '"><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                    var sendValue = $(this).parent().find('input#' + setting.id.replace(/\./g,'-')).is(':checked');
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: sendValue
+                    });
+                    mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                  });
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: setting.default,
+                      onSuccess: function() {
+                      mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                  });
+                break;
+                
+                case 'button':
+                  switch (setting.control.format) {
+                    case 'addon':
+                      tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingButton" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" type="button" value="' + setting.value + '"><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                      tab.find('input#' + setting.id.replace(/\./g,'-')).click(function() {
+                        loadAddons(setting.addontype, setting.id, setting.allowempty);
+                      });
+                    break;
+                    
+                    case 'path':
+                      tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingPath" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" type="text" value="' + setting.value + '"><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+
+                      tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                        var sendValue = $(this).parent().find('input#' + setting.id.replace(/\./g,'-')).val();
+                        console.log(typeof sendValue);
+                        //if (sendValue.length > 1 && typeof setting.delimiter !== 'undefined') { sendValue = sendValue.join(setting.delimiter).toString() }
+                        //sendValue = sendValue.join(setting.delimiter).toString();
+                        xbmc.setSettingValue({
+                          setting: setting.id,
+                          value: sendValue,
+                          onSuccess: function() {
+                            mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                          },
+                          onError: function() {
+                            mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                          }
+                        });
+                      });
+                      tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                        xbmc.setSettingValue({
+                          setting: setting.id,
+                          value: setting.default,
+                          onSuccess: function() {
+                            mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                          },
+                          onError: function() {
+                            mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                          }
+                        });
+                      });
+                      
+                    break;
+                    
+                    default:
+                      if (typeof setting.value === 'undefined' || setting.value == '' && setting.control.format == 'action') {
+                        //We can do nothing with these!
+                      } else {
+                        tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingButton" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" type="button" value="' + setting.value + '"><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                        tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                          var sendValue = $(this).parent().find('input#' + setting.id.replace(/\./g,'-')).is(':checked');
+                          xbmc.setSettingValue({
+                            setting: setting.id,
+                            value: sendValue,
+                            onSuccess: function() {
+                              mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                            },
+                            onError: function() {
+                              mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                            }
+                          });
+                        });
+                        tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                          xbmc.setSettingValue({
+                            setting: setting.id,
+                            value: setting.default,
+                            onSuccess: function() {
+                              mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                            },
+                            onError: function() {
+                              mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                            }
+                          });
+                        });
+                      }
+                    break;
+                  }                
+                break;
+                
+                case 'list':
+                  tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><select class="KsettingList" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" ' + (setting.control.multiselect? 'multiple' : '') + '></select><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default">Default</button></div>');
+                  if (typeof setting.options !== 'undefined') {
+                    $.each(setting.options, function(idx, option) {
+                      tab.find('select#' + setting.id.replace(/\./g,'-')).append('<option value="' + option.value + '"' + (option.value == setting.value? 'selected' : '') + '>' + option.label + '</option>');
+                    });
+                  } else if (typeof setting.definition !== 'undefined') {
+                    $.each(setting.definition.options, function(idx, option) {
+                      if (setting.control.multiselect) {
+                        tab.find('select#' + setting.id.replace(/\./g,'-')).append('<option value="' + option.value + '"' + ($.inArray(option.value, setting.value) !==-1? 'selected' : '') + '>' + option.label + '</option>');
+                      } else {
+                        tab.find('select#' + setting.id.replace(/\./g,'-')).append('<option value="' + option.value + '"' + (option.value == setting.value? 'selected' : '') + '>' + option.label + '</option>');
+                      }
+                    });
+                  }
+                  tab.find('button#' + setting.id.replace(/\./g,'-') + '-save').on('click', function() {
+                    var sendValue = $(this).parent().find('select#' + setting.id.replace(/\./g,'-')).val();
+                    console.log(typeof sendValue);
+                    //if (sendValue.length > 1 && typeof setting.delimiter !== 'undefined') { sendValue = sendValue.join(setting.delimiter).toString() }
+                    //sendValue = sendValue.join(setting.delimiter).toString();
+                    console.log(typeof sendValue);
+                    xbmc.setSettingValue({
+                      setting: setting.id,
+                      value: sendValue,
+                      onSuccess: function() {
+                        mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                      },
+                      onError: function() {
+                        mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                      }
+                    });
+                    tab.find('button#' + setting.id.replace(/\./g,'-') + '-default').on('click', function() {
+                      xbmc.setSettingValue({
+                        setting: setting.id,
+                        value: setting.default,
+                        onSuccess: function() {
+                          mkf.messageLog.show(mkf.lang.get('Saved Kodi setting', 'Popup message'), mkf.messageLog.status.success, 3000);
+                        },
+                        onError: function() {
+                          mkf.messageLog.show(mkf.lang.get('Failed to save Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+                        }
+                      });
+                    });
+                  });
+                break;
+                
+                case 'slider':
+                  tab.append('<div class="kodiSetting">' + setting.label + ': ' + setting.value + '<button id="' + setting.id.replace(/\./g,'-') + '-save" disabled>Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default" disabled>Default</button></div>');
+                break;
+                
+                case 'range':
+                  tab.append('<div class="kodiSetting"><label for="' + setting.id.replace(/\./g,'-') + '">' + setting.label + ':</label><input class="KsettingRange" id="' + setting.id.replace(/\./g,'-') + '" name="' + setting.id.replace(/\./g,'-') + '" type="range" value="' + setting.value + '" disabled><button id="' + setting.id.replace(/\./g,'-') + '-save">Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default" disabled>Default</button></div>');
+                break;
+
+                default:
+                  tab.append('<div class="kodiSetting">' + setting.label + ': ' + setting.value + '<button id="' + setting.id.replace(/\./g,'-') + '-save" disabled>Save</button><button title="' + setting.default + '" id="' + setting.id.replace(/\./g,'-') + '-default" disabled>Default</button></div>');
+              }
+            });
+            tab.find('input[type=text]').blur(function() {
+              if (inputControls) {
+                xbmc.inputKeys('on');
+              }
+            }).focus(function() {
+              if (awxUI.settings.remoteActive && awxUI.settings.inputKey > 0) {
+                inputControls = true;
+                xbmc.inputKeys('off');
+              }
+            });
+          },
+          onError: function(result) {
+            mkf.messageLog.show(mkf.lang.get('Failed to load Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+          }
+        });
+        
+      }
+      
+      var loadCategories = function(ui) {
+        //console.log(ui);
+        var tab = ui.newPanel;
+        xbmc.getSettingsCategories({
+        section: ui.newPanel[0].id,
+        onSuccess: function(result) {
+          //console.log(result.categories);
+          tab.empty();
+          tab.append('<div class="' + ui.newPanel[0].id + 'Cat"><ul></ul></div>');
+          
+          var catTab = tab.find('div.' + ui.newPanel[0].id + 'Cat').tabs({
+            activate: function(e, ui) {
+              loadSettings(ui);
+            }
+          });
+          
+          $.each(result.categories, function(idx, category) {
+            tab.find('ul').append('<li><a href="#' + category.id + '">' + category.label + '</a></li>');
+            tab.children().append('<div id="' + category.id + '"></div>');
+            catTab.tabs('refresh');
+          });
+
+          catTab.tabs({active: 0});
+        },
+        onError: function() {
+          mkf.messageLog.show(mkf.lang.get('Failed to load Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+        }
+        });
+      }
+      
+      xbmc.getSettingsSections({
+        onSuccess: function(result) {
+          //var dialogContent = $('<div id="kodiSettings"><ul id="kodiSettingsSections"></ul></div>');
+          var sectionTabs = dialogContent.find('#kodiSettingsSections').parent().tabs({
+            activate: function(e, ui) {
+              loadCategories(ui);
+            }
+          });
+          $.each(result.sections, function(idx, section) {
+            dialogContent.find('ul#kodiSettingsSections').append('<li><a href="#' + section.id + '">' + section.label + '</a></li>');
+            dialogContent.append('<div id="' + section.id + '"></div>');
+            
+            sectionTabs.tabs('refresh');
+            
+          });
+          sectionTabs.tabs({active: 0});
+          //mkf.dialog.setContent(dialogHandle, dialogContent);
+          //return false;
+          
+        },
+        onError: function() {
+          mkf.messageLog.show(mkf.lang.get('Failed to load Kodi settings!', 'Popup message'), mkf.messageLog.status.error, 5000);
+          //mkf.dialog.close(dialogHandle);
+        }
+      });
+            
+      //return false;
+      return dialogContent;
+    },
+    
     /*-----------*/
     AdvancedSearch: function(search, parentPage) {
       
@@ -4377,6 +5038,13 @@ var uiviews = {};
     },
     
     InputSendText: function(data, password) {
+      var inputControls = false;
+      //Switch off key binds
+      if (awxUI.settings.remoteActive && awxUI.settings.inputKey > 0) {
+        //Restore input keys after searching
+        inputControls = true;
+        xbmc.inputKeys('off');
+      };
       var dialogHandle = mkf.dialog.show({classname: 'inputSendText'});
       var dialogContent = $('<div><h1>' + data.title + '</h1><form name="sendtext" id="sendTextForm">' +
         '<input type="' + (password? 'password' : 'text') + '" size=90 id="sendText" /><input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" /></form></div>');
@@ -4386,6 +5054,9 @@ var uiviews = {};
           text: $('input').val(),
           onSuccess: function() {
             $('div.inputSendText .close').click();
+            if (inputControls) {
+              xbmc.inputKeys('on');
+            }
           },
           onError: function(errorText) {
             mkf.messageLog.show(mkf.lang.get('Failed to send input!', 'Popup message'), 5000, mkf.messageLog.status.error);
