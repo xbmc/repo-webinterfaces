@@ -1,0 +1,25 @@
+<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 100 100'>
+  <linearGradient id='g1' x1='0%' y1='0%' x2='100%' y2='0%'>
+    <stop offset='0%' style='stop-color:#000e33;stop-opacity:1' />
+    <stop offset='100%' style='stop-color:#03a9f4;stop-opacity:0' />
+  </linearGradient>
+  <linearGradient id='g2' x1='0%' y1='0%' x2='0%' y2='100%'>
+    <stop offset='0%' style='stop-color:#000e33;stop-opacity:1' />
+    <stop offset='100%' style='stop-color:#03a9f4;stop-opacity:0' />
+  </linearGradient>
+  <radialGradient id='g3' cx='0%' cy='0%' r='100%'>
+    <stop offset='0%' style='stop-color:#000e33;stop-opacity:1' />
+    <stop offset='100%' style='stop-color:#03a9f4;stop-opacity:0' />
+  </radialGradient>
+  <linearGradient id='g4' x1='0%' y1='0%' x2='100%' y2='0%'>
+    <stop offset='0%' style='stop-color:#000000;stop-opacity:0.75' />
+    <stop offset='100%' style='stop-color:#4c4c4c;stop-opacity:0' />
+  </linearGradient>
+  <g transform="rotate(45) translate(21.2 -49.5)">
+    <rect x="-0%" y="20%" width="100%" height="5%" fill="url(#g2)"/>
+    <rect x="-10%" y="-80%" width="100%" height="100%" fill="#7e57c2"/>
+    <rect x="20%" y="0%" width="2.5%" height="80%" fill="url(#g4)"/>
+    <rect x="5%" y="0%" width="15%" height="80%" fill="#cddc39"/>
+    <rect x="-25%" y="0%" width="35%" height="80%" fill="#37a2b5"/>
+  </g>
+</svg>
