@@ -1,2 +1,15 @@
+v1.2.0
+- Add search functionnality for movies and shows 
+- Add scan button
+- Add list of queued items
+- Add queue option for single song
+- Regroup controls in list views for musics and shows
+v1.1.0
+- New details view
+- Trakt integration
+  * Stats and comments in details view
+  * TV show calendar
+  * Auto scrobbling
+- Dedicated settings screen
 v1.0.0
 - Initial version
