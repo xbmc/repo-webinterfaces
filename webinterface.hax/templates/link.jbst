@@ -1,0 +1,7 @@
+<%@ Control Name="template.link" Language="JavaScript" %>
+	<a href="<%= this.data.link %>" jbst:visible="<%= !!this.data.link %>">
+		<jbst:placeholder/>
+	</a>
+	<span jbst:visible="<%= !this.data.link %>">
+		<jbst:placeholder/>
+	</span>

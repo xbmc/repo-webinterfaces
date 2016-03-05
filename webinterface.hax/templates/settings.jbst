@@ -1,0 +1,11 @@
+<%@ Control Name="template.settings" Language="JavaScript" %>
+
+<div class="settings">
+
+	<ul>
+		<jbst:control data="<%= this.data.items %>">
+			<li><%= this.data.label %><input list="<%= this.data.list %>" type="<%= this.data.type %>" value="<%= this.data.value || this.data.label %>" name="<%= this.data.name || this.data.label %>"/></li>
+		</jbst:control>
+	</ul>
+
+</div>

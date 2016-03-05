@@ -1,0 +1,30 @@
+<%@ Control Name="template.listdetails" Language="JavaScript" %>
+
+<header>
+	<a jbst:visible="<%= !this.data.hideNavigation %>" href="javascript:history.go(-1)" class="backButton"><img src="img/buttons/icon_back.png" height="32" width="32"></a>
+	<a jbst:visible="<%= !this.data.hideNavigation %>" href="#page=Home" class="homeButton"><img src="img/buttons/icon_home.png" height="32" width="32"></a>
+
+	<h1 jbst:visible="<%= !!this.data.title %>">
+		<%= this.data.title %>
+	</h1>
+
+	<h2 jbst:visible="<%= !!this.data.subtitle %>">
+		<%= this.data.subtitle %>
+	</h2>
+</header>
+
+<img jbst:visible="<%= !!this.data.banner %>" class="banner" src="<%= this.data.banner %>" alt="">
+<img jbst:visible="<%= (!!this.data.thumbnail && !this.data.banner) %>" class="headerThumbnail" src="<%= this.data.thumbnail %>" alt="">
+	
+<span data-role="button" jbst:visible="<%= !!this.data.play %>" class="play" onclick="<%= this.data.play %>">▶ Play</span>
+<span data-role="button" jbst:visible="<%= !!this.data.add %>" class="add" onclick="<%= this.data.add %>">+ Add to playlist</span>
+
+<jbst:control data="<%= (['Year', 'Formed', 'Disbanded', 'Born', 'Died', 'Runtime', 'Genre', 'Mood', 'Style', 'Type', 'Instrument', 'Director', 'Writer', 'Description', 'Plot']).map(function (id) { return { 'id': id, 'value': this.data[id.toLowerCase()] }; }, this).filter(function (x) { return ((x.value instanceof Array && x.value.length && x.value[0] !== '') || (x.value instanceof String && x.value.length) || (typeof x.value === 'number')); }) %>">
+	<h3><%= this.data.id+(this.data.value instanceof Array && this.data.value.length > 1 ? 's' : '') %></h3>
+	<p><%= (this.data.value instanceof Array ? this.data.value.join(', ') : this.data.value) %></p>
+</jbst:control>
+
+<h3 jbst:visible="<%= !!this.data.recentlyadded %>">Recently Added</h3>
+<ul jbst:visible="<%= !!this.data.recentlyadded %>" class="recentlyadded">
+	<jbst:control name="template.recentlyaddeditem" data="<%= this.data.recentlyadded %>" />
+</ul>

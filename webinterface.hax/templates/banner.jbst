@@ -1,0 +1,13 @@
+<%@ Control Name="template.banner" Language="JavaScript" %>
+
+<div jbst:visible="<%= !this.data.items %>" class="emptylist">Empty</div>
+
+<div jbst:visible="<%= !!this.data.items %>" class="banner">
+
+	<jbst:control name="template.listdetails" />
+	
+	<ul class="bannerlist">
+		<jbst:control name="template.banneritem" data="<%= this.data.items %>" />
+	</ul>
+	
+</div>

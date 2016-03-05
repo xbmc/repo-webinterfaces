@@ -1,0 +1,9 @@
+<%@ Control Name="template.banneritem" Language="JavaScript" %>
+
+<li class="bannerItem">
+	<a href="<%= this.data.link %>">
+		<img jbst:visible="<%= !!this.data.thumbnail %>" class="banner" src="/img/transparent.png" data-original="<%= this.data.thumbnail %>" alt="<%= this.data.label %>" style="display: block; ">
+		<span class="bannerLabel"><%= this.data.label %></span>
+		<img class="bannerBackground" src="img/Banner.png" alt="">
+	</a>
+</li>
