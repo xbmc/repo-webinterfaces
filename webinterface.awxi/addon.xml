@@ -1,16 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.awxi"
-  version="0.7.5"
+  version="0.7.6"
   name="AWXi"
   provider-name="MKay, Mizaki et al">
   <requires>
     <import addon="xbmc.json" version="6.0.0"/>
   </requires>
-  <extension
-    point="xbmc.gui.webinterface"/>
-  <extension
-    point="xbmc.webinterface"/>
+  <extension point="xbmc.webinterface"/>
   <extension point="xbmc.addon.metadata">
   <summary lang="be">AWXi - Ajax based Webinterface for XBMC</summary>
   <summary lang="bg">AWXi - уеб интерфейс базиран на Ajax за XBMC</summary>
