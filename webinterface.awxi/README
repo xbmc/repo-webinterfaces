@@ -1,0 +1,4 @@
+You can use this webinterface to control the Audio/Video/PVR (limited) sections of XBMC: play/pause/stop/skip, show artists/albums/movies/tv shows/playlists and play them or add them to the playlist. 
+It's designed for use on PCs or laptops with a modern browser which supports JavaScript.
+
+Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser.
