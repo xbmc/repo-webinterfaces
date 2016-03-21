@@ -1,0 +1,74 @@
+
+                          THX to these Projects:
+
+--------------------------------------------------------------------------------
+
+AWXi uses the JavaScript Library jQuery and jQuery UI. These projects are
+licensed under MIT license.
+Have a look at
+    http://jquery.com
+    http://jqueryui.com
+
+--------------------------------------------------------------------------------
+
+AWXi uses some icons of the "Tango Base Icon Theme" which is released to the
+Public Domain.
+Have a look at http://tango.freedesktop.org.
+
+--------------------------------------------------------------------------------
+
+AWXi uses some icons from the XBMC Confluence skin.
+
+--------------------------------------------------------------------------------
+
+Default images were created using the icons from "Web0.2ama" icon pack.
+
+The icons are released under Creative Commons 3.0 Share Alike license. (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+Commercial use is not allowed. 
+©2011 chrfb 
+http://chrfb.deviantart.com 
+
+--------------------------------------------------------------------------------
+
+AWXi uses some icons from the "Open Icon Library" available at
+http://openiconlibrary.sourceforge.net/
+
+--------------------------------------------------------------------------------
+
+AWXi uses a modified version of the "Lazy Load"-jQuery-plugin by Mika Tuupola.
+It is licensed under the MIT license:
+    http://www.opensource.org/licenses/mit-license.php
+Have a look at http://www.appelsiini.net/projects/lazyload.
+
+--------------------------------------------------------------------------------
+
+AWXi uses the "jQuery Hotkeys Plugin" by John Resig.
+It is licensed under both MIT and GPL licenses.
+Have a look at http://github.com/jeresig/jquery.hotkeys.
+
+--------------------------------------------------------------------------------
+
+AWXi uses the "Simple JavaScript Inheritance"-Plugin by John Resig.
+It is licensed under the MIT license.
+Have a look at http://ejohn.org/blog/simple-javascript-inheritance/.
+
+--------------------------------------------------------------------------------
+
+AWXi uses jQueryRotate from http://code.google.com/p/jqueryrotate/
+It is licensed under MIT.
+
+--------------------------------------------------------------------------------
+
+AWXi uses Jed for translation strings. See http://slexaxton.github.com/Jed/
+Licensed under the WTFPL.
+
+--------------------------------------------------------------------------------
+
+lrc is licensed under the MIT license.
+git@github.com:justan/lrc.git
+
+--------------------------------------------------------------------------------
+
+jQuery ScrollTo is licensed under the MIT license.
+http://creativecommons.org/licenses/MIT/
+Copyright 2010-2012 [Benjamin Arthur Lupton](http://balupton.com)
