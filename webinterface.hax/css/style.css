@@ -1,0 +1,537 @@
+/* NOTE:
+	css gradients, shadows and rounded corners should be avoided as they slow down rendering */
+
+
+/* OTHER */
+li {
+	list-style-type:none;
+}
+a, [data-role=button] {
+	cursor:pointer;
+}
+.buttons .play, .buttons .add {
+	border-radius:9px;
+}
+a img,:link img,:visited img {
+	border:none
+}
+.fanart {
+	opacity:0.3;
+}
+.list.collapsed[data-groupby="alpha"] .label {
+	padding:0;
+}
+.list.collapsed[data-groupby="alpha"] .listItem {
+	width:50px;
+	height:50px;
+	display:inline-block;
+	margin:10px;
+	text-align:center;
+}
+
+
+
+/* COLOUR */
+body {
+	background-color:#000;
+}
+body,
+#header a {
+	color:#DDD;
+}
+a,
+#header a:hover,
+[data-role=button] {
+	color:#58B9DA;
+}
+a:hover,
+[data-role=button]:hover {
+	color:#E79A38;
+}
+a:active,
+#header a:active,
+[data-role=button]:active {
+	color:#E79A38;
+}
+h1 a, h2 a, h3 a, h4 a, h5 a {
+	color:inherit;
+}
+h3 {
+	color:#BBB;
+}
+.buttons .play, .buttons .add {
+	background:rgba(0,0,0,0.6);
+}
+.listItem {
+	border-top-color:#222;
+	border-bottom-color:#222;
+}
+.recentlyaddeditem {
+	background:#222;
+	border-color:#333;
+}
+.bannerItem .banner {
+	background:transparent;
+}
+#header li.selected {
+	border-bottom-color:#59B4D4;
+}
+#loading {
+	background-color:#000;
+}
+#player, #header {
+	background:#222;
+}
+.recentlyaddeditem .label {
+	color:#BBB;
+}
+#loading span {
+	color:#999;
+}
+
+
+
+/* TYPOGRAPHY */
+body {
+	font-family:sans-serif;
+}
+h1, h2, h3, h4, h5 {
+	font-weight:normal;
+}
+h1 {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size:18px;
+	font-weight:bold;
+}
+a {
+	outline:none;
+	text-decoration:none;
+}
+h2 {
+	font-size:16px;
+}
+h3 {
+	font-size:14px;
+}
+p {
+	font-size:14px;
+}
+.buttons .play, .buttons .add {
+	font-size:22px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.listItem {
+	font-size:15px;
+}
+.listItem .label,
+.listItem .line1,
+.listItem .line2 {
+	font-weight:bold;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.listItem .line2 {
+	font-size:12px;
+	font-weight:normal;
+}
+.listItem .play,
+.listItem .add,
+.listItem .remove {
+	font-size:30px;
+	text-align:center;
+}
+.listItem .number {
+	font-weight:bold;
+}
+.recentlyaddeditem .label {
+	font-size:12px;
+}
+.bannerItem .bannerLabel {
+	font-size:22px;
+	font-weight:bold;
+}
+#header li {
+	font-size:15px;
+	font-weight:bold;
+	text-align:center;
+}
+#loading span {
+	font-size:24px;
+	text-align:center;
+}
+
+
+
+/* THE OTHER DIMENSION */
+#loading {
+	z-index:10000;
+}
+#header {
+	z-index:40;
+}
+.bannerItem .banner {
+	z-index:30;
+}
+.details > *, .list > * {
+	z-index:20;
+}
+.fanart {
+	z-index:-1;
+}
+
+
+
+/* LAYOUT */
+body {
+	overflow:auto;
+	overflow-x:hidden;
+}
+body, li, ul {
+	margin:0;padding:0;
+}
+h1, h2, h3, h4, h5 {
+	margin:0;padding:0;
+	overflow:hidden;
+}
+body[data-status=paused] #content,
+body[data-status=playing] #content {
+	margin-bottom:76px;
+}
+h1 {
+	text-align:center;
+	line-height: 32px;
+}
+h1 img {
+	width: 100%;
+}
+h2 {
+	margin-bottom:10px;
+	text-align:center;
+}
+h3 {
+	margin-bottom:3px;
+	margin-left:5px;
+}
+h3 + p {
+	margin-top: 0;
+}
+p {
+	margin-right:10px;
+	margin-left:10px;
+}
+.buttons .play, .buttons .add {
+	display:inline-block;
+	margin-right:30px;
+	margin-top:16px;
+	padding-left:8px;
+	padding-right:8px;
+	padding-bottom:3px;
+	line-height:28px;
+	height:28px;
+}
+.superListItem {
+	margin-bottom:32px;
+}
+.listItem {
+	height:50px;
+	overflow:hidden;
+	position:relative;
+	border-top-width:1px;
+	border-top-style:solid;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+}
+.listItem + .listItem {
+	border-top:none;
+}
+.listItem .label,
+.listItem .line1,
+.listItem .line2 {
+	padding-left:10px;
+	overflow:hidden;
+}
+.listItem .label {
+	line-height:50px;
+	height:50px;
+}
+.listItem .line1 {
+	margin-top:8px;
+	height:18px;
+}
+.listItem .line2 {
+	height:15px;
+}
+.listItem .line2 span + span {
+	margin-left:10px;
+}
+.listItem .play,
+.listItem .add,
+.listItem .remove {
+	width:50px;height:50px;
+	line-height:50px;
+	float:right;
+	display:block;
+}
+.listItem .play {
+	right:0;
+	line-height:46px;
+}
+.listItem .add, .listItem .remove {
+	right:50px;
+}
+.listItem .thumbnail {
+	height:100%;
+	vertical-align:middle;
+	float:left;
+}
+@media all and (max-width : 380px) {
+	.listItem .thumbnail {
+		display:none !important;
+	}
+}
+.listItem .number {
+	height:42px;
+	padding-left:10px;
+	min-width:22px;
+	float:left;
+	text-align:right;
+	margin-top:8px;
+	margin-right:-4px;
+}
+.recentlyadded {
+	width:100%;
+	margin-bottom:10px;
+}
+.recentlyaddeditem {
+	border-style:solid;
+	border-width:1px;
+	width:143px;
+	display:inline-block;
+	position:relative;
+	vertical-align:top;
+	padding:2px;
+	margin:1px;
+}
+.recentlyaddeditem .label {
+	height:18px;
+	overflow:hidden;
+	display:block;
+}
+.recentlyaddeditem .thumbnail a {
+	display:block;
+}
+.recentlyaddeditem .thumbnail img {
+	width:100%;
+}
+.bannerItem {
+	text-align:center;
+	position:relative;
+	overflow:hidden;
+	width:100%;
+	max-width:500px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.bannerItem img {
+	height:auto;
+	width:100%;
+}
+.bannerItem .banner {
+	position:absolute;
+	left:0;top:0;
+}
+.bannerItem .bannerLabel {
+	position:absolute;
+	left:10px;top:50%;
+	right:10px;
+	margin-top:-15px;
+	height:30px;
+}
+#loading {
+	position:fixed;
+	top:0;left:0;
+	height:100%;width:100%;
+}
+#loading img {
+	position:absolute;
+	display:block;
+	width:160px;height:24px;
+	left:50%;top:50%;
+	margin-left:-80px;
+	margin-top:-12px;
+}
+.page {
+	margin:0 auto;
+	max-width:758px;
+}
+.details > *, .list > * {
+	position:relative;
+}
+.fanart {
+	position:fixed;
+	top:0; left:0;
+	min-width:100%;
+	max-height:100%;
+	display: none;
+}
+.page > .thumbnail, .details .image {
+	max-width:30%;
+	float:right;
+	margin-left:10px;
+	clear:both;
+}
+.list .banner {
+	width:100%;
+}
+ul {
+	clear:both;
+}
+header {
+	margin-bottom: 10px;
+	min-height: 42px;
+	padding: 4px;
+}
+
+
+
+/* REMOTE BUTTONS */
+.remote {
+	position:relative;
+	width:100%;
+	max-width:340px;
+	height:340px;
+	margin:0 auto;
+}
+.remote a {
+	display:block;
+	width:100%;height:100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.remote > li {
+	position:absolute;
+	width:50px;height:50px;
+	margin-left:-25px;margin-right:-25px;
+	text-align:center;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.remote span {
+	display: none;
+}
+.remote img { width:60px;height:60px; }
+.remote > li:active {
+	background:url('../img/buttons/active.png');
+}
+.remote > li:hover {
+	background:url('../img/buttons/hover.png');
+	cursor:pointer;
+}
+.remote .home      { top:50px;	left: 30px; }
+.remote .back      { top:50px;	right:30px; }
+.remote .up        { top:50px;	left: 50%;  }
+.remote .select    { top:105px; left: 50%;  }
+.remote .left      { top:105px; left: 50%; margin-left:-80px;  }
+.remote .right     { top:105px; right:50%; margin-right:-80px; }
+.remote .down      { top:160px; left: 50%;  }
+.remote .info	   { top:160px; left: 30px; }
+.remote .menu      { top:160px; right:30px; }
+
+.remote .up a { background-image:url('../img/buttons/up.png'); }
+.remote .down a { background-image:url('../img/buttons/down.png'); }
+.remote .left a { background-image:url('../img/buttons/left.png'); }
+.remote .right a { background-image:url('../img/buttons/right.png'); }
+.remote .select a { background-image:url('../img/buttons/select.png'); }
+.remote .back a { background-image:url('../img/buttons/back.png'); }
+.remote .info a { background-image:url('../img/buttons/info.png'); }
+.remote .menu a { background-image:url('../img/buttons/menu.png'); }
+.remote .home a { background-image:url('../img/buttons/home.png'); }
+
+
+.homeButton, .backButton {
+	display:block;
+	float:left;
+	margin:0 5px;
+}
+.homeButton img, .backButton img {
+	width:42px; height:42px;
+}
+.backButton { float:left; }
+.homeButton { float:right; }
+
+.page[data-page="Home"] {
+	max-width: 350px;
+}
+.page[data-page="Home"] header {
+	display: none;
+}
+.page[data-page="Home"] .list {
+	text-align: center;
+}
+.page[data-page="Home"] .listItem {
+	height: auto;
+	width: 90px;
+	text-align: center;
+	border:none;
+	display: inline-block;
+	margin: 10px;
+}
+.page[data-page="Menu"] .thumbnail {
+	display: block !important;
+}
+.page[data-page="Home"] .thumbnail {
+	display: block !important;
+	float: none;
+	width: 64px;
+	height: 64px;
+	position: relative;
+	left:50%;
+	margin-left: -32px;
+}
+.page[data-page="Home"] .label {
+	float: none;
+	height: auto;
+	line-height: normal;
+	margin:0;padding:0;
+}
+
+
+.page[data-page="Remote"] .remote {
+	display: none;
+}
+.textInput {
+	width: 100%;
+	height: 40px;
+	clear: both;
+	position: relative;
+	margin: 10px 0;
+}
+.textInput input {
+	display: block;
+	padding: 0 10px;
+	margin: 0;
+	background: #444;
+	outline: none;
+	border: 4px solid #888;
+	height: 32px;
+	line-height: 32px;
+	font-size: 22px;
+	position: absolute;
+	left: 5px;
+	right: 5px;
+	top: 0;
+	color: white;
+}
+.gestureInput {
+	width: 100%;
+	position: relative;
+	margin: 10px 0;
+}
+.gestureInput canvas {
+	display: block;
+	margin: 5px;
+	background: #444;
+	border: 4px solid #888;
+}

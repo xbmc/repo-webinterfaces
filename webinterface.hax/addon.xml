@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<addon
+	id="webinterface.hax"
+	version="0.1.1"
+	name="Hax"
+	provider-name="bailus">
+	<requires>
+		<import addon="xbmc.json" version="6.0.0"/>
+	</requires>
+	<extension point="xbmc.webinterface"/>
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<source>https://github.com/bailus/Hax</source>
+
+		<summary lang="en">
+			For mobile devices.
+		</summary>
+
+		<description lang="en">
+			Intended to be used as a replacement for a remote control, Hax turns your phone, tablet or other device into a remote control with a simplified media library browser.
+		</description>
+
+	</extension>
+</addon>

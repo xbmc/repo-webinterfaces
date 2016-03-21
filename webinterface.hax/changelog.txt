@@ -1,0 +1,6 @@
+v0.1.0 - 2016-03-06
+ First version
+
+v0.1.1 - 2016-03-21
+ - Bug fixes
+ - Other changes - see https://sourceforge.net/p/xbmc/mailman/message/34950368/
