@@ -1,0 +1,25 @@
+/* http://kimili.com/journal/rgba-hsla-css-generator-for-internet-explorer */
+
+.details .play, .details .add {
+	background: transparent;
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,endColorstr=#99000000)"; /* IE8 */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,endColorstr=#99000000); /* IE6 & 7 */
+	zoom: 1;
+}
+
+#loading {
+	background: transparent;
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000,endColorstr=#CC000000)"; /* IE8 */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000,endColorstr=#CC000000); /* IE6 & 7 */
+	zoom: 1;
+}
+.fanart {
+	filter: alpha(opacity = 30);
+}
+.listItem .thumbnail img.rotatethumbnail {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=6.123031769111886e-17, M12=1, M21=-1, M22=6.123031769111886e-17, sizingMethod='auto expand')"; /* IE8 */
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=6.123031769111886e-17, M12=1, M21=-1, M22=6.123031769111886e-17, sizingMethod='auto expand'); /* IE6 & 7 */
+	zoom: 1;
+	margin:0;
+	margin-left:-28px;
+}

@@ -1,0 +1,11 @@
+<%@ Control Name="template.recentlyaddeditem" Language="JavaScript" %>
+
+<li class="recentlyaddeditem">
+
+	<span class="label"><%= this.data.label %></span>
+	
+	<div jbst:visible="<%= !!this.data.thumbnail %>" class="thumbnail">
+		<a href="<%= this.data.link %>"><img src="/img/transparent.png" data-original="<%= this.data.thumbnail %>" /></a>
+	</div>
+	
+</li>

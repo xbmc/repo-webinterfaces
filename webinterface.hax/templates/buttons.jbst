@@ -1,0 +1,17 @@
+<%@ Control Name="template.buttons" Language="JavaScript" %>
+
+<a jbst:visible="<%= !this.data.hideNavigation %>" href="javascript:history.go(-1)" class="backButton"><img src="img/buttons/icon_back.png" height="32" width="32"></a>
+<a jbst:visible="<%= !this.data.hideNavigation %>" href="#page=Home" class="homeButton"><img src="img/buttons/icon_home.png" height="32" width="32"></a>
+
+<ul class="<%= this.data['class'] || 'buttons' %>">
+
+	<jbst:control data="<%= this.data.buttons %>">
+		<li class="<%= this.data['class'] %>">
+			<a href="<%= this.data.href || 'javascript: (' + (this.data.onclick || 'function () { void(0) }') + ')()' %>">
+				<img jbst:visible="<%= !!this.data.src %>" src="<%= this.data.src %>" alt="<%= this.data.text %>" />
+				<span jbst:visible="<%= !this.data.src %>"><%= this.data.text %></span>
+			</a>
+		</li>
+	</jbst:control>
+
+</ul>

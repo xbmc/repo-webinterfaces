@@ -1,0 +1,34 @@
+<%@ Control Name="template.details" Language="JavaScript" %>
+
+<div class="details">
+	<a href="javascript:history.go(-1)" class="backButton"><img src="img/buttons/icon_back.png" height="32" width="32"></a>
+	<a href="#page=Home" class="homeButton"><img src="img/buttons/icon_home.png" height="32" width="32"></a>
+
+	<img jbst:visible="<%= !!this.data.thumbnail %>" src="<%= this.data.thumbnail %>" alt="" class="image">
+	
+	<h1 jbst:visible="<%= !!this.data.title %>"><%= this.data.title %></h1>
+	
+	<h2 jbst:visible="<%= !!this.data.heading %>"><%= this.data.heading %></h2>
+	
+	<div>
+		<span data-role="button" jbst:visible="<%= !!this.data.play %>" class="play" onclick="<%= this.data.play %>">▶ Play</span>
+		<span data-role="button" jbst:visible="<%= !!this.data.add %>" class="add" onclick="<%= this.data.add %>">+ Add to playlist</span>
+	</div>
+	
+	<h3 jbst:visible="<%= !!this.data.runtime %>">Runtime</h3>
+	<p jbst:visible="<%= !!this.data.runtime %>"><%= this.data.runtime + ' minutes' %></p>
+	
+	<h3 jbst:visible="<%= !!this.data.director %>"><%= 'Director'+(this.data.director instanceof Array && this.data.director.length > 1 ? 's' : '') %></h3>
+	<p jbst:visible="<%= !!this.data.director %>"><%= (this.data.director instanceof Array ? this.data.director.join(', ') : this.data.director) %></p>
+	
+	<h3 jbst:visible="<%= !!this.data.writer %>"><%= 'Writer'+(this.data.writer instanceof Array && this.data.writer.length > 1 ? 's' : '') %></h3>
+	<p jbst:visible="<%= !!this.data.writer %>"><%= (this.data.writer instanceof Array ? this.data.writer.join(', ') : this.data.writer) %></p>
+	
+	<h3 jbst:visible="<%= !!this.data.plot %>">Plot</h3>
+	<p jbst:visible="<%= !!this.data.plot %>"><%= this.data.plot %></p>
+	
+	<h3 jbst:visible="<%= !!this.data.genre %>"><%= 'Genre'+(this.data.genre instanceof Array && this.data.genre.length > 1 ? 's' : '') %></h3>
+	<p jbst:visible="<%= !!this.data.genre %>"><%= (this.data.genre instanceof Array ? this.data.genre.join(', ') : this.data.genre) %></p>
+	
+	<div jbst:visible="<%= !!this.data.fanart %>" class="fanart"><img src="<%= this.data.fanart %>" alt=""></div>
+</div>
