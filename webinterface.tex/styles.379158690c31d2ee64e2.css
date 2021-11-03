@@ -514,7 +514,7 @@ video {
   height: auto;
 }
 
-[type='text'],[type='url'],[type='number'],[type='date'],[type='search'],[type='time'],textarea,select {
+[type='text'],[type='number'],[type='date'],[type='search'],[type='time'],textarea,select {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -530,7 +530,7 @@ video {
   line-height: 1.5rem;
 }
 
-[type='text']:focus, [type='url']:focus, [type='number']:focus, [type='date']:focus, [type='search']:focus, [type='time']:focus, textarea:focus, select:focus {
+[type='text']:focus, [type='number']:focus, [type='date']:focus, [type='search']:focus, [type='time']:focus, textarea:focus, select:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
@@ -917,6 +917,11 @@ select {
   border-color: rgba(82, 82, 82, var(--tw-border-opacity));
 }
 
+.border-gray-700 {
+  --tw-border-opacity: 1;
+  border-color: rgba(64, 64, 64, var(--tw-border-opacity));
+}
+
 .border-yellow-500 {
   --tw-border-opacity: 1;
   border-color: rgba(245, 158, 11, var(--tw-border-opacity));
@@ -975,10 +980,6 @@ select {
   border-bottom-right-radius: 0.75rem;
 }
 
-.border-none {
-  border-style: none;
-}
-
 .border-0 {
   border-width: 0px;
 }
@@ -1009,10 +1010,6 @@ select {
 
 .block {
   display: block;
-}
-
-.inline-block {
-  display: inline-block;
 }
 
 .flex {
@@ -1111,10 +1108,6 @@ select {
   height: 0.5rem;
 }
 
-.h-3 {
-  height: 0.75rem;
-}
-
 .h-4 {
   height: 1rem;
 }
@@ -1163,10 +1156,6 @@ select {
   height: 100vh;
 }
 
-.h-screen3\/2 {
-  height: 150vh;
-}
-
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
@@ -1212,6 +1201,10 @@ select {
   line-height: 1;
 }
 
+.m-1 {
+  margin: 0.25rem;
+}
+
 .m-2 {
   margin: 0.5rem;
 }
@@ -1222,6 +1215,21 @@ select {
 
 .m-auto {
   margin: auto;
+}
+
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .mx-3 {
@@ -1244,12 +1252,20 @@ select {
   margin-right: auto;
 }
 
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
 .mr-1 {
   margin-right: 0.25rem;
 }
 
 .mb-1 {
   margin-bottom: 0.25rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
 }
 
 .mt-2 {
@@ -1344,16 +1360,20 @@ select {
   opacity: 1;
 }
 
-.group:hover .group-hover\:opacity-40 {
-  opacity: 0.4;
-}
-
 .group:hover .group-hover\:opacity-100 {
   opacity: 1;
 }
 
+.hover\:opacity-40:hover {
+  opacity: 0.4;
+}
+
 .hover\:opacity-80:hover {
   opacity: 0.8;
+}
+
+.hover\:opacity-90:hover {
+  opacity: 0.9;
 }
 
 .hover\:opacity-100:hover {
@@ -1381,10 +1401,6 @@ select {
   overflow-y: hidden;
 }
 
-.p-1 {
-  padding: 0.25rem;
-}
-
 .p-2 {
   padding: 0.5rem;
 }
@@ -1396,6 +1412,11 @@ select {
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+}
+
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
 
 .py-2 {
@@ -1443,9 +1464,9 @@ select {
   padding-right: 2rem;
 }
 
-.py-2\.5 {
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 .pt-1 {
@@ -1462,10 +1483,6 @@ select {
 
 .pb-2 {
   padding-bottom: 0.5rem;
-}
-
-.pl-2 {
-  padding-left: 0.5rem;
 }
 
 .pt-4 {
@@ -1540,6 +1557,10 @@ select {
   left: 0.25rem;
 }
 
+.right-3 {
+  right: 0.75rem;
+}
+
 .left-3 {
   left: 0.75rem;
 }
@@ -1576,6 +1597,10 @@ select {
   --tw-ring-color: rgba(59, 130, 246, 0.5);
   --tw-ring-offset-shadow: 0 0 #0000;
   --tw-ring-shadow: 0 0 #0000;
+}
+
+.fill-current {
+  fill: currentColor;
 }
 
 .text-left {
@@ -1703,6 +1728,10 @@ select {
   width: 2.5rem;
 }
 
+.w-12 {
+  width: 3rem;
+}
+
 .w-14 {
   width: 3.5rem;
 }
@@ -1804,15 +1833,6 @@ select {
   --tw-scale-x: 1;
   --tw-scale-y: 1;
   transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-75 {
-  --tw-scale-x: .75;
-  --tw-scale-y: .75;
-}
-
-.rotate-90 {
-  --tw-rotate: 90deg;
 }
 
 .rotate-180 {
@@ -1975,29 +1995,6 @@ select {
   --scrollbar-thumb: #a3a3a3;
 }
 
-.floating-container {
-  --tw-bg-opacity: 1;
-  background-color: rgba(42, 43, 43, var(--tw-bg-opacity));
-  --tw-bg-opacity: 0.8;
-  --tw-border-opacity: 1;
-  border-color: rgba(82, 82, 82, var(--tw-border-opacity));
-  border-radius: 0.5rem;
-  border-width: 1px;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  position: absolute;
-  text-align: left;
-}
-
-@media (min-width: 640px) {
-  .floating-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
 .max-w-70 {
   max-width: 70%;
 }
@@ -2138,8 +2135,7 @@ a,
 label,
 .floating-list,
 button:focus,
-button:active:focus,
-button.active:focus {
+button:active:focus {
   outline: none;
   outline-style: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -2216,8 +2212,7 @@ a,
 label,
 .floating-list .floating-button *,
 button:focus,
-button:active:focus,
-button.active:focus {
+button:active:focus {
   outline: none;
   outline-style: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -2827,12 +2822,12 @@ button.active:focus {
     margin-bottom: 0.5rem;
   }
 
-  .sm\:mr-4 {
-    margin-right: 1rem;
-  }
-
   .sm\:mt-6 {
     margin-top: 1.5rem;
+  }
+
+  .sm\:mt-8 {
+    margin-top: 2rem;
   }
 
   .sm\:ml-8 {
@@ -2956,6 +2951,10 @@ button.active:focus {
     width: 13rem;
   }
 
+  .sm\:w-80 {
+    width: 20rem;
+  }
+
   .sm\:w-96 {
     width: 24rem;
   }
@@ -3017,12 +3016,22 @@ button.active:focus {
 }
 
 @media (min-width: 768px) {
+  .md\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
   .md\:block {
     display: block;
   }
 
-  .md\:h-4 {
-    height: 1rem;
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
   }
 
   .md\:text-lg {
@@ -3055,6 +3064,10 @@ button.active:focus {
 
   .md\:w-64 {
     width: 16rem;
+  }
+
+  .md\:w-80 {
+    width: 20rem;
   }
 
   .md\:w-5\/6 {
