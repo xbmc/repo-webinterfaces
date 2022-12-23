@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="webinterface.tex" name="TeX" provider-name="clementdelestre" version="1.2.1">
+	<requires>
+		<import addon="xbmc.json" version="6.0.0" />
+	</requires>
+	<extension point="xbmc.webinterface" />
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en">Modern web interface for Kodi</summary>
+		<description lang="en">Browse and interact with your Movies, TV Shows and musics via your web browser.</description>
+		<platform>all</platform>
+		<language>en</language>
+		<source>https://github.com/clementdelestre/TeX</source>
+		<assets>
+			<icon>resources/icon.png</icon>
+			<fanart>resources/fanart.jpg</fanart>
+			<screenshot>resources/movies.jpg</screenshot>
+			<screenshot>resources/moviedetails.jpg</screenshot>
+			<screenshot>resources/musics.jpg</screenshot>
+			<screenshot>resources/album.jpg</screenshot>
+			<screenshot>resources/player.jpg</screenshot>
+			<screenshot>resources/mobile.jpg</screenshot>
+		</assets>
+	</extension>
+</addon>

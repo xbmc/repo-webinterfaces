@@ -1,0 +1,166 @@
+{
+    "header": {
+        "movies": "电影",
+        "tvshows": "电视剧",
+        "musics": "音乐",
+        "player": "播放器",
+        "remote": "远程",
+        "settings": "设置",
+        "search": {
+            "search": "搜索",
+            "searchIn": "搜索:",
+            "filters": "筛选:",
+            "year": "年度",
+            "genre": "类型"
+        }
+    },
+    "library": {
+        "videoLibrary": "视频库",
+        "audioLibrary": "音频库",
+        "continueToWatch": "继续观看",
+        "recentlyAdded": "最近添加",
+        "unwatched": "未观看",
+        "movies": "电影",
+        "tvshows": "电视节目",
+        "musics": "音乐",
+        "nothingToShow": "无法显示",
+        "changeFilterToFindSomething": "更改筛选查找内容",
+        "resetFilters": "重置",
+        "sortBy": {
+            "sortBy": "排序",
+            "alphabetical": "按字母顺序",
+            "alphabeticalInversed": "按字母顺序（倒序）",
+            "random": "随机",
+            "duration": "持续时间",
+            "latest": "最新",
+            "older": "较旧",
+            "track": "音轨"
+        },
+        "page": "页",
+        "directors": "导演",
+        "writers": "作家",
+        "actors": "演员",
+        "albums": "专辑",
+        "artists": "艺术家",
+        "genres": "流派",
+        "years": "年份",
+        "recentlyPlayedAlbums": "最近播放的专辑",
+        "recentlyAddedAlbums": "最近添加的专辑",
+        "mostPlayedAlbums": "最多播放的专辑",
+        "allMusics": "所有音乐",
+        "filters": "筛选",
+        "details": {
+            "genres": "",
+            "totalDiscs": "磁盘总数：",
+            "year": "年：",
+            "studios": "工作室：",
+            "writers": "作家:",
+            "directors": "董事：",
+            "disk": "磁盘",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "播放",
+            "playNext": "",
+            "rating": "",
+            "watched": "",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "下载",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": ""
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "",
+            "playNext": "下一个播放",
+            "download": "下载",
+            "linkCopied": "链接已复制",
+            "linkWasCopiedInClipBoard": "链接已经复制到剪贴板上了。"
+        },
+        "edit": {
+            "remove": "删除"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "设置",
+        "general": {
+            "general": "通用",
+            "language": "语言",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "扫描视频库",
+            "scanAudioLibrary": "扫描音频库",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "应用程序",
+            "resetApp": "重置应用，安装更新",
+            "vibrate": "振动",
+            "vibrationOff": "振动关闭",
+            "mayNotWorkDevice": "在一些设备上可能不生效",
+            "translationIssues": "如果翻译出问题了，请清除网络浏览器中的缓存",
+            "refreshTranslation": "刷新翻译",
+            "checkUpdates": "检查更新",
+            "currentVersion": "当前版本："
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "Websocket 地址",
+            "websocketPort": "",
+            "state": "状态",
+            "connected": "已连接",
+            "disconnected": "未连接",
+            "connect": "连接",
+            "disconnect": "断开",
+            "save": "保存",
+            "reset": "重置",
+            "jsonapi": "",
+            "sendrequest": "发送请求"
+        },
+        "contribute": {
+            "contribute": "帮助我们"
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": "发送文本"
+    }
+}
