@@ -1,0 +1,161 @@
+{
+    "header": {
+        "movies": "Filmai",
+        "tvshows": "",
+        "musics": "Muzika",
+        "player": "",
+        "remote": "",
+        "settings": "Nustatymai",
+        "search": {
+            "search": "",
+            "searchIn": "",
+            "filters": "",
+            "year": "",
+            "genre": ""
+        }
+    },
+    "library": {
+        "videoLibrary": "",
+        "audioLibrary": "",
+        "continueToWatch": "",
+        "recentlyAdded": "",
+        "unwatched": "",
+        "movies": "Filmai",
+        "tvshows": "",
+        "musics": "Muzika",
+        "nothingToShow": "",
+        "changeFilterToFindSomething": "",
+        "resetFilters": "",
+        "sortBy": {
+            "sortBy": "",
+            "alphabetical": "",
+            "alphabeticalInversed": "",
+            "random": "",
+            "duration": "",
+            "latest": "",
+            "older": "",
+            "track": ""
+        },
+        "page": "",
+        "directors": "",
+        "writers": "",
+        "actors": "",
+        "albums": "Albumai",
+        "artists": "Atlikėjai",
+        "genres": "",
+        "years": "",
+        "recentlyPlayedAlbums": "",
+        "recentlyAddedAlbums": "",
+        "mostPlayedAlbums": "",
+        "allMusics": "",
+        "filters": "Filtrai",
+        "details": {
+            "genres": "",
+            "totalDiscs": "",
+            "year": "",
+            "studios": "",
+            "writers": "",
+            "directors": "",
+            "disk": "",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "Atkurti",
+            "playNext": "",
+            "rating": "",
+            "watched": "",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "Atsisiųsti",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": ""
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "",
+            "playNext": "",
+            "download": "Atsisiųsti",
+            "linkCopied": "",
+            "linkWasCopiedInClipBoard": ""
+        },
+        "edit": {
+            "remove": "Pašalinti"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "Nustatymai",
+        "general": {
+            "general": "Pagrindiniai",
+            "language": "Kalba",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "Nuskaityti vaizdo biblioteką",
+            "scanAudioLibrary": "Nuskaityti muzikos biblioteką",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "",
+            "resetApp": "",
+            "vibrate": "",
+            "vibrationOff": "",
+            "mayNotWorkDevice": "",
+            "translationIssues": "",
+            "refreshTranslation": ""
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "",
+            "websocketPort": "",
+            "state": "",
+            "connected": "",
+            "disconnected": "",
+            "connect": "",
+            "disconnect": "",
+            "save": "",
+            "reset": "",
+            "jsonapi": "",
+            "sendrequest": ""
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": ""
+    }
+}

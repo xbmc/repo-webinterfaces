@@ -1,0 +1,163 @@
+{
+    "header": {
+        "movies": "Filmid",
+        "tvshows": "",
+        "musics": "Muusika",
+        "player": "",
+        "remote": "",
+        "settings": "Seaded",
+        "search": {
+            "search": "Otsi",
+            "searchIn": "",
+            "filters": "",
+            "year": "Aasta",
+            "genre": ""
+        }
+    },
+    "library": {
+        "videoLibrary": "",
+        "audioLibrary": "",
+        "continueToWatch": "",
+        "recentlyAdded": "",
+        "unwatched": "",
+        "movies": "Filmid",
+        "tvshows": "",
+        "musics": "Muusika",
+        "nothingToShow": "",
+        "changeFilterToFindSomething": "",
+        "resetFilters": "",
+        "sortBy": {
+            "sortBy": "",
+            "alphabetical": "",
+            "alphabeticalInversed": "",
+            "random": "",
+            "duration": "",
+            "latest": "",
+            "older": "",
+            "track": "Lugu"
+        },
+        "page": "",
+        "directors": "Lavastajad",
+        "writers": "Stsenaristid",
+        "actors": "",
+        "albums": "Albumid",
+        "artists": "Esitajad",
+        "genres": "Žanrid",
+        "years": "",
+        "recentlyPlayedAlbums": "Viimati esitatud albumid",
+        "recentlyAddedAlbums": "Viimati lisatud albumid",
+        "mostPlayedAlbums": "",
+        "allMusics": "",
+        "filters": "Filtrid",
+        "details": {
+            "genres": "",
+            "totalDiscs": "",
+            "year": "",
+            "studios": "",
+            "writers": "",
+            "directors": "",
+            "disk": "",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "Esita",
+            "playNext": "",
+            "rating": "",
+            "watched": "Vaadatud",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "Lae alla",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "Treiler",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": "",
+            "edit": "Muuda"
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "Otsi",
+            "playNext": "",
+            "download": "Lae alla",
+            "linkCopied": "",
+            "linkWasCopiedInClipBoard": ""
+        },
+        "edit": {
+            "remove": "Eemalda",
+            "refresh": "Värskenda"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "Seaded",
+        "general": {
+            "general": "Üldine",
+            "language": "Keel",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "Skaneeri videokogu",
+            "scanAudioLibrary": "Skaneeri muusikakogu",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "",
+            "resetApp": "",
+            "vibrate": "",
+            "vibrationOff": "",
+            "mayNotWorkDevice": "",
+            "translationIssues": "",
+            "refreshTranslation": ""
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "",
+            "websocketPort": "",
+            "state": "",
+            "connected": "",
+            "disconnected": "",
+            "connect": "",
+            "disconnect": "",
+            "save": "",
+            "reset": "",
+            "jsonapi": "",
+            "sendrequest": ""
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": ""
+    }
+}
