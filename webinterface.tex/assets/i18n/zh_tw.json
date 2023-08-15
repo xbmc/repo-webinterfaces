@@ -1,0 +1,163 @@
+{
+    "header": {
+        "movies": "電影",
+        "tvshows": "",
+        "musics": "音樂",
+        "player": "",
+        "remote": "",
+        "settings": "設定",
+        "search": {
+            "search": "搜尋",
+            "searchIn": "",
+            "filters": "",
+            "year": "年份",
+            "genre": ""
+        }
+    },
+    "library": {
+        "videoLibrary": "",
+        "audioLibrary": "",
+        "continueToWatch": "",
+        "recentlyAdded": "",
+        "unwatched": "",
+        "movies": "電影",
+        "tvshows": "",
+        "musics": "音樂",
+        "nothingToShow": "",
+        "changeFilterToFindSomething": "",
+        "resetFilters": "",
+        "sortBy": {
+            "sortBy": "",
+            "alphabetical": "",
+            "alphabeticalInversed": "",
+            "random": "",
+            "duration": "",
+            "latest": "",
+            "older": "",
+            "track": "歌曲"
+        },
+        "page": "",
+        "directors": "導演",
+        "writers": "編劇",
+        "actors": "",
+        "albums": "專輯",
+        "artists": "演出者",
+        "genres": "類型",
+        "years": "",
+        "recentlyPlayedAlbums": "最近播放的專輯",
+        "recentlyAddedAlbums": "最近新增的專輯",
+        "mostPlayedAlbums": "",
+        "allMusics": "",
+        "filters": "過濾器",
+        "details": {
+            "genres": "",
+            "totalDiscs": "",
+            "year": "",
+            "studios": "",
+            "writers": "",
+            "directors": "",
+            "disk": "",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "播放",
+            "playNext": "",
+            "rating": "",
+            "watched": "已觀看",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "下載",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "預告片",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": "",
+            "edit": "編輯"
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "搜尋",
+            "playNext": "",
+            "download": "下載",
+            "linkCopied": "",
+            "linkWasCopiedInClipBoard": ""
+        },
+        "edit": {
+            "remove": "刪除",
+            "refresh": "重新整理"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "設定",
+        "general": {
+            "general": "通用",
+            "language": "語言",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "掃描影片庫",
+            "scanAudioLibrary": "掃描音樂庫",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "",
+            "resetApp": "",
+            "vibrate": "",
+            "vibrationOff": "",
+            "mayNotWorkDevice": "",
+            "translationIssues": "",
+            "refreshTranslation": ""
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "",
+            "websocketPort": "",
+            "state": "",
+            "connected": "",
+            "disconnected": "",
+            "connect": "",
+            "disconnect": "",
+            "save": "",
+            "reset": "",
+            "jsonapi": "",
+            "sendrequest": ""
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": ""
+    }
+}

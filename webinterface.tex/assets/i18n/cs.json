@@ -1,0 +1,163 @@
+{
+    "header": {
+        "movies": "Filmy",
+        "tvshows": "",
+        "musics": "Hudba",
+        "player": "",
+        "remote": "",
+        "settings": "Nastavení",
+        "search": {
+            "search": "Vyhledávání",
+            "searchIn": "",
+            "filters": "",
+            "year": "Rok",
+            "genre": ""
+        }
+    },
+    "library": {
+        "videoLibrary": "",
+        "audioLibrary": "",
+        "continueToWatch": "",
+        "recentlyAdded": "",
+        "unwatched": "",
+        "movies": "Filmy",
+        "tvshows": "",
+        "musics": "Hudba",
+        "nothingToShow": "",
+        "changeFilterToFindSomething": "",
+        "resetFilters": "",
+        "sortBy": {
+            "sortBy": "",
+            "alphabetical": "",
+            "alphabeticalInversed": "",
+            "random": "",
+            "duration": "",
+            "latest": "",
+            "older": "",
+            "track": "Stopa"
+        },
+        "page": "",
+        "directors": "Režie",
+        "writers": "Scénář",
+        "actors": "",
+        "albums": "Alba",
+        "artists": "Herci",
+        "genres": "Žánry",
+        "years": "",
+        "recentlyPlayedAlbums": "Nedávno hraná alba",
+        "recentlyAddedAlbums": "Nedávno přidaná alba",
+        "mostPlayedAlbums": "",
+        "allMusics": "",
+        "filters": "Filtry",
+        "details": {
+            "genres": "",
+            "totalDiscs": "",
+            "year": "",
+            "studios": "",
+            "writers": "",
+            "directors": "",
+            "disk": "",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "Hrát",
+            "playNext": "",
+            "rating": "",
+            "watched": "Zhlédnuto",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "Stáhnout",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "Upoutávka",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": "",
+            "edit": "Upravit"
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "Vyhledávání",
+            "playNext": "",
+            "download": "Stáhnout",
+            "linkCopied": "",
+            "linkWasCopiedInClipBoard": ""
+        },
+        "edit": {
+            "remove": "Odstranit",
+            "refresh": "Obnovit"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "Nastavení",
+        "general": {
+            "general": "Obecné",
+            "language": "Jazyk",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "Prohledat video knihovnu",
+            "scanAudioLibrary": "Prohledat audio knihovnu",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "",
+            "resetApp": "",
+            "vibrate": "",
+            "vibrationOff": "",
+            "mayNotWorkDevice": "",
+            "translationIssues": "",
+            "refreshTranslation": ""
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "",
+            "websocketPort": "",
+            "state": "",
+            "connected": "",
+            "disconnected": "",
+            "connect": "",
+            "disconnect": "",
+            "save": "",
+            "reset": "",
+            "jsonapi": "",
+            "sendrequest": ""
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": ""
+    }
+}

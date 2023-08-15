@@ -1,0 +1,163 @@
+{
+    "header": {
+        "movies": "Speelfilms",
+        "tvshows": "",
+        "musics": "Muziek",
+        "player": "",
+        "remote": "",
+        "settings": "Instellingen",
+        "search": {
+            "search": "Zoeken",
+            "searchIn": "",
+            "filters": "",
+            "year": "Jaar",
+            "genre": ""
+        }
+    },
+    "library": {
+        "videoLibrary": "",
+        "audioLibrary": "",
+        "continueToWatch": "",
+        "recentlyAdded": "",
+        "unwatched": "",
+        "movies": "Speelfilms",
+        "tvshows": "",
+        "musics": "Muziek",
+        "nothingToShow": "",
+        "changeFilterToFindSomething": "",
+        "resetFilters": "",
+        "sortBy": {
+            "sortBy": "",
+            "alphabetical": "",
+            "alphabeticalInversed": "",
+            "random": "",
+            "duration": "",
+            "latest": "",
+            "older": "",
+            "track": "Nummer"
+        },
+        "page": "",
+        "directors": "Regisseurs",
+        "writers": "Schrijvers",
+        "actors": "",
+        "albums": "Albums",
+        "artists": "Artiesten",
+        "genres": "Genres",
+        "years": "",
+        "recentlyPlayedAlbums": "Laatst afgespeelde albums",
+        "recentlyAddedAlbums": "Recent toegevoegde albums",
+        "mostPlayedAlbums": "",
+        "allMusics": "",
+        "filters": "Filters",
+        "details": {
+            "genres": "",
+            "totalDiscs": "",
+            "year": "",
+            "studios": "",
+            "writers": "",
+            "directors": "",
+            "disk": "",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "Afspelen",
+            "playNext": "",
+            "rating": "",
+            "watched": "Bekeken",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "Downloaden",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "Trailer",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": "",
+            "edit": "Wijzig"
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "Zoeken",
+            "playNext": "",
+            "download": "Downloaden",
+            "linkCopied": "",
+            "linkWasCopiedInClipBoard": ""
+        },
+        "edit": {
+            "remove": "Verwijder",
+            "refresh": "Vernieuwen"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "Instellingen",
+        "general": {
+            "general": "Algemeen",
+            "language": "Taal",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "Scan de videobibliotheek",
+            "scanAudioLibrary": "Scan de audiobibliotheek",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "",
+            "resetApp": "",
+            "vibrate": "",
+            "vibrationOff": "",
+            "mayNotWorkDevice": "",
+            "translationIssues": "",
+            "refreshTranslation": ""
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "",
+            "websocketPort": "",
+            "state": "",
+            "connected": "",
+            "disconnected": "",
+            "connect": "",
+            "disconnect": "",
+            "save": "",
+            "reset": "",
+            "jsonapi": "",
+            "sendrequest": ""
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": ""
+    }
+}
