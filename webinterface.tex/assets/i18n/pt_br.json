@@ -1,0 +1,163 @@
+{
+    "header": {
+        "movies": "Filmes",
+        "tvshows": "Séries",
+        "musics": "Música",
+        "player": "Reprodutor",
+        "remote": "",
+        "settings": "Configurações",
+        "search": {
+            "search": "Buscar",
+            "searchIn": "",
+            "filters": "Filtros:",
+            "year": "Ano",
+            "genre": "Gênero"
+        }
+    },
+    "library": {
+        "videoLibrary": "",
+        "audioLibrary": "",
+        "continueToWatch": "",
+        "recentlyAdded": "",
+        "unwatched": "",
+        "movies": "Filmes",
+        "tvshows": "",
+        "musics": "Música",
+        "nothingToShow": "",
+        "changeFilterToFindSomething": "",
+        "resetFilters": "",
+        "sortBy": {
+            "sortBy": "",
+            "alphabetical": "",
+            "alphabeticalInversed": "",
+            "random": "",
+            "duration": "",
+            "latest": "",
+            "older": "",
+            "track": "Faixa"
+        },
+        "page": "",
+        "directors": "Diretores",
+        "writers": "Escritores",
+        "actors": "",
+        "albums": "Álbuns",
+        "artists": "Artistas",
+        "genres": "Gêneros",
+        "years": "",
+        "recentlyPlayedAlbums": "Álbuns recentemente tocados",
+        "recentlyAddedAlbums": "Álbuns recentemente adicionados",
+        "mostPlayedAlbums": "",
+        "allMusics": "",
+        "filters": "Filtros",
+        "details": {
+            "genres": "",
+            "totalDiscs": "",
+            "year": "",
+            "studios": "",
+            "writers": "",
+            "directors": "",
+            "disk": "",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "Tocar",
+            "playNext": "",
+            "rating": "",
+            "watched": "Assistido",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "Baixar",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "Trailer",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": "",
+            "edit": "Editar"
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "Buscar",
+            "playNext": "",
+            "download": "Baixar",
+            "linkCopied": "",
+            "linkWasCopiedInClipBoard": ""
+        },
+        "edit": {
+            "remove": "Remover",
+            "refresh": "Atualizar"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "Configurações",
+        "general": {
+            "general": "Geral",
+            "language": "Língua",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "Atualizar coleção de vídeo",
+            "scanAudioLibrary": "Atualizar coleção de áudio",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "",
+            "resetApp": "",
+            "vibrate": "",
+            "vibrationOff": "",
+            "mayNotWorkDevice": "",
+            "translationIssues": "",
+            "refreshTranslation": ""
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "",
+            "websocketPort": "",
+            "state": "",
+            "connected": "",
+            "disconnected": "",
+            "connect": "",
+            "disconnect": "",
+            "save": "",
+            "reset": "",
+            "jsonapi": "",
+            "sendrequest": ""
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": ""
+    }
+}

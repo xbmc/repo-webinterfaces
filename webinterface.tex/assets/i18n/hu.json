@@ -1,0 +1,163 @@
+{
+    "header": {
+        "movies": "Filmek",
+        "tvshows": "",
+        "musics": "Zene",
+        "player": "",
+        "remote": "",
+        "settings": "Beállítások",
+        "search": {
+            "search": "Keresés",
+            "searchIn": "",
+            "filters": "",
+            "year": "Év",
+            "genre": ""
+        }
+    },
+    "library": {
+        "videoLibrary": "",
+        "audioLibrary": "",
+        "continueToWatch": "",
+        "recentlyAdded": "",
+        "unwatched": "",
+        "movies": "Filmek",
+        "tvshows": "",
+        "musics": "Zene",
+        "nothingToShow": "",
+        "changeFilterToFindSomething": "",
+        "resetFilters": "",
+        "sortBy": {
+            "sortBy": "",
+            "alphabetical": "",
+            "alphabeticalInversed": "",
+            "random": "",
+            "duration": "",
+            "latest": "",
+            "older": "",
+            "track": ""
+        },
+        "page": "",
+        "directors": "Rendezők",
+        "writers": "Forgatókönyvírók",
+        "actors": "",
+        "albums": "Albumok",
+        "artists": "Előadók",
+        "genres": "Műfaj",
+        "years": "",
+        "recentlyPlayedAlbums": "Legutóbb lejátszott",
+        "recentlyAddedAlbums": "Legutóbb hozzáadott",
+        "mostPlayedAlbums": "",
+        "allMusics": "",
+        "filters": "Szűrők",
+        "details": {
+            "genres": "",
+            "totalDiscs": "",
+            "year": "",
+            "studios": "",
+            "writers": "",
+            "directors": "",
+            "disk": "",
+            "born": "",
+            "mood": "",
+            "formed": "",
+            "disbanded": "",
+            "episodes": "",
+            "musicsBy": "",
+            "playButton": "Lejátszás",
+            "playNext": "",
+            "rating": "",
+            "watched": "Megtekintve",
+            "unwatched": "",
+            "size": "",
+            "file": "",
+            "dateadded": "",
+            "download": "Letöltés",
+            "moreinfo": "",
+            "lessinfo": "",
+            "trailer": "Előzetes",
+            "casting": "",
+            "seasons": "",
+            "seasonNumber": "",
+            "episodeCount": "",
+            "episodesTitle": "",
+            "noSeasonAvailable": "",
+            "getStreamingLink": "",
+            "additionalInformation": "",
+            "refresh": "",
+            "edit": "Szerkesztés"
+        },
+        "musicsView": {
+            "artist": "",
+            "album": "",
+            "track": "",
+            "duration": "",
+            "genre": "",
+            "year": "",
+            "listenIn": "",
+            "internalPlayer": "",
+            "search": "Keresés",
+            "playNext": "",
+            "download": "Letöltés",
+            "linkCopied": "",
+            "linkWasCopiedInClipBoard": ""
+        },
+        "edit": {
+            "remove": "Eltávolítás",
+            "refresh": "Frissítés"
+        }
+    },
+    "player": {
+        "playlist": "",
+        "noMedia": ""
+    },
+    "settings": {
+        "settings": "Beállítások",
+        "general": {
+            "general": "Általános",
+            "language": "Nyelv",
+            "musicsDefaultPlayer": "",
+            "scanVideoLibrary": "Videókönyvtár frissítése",
+            "scanAudioLibrary": "Hangkönyvtár frissítése",
+            "cleanVideoLibrary": "",
+            "cleanAudioLibrary": "",
+            "libraries": "",
+            "application": "",
+            "resetApp": "",
+            "vibrate": "",
+            "vibrationOff": "",
+            "mayNotWorkDevice": "",
+            "translationIssues": "",
+            "refreshTranslation": ""
+        },
+        "appearance": {
+            "appearance": ""
+        },
+        "advanced": {
+            "advanced": "",
+            "websocketAddr": "",
+            "websocketPort": "",
+            "state": "",
+            "connected": "",
+            "disconnected": "",
+            "connect": "",
+            "disconnect": "",
+            "save": "",
+            "reset": "",
+            "jsonapi": "",
+            "sendrequest": ""
+        }
+    },
+    "unknown": "",
+    "notification": {
+        "scanStarted": "",
+        "scanFinished": "",
+        "cleanStarted": "",
+        "cleanFinished": "",
+        "contentUpdated": "",
+        "updatedTranslations": "",
+        "refreshPageToSee": ""
+    },
+    "remote": {
+        "sendText": ""
+    }
+}
