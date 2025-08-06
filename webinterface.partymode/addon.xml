@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<addon
+  id="webinterface.partymode"
+  name="PartyMode"
+  version="0.1.0"
+  provider-name="oddmouse"
+>
+  <requires>
+    <import addon="xbmc.json" version="6.0.0" />
+  </requires>
+  <extension point="xbmc.webinterface" type="static" start="index.html" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">PartyMode web interface for Kodi</summary>
+    <description lang="en">A Kodi web interface dedicated to keeping the party going. Share a simple, mobile-friendly interface with friends on your network to collaboratively build and control playlists of music videos, songs, TV episodes or movies.</description>
+    <source>https://github.com/oddmouse/partymode</source>
+    <license>GPL-2.0-or-later</license>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <screenshot>resources/screenshot-1.png</screenshot>
+      <screenshot>resources/screenshot-2.png</screenshot>
+      <screenshot>resources/screenshot-3.png</screenshot>
+      <screenshot>resources/screenshot-4.png</screenshot>
+    </assets>
+  </extension>
+</addon>
