@@ -1,0 +1,6663 @@
+/* =========================================
+   CINEWAVE - GLOBAL THEME
+========================================= */
+
+:root {
+    --bg-main: #11121A;
+    --bg-secondary: #1E2030;
+    --bg-tertiary: #303247;
+    --bg-hover: #383A52;
+
+    --color-cinema: #E94B5A;
+    --color-music: #9B6DFF;
+    --color-interactive: #20C9B0;
+    --color-rating: #F5B942;
+
+    --text-primary: #F5F3F0;
+    --text-secondary: #A5A6B5;
+    --text-muted: #74768A;
+
+    --border-color: rgba(255, 255, 255, .07);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    --transition: all .25s ease;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    background: var(--bg-main);
+    color: var(--text-primary);
+
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+#application {
+    min-height: 100vh;
+    width: 100%;
+}
+
+#gui {
+    width: min(1400px, 100%);
+    margin: 0 auto;
+    padding: 25px 35px 135px;
+}
+
+#gui h1 {
+    font-size: 30px;
+    font-weight: 750;
+    letter-spacing: -1px;
+    margin: 15px 0 30px;
+    color: var(--text-muted);
+}
+
+.page {
+    width: 100%;
+}
+
+.page h2 {
+    font-size: 23px;
+    font-weight: 700;
+    margin: 25px 0;
+    color: var(--text-muted);
+    letter-spacing: -.4px;
+}
+
+.page h2::after {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 3px;
+    background: var(--color-cinema);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+/* =========================================
+   BREADCRUMB
+========================================= */
+
+#breadcrumbMenu {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px 35px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    min-height: 52px;
+}
+
+#breadcrumbMenu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-decoration: none;
+
+    transition: var(--transition);
+}
+
+#breadcrumbMenu a:hover {
+    color: var(--color-interactive);
+}
+
+.breadcrumbIcon {
+    width: 10px;
+    color: var(--text-muted);
+}
+
+#breadcrumbMenu a span svg {
+    width: 14px;
+    margin-right: 5px;
+}
+
+#breadcrumbMenu a:first-child .breadcrumbIcon {
+    display: none;
+}
+
+/* =========================================
+   CONTENT CONTAINER
+========================================= */
+
+.content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 18px;
+
+    width: 100%;
+}
+
+/* =========================================
+   CARD ITEMS
+========================================= */
+
+.cardItem {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    min-height: 155px;
+    padding: 25px 18px;
+
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+
+    color: var(--text-primary);
+    text-decoration: none;
+
+    overflow: hidden;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+/* Decorative accent */
+
+.cardItem::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: linear-gradient(90deg,
+            var(--color-cinema),
+            var(--color-music));
+
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.cardItem:hover {
+    background: var(--bg-tertiary);
+    border-color: rgba(155, 109, 255, .4);
+
+    transform: translateY(-5px);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
+}
+
+.cardItem:hover::before {
+    opacity: 1;
+}
+
+.cardItem__icon {
+    width: 38px;
+    height: 38px;
+
+    color: var(--color-music);
+
+    transition: var(--transition);
+}
+
+.cardItem__span {
+    color: var(--text-primary);
+
+    font-size: 15px;
+    font-weight: 600;
+
+    text-align: center;
+    letter-spacing: .2px;
+}
+
+.cardItem:hover .cardItem__icon {
+    color: var(--color-interactive);
+    transform: scale(1.12);
+}
+
+/* ========================================
+   CONTENITORE LISTA TABELLARE
+======================================== */
+
+/* Quando il contenuto contiene elementi rowItem,
+   diventa una lista verticale anziché una griglia di card. */
+
+.content:has(.rowItem) {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+/* ========================================
+   RIGA
+======================================== */
+
+.rowItem {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    align-items: center;
+    gap: 18px;
+
+    width: 100%;
+    min-height: 82px;
+    padding: 10px 16px;
+
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+
+    transition: background .2s ease, border-color .2s ease;
+    position: relative;
+}
+
+.rowItem:hover {
+    background: var(--bg-tertiary);
+    border-color: rgba(32, 201, 176, .25);
+}
+
+/* ========================================
+   COLONNA TITOLO
+======================================== */
+
+.rowItem__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    min-width: 0;
+
+    color: var(--text-primary);
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.rowItem__link:hover {
+    color: var(--color-interactive);
+}
+
+/* Icona */
+
+.rowItem__icon {
+    display: block;
+    flex-shrink: 0;
+
+    width: 21px;
+    height: 21px;
+
+    color: var(--color-music);
+    transition: color .2s ease;
+}
+
+.rowItem__link:hover .rowItem__icon {
+    color: var(--color-interactive);
+}
+
+/* Titolo */
+
+.rowItem__span {
+    display: block;
+    min-width: 0;
+
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ========================================
+   COLONNA LOCANDINA
+======================================== */
+
+.rowItem__img {
+    display: block;
+
+    width: 45px;
+    height: 62px;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 5px;
+    background: var(--bg-tertiary);
+}
+
+/* ========================================
+   COLONNA DESCRIZIONE
+======================================== */
+
+.rowItem__plot {
+    display: -webkit-box;
+    min-width: 0;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.5;
+
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ========================================
+   COLONNA VALUTAZIONE
+======================================== */
+
+.rowItem__rating {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+/* Stelle */
+
+.rowItem .star {
+    position: relative;
+    color: var(--bg-hover);
+    font-size: 13px;
+    line-height: 1;
+}
+
+.rowItem .star-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    color: var(--color-rating);
+}
+
+/* ========================================
+   COLONNA PULSANTI
+======================================== */
+
+.rowItem__btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+
+    margin-left: auto;
+}
+
+.rowItem__btn-group__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.rowItem__btn-group__btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.rowItem__btn-group__btn:hover {
+    color: var(--color-interactive);
+    background: rgba(32, 201, 176, .12);
+    border-color: var(--color-interactive);
+    transform: translateY(-2px);
+}
+
+.rowItem__btn-group__btn:active {
+    transform: scale(.95);
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1000px) {
+    .rowItem {
+        grid-template-columns:
+            minmax(150px, 1.2fr) 45px minmax(120px, 1.5fr) 105px 42px;
+
+        gap: 12px;
+        padding: 10px 12px;
+    }
+
+    .rowItem__plot {
+        line-clamp: 2;
+    }
+
+    .rowItem__btn-group__btn {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+/* ========================================
+   TABLET PICCOLO
+======================================== */
+
+@media (max-width: 760px) {
+    .rowItem {
+        grid-template-columns:
+            minmax(130px, 1fr) 42px minmax(100px, 1fr) 42px;
+
+        gap: 10px;
+    }
+
+    .rowItem__plot {
+        font-size: 11px;
+    }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 520px) {
+    .content:has(.rowItem) {
+        gap: 7px;
+    }
+
+    .rowItem {
+        grid-template-columns: minmax(0, 1fr) 38px 38px;
+        gap: 8px;
+
+        min-height: 65px;
+        padding: 8px 10px;
+    }
+
+    .rowItem__link {
+        gap: 8px;
+    }
+
+    .rowItem__icon {
+        width: 17px;
+        height: 17px;
+    }
+
+    .rowItem__span {
+        font-size: 12px;
+    }
+
+    .rowItem__img {
+        width: 36px;
+        height: 48px;
+    }
+
+    .rowItem__btn-group {
+        gap: 4px;
+    }
+
+    .rowItem__btn-group__btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .rowItem__btn-group__btn svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* =========================================
+   GENERAL BUTTONS
+========================================= */
+
+button {
+    font-family: inherit;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 3px;
+}
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    #gui {
+        padding: 20px 22px 140px;
+    }
+
+    .content {
+        grid-template-columns: repeat(auto-fill,
+                minmax(160px, 1fr));
+        gap: 14px;
+    }
+
+    .rowItem {
+        gap: 12px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    #gui {
+        padding: 15px 14px 160px;
+    }
+
+    #gui h1 {
+        font-size: 25px;
+    }
+
+    .page h2 {
+        font-size: 20px;
+    }
+
+    #breadcrumbMenu {
+        padding: 12px 14px;
+        gap: 7px;
+    }
+
+    .content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .cardItem {
+        min-height: 125px;
+        padding: 18px 10px;
+        gap: 13px;
+    }
+
+    .cardItem__icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .cardItem__span {
+        font-size: 13px;
+    }
+
+    .rowItem {
+        min-height: 68px;
+        padding: 9px 10px;
+        gap: 9px;
+    }
+
+    .rowItem__link {
+        flex: 1;
+        gap: 8px;
+    }
+
+    .rowItem__img {
+        width: 38px;
+        height: 52px;
+    }
+
+    .rowItem__icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .rowItem__span {
+        font-size: 13px;
+    }
+
+    .rowItem__btn-group {
+        gap: 5px;
+    }
+
+    .rowItem__btn-group__btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+
+/* ================================
+   FOOTER - CINEWAVE PLAYER
+================================ */
+
+#footer {
+    --footer-bg: rgba(25, 26, 40, .97);
+
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 125px;
+    padding: 14px 30px 22px;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    gap: 10px 25px;
+
+    background: var(--footer-bg);
+    border-top: 1px solid rgba(255, 255, 255, .09);
+    box-shadow: 0 -8px 35px rgba(0, 0, 0, .3);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    color: var(--text-primary);
+    font-size: 13px;
+}
+
+/* ================================
+   CONTROLLI PRINCIPALI
+================================ */
+
+#simple_controls {
+    grid-column: 2;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#simple_controls .button {
+    width: 38px;
+    height: 38px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 50%;
+
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+#simple_controls .button svg {
+    width: 17px;
+    height: 17px;
+}
+
+#simple_controls .button:hover {
+    color: var(--color-interactive);
+    background: rgba(32, 201, 176, .1);
+    border-color: rgba(32, 201, 176, .2);
+    transform: scale(1.08);
+}
+
+/* Pulsanti play e pause */
+
+#simple_controls .button.play,
+#simple_controls .button.pause {
+    width: 48px;
+    height: 48px;
+
+    color: #11121A;
+    background: var(--color-interactive);
+    border-color: var(--color-interactive);
+
+    box-shadow: 0 0 18px rgba(32, 201, 176, .2);
+}
+
+#simple_controls .button.play svg,
+#simple_controls .button.pause svg {
+    width: 19px;
+    height: 19px;
+}
+
+#simple_controls .button.play:hover,
+#simple_controls .button.pause:hover {
+    color: #11121A;
+    background: #50e2cd;
+    box-shadow: 0 0 25px rgba(32, 201, 176, .35);
+    transform: scale(1.1);
+}
+
+/* ================================
+   VOLUME
+================================ */
+
+#footer .volume {
+    grid-column: 3;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+#footer .volume-text {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+#footer .volume-text:hover {
+    color: var(--color-interactive);
+    background: rgba(32, 201, 176, .1);
+}
+
+#footer .volume-icon {
+    width: 19px;
+    height: 19px;
+}
+
+/* Slider volume */
+
+#volume-controls {
+    position: relative;
+    width: 110px;
+    height: 5px;
+
+    background: var(--bg-tertiary);
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#volume-controls .ui-slider-range {
+    height: 100%;
+    background: var(--color-interactive);
+    border-radius: 10px;
+}
+
+#volume-controls .ui-slider-handle {
+    position: absolute;
+    top: -25%;
+
+    background: var(--text-primary);
+    border: 2px solid var(--color-interactive);
+    border-radius: 50%;
+    transform: translate(0%, -25%);
+
+    outline: none;
+    transition: box-shadow .2s ease;
+}
+
+#volume-controls .ui-slider-handle:hover,
+#volume-controls .ui-slider-handle:focus {
+    box-shadow: 0 0 0 5px rgba(32, 201, 176, .15);
+}
+
+/* ================================
+   INFORMAZIONI BRANO / CONTENUTO
+================================ */
+
+#infoContainer {
+    grid-column: 1;
+    grid-row: 1;
+
+    min-width: 0;
+}
+
+#now_next {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+#now,
+#next {
+    overflow: hidden;
+    color: var(--text-secondary);
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#now .label,
+#next .nextTitle {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+#next .nextTitle {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* ================================
+   BARRA AVANZAMENTO
+================================ */
+
+#footer .sliderPlayed {
+    position: relative;
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    width: 100%;
+    height: 5px;
+
+    background: var(--bg-tertiary);
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+
+    transition: height .2s ease;
+}
+
+#footer .sliderPlayed:hover {
+    height: 7px;
+}
+
+#footer .sliderPlayed .ui-slider-range {
+    height: 100%;
+    background: linear-gradient(90deg,
+            var(--color-cinema),
+            var(--color-music),
+            var(--color-interactive));
+    border-radius: 10px;
+}
+
+#footer .sliderPlayed .ui-slider-handle {
+    position: absolute;
+    top: 50%;
+
+    background: var(--text-primary);
+    border: 2px solid var(--color-interactive);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+
+    outline: none;
+    opacity: 0;
+
+    transition: opacity .2s ease, box-shadow .2s ease;
+}
+
+#footer .sliderPlayed:hover .ui-slider-handle,
+#footer .sliderPlayed .ui-slider-handle:focus {
+    opacity: 1;
+    box-shadow: 0 0 0 5px rgba(32, 201, 176, .15);
+}
+
+/* ================================
+   TEMPI
+================================ */
+
+#remainPlayer {
+    position: absolute;
+    left: 30px;
+    right: 30px;
+    bottom: 7px;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: var(--text-muted);
+    font-size: 10px;
+    pointer-events: none;
+}
+
+#remainPlayer .timeRemain,
+#remainPlayer .timeTotal {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ================================
+   FOCUS ACCESSIBILITY
+================================ */
+
+#footer button:focus-visible,
+#footer a:focus-visible,
+#footer .ui-slider-handle:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 4px;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+    #footer {
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 10px 15px;
+    }
+
+    #footer .volume {
+        gap: 7px;
+    }
+
+    #volume-controls {
+        width: 75px;
+    }
+
+    #remainPlayer {
+        left: 20px;
+        right: 20px;
+    }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+    #footer {
+        min-height: 115px;
+        padding: 12px 14px 22px;
+
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto auto;
+        gap: 10px;
+    }
+
+    #infoContainer {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #simple_controls {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        gap: 7px;
+    }
+
+    #simple_controls .button {
+        width: 34px;
+        height: 34px;
+    }
+
+    #simple_controls .button svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    #simple_controls .button.play,
+    #simple_controls .button.pause {
+        width: 42px;
+        height: 42px;
+    }
+
+    #footer .volume {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    #footer .sliderPlayed {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+
+    #remainPlayer {
+        left: 14px;
+        right: 14px;
+        bottom: 5px;
+        font-size: 9px;
+    }
+
+    #now,
+    #next {
+        font-size: 11px;
+        max-width: 100%;
+    }
+}
+
+
+/* ==========================================
+   MODAL - CINEWAVE
+========================================== */
+
+#modalTVShowTitleInformation {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: rgba(5, 6, 12, .78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    padding: 25px 12px;
+}
+
+/* ==========================================
+   MODAL DIALOG
+========================================== */
+
+#modalTVShowTitleInformation .modal-dialog {
+    width: calc(100% - 30px);
+    max-width: 950px;
+    margin: 0 auto;
+
+    min-height: calc(100% - 50px);
+
+    display: flex;
+    align-items: center;
+}
+
+#modalTVShowTitleInformation .modal-content {
+    width: 100%;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #1E2030;
+    color: var(--text-primary);
+
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, .55),
+        0 0 35px rgba(155, 109, 255, .08);
+
+    animation: cinewaveModalIn .25s ease-out;
+}
+
+@keyframes cinewaveModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+#modalTVShowTitleInformation .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 65px;
+    padding: 16px 24px;
+
+    background: linear-gradient(110deg,
+            rgba(233, 75, 90, .12),
+            rgba(155, 109, 255, .12));
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+#modalTVShowTitleInformation .modal-title {
+    margin: 0;
+
+    color: var(--text-primary);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+
+#modalTVShowTitleInformation .modal-header .close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 50%;
+
+    color: var(--text-secondary);
+    font-size: 25px;
+    line-height: 1;
+
+    cursor: pointer;
+    opacity: 1;
+
+    transition: all .2s ease;
+    position: relative;
+}
+
+#modalTVShowTitleInformation .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalTVShowTitleInformation .modal-header .close:hover {
+    color: white;
+    background: rgba(233, 75, 90, .2);
+    border-color: var(--color-cinema);
+    transform: rotate(90deg);
+}
+
+/* ==========================================
+   MODAL BODY
+========================================== */
+
+#modalTVShowTitleInformation .modal-body {
+    padding: 25px 28px;
+
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-hover) transparent;
+}
+
+#modalTVShowTitleInformation .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalTVShowTitleInformation .modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#modalTVShowTitleInformation .modal-body::-webkit-scrollbar-thumb {
+    background: var(--bg-hover);
+    border-radius: 10px;
+}
+
+/* ==========================================
+   INFORMAZIONI GENERALI
+========================================== */
+
+#modalTVShowTitleInformation .textinfo {
+    width: 100%;
+}
+
+#modalTVShowTitleInformation .textinfo h1 {
+    position: relative;
+
+    margin: 0 0 25px;
+    padding-bottom: 14px;
+
+    color: var(--text-primary);
+    font-size: 29px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -.7px;
+}
+
+#modalTVShowTitleInformation .textinfo h1::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 65px;
+    height: 4px;
+
+    background: linear-gradient(90deg,
+            var(--color-cinema),
+            var(--color-music));
+
+    border-radius: 5px;
+}
+
+/* ==========================================
+   RIGHE INFORMAZIONI
+========================================== */
+
+#modalTVShowTitleInformation .movieinfo {
+    display: grid;
+    grid-template-columns: 175px minmax(0, 1fr);
+    align-items: start;
+    gap: 15px;
+
+    padding: 13px 15px;
+    margin-bottom: 7px;
+
+    background: rgba(255, 255, 255, .025);
+    border: 1px solid rgba(255, 255, 255, .045);
+    border-radius: 9px;
+
+    transition: background .2s ease;
+}
+
+#modalTVShowTitleInformation .movieinfo:hover {
+    background: rgba(255, 255, 255, .045);
+}
+
+#modalTVShowTitleInformation .movieinfo .label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#modalTVShowTitleInformation .movieinfo .labelinfo {
+    min-width: 0;
+
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   VALUTAZIONE
+========================================== */
+
+#modalTVShowTitleInformation .rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+#modalTVShowTitleInformation .rating .star {
+    position: relative;
+
+    color: var(--bg-hover);
+    font-size: 19px;
+    line-height: 1;
+}
+
+#modalTVShowTitleInformation .rating .star-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    color: var(--color-rating);
+}
+
+/* ==========================================
+   SEZIONE CAST
+========================================== */
+
+#modalTVShowTitleInformation .textinfo h2 {
+    position: relative;
+
+    margin: 32px 0 18px;
+    padding-bottom: 12px;
+
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 750;
+}
+
+#modalTVShowTitleInformation .textinfo h2::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 42px;
+    height: 3px;
+
+    background: var(--color-music);
+    border-radius: 5px;
+}
+
+/* ==========================================
+   SINGOLO ATTORE
+========================================== */
+
+#modalTVShowTitleInformation .actorimg {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    min-height: 75px;
+    padding: 10px 13px;
+    margin-bottom: 8px;
+
+    background: rgba(255, 255, 255, .025);
+    border: 1px solid var(--border-color);
+    border-radius: 11px;
+
+    transition: all .2s ease;
+}
+
+#modalTVShowTitleInformation .actorimg:hover {
+    background: var(--bg-tertiary);
+    border-color: rgba(155, 109, 255, .35);
+    transform: translateX(3px);
+}
+
+/* Foto attore */
+
+#modalTVShowTitleInformation .actorimg .actor {
+    display: block;
+    flex-shrink: 0;
+
+    width: 49px;
+    height: 49px;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 50%;
+    border: 2px solid rgba(155, 109, 255, .45);
+
+    background: var(--bg-tertiary);
+}
+
+/* Testi attore */
+
+#modalTVShowTitleInformation .actortext {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    min-width: 0;
+}
+
+#modalTVShowTitleInformation .actorname {
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#modalTVShowTitleInformation .actorrole {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+#modalTVShowTitleInformation .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 14px 24px;
+
+    background: rgba(0, 0, 0, .12);
+    border-top: 1px solid var(--border-color);
+}
+
+#modalTVShowTitleInformation .modal-footer .btn-secondary {
+    min-width: 95px;
+    padding: 9px 20px;
+
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+#modalTVShowTitleInformation .modal-footer .btn-secondary:hover {
+    color: white;
+    background: var(--color-cinema);
+    border-color: var(--color-cinema);
+}
+
+/* ==========================================
+   RESPONSIVE TABLET
+========================================== */
+
+@media (max-width: 768px) {
+    #modalTVShowTitleInformation {
+        padding: 15px 10px;
+    }
+
+    #modalTVShowTitleInformation .modal-dialog {
+        width: 100%;
+        min-height: calc(100% - 30px);
+    }
+
+    #modalTVShowTitleInformation .modal-body {
+        padding: 22px 20px;
+    }
+
+    #modalTVShowTitleInformation .movieinfo {
+        grid-template-columns: 135px minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    #modalTVShowTitleInformation .textinfo h1 {
+        font-size: 25px;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE MOBILE
+========================================== */
+
+@media (max-width: 520px) {
+    #modalTVShowTitleInformation {
+        padding: 0;
+    }
+
+    #modalTVShowTitleInformation .modal-dialog {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+    }
+
+    #modalTVShowTitleInformation .modal-content {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    #modalTVShowTitleInformation .modal-header {
+        padding: 14px 17px;
+    }
+
+    #modalTVShowTitleInformation .modal-body {
+        max-height: none;
+        padding: 20px 15px;
+    }
+
+    #modalTVShowTitleInformation .textinfo h1 {
+        font-size: 23px;
+        margin-bottom: 20px;
+    }
+
+    #modalTVShowTitleInformation .movieinfo {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 11px 12px;
+    }
+
+    #modalTVShowTitleInformation .movieinfo .label {
+        font-size: 11px;
+        color: var(--color-music);
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    #modalTVShowTitleInformation .movieinfo .labelinfo {
+        font-size: 13px;
+    }
+
+    #modalTVShowTitleInformation .textinfo h2 {
+        margin-top: 25px;
+    }
+
+    #modalTVShowTitleInformation .actorimg {
+        min-height: 65px;
+        padding: 8px 10px;
+    }
+
+    #modalTVShowTitleInformation .actorimg .actor {
+        width: 43px;
+        height: 43px;
+    }
+
+    #modalTVShowTitleInformation .modal-footer {
+        padding: 12px 15px;
+    }
+}
+
+
+/* =========================================
+   CINEWAVE - ALBUM INFORMATION MODAL
+========================================= */
+
+#modalAlbumTitleInformation {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+    display: block;
+    overflow-y: auto;
+    padding: 25px 15px;
+    background: rgba(8, 9, 17, 0.82);
+    backdrop-filter: blur(8px);
+}
+
+/* Dialog */
+#modalAlbumTitleInformation .modal-dialog {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+}
+
+/* Modal content */
+#modalAlbumTitleInformation .modal-content {
+    overflow: hidden;
+    color: #F5F3F0;
+    background: #1E2030;
+    border: 1px solid rgba(155, 109, 255, 0.25);
+    border-radius: 18px;
+    box-shadow: 0 20px 65px rgba(0, 0, 0, 0.55);
+    animation: albumModalEnter 0.3s ease;
+}
+
+/* Header */
+#modalAlbumTitleInformation .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 26px;
+    background: linear-gradient(110deg,
+            rgba(155, 109, 255, 0.22),
+            rgba(32, 201, 176, 0.10));
+    border-bottom: 1px solid rgba(155, 109, 255, 0.25);
+}
+
+#modalAlbumTitleInformation .modal-title {
+    margin: 0;
+    color: #F5F3F0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Header close button */
+#modalAlbumTitleInformation .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalAlbumTitleInformation .modal-header .close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: #A5A6B5;
+    font-size: 27px;
+    line-height: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 0;
+    border-radius: 50%;
+    opacity: 1;
+    transition: 0.2s ease;
+    position: relative;
+}
+
+#modalAlbumTitleInformation .modal-header .close:hover {
+    color: #FFFFFF;
+    background: #9B6DFF;
+    transform: rotate(90deg);
+}
+
+/* Body */
+#modalAlbumTitleInformation .modal-body {
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #9B6DFF #1E2030;
+}
+
+#modalAlbumTitleInformation .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalAlbumTitleInformation .modal-body::-webkit-scrollbar-track {
+    background: #1E2030;
+}
+
+#modalAlbumTitleInformation .modal-body::-webkit-scrollbar-thumb {
+    background: #9B6DFF;
+    border-radius: 10px;
+}
+
+/* Album information */
+#modalAlbumTitleInformation .textinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Album title */
+#modalAlbumTitleInformation .textinfo h1 {
+    position: relative;
+    margin: 0 0 12px;
+    padding-bottom: 16px;
+    color: #F5F3F0;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+#modalAlbumTitleInformation .textinfo h1.underline::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 75px;
+    height: 4px;
+    background: linear-gradient(90deg, #9B6DFF, #20C9B0);
+    border-radius: 5px;
+}
+
+/* Information rows */
+#modalAlbumTitleInformation .movieinfo {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: center;
+    gap: 15px;
+    padding: 14px 17px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.045);
+    border-radius: 10px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+#modalAlbumTitleInformation .movieinfo:hover {
+    background: rgba(155, 109, 255, 0.09);
+    border-color: rgba(155, 109, 255, 0.22);
+}
+
+/* Labels */
+#modalAlbumTitleInformation .movieinfo .label {
+    color: #A5A6B5;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Information values */
+#modalAlbumTitleInformation .movieinfo .labelinfo {
+    color: #F5F3F0;
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* Artist description */
+#modalAlbumTitleInformation .artistdesc {
+    margin: 10px 0 0;
+    padding: 18px;
+    color: #A5A6B5;
+    font-size: 14px;
+    line-height: 1.7;
+    background: rgba(32, 201, 176, 0.045);
+    border-left: 3px solid #20C9B0;
+    border-radius: 0 10px 10px 0;
+}
+
+/* Footer */
+#modalAlbumTitleInformation .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 18px 26px;
+    background: rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Close button */
+#modalAlbumTitleInformation .modal-footer .btn.close {
+    padding: 10px 25px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #9B6DFF, #7850D8);
+    border: 0;
+    border-radius: 8px;
+    opacity: 1;
+    transition: 0.2s ease;
+}
+
+#modalAlbumTitleInformation .modal-footer .btn.close:hover {
+    background: linear-gradient(135deg, #20C9B0, #159F8C);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(32, 201, 176, 0.2);
+}
+
+/* Animation */
+@keyframes albumModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+    #modalAlbumTitleInformation {
+        padding: 15px 10px;
+    }
+
+    #modalAlbumTitleInformation .modal-body {
+        padding: 22px 18px;
+        max-height: 75vh;
+    }
+
+    #modalAlbumTitleInformation .textinfo h1 {
+        font-size: 25px;
+    }
+
+    #modalAlbumTitleInformation .movieinfo {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 13px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #modalAlbumTitleInformation .modal-dialog {
+        margin: 10px auto;
+    }
+
+    #modalAlbumTitleInformation .modal-content {
+        border-radius: 13px;
+    }
+
+    #modalAlbumTitleInformation .modal-header {
+        padding: 16px 18px;
+    }
+
+    #modalAlbumTitleInformation .modal-body {
+        padding: 20px 15px;
+    }
+
+    #modalAlbumTitleInformation .textinfo h1 {
+        font-size: 22px;
+    }
+
+    #modalAlbumTitleInformation .modal-footer {
+        padding: 15px 18px;
+    }
+}
+
+
+/* =========================================
+   CINEWAVE - SETTINGS PAGE
+========================================= */
+
+.page2 {
+    width: 100%;
+    color: var(--text-primary);
+}
+
+/* Titolo pagina */
+
+.page2>h2 {
+    font-size: 23px;
+    font-weight: 700;
+    margin: 25px 0;
+    color: var(--text-muted);
+    letter-spacing: -.4px;
+}
+
+.page2>h2::after {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 3px;
+    margin-top: 10px;
+    background: linear-gradient(90deg,
+            var(--color-cinema),
+            var(--color-music));
+    border-radius: 10px;
+}
+
+/* =========================================
+   CONTENITORE PRINCIPALE
+========================================= */
+
+.page2>.content-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =========================================
+   IMPOSTAZIONI GENERALI
+========================================= */
+
+.page2 .settings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+
+    width: 100%;
+    padding: 20px;
+
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+}
+
+.page2 .settingItem {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.page2 .settingItem>label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.page2 .settingItem__group {
+    width: 100%;
+}
+
+.page2 .settingItem select {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 35px 9px 13px;
+
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+}
+
+.page2 .settingItem select:hover,
+.page2 .settingItem select:focus {
+    border-color: var(--color-music);
+    background-color: var(--bg-hover);
+}
+
+.page2 .settingItem select option {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+}
+
+/* =========================================
+   PULSANTE SALVATAGGIO GENERALE
+========================================= */
+
+.page2 .settings__btn-group {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.page2 .saveBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-width: 120px;
+    padding: 11px 22px;
+
+    color: #11121A;
+    background: var(--color-interactive);
+
+    border: 1px solid var(--color-interactive);
+    border-radius: var(--radius-sm);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.page2 .saveBtn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.page2 .saveBtn:hover {
+    background: #50e2cd;
+    border-color: #50e2cd;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(32, 201, 176, .2);
+}
+
+.page2 .saveBtn:active {
+    transform: scale(.97);
+}
+
+/* =========================================
+   CONTENITORE SEZIONI
+========================================= */
+
+.page2 .settings__section {
+    width: 100%;
+    min-width: 0;
+    padding: 20px;
+
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+}
+
+/* =========================================
+   TAB PRINCIPALI E SECONDARI
+========================================= */
+
+.page2 .nav.nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    padding: 0;
+    margin: 0 0 20px;
+
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 14px;
+}
+
+.page2 .nav-item {
+    list-style: none;
+}
+
+.page2 .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 38px;
+    padding: 9px 15px;
+
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.page2 .nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    border-color: var(--border-color);
+}
+
+.page2 .nav-link.active {
+    color: #fff;
+    background: linear-gradient(110deg,
+            var(--color-music),
+            #7850D8);
+
+    border-color: rgba(155, 109, 255, .5);
+    box-shadow: 0 4px 14px rgba(155, 109, 255, .18);
+}
+
+/* Tab secondari */
+
+.page2 .tab-content {
+    width: 100%;
+    min-width: 0;
+}
+
+.page2 .tab-pane {
+    width: 100%;
+    min-width: 0;
+}
+
+.page2 .tab-pane>.nav.nav-pills {
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 18px;
+}
+
+.page2 .tab-pane>.nav.nav-pills .nav-link {
+    min-height: 34px;
+    padding: 7px 13px;
+    font-size: 12px;
+}
+
+.page2 .tab-pane>.tab-content {
+    padding-top: 3px;
+}
+
+/* =========================================
+   TABELLE IMPOSTAZIONI
+========================================= */
+
+.page2 table.table {
+    width: 100%;
+    margin: 0;
+
+    color: var(--text-primary);
+    background: transparent;
+
+    border-collapse: separate;
+    border-spacing: 0 7px;
+    vertical-align: middle;
+}
+
+.page2 table.table thead th {
+    padding: 11px 15px;
+
+    color: var(--text-muted);
+    background: transparent;
+
+    border: 0;
+    border-bottom: 1px solid var(--border-color);
+
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+}
+
+.page2 table.table tbody tr {
+    background: rgba(255, 255, 255, .025);
+    transition: var(--transition);
+}
+
+.page2 table.table tbody tr:hover {
+    background: rgba(155, 109, 255, .07);
+}
+
+.page2 table.table tbody td {
+    padding: 13px 15px;
+    vertical-align: middle;
+
+    color: var(--text-primary);
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .035);
+    border-bottom: 1px solid rgba(255, 255, 255, .035);
+}
+
+.page2 table.table tbody td:first-child {
+    border-left: 1px solid rgba(255, 255, 255, .035);
+    border-radius: 9px 0 0 9px;
+}
+
+.page2 table.table tbody td:last-child {
+    width: 180px;
+    text-align: right;
+
+    border-right: 1px solid rgba(255, 255, 255, .035);
+    border-radius: 0 9px 9px 0;
+}
+
+/* =========================================
+   FORM ITEM
+========================================= */
+
+.page2 .formItem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.page2 .formItem>label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Input */
+
+.page2 .formItem__input,
+.page2 .formItem__input {
+    width: 100%;
+    min-height: 39px;
+    padding: 9px 12px;
+
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+
+    transition: var(--transition);
+}
+
+.page2 .formItem__input::placeholder,
+.page2 .formItem__input::placeholder {
+    color: var(--text-muted);
+}
+
+.page2 .formItem__input:hover,
+.page2 .formItem__input:hover {
+    border-color: rgba(155, 109, 255, .4);
+}
+
+.page2 .formItem__input:focus,
+.page2 .formItem__input:focus {
+    border-color: var(--color-music);
+    box-shadow: 0 0 0 3px rgba(155, 109, 255, .12);
+}
+
+/* =========================================
+   CHECKBOX / SWITCH
+========================================= */
+
+.page2 .form-check.form-switch.formItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.page2 .form-check-label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.page2 .form-check-input.formItem__checkbox {
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 22px;
+    margin: 0;
+
+    background-color: var(--bg-hover);
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 30px;
+
+    cursor: pointer;
+    box-shadow: none;
+
+    transition: var(--transition);
+}
+
+.page2 .form-check-input.formItem__checkbox:checked {
+    background-color: var(--color-interactive);
+    border-color: var(--color-interactive);
+}
+
+.page2 .form-check-input.formItem__checkbox:focus {
+    box-shadow: 0 0 0 3px rgba(32, 201, 176, .15);
+}
+
+/* =========================================
+   SLIDER JQUERY UI
+========================================= */
+
+.page2 .formItem__slider {
+    position: relative;
+
+    width: 100%;
+    height: 6px;
+    margin: 12px 0;
+
+    background: var(--bg-hover);
+    border: 0 !important;
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+.page2 .formItem__slider .ui-slider-range {
+    height: 100%;
+    background: linear-gradient(90deg,
+            var(--color-music),
+            var(--color-interactive));
+    border-radius: 10px;
+}
+
+.page2 .formItem__slider .ui-slider-handle {
+    position: absolute;
+    top: -50%;
+
+    width: 19px;
+    height: 19px;
+
+    background: var(--text-primary);
+    border: 3px solid var(--color-music);
+    border-radius: 50%;
+
+    transform: translate(0%, -25%);
+    outline: none;
+
+    cursor: pointer;
+    transition: box-shadow .2s ease;
+}
+
+.page2 .formItem__slider .ui-slider-handle:hover,
+.page2 .formItem__slider .ui-slider-handle:focus {
+    box-shadow: 0 0 0 5px rgba(155, 109, 255, .18);
+}
+
+/* =========================================
+   PULSANTI AZIONI
+========================================= */
+
+.page2 .saveBtnSettings,
+.page2 .defaultBtnSettings {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 65px;
+    min-height: 33px;
+    padding: 7px 12px;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.page2 .saveBtnSettings {
+    color: #11121A;
+    background: var(--color-interactive);
+    border: 1px solid var(--color-interactive);
+}
+
+.page2 .saveBtnSettings:hover {
+    background: #50e2cd;
+    border-color: #50e2cd;
+    transform: translateY(-2px);
+}
+
+.page2 .defaultBtnSettings {
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+}
+
+.page2 .defaultBtnSettings:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    border-color: var(--color-music);
+    transform: translateY(-2px);
+}
+
+.page2 .saveBtnSettings:active,
+.page2 .defaultBtnSettings:active {
+    transform: scale(.96);
+}
+
+/* =========================================
+   ACCESSIBILITÀ
+========================================= */
+
+.page2 button:focus-visible,
+.page2 input:focus-visible,
+.page2 select:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 3px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .page2 .settings {
+        padding: 17px;
+    }
+
+    .page2 .settings__section {
+        padding: 17px;
+    }
+
+    .page2 table.table tbody td {
+        padding: 11px;
+    }
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .page2>h2 {
+        font-size: 20px;
+    }
+
+    .page2 .settings {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .page2 .settings__section {
+        padding: 13px 10px;
+    }
+
+    .page2 .settings__btn-group {
+        justify-content: stretch;
+    }
+
+    .page2 .saveBtn {
+        width: 100%;
+    }
+
+    .page2 .nav.nav-pills {
+        gap: 6px;
+        padding-bottom: 11px;
+    }
+
+    .page2 .nav-link {
+        min-height: 35px;
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .page2 table.table {
+        border-spacing: 0 9px;
+    }
+
+    .page2 table.table thead th {
+        font-size: 10px;
+        padding: 8px;
+    }
+
+    .page2 table.table tbody td {
+        padding: 10px 8px;
+    }
+
+    .page2 table.table tbody td:last-child {
+        width: 115px;
+    }
+
+    .page2 .saveBtnSettings,
+    .page2 .defaultBtnSettings {
+        min-width: 0;
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+
+    .page2 .formItem>label,
+    .page2 .form-check-label {
+        font-size: 12px;
+    }
+
+}
+
+/* =========================================
+   MOBILE PICCOLO
+========================================= */
+
+@media (max-width: 380px) {
+
+    .page2 .settings__section {
+        padding: 10px 7px;
+    }
+
+    .page2 table.table tbody td {
+        padding: 8px 5px;
+    }
+
+    .page2 table.table tbody td:last-child {
+        width: 100px;
+    }
+
+    .page2 .saveBtnSettings,
+    .page2 .defaultBtnSettings {
+        padding: 6px 7px;
+        font-size: 9px;
+    }
+
+}
+
+
+/* ==========================================
+   FORM CONTROLS - PAGE 2
+   ========================================== */
+
+/* Contenitore */
+.page2 .formItem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Label */
+.page2 .formItem label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+/* Stile comune per input e select */
+.page2 .formItem__btn,
+.page2 .formItem__select,
+.page2 .formItem__number {
+    min-height: 42px;
+    padding: 9px 13px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    outline: none;
+}
+
+/* ==========================================
+   BUTTON INPUT
+   ========================================== */
+
+.page2 .formItem__btn {
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 500;
+    background-color: var(--bg-secondary);
+}
+
+.page2 .formItem__btn:hover {
+    border-color: var(--color-interactive);
+    background-color: var(--bg-hover);
+    color: var(--color-interactive);
+}
+
+.page2 .formItem__btn:active {
+    transform: scale(0.99);
+}
+
+/* ==========================================
+   SELECT
+   ========================================== */
+
+.page2 .formItem__select {
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding-right: 40px;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23b8b8c5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px;
+}
+
+.page2 .formItem__select:hover {
+    border-color: var(--color-interactive);
+    background-color: var(--bg-hover);
+}
+
+.page2 .formItem__select option {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 10px;
+}
+
+/* ==========================================
+   INPUT NUMBER
+   ========================================== */
+
+.page2 .formItem__number {
+    width: 100%;
+    max-width: 180px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Pulsanti incremento/decremento */
+.page2 .formItem__number::-webkit-inner-spin-button,
+.page2 .formItem__number::-webkit-outer-spin-button {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.page2 .formItem__number:hover {
+    border-color: var(--color-interactive);
+}
+
+/* ==========================================
+   FOCUS - CONTROLLI
+   ========================================== */
+
+.page2 .formItem__btn:focus,
+.page2 .formItem__select:focus,
+.page2 .formItem__number:focus {
+    border-color: var(--color-interactive);
+    box-shadow: 0 0 0 3px rgba(100, 160, 255, 0.15);
+    background-color: var(--bg-hover);
+}
+
+/* ==========================================
+   ACTION BUTTONS
+   ========================================== */
+
+.page2 .saveBtnSettings,
+.page2 .defaultBtnSettings {
+    min-height: 36px;
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+/* Save */
+.page2 .saveBtnSettings {
+    border: 1px solid var(--color-interactive);
+    background-color: var(--color-interactive);
+    color: #fff;
+}
+
+.page2 .saveBtnSettings:hover {
+    filter: brightness(1.15);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.page2 .saveBtnSettings:active {
+    transform: scale(0.97);
+}
+
+/* Default */
+.page2 .defaultBtnSettings {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.page2 .defaultBtnSettings:hover {
+    border-color: var(--color-cinema);
+    background-color: var(--bg-hover);
+    color: var(--color-cinema);
+}
+
+.page2 .defaultBtnSettings:active {
+    transform: scale(0.97);
+}
+
+/* ==========================================
+   TABLE ACTIONS
+   ========================================== */
+
+.page2 .table td:last-child {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.page2 .table td:last-child button+button {
+    margin-left: 6px;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+    .page2 .formItem__number {
+        max-width: 100%;
+    }
+
+    .page2 .saveBtnSettings,
+    .page2 .defaultBtnSettings {
+        padding: 7px 11px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page2 .table td:last-child {
+        white-space: normal;
+    }
+
+    .page2 .table td:last-child button {
+        margin: 3px 2px;
+    }
+}
+
+/* Accessibilità */
+.page2 .formItem__btn:focus-visible,
+.page2 .formItem__select:focus-visible,
+.page2 .formItem__number:focus-visible,
+.page2 .saveBtnSettings:focus-visible,
+.page2 .defaultBtnSettings:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 2px;
+}
+
+
+/* =========================================
+   CINEWAVE - SONG GENRE INFORMATION MODAL
+========================================= */
+
+#modalSongGenreInformation {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding: 25px 15px;
+
+    background: rgba(8, 9, 17, .82);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* =========================================
+   MODAL DIALOG
+========================================= */
+
+#modalSongGenreInformation .modal-dialog {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    max-width: 850px;
+
+    min-height: calc(100% - 50px);
+    margin: 0 auto;
+}
+
+#modalSongGenreInformation .modal-content {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    width: 100%;
+
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+
+    border: 1px solid rgba(155, 109, 255, .25);
+    border-radius: var(--radius-lg);
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 75px rgba(0, 0, 0, .55),
+        0 0 35px rgba(155, 109, 255, .08);
+
+    animation: songGenreModalEnter .3s ease;
+}
+
+/* Animazione */
+
+@keyframes songGenreModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+#modalSongGenreInformation .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 65px;
+    padding: 18px 25px;
+
+    background: linear-gradient(110deg,
+            rgba(155, 109, 255, .20),
+            rgba(32, 201, 176, .08));
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+#modalSongGenreInformation .modal-title {
+    margin: 0;
+
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .4px;
+}
+
+/* Pulsante chiusura */
+
+#modalSongGenreInformation .modal-header .close {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, .06);
+
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 50%;
+
+    font-size: 26px;
+    line-height: 1;
+
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalSongGenreInformation .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalSongGenreInformation .modal-header .close:hover {
+    color: white;
+    background: var(--color-music);
+    border-color: var(--color-music);
+
+    transform: rotate(90deg);
+}
+
+/* =========================================
+   MODAL BODY
+========================================= */
+
+#modalSongGenreInformation .modal-body {
+    padding: 28px;
+
+    max-height: 70vh;
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-music) var(--bg-secondary);
+}
+
+#modalSongGenreInformation .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalSongGenreInformation .modal-body::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+#modalSongGenreInformation .modal-body::-webkit-scrollbar-thumb {
+    background: var(--color-music);
+    border-radius: 10px;
+}
+
+/* =========================================
+   SONG INFORMATION
+========================================= */
+
+#modalSongGenreInformation .textinfo {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    gap: 12px;
+}
+
+/* Titolo brano */
+
+#modalSongGenreInformation .textinfo h1 {
+    position: relative;
+
+    margin: 0 0 12px;
+    padding-bottom: 16px;
+
+    color: var(--text-primary);
+
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -.6px;
+
+    overflow-wrap: anywhere;
+}
+
+/* Decorazione titolo */
+
+#modalSongGenreInformation .textinfo h1.underline::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 75px;
+    height: 4px;
+
+    background: linear-gradient(90deg,
+            var(--color-music),
+            var(--color-interactive));
+
+    border-radius: 5px;
+}
+
+/* =========================================
+   INFORMATION ROWS
+========================================= */
+
+#modalSongGenreInformation .movieinfo {
+    display: grid;
+
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 17px;
+
+    background: rgba(255, 255, 255, .035);
+
+    border: 1px solid rgba(255, 255, 255, .045);
+    border-radius: var(--radius-md);
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+#modalSongGenreInformation .movieinfo:hover {
+    background: rgba(155, 109, 255, .09);
+    border-color: rgba(155, 109, 255, .22);
+
+    transform: translateX(3px);
+}
+
+/* Etichette */
+
+#modalSongGenreInformation .movieinfo .label {
+    color: var(--text-secondary);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Valori */
+
+#modalSongGenreInformation .movieinfo .labelinfo {
+    min-width: 0;
+
+    color: var(--text-primary);
+
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+}
+
+/* =========================================
+   GENERE MUSICALE
+========================================= */
+
+#modalSongGenreInformation .movieinfo:nth-of-type(3) .labelinfo {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 4px 12px;
+
+    color: #C8B2FF;
+    background: rgba(155, 109, 255, .14);
+
+    border: 1px solid rgba(155, 109, 255, .25);
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =========================================
+   MODAL FOOTER
+========================================= */
+
+#modalSongGenreInformation .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 17px 25px;
+
+    background: rgba(0, 0, 0, .12);
+
+    border-top: 1px solid var(--border-color);
+}
+
+/* Pulsante Close */
+
+#modalSongGenreInformation .modal-footer .btn-secondary {
+    min-width: 100px;
+    padding: 10px 22px;
+
+    color: white;
+    background: linear-gradient(135deg,
+            var(--color-music),
+            #7850D8);
+
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalSongGenreInformation .modal-footer .btn-secondary:hover {
+    background: linear-gradient(135deg,
+            var(--color-interactive),
+            #159F8C);
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 15px rgba(32, 201, 176, .2);
+}
+
+#modalSongGenreInformation .modal-footer .btn-secondary:active {
+    transform: scale(.97);
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+#modalSongGenreInformation button:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 3px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    #modalSongGenreInformation {
+        padding: 15px 10px;
+    }
+
+    #modalSongGenreInformation .modal-dialog {
+        width: 100%;
+        min-height: calc(100% - 30px);
+    }
+
+    #modalSongGenreInformation .modal-body {
+        padding: 22px 18px;
+        max-height: 75vh;
+    }
+
+    #modalSongGenreInformation .textinfo h1 {
+        font-size: 25px;
+    }
+
+    #modalSongGenreInformation .movieinfo {
+        grid-template-columns: 145px minmax(0, 1fr);
+        gap: 12px;
+        padding: 13px 15px;
+    }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 520px) {
+
+    #modalSongGenreInformation {
+        padding: 0;
+    }
+
+    #modalSongGenreInformation .modal-dialog {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+    }
+
+    #modalSongGenreInformation .modal-content {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    #modalSongGenreInformation .modal-header {
+        min-height: 58px;
+        padding: 14px 17px;
+    }
+
+    #modalSongGenreInformation .modal-title {
+        font-size: 16px;
+    }
+
+    #modalSongGenreInformation .modal-body {
+        max-height: none;
+        padding: 22px 15px;
+    }
+
+    #modalSongGenreInformation .textinfo {
+        gap: 9px;
+    }
+
+    #modalSongGenreInformation .textinfo h1 {
+        margin-bottom: 12px;
+        font-size: 23px;
+    }
+
+    #modalSongGenreInformation .movieinfo {
+        grid-template-columns: 1fr;
+        gap: 5px;
+
+        padding: 12px 13px;
+    }
+
+    #modalSongGenreInformation .movieinfo .label {
+        color: var(--color-music);
+
+        font-size: 11px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    #modalSongGenreInformation .movieinfo .labelinfo {
+        font-size: 13px;
+    }
+
+    #modalSongGenreInformation .modal-footer {
+        padding: 13px 15px;
+    }
+
+    #modalSongGenreInformation .modal-footer .btn-secondary {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+
+    #modalSongGenreInformation .modal-header {
+        padding: 12px 13px;
+    }
+
+    #modalSongGenreInformation .modal-body {
+        padding: 18px 12px;
+    }
+
+    #modalSongGenreInformation .textinfo h1 {
+        font-size: 21px;
+    }
+
+    #modalSongGenreInformation .movieinfo {
+        padding: 11px;
+    }
+}
+
+
+/* CONTENITORE PRINCIPALE */
+
+.tvShowTitle {
+    display: flex;
+    align-items: stretch;
+    gap: 18px;
+
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 14px;
+
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+
+    box-sizing: border-box;
+    transition: var(--transition);
+}
+
+.tvShowTitle:hover {
+    background: var(--bg-tertiary);
+    border-color: rgba(233, 75, 90, .35);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+}
+
+/* POSTER A SINISTRA */
+
+.tvShowTitle .rowItem__img {
+    flex: 0 0 120px;
+
+    width: 120px;
+    height: 170px;
+
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+/* CONTENUTO A DESTRA */
+
+.tvShowTitle__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    flex: 1;
+    min-width: 0;
+}
+
+/* TITOLO */
+
+.tvShowTitle__content .tvShowTitle__link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--text-primary);
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.tvShowTitle__content .tvShowTitle__link:hover {
+    color: var(--color-cinema);
+}
+
+.tvShowTitle__content .rowItem__icon {
+    color: var(--color-cinema);
+}
+
+/* TRAMA */
+
+.tvShowTitle__content .rowItem__plot {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* VALUTAZIONE */
+
+.tvShowTitle__content .rowItem__rating {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    padding: 7px 10px;
+
+    background: rgba(245, 185, 66, .08);
+    border: 1px solid rgba(245, 185, 66, .16);
+    border-radius: var(--radius-sm);
+}
+
+.tvShowTitle__content .star {
+    position: relative;
+    color: var(--bg-hover);
+    font-size: 13px;
+}
+
+.tvShowTitle__content .star-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    color: var(--color-rating);
+    white-space: nowrap;
+}
+
+.tvShowTitle__content .rowItem__rating>span:last-child {
+    margin-left: 5px;
+    color: var(--color-rating);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* PULSANTE */
+
+.tvShowTitle__content .rowItem__btn-group {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: auto;
+}
+
+.tvShowTitle__content .rowItem__btn-group__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tvShowTitle__content .rowItem__btn-group__btn:hover {
+    color: #fff;
+    background: var(--color-cinema);
+    border-color: var(--color-cinema);
+}
+
+.tvShowTitle__content .rowItem__btn-group__btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+    .tvShowTitle {
+        gap: 12px;
+        padding: 11px;
+    }
+
+    .tvShowTitle .rowItem__img {
+        flex-basis: 85px;
+        width: 85px;
+        height: 125px;
+    }
+
+    .tvShowTitle__content {
+        gap: 9px;
+    }
+
+    .tvShowTitle__content .tvShowTitle__link {
+        font-size: 14px;
+    }
+
+    .tvShowTitle__content .rowItem__plot {
+        font-size: 12px;
+    }
+}
+
+
+/* =========================================================
+   CINEWAVE — ADDONS MODAL
+   ========================================================= */
+
+#modalAddonItem {
+    background: rgba(8, 8, 16, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 20px;
+    z-index: 1050;
+}
+
+#modalAddonItem .modal-dialog {
+    max-width: 850px;
+    width: 100%;
+}
+
+#modalAddonItem .modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid rgba(128, 48, 71, 0.45);
+    border-radius: 16px;
+    overflow: hidden;
+    color: var(--text-primary);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+    animation: addonModalIn 0.25s ease;
+}
+
+/* ---------------------------------------------------------
+   HEADER
+   --------------------------------------------------------- */
+
+#modalAddonItem .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: linear-gradient(135deg,
+            var(--bg-secondary),
+            var(--bg-tertiary));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#modalAddonItem .modal-title {
+    margin: 0;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+#modalAddonItem .modal-header .close {
+    float: none;
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    color: var(--text-primary);
+    text-shadow: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#modalAddonItem .close__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 25px;
+    line-height: 1;
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+#modalAddonItem .modal-header .close:hover .close__text {
+    color: #fff;
+    background: var(--color-cinema);
+    transform: rotate(90deg);
+}
+
+/* ---------------------------------------------------------
+   BODY
+   --------------------------------------------------------- */
+
+#modalAddonItem .modal-body {
+    padding: 24px;
+    max-height: 65vh;
+    overflow-y: auto;
+    background: var(--bg-secondary);
+}
+
+/* Scrollbar */
+
+#modalAddonItem .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalAddonItem .modal-body::-webkit-scrollbar-track {
+    background: var(--bg-hover);
+}
+
+#modalAddonItem .modal-body::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+}
+
+#modalAddonItem .modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--bg-secondary);
+}
+
+/* Available Addons title */
+
+#modalAddonItem .modal-body>div>div:first-child {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+#modalAddonItem .modal-body>div>div:first-child::after {
+    content: "";
+    display: block;
+    width: 45px;
+    height: 3px;
+    margin-top: 9px;
+    border-radius: 3px;
+    background: var(--bg-tertiary);
+}
+
+/* ---------------------------------------------------------
+   ADDONS LIST
+   --------------------------------------------------------- */
+
+#modalAddonItem .addonsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#modalAddonItem .addonsList__content {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    grid-template-rows: repeat(3, auto);
+    align-items: center;
+    column-gap: 18px;
+    row-gap: 5px;
+    padding: 16px 18px;
+    background: var(--bg-tertiary);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+#modalAddonItem .addonsList__content:hover {
+    background: var(--bg-hover);
+    border-color: rgba(240, 91, 97, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Addon icon */
+
+#modalAddonItem .addonsList__content>img {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    padding: 7px;
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+}
+
+/* Addon information */
+
+#modalAddonItem .addonsList__content .movieinfo {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    min-width: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+#modalAddonItem .addonsList__content .movieinfo .label {
+    flex-shrink: 0;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+#modalAddonItem .addonsList__content .movieinfo .value {
+    color: var(--text-primary);
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* Select button */
+
+#modalAddonItem .addonsList__content .switchTo {
+    grid-column: 3;
+    grid-row: 1 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modalAddonItem .switchTo__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    padding: 10px 20px;
+    border: 1px solid var(--color-interactive);
+    border-radius: 8px;
+    background: var(--color-interactive);
+    color: #fff !important;
+    text-decoration: none !important;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#modalAddonItem .switchTo__btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-color);
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(128, 48, 71, 0.35);
+}
+
+#modalAddonItem .switchTo__btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#modalAddonItem .switchTo__btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------
+   FOOTER
+   --------------------------------------------------------- */
+
+#modalAddonItem .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 16px 24px;
+    background: var(--bg-secondary);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+#modalAddonItem .modal-footer .btn-secondary {
+    padding: 9px 22px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+#modalAddonItem .modal-footer .btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--bg-hover);
+    color: #fff;
+}
+
+/* ---------------------------------------------------------
+   ANIMATION
+   --------------------------------------------------------- */
+
+@keyframes addonModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE — TABLET
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #modalAddonItem {
+        padding: 12px;
+    }
+
+    #modalAddonItem .modal-dialog {
+        max-width: 100%;
+    }
+
+    #modalAddonItem .modal-body {
+        padding: 18px;
+        max-height: 70vh;
+    }
+
+    #modalAddonItem .addonsList__content {
+        grid-template-columns: 54px minmax(0, 1fr) auto;
+        column-gap: 12px;
+        padding: 14px;
+    }
+
+    #modalAddonItem .addonsList__content>img {
+        width: 54px;
+        height: 54px;
+    }
+
+    #modalAddonItem .switchTo__btn {
+        min-width: 80px;
+        padding: 9px 13px;
+    }
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE — MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 480px) {
+    #modalAddonItem {
+        padding: 8px;
+    }
+
+    #modalAddonItem .modal-header {
+        padding: 16px;
+    }
+
+    #modalAddonItem .modal-title {
+        font-size: 1.1rem;
+    }
+
+    #modalAddonItem .modal-body {
+        padding: 14px;
+    }
+
+    #modalAddonItem .addonsList__content {
+        grid-template-columns: 48px minmax(0, 1fr);
+        grid-template-rows: repeat(3, auto) auto;
+        column-gap: 12px;
+        row-gap: 4px;
+        padding: 13px;
+    }
+
+    #modalAddonItem .addonsList__content>img {
+        width: 48px;
+        height: 48px;
+        grid-row: 1 / 4;
+    }
+
+    #modalAddonItem .addonsList__content .movieinfo {
+        font-size: 0.82rem;
+    }
+
+    #modalAddonItem .addonsList__content .switchTo {
+        grid-column: 1 / -1;
+        grid-row: 4;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    #modalAddonItem .switchTo__btn {
+        width: 100%;
+    }
+
+    #modalAddonItem .modal-footer {
+        padding: 14px 16px;
+    }
+}
+
+/* ---------------------------------------------------------
+   ACCESSIBILITY
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #modalAddonItem *,
+    #modalAddonItem *::before,
+    #modalAddonItem *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+.modal-backdrop.show {
+    display: none;
+}
+
+
+/* =========================================================
+   CINEWAVE — FULL PAGE LOADING
+   ========================================================= */
+
+.loadingApplication {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(ellipse at center,
+            rgba(128, 48, 71, 0.16) 0%,
+            rgba(33, 29, 43, 0.45) 35%,
+            transparent 70%),
+        var(--bg-main, #12121C);
+
+    animation: loadingFadeIn .45s ease both;
+}
+
+/* Vignettatura cinematografica */
+.loadingApplication::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(ellipse at center,
+            transparent 30%,
+            rgba(0, 0, 0, .45) 100%);
+}
+
+/* Contenitore centrale */
+.loadingApplication__content {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 24px;
+
+    width: min(90%, 420px);
+    padding: 40px 30px;
+
+    text-align: center;
+
+    animation: loadingContentIn .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* Logo */
+.loadingApplication__content__logo {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background: rgba(33, 29, 43, .55);
+
+    box-shadow:
+        0 0 0 1px rgba(240, 91, 97, .12),
+        0 0 35px rgba(128, 48, 71, .20),
+        0 0 75px rgba(128, 48, 71, .10);
+
+    animation: loadingPulse 2.2s ease-in-out infinite;
+}
+
+/* Alone luminoso intorno al logo */
+.loadingApplication__content__logo::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+
+    border: 1px solid rgba(240, 91, 97, .35);
+    border-radius: 50%;
+
+    animation: loadingRing 2.5s ease-in-out infinite;
+}
+
+/* Immagine logo */
+.loadingApplication__content__logo img {
+    display: block;
+
+    width: 100px;
+    height: 100px;
+
+    object-fit: contain;
+
+    filter: drop-shadow(0 0 12px rgba(240, 91, 97, .25));
+}
+
+/* Testo */
+.loadingApplication__content__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.loadingApplication__content__text p {
+    margin: 0;
+
+    color: var(--text-primary, #F5F3F6);
+
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: .6px;
+    line-height: 1.6;
+
+    animation: loadingText 1.8s ease-in-out infinite;
+}
+
+/* Barra di caricamento decorativa */
+.loadingApplication__content__text::after {
+    content: "";
+
+    display: block;
+
+    width: 110px;
+    height: 3px;
+
+    overflow: hidden;
+    border-radius: 10px;
+
+    background: linear-gradient(90deg,
+            transparent,
+            var(--accent, #F05B61),
+            transparent);
+
+    background-size: 200% 100%;
+
+    animation: loadingBar 1.5s linear infinite;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes loadingFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes loadingContentIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes loadingPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow:
+            0 0 0 1px rgba(240, 91, 97, .12),
+            0 0 35px rgba(128, 48, 71, .20),
+            0 0 75px rgba(128, 48, 71, .10);
+    }
+
+    50% {
+        transform: scale(1.04);
+        box-shadow:
+            0 0 0 1px rgba(240, 91, 97, .25),
+            0 0 45px rgba(128, 48, 71, .35),
+            0 0 90px rgba(128, 48, 71, .18);
+    }
+}
+
+@keyframes loadingRing {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .35;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: .8;
+    }
+}
+
+@keyframes loadingText {
+
+    0%,
+    100% {
+        opacity: .65;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes loadingBar {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: -100% 0;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .loadingApplication__content {
+        gap: 20px;
+        padding: 25px 15px;
+    }
+
+    .loadingApplication__content__logo {
+        width: 125px;
+        height: 125px;
+    }
+
+    .loadingApplication__content__logo img {
+        width: 85px;
+        height: 85px;
+    }
+
+    .loadingApplication__content__text p {
+        font-size: 14px;
+    }
+}
+
+/* Accessibilità: riduzione animazioni */
+@media (prefers-reduced-motion: reduce) {
+
+    .loadingApplication,
+    .loadingApplication *,
+    .loadingApplication *::before,
+    .loadingApplication *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* =========================================
+   CINEWAVE - MOVIE INFORMATION MODAL
+   Usa le variabili di :root e l'animazione
+   @keyframes cinewaveModalIn già presenti.
+========================================= */
+
+#modalInformationMovie {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: rgba(5, 6, 12, .78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    padding: 25px 12px;
+}
+
+/* ==========================================
+   DIALOG / CONTENT
+========================================== */
+
+#modalInformationMovie .modal-dialog {
+    width: calc(100% - 30px);
+    max-width: 950px;
+    margin: 0 auto;
+    min-height: calc(100% - 50px);
+
+    display: flex;
+    align-items: center;
+}
+
+#modalInformationMovie .modal-content {
+    width: 100%;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, .55),
+        0 0 35px rgba(155, 109, 255, .08);
+
+    animation: cinewaveModalIn .25s ease-out;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+#modalInformationMovie .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 65px;
+    padding: 16px 24px;
+
+    background: linear-gradient(110deg,
+            rgba(233, 75, 90, .12),
+            rgba(155, 109, 255, .12));
+    border-bottom: 1px solid var(--border-color);
+}
+
+#modalInformationMovie .modal-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+
+#modalInformationMovie .modal-header .close {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 50%;
+
+    color: var(--text-secondary);
+    font-size: 25px;
+    line-height: 1;
+    text-shadow: none;
+
+    cursor: pointer;
+    opacity: 1;
+    transition: var(--transition);
+}
+
+#modalInformationMovie .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalInformationMovie .modal-header .close:hover {
+    color: #fff;
+    background: rgba(233, 75, 90, .2);
+    border-color: var(--color-cinema);
+    transform: rotate(90deg);
+}
+
+/* ==========================================
+   BODY
+========================================== */
+
+#modalInformationMovie .modal-body {
+    padding: 25px 28px;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-hover) transparent;
+}
+
+#modalInformationMovie .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalInformationMovie .modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#modalInformationMovie .modal-body::-webkit-scrollbar-thumb {
+    background: var(--bg-hover);
+    border-radius: 10px;
+}
+
+/* ==========================================
+   TITOLO
+========================================== */
+
+#modalInformationMovie .movieframe .title h1 {
+    position: relative;
+
+    margin: 0 0 25px;
+    padding-bottom: 14px;
+
+    color: var(--text-primary);
+    font-size: 29px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -.7px;
+    overflow-wrap: anywhere;
+}
+
+#modalInformationMovie .movieframe .title h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 65px;
+    height: 4px;
+
+    background: linear-gradient(90deg,
+            var(--color-cinema),
+            var(--color-music));
+    border-radius: 5px;
+}
+
+/* ==========================================
+   RIGHE INFORMAZIONI (label / value)
+========================================== */
+
+#modalInformationMovie .movieinfo {
+    display: grid;
+    grid-template-columns: 175px minmax(0, 1fr);
+    align-items: start;
+    gap: 15px;
+
+    margin-bottom: 7px;
+    padding: 13px 15px;
+
+    background: rgba(255, 255, 255, .025);
+    border: 1px solid rgba(255, 255, 255, .045);
+    border-radius: 9px;
+
+    transition: background .2s ease;
+}
+
+#modalInformationMovie .movieinfo:hover {
+    background: rgba(255, 255, 255, .045);
+}
+
+#modalInformationMovie .movieinfo .label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#modalInformationMovie .movieinfo .value {
+    min-width: 0;
+
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+/* Righe senza valore: nascoste (es. "Scritto da", "Tag line", "Set") */
+#modalInformationMovie .movieinfo:has(> .value:empty) {
+    display: none;
+}
+
+/* Link (Trailer, IMDB) */
+#modalInformationMovie .movieinfo .value a {
+    color: var(--color-interactive);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: var(--transition);
+}
+
+#modalInformationMovie .movieinfo .value a:hover {
+    color: var(--text-primary);
+    border-bottom-color: var(--color-interactive);
+}
+
+/* Percorso file */
+#modalInformationMovie .movieinfo.filelink .value {
+    color: var(--text-secondary);
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 12px;
+}
+
+/* Contenitori che non sono righe label/value:
+   trama, pulsanti e cast diventano blocchi liberi */
+#modalInformationMovie .movieinfo:has(> .plot),
+#modalInformationMovie .movieinfo:has(> .movietags),
+#modalInformationMovie .movieinfo:has(> .cast) {
+    display: block;
+    padding: 0;
+    background: none;
+    border: 0;
+}
+
+#modalInformationMovie .movieinfo:has(> .plot):hover,
+#modalInformationMovie .movieinfo:has(> .movietags):hover,
+#modalInformationMovie .movieinfo:has(> .cast):hover {
+    background: none;
+}
+
+/* ==========================================
+   VOTAZIONE
+========================================== */
+
+#modalInformationMovie .rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+#modalInformationMovie .rating .star {
+    position: relative;
+    color: var(--bg-hover);
+    font-size: 19px;
+    line-height: 1;
+}
+
+#modalInformationMovie .rating .star-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--color-rating);
+}
+
+/* ==========================================
+   TRAMA
+========================================== */
+
+#modalInformationMovie .plot {
+    margin: 0;
+    padding: 16px 18px;
+
+    background: rgba(255, 255, 255, .025);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--color-music);
+    border-radius: 9px;
+
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    line-height: 1.7;
+}
+
+/* ==========================================
+   PULSANTI (Accoda / Guarda)
+========================================== */
+
+#modalInformationMovie .movietags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 8px 0 4px;
+}
+
+#modalInformationMovie .movietags button {
+    min-width: 120px;
+    padding: 11px 24px;
+
+    border-radius: var(--radius-sm);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .3px;
+
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+#modalInformationMovie .movietags .infoplay {
+    color: #fff;
+    background: linear-gradient(110deg,
+            var(--color-cinema),
+            var(--color-music));
+    border: 1px solid transparent;
+}
+
+#modalInformationMovie .movietags .infoplay:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(233, 75, 90, .3);
+}
+
+#modalInformationMovie .movietags .infoqueue {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    border: 1px solid rgba(255, 255, 255, .1);
+}
+
+#modalInformationMovie .movietags .infoqueue:hover {
+    background: var(--bg-hover);
+    border-color: var(--color-interactive);
+    color: var(--color-interactive);
+}
+
+/* ==========================================
+   CAST
+========================================== */
+
+#modalInformationMovie .movieframe h2 {
+    position: relative;
+
+    margin: 32px 0 18px;
+    padding-bottom: 12px;
+
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 750;
+}
+
+#modalInformationMovie .movieframe h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 42px;
+    height: 3px;
+
+    background: var(--color-music);
+    border-radius: 5px;
+}
+
+#modalInformationMovie .cast {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px;
+}
+
+#modalInformationMovie .actorimg {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    min-height: 75px;
+    padding: 10px 13px;
+
+    background: rgba(255, 255, 255, .025);
+    border: 1px solid var(--border-color);
+    border-radius: 11px;
+
+    transition: var(--transition);
+}
+
+#modalInformationMovie .actorimg:hover {
+    background: var(--bg-tertiary);
+    border-color: rgba(155, 109, 255, .35);
+    transform: translateY(-2px);
+}
+
+#modalInformationMovie .actorimg .actor {
+    display: block;
+    flex-shrink: 0;
+
+    width: 49px;
+    height: 49px;
+
+    object-fit: cover;
+    object-position: center top;
+
+    border-radius: 50%;
+    border: 2px solid rgba(155, 109, 255, .45);
+    background: var(--bg-tertiary);
+}
+
+#modalInformationMovie .actortext {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+#modalInformationMovie .actorname {
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+#modalInformationMovie .actorrole {
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+#modalInformationMovie .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 14px 24px;
+
+    background: rgba(0, 0, 0, .12);
+    border-top: 1px solid var(--border-color);
+}
+
+#modalInformationMovie .modal-footer .btn-secondary {
+    min-width: 95px;
+    padding: 9px 20px;
+
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: var(--radius-sm);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+#modalInformationMovie .modal-footer .btn-secondary:hover {
+    color: #fff;
+    background: var(--color-cinema);
+    border-color: var(--color-cinema);
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+========================================== */
+
+@media (max-width: 768px) {
+    #modalInformationMovie {
+        padding: 15px 10px;
+    }
+
+    #modalInformationMovie .modal-dialog {
+        width: 100%;
+        min-height: calc(100% - 30px);
+    }
+
+    #modalInformationMovie .modal-body {
+        padding: 22px 20px;
+    }
+
+    #modalInformationMovie .movieinfo {
+        grid-template-columns: 135px minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    #modalInformationMovie .movieframe .title h1 {
+        font-size: 25px;
+    }
+
+    #modalInformationMovie .cast {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+========================================== */
+
+@media (max-width: 520px) {
+    #modalInformationMovie {
+        padding: 0;
+    }
+
+    #modalInformationMovie .modal-dialog {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+    }
+
+    #modalInformationMovie .modal-content {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    #modalInformationMovie .modal-header {
+        padding: 14px 17px;
+    }
+
+    #modalInformationMovie .modal-body {
+        max-height: none;
+        padding: 20px 15px;
+    }
+
+    #modalInformationMovie .movieframe .title h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    #modalInformationMovie .movieinfo {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 11px 12px;
+    }
+
+    #modalInformationMovie .movieinfo .label {
+        color: var(--color-music);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    #modalInformationMovie .movietags button {
+        flex: 1;
+    }
+
+    #modalInformationMovie .movieframe h2 {
+        margin-top: 25px;
+    }
+
+    #modalInformationMovie .cast {
+        grid-template-columns: 1fr;
+    }
+
+    #modalInformationMovie .actorimg {
+        min-height: 65px;
+        padding: 8px 10px;
+    }
+
+    #modalInformationMovie .actorimg .actor {
+        width: 43px;
+        height: 43px;
+    }
+
+    #modalInformationMovie .modal-footer {
+        padding: 12px 15px;
+    }
+}
+
+/* ==========================================
+   ACCESSIBILITÀ
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #modalInformationMovie *,
+    #modalInformationMovie *::before,
+    #modalInformationMovie *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* =========================================
+   ARTIST BY TITLE PAGE - RIGA BRANO
+   (da incollare DOPO le regole .rowItem)
+========================================= */
+
+/* Riga: cover | titolo | pulsanti */
+
+.rowItem.artistByTitlePage {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 16px;
+
+    min-height: 76px;
+    padding: 10px 16px 10px 10px;
+}
+
+.rowItem.artistByTitlePage:hover {
+    border-color: rgba(155, 109, 255, .4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+}
+
+/* Cover quadrata (musica, non locandina) */
+
+.artistByTitlePage .rowItem__img {
+    width: 56px;
+    height: 56px;
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+/* Titolo */
+
+.artistByTitlePage .rowItem__link {
+    gap: 12px;
+}
+
+.artistByTitlePage .rowItem__span {
+    font-size: 14.5px;
+    letter-spacing: .1px;
+}
+
+.artistByTitlePage .rowItem__link:hover .rowItem__span {
+    color: var(--color-music);
+}
+
+/* Il tuo HTML ha uno <span> annidato non chiuso:
+   lo neutralizzo per evitare spazi o elementi vuoti. */
+.artistByTitlePage .rowItem__span span:empty {
+    display: none;
+}
+
+/* Pulsante info */
+
+.artistByTitlePage__info:hover {
+    color: var(--color-music);
+    background: rgba(155, 109, 255, .12);
+    border-color: var(--color-music);
+}
+
+.artistByTitlePage__info:focus-visible {
+    outline: 2px solid var(--color-music);
+    outline-offset: 2px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+    .rowItem.artistByTitlePage {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 10px;
+
+        min-height: 64px;
+        padding: 8px 10px 8px 8px;
+    }
+
+    .artistByTitlePage .rowItem__img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .artistByTitlePage .rowItem__span {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 520px) {
+
+    /* Il @media 520px di .rowItem imposta 3 colonne diverse:
+       qui le riporto a quelle corrette per questa riga. */
+    .rowItem.artistByTitlePage {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+
+    .artistByTitlePage .rowItem__icon {
+        display: none;
+    }
+}
+
+/* =========================================
+   CINEWAVE - ALBUM / BRANO INFORMATION MODAL
+   #modalAlbumInformation
+========================================= */
+
+#modalAlbumInformation {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+    display: block;
+    overflow-y: auto;
+    padding: 25px 15px;
+
+    background: rgba(8, 9, 17, .82);
+    backdrop-filter: blur(8px);
+}
+
+/* Dialog */
+
+#modalAlbumInformation .modal-dialog {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+}
+
+/* Contenuto */
+
+#modalAlbumInformation .modal-content {
+    overflow: hidden;
+
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid rgba(155, 109, 255, .25);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 65px rgba(0, 0, 0, .55);
+
+    animation: albumInfoModalEnter .3s ease;
+}
+
+/* Header */
+
+#modalAlbumInformation .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 26px;
+
+    background: linear-gradient(110deg,
+            rgba(155, 109, 255, .22),
+            rgba(32, 201, 176, .10));
+    border-bottom: 1px solid rgba(155, 109, 255, .25);
+}
+
+#modalAlbumInformation .modal-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .5px;
+}
+
+/* Pulsante X */
+
+#modalAlbumInformation .modal-header .close {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    color: var(--text-secondary);
+    font-size: 27px;
+    line-height: 1;
+
+    background: rgba(255, 255, 255, .06);
+    border: 0;
+    border-radius: 50%;
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalAlbumInformation .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalAlbumInformation .modal-header .close:hover {
+    color: #fff;
+    background: var(--color-music);
+    transform: rotate(90deg);
+}
+
+/* Body: copertina a sinistra, info a destra */
+
+#modalAlbumInformation .modal-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+
+    max-height: 70vh;
+    padding: 30px;
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-music) var(--bg-secondary);
+}
+
+#modalAlbumInformation .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalAlbumInformation .modal-body::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+#modalAlbumInformation .modal-body::-webkit-scrollbar-thumb {
+    background: var(--color-music);
+    border-radius: 10px;
+}
+
+/* Copertina */
+
+#modalAlbumInformation .thumb {
+    position: relative;
+    flex: 0 0 220px;
+    width: 220px;
+}
+
+#modalAlbumInformation .thumb::after {
+    /* alone viola dietro la cover */
+    content: "";
+    position: absolute;
+    inset: 12px -4px -10px;
+    z-index: 0;
+
+    background: radial-gradient(closest-side,
+            rgba(155, 109, 255, .28),
+            transparent);
+    filter: blur(18px);
+    pointer-events: none;
+}
+
+#modalAlbumInformation .thumb__img {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+    object-position: center;
+
+    background: var(--bg-tertiary);
+    border: 1px solid rgba(155, 109, 255, .3);
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .4);
+}
+
+/* Colonna informazioni */
+
+#modalAlbumInformation .textinfo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 12px;
+    min-width: 0;
+}
+
+/* Titolo */
+
+#modalAlbumInformation .textinfo h1 {
+    position: relative;
+
+    margin: 0 0 10px;
+    padding-bottom: 16px;
+
+    color: var(--text-primary);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+    overflow-wrap: anywhere;
+}
+
+#modalAlbumInformation .textinfo h1.underline::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 75px;
+    height: 4px;
+
+    background: linear-gradient(90deg,
+            var(--color-music),
+            var(--color-interactive));
+    border-radius: 5px;
+}
+
+/* Righe informazioni */
+
+#modalAlbumInformation .movieinfo {
+    display: grid;
+    grid-template-columns: 165px minmax(0, 1fr);
+    align-items: center;
+    gap: 15px;
+
+    padding: 14px 17px;
+
+    background: rgba(255, 255, 255, .035);
+    border: 1px solid rgba(255, 255, 255, .045);
+    border-radius: 10px;
+
+    transition: background .2s ease, border-color .2s ease;
+}
+
+#modalAlbumInformation .movieinfo:hover {
+    background: rgba(155, 109, 255, .09);
+    border-color: rgba(155, 109, 255, .22);
+}
+
+#modalAlbumInformation .movieinfo .label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#modalAlbumInformation .movieinfo .labelinfo {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* Descrizione: la riga con label allineata in alto */
+
+#modalAlbumInformation .movieinfo:has(> .artistdesc) {
+    align-items: start;
+}
+
+#modalAlbumInformation .artistdesc {
+    margin: 0;
+    padding: 0;
+
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Footer */
+
+#modalAlbumInformation .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 18px 26px;
+
+    background: rgba(0, 0, 0, .12);
+    border-top: 1px solid var(--border-color);
+}
+
+#modalAlbumInformation .modal-footer .btn.close {
+    padding: 10px 25px;
+
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+
+    background: linear-gradient(135deg, #9B6DFF, #7850D8);
+    border: 0;
+    border-radius: var(--radius-sm);
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalAlbumInformation .modal-footer .btn.close:hover {
+    background: linear-gradient(135deg, #20C9B0, #159F8C);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(32, 201, 176, .2);
+}
+
+#modalAlbumInformation .close:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 3px;
+}
+
+/* Animazione */
+
+@keyframes albumInfoModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 768px) {
+    #modalAlbumInformation {
+        padding: 15px 10px;
+    }
+
+    /* Copertina sopra, centrata */
+    #modalAlbumInformation .modal-body {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 22px;
+
+        max-height: 75vh;
+        padding: 22px 18px;
+    }
+
+    #modalAlbumInformation .thumb {
+        flex: none;
+        align-self: center;
+        width: min(220px, 60%);
+    }
+
+    #modalAlbumInformation .textinfo h1 {
+        font-size: 25px;
+    }
+
+    #modalAlbumInformation .movieinfo {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 13px 15px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+    #modalAlbumInformation .modal-dialog {
+        margin: 10px auto;
+    }
+
+    #modalAlbumInformation .modal-content {
+        border-radius: 13px;
+    }
+
+    #modalAlbumInformation .modal-header {
+        padding: 16px 18px;
+    }
+
+    #modalAlbumInformation .modal-body {
+        padding: 20px 15px;
+    }
+
+    #modalAlbumInformation .textinfo h1 {
+        font-size: 22px;
+    }
+
+    #modalAlbumInformation .movieinfo .label {
+        color: var(--color-music);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    #modalAlbumInformation .modal-footer {
+        padding: 15px 18px;
+    }
+
+    #modalAlbumInformation .modal-footer .btn.close {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   ACCESSIBILITÀ
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #modalAlbumInformation *,
+    #modalAlbumInformation *::before,
+    #modalAlbumInformation *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* =========================================
+   CINEWAVE - ARTIST INFORMATION MODAL
+   #modalArtistInformation
+========================================= */
+
+#modalArtistInformation {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+    display: block;
+    overflow-y: auto;
+    padding: 25px 15px;
+
+    background: rgba(8, 9, 17, .82);
+    backdrop-filter: blur(8px);
+}
+
+/* Dialog */
+
+#modalArtistInformation .modal-dialog {
+    width: 100%;
+    max-width: 720px;
+    margin: auto;
+}
+
+/* Contenuto */
+
+#modalArtistInformation .modal-content {
+    overflow: hidden;
+
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid rgba(155, 109, 255, .25);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 65px rgba(0, 0, 0, .55);
+
+    animation: artistInfoModalEnter .3s ease;
+}
+
+/* Header */
+
+#modalArtistInformation .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 20px 26px;
+
+    background: linear-gradient(110deg,
+            rgba(155, 109, 255, .22),
+            rgba(32, 201, 176, .10));
+    border-bottom: 1px solid rgba(155, 109, 255, .25);
+}
+
+#modalArtistInformation .modal-title {
+    min-width: 0;
+    margin: 0;
+
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .5px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Pulsante X */
+
+#modalArtistInformation .modal-header .close {
+    position: relative;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    color: var(--text-secondary);
+    font-size: 27px;
+    line-height: 1;
+
+    background: rgba(255, 255, 255, .06);
+    border: 0;
+    border-radius: 50%;
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalArtistInformation .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalArtistInformation .modal-header .close:hover {
+    color: #fff;
+    background: var(--color-music);
+    transform: rotate(90deg);
+}
+
+/* Body */
+
+#modalArtistInformation .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    max-height: 70vh;
+    padding: 30px;
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-music) var(--bg-secondary);
+}
+
+#modalArtistInformation .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalArtistInformation .modal-body::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+#modalArtistInformation .modal-body::-webkit-scrollbar-thumb {
+    background: var(--color-music);
+    border-radius: 10px;
+}
+
+/* Titolo (fuori da .textinfo) */
+
+#modalArtistInformation .modal-body>h1 {
+    position: relative;
+
+    margin: 0 0 6px;
+    padding-bottom: 16px;
+
+    color: var(--text-primary);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+    overflow-wrap: anywhere;
+}
+
+#modalArtistInformation .modal-body>h1.underline::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 75px;
+    height: 4px;
+
+    background: linear-gradient(90deg,
+            var(--color-music),
+            var(--color-interactive));
+    border-radius: 5px;
+}
+
+/* Colonna informazioni */
+
+#modalArtistInformation .textinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+/* Righe informazioni
+   (.movieInfo con la I maiuscola è nel tuo HTML: lo copro entrambi) */
+
+#modalArtistInformation .movieinfo,
+#modalArtistInformation .movieInfo {
+    display: grid;
+    grid-template-columns: 165px minmax(0, 1fr);
+    align-items: center;
+    gap: 15px;
+
+    padding: 14px 17px;
+
+    background: rgba(255, 255, 255, .035);
+    border: 1px solid rgba(255, 255, 255, .045);
+    border-radius: 10px;
+
+    transition: background .2s ease, border-color .2s ease;
+}
+
+#modalArtistInformation .movieinfo:hover,
+#modalArtistInformation .movieInfo:hover {
+    background: rgba(155, 109, 255, .09);
+    border-color: rgba(155, 109, 255, .22);
+}
+
+#modalArtistInformation .label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#modalArtistInformation .labelinfo {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* Descrizione: label in alto, testo a destra */
+
+#modalArtistInformation .movieinfo:has(> .artistdesc),
+#modalArtistInformation .movieInfo:has(> .artistdesc) {
+    align-items: start;
+}
+
+#modalArtistInformation .artistdesc {
+    margin: 0;
+    padding: 0;
+
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Footer */
+
+#modalArtistInformation .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 18px 26px;
+
+    background: rgba(0, 0, 0, .12);
+    border-top: 1px solid var(--border-color);
+}
+
+#modalArtistInformation .modal-footer .btn.close {
+    padding: 10px 25px;
+
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+
+    background: linear-gradient(135deg, #9B6DFF, #7850D8);
+    border: 0;
+    border-radius: var(--radius-sm);
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalArtistInformation .modal-footer .btn.close:hover {
+    background: linear-gradient(135deg, #20C9B0, #159F8C);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(32, 201, 176, .2);
+}
+
+#modalArtistInformation .close:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 3px;
+}
+
+/* Animazione */
+
+@keyframes artistInfoModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 768px) {
+    #modalArtistInformation {
+        padding: 15px 10px;
+    }
+
+    #modalArtistInformation .modal-body {
+        max-height: 75vh;
+        padding: 22px 18px;
+    }
+
+    #modalArtistInformation .modal-body>h1 {
+        font-size: 25px;
+    }
+
+    #modalArtistInformation .movieinfo,
+    #modalArtistInformation .movieInfo {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 13px 15px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+    #modalArtistInformation .modal-dialog {
+        margin: 10px auto;
+    }
+
+    #modalArtistInformation .modal-content {
+        border-radius: 13px;
+    }
+
+    #modalArtistInformation .modal-header {
+        padding: 16px 18px;
+    }
+
+    #modalArtistInformation .modal-body {
+        padding: 20px 15px;
+    }
+
+    #modalArtistInformation .modal-body>h1 {
+        font-size: 22px;
+    }
+
+    #modalArtistInformation .label {
+        color: var(--color-music);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    #modalArtistInformation .modal-footer {
+        padding: 15px 18px;
+    }
+
+    #modalArtistInformation .modal-footer .btn.close {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   ACCESSIBILITÀ
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #modalArtistInformation *,
+    #modalArtistInformation *::before,
+    #modalArtistInformation *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* =========================================
+   CINEWAVE - NOTIFICHE (jQuery Toast)
+   Da incollare DOPO il CSS di jquery.toast
+   (o ovunque: la specificità è già più alta)
+========================================= */
+
+/* ---------- Contenitore ---------- */
+
+.jq-toast-wrap {
+    width: 340px;
+    max-width: calc(100vw - 24px);
+}
+
+.jq-toast-wrap.top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.jq-toast-wrap.top-left {
+    top: 20px;
+    left: 20px;
+}
+
+/* In basso lascio spazio al player fisso (#footer): adatta il valore se serve */
+.jq-toast-wrap.bottom-right {
+    bottom: 130px;
+    right: 20px;
+}
+
+.jq-toast-wrap.bottom-left {
+    bottom: 130px;
+    left: 20px;
+}
+
+/* ---------- Singola notifica ---------- */
+
+.jq-toast-wrap .jq-toast-single {
+    /* colore d'accento: cambia per tipo (vedi varianti) */
+    --toast-accent: var(--color-interactive);
+
+    position: relative;
+    overflow: hidden;
+
+    margin: 0 0 10px;
+    padding: 14px 44px 16px 16px;
+
+    /* background e color hanno stili inline nel plugin: serve !important */
+    color: var(--text-primary) !important;
+    background-color: var(--bg-tertiary) !important;
+
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--toast-accent);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .45);
+
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: .1px;
+
+    animation: cinewaveToastEnter .3s ease;
+}
+
+/* Titolo (opzione "heading") */
+
+.jq-toast-wrap .jq-toast-single h2,
+.jq-toast-wrap .jq-toast-single .jq-toast-heading {
+    margin: 0 0 4px;
+
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* Link dentro la notifica */
+
+.jq-toast-wrap .jq-toast-single a {
+    color: var(--color-interactive);
+    font-size: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.jq-toast-wrap .jq-toast-single a:hover {
+    color: var(--text-primary);
+    border-bottom-color: var(--color-interactive);
+}
+
+/* ---------- Pulsante di chiusura ---------- */
+
+.jq-toast-wrap .close-jq-toast-single {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 24px;
+    height: 24px;
+
+    color: var(--text-secondary);
+    font-size: 17px;
+    line-height: 23px;
+    text-align: center;
+
+    background: rgba(255, 255, 255, .06);
+    border-radius: 50%;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.jq-toast-wrap .close-jq-toast-single:hover {
+    color: #fff;
+    background: var(--toast-accent);
+}
+
+/* ---------- Barra di avanzamento (sul bordo inferiore) ---------- */
+
+.jq-toast-wrap .jq-toast-loader {
+    top: auto;
+    bottom: 0;
+    left: 0;
+
+    height: 3px;
+
+    /* anche il colore del loader è inline nel plugin */
+    background-color: var(--toast-accent) !important;
+    border-radius: 0 3px 3px 0;
+    opacity: .9;
+}
+
+/* ---------- Varianti con icona ----------
+   (il plugin aggiunge jq-has-icon + jq-icon-<tipo> quando usi l'opzione "icon") */
+
+.jq-toast-wrap .jq-toast-single.jq-has-icon {
+    padding-left: 48px;
+
+    background-repeat: no-repeat;
+    background-position: 15px 15px;
+    background-size: 21px 21px;
+}
+
+.jq-toast-wrap .jq-toast-single.jq-icon-success {
+    --toast-accent: var(--color-interactive);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2320C9B0' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M7.5 12.5l3 3 6-6.5'/></svg>");
+}
+
+.jq-toast-wrap .jq-toast-single.jq-icon-error {
+    --toast-accent: var(--color-cinema);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E94B5A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M8.5 8.5l7 7M15.5 8.5l-7 7'/></svg>");
+}
+
+.jq-toast-wrap .jq-toast-single.jq-icon-warning {
+    --toast-accent: var(--color-rating);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F5B942' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3L2 20h20L12 3z'/><path d='M12 10v4.5M12 17.5v.01'/></svg>");
+}
+
+.jq-toast-wrap .jq-toast-single.jq-icon-info {
+    --toast-accent: var(--color-music);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239B6DFF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M12 11v6M12 7.5v.01'/></svg>");
+}
+
+/* Il plugin colora anche testo e bordo delle varianti: li riporto al tema */
+
+.jq-toast-wrap .jq-toast-single.jq-icon-success,
+.jq-toast-wrap .jq-toast-single.jq-icon-error,
+.jq-toast-wrap .jq-toast-single.jq-icon-warning,
+.jq-toast-wrap .jq-toast-single.jq-icon-info {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* ---------- Animazione ---------- */
+
+@keyframes cinewaveToastEnter {
+    from {
+        opacity: 0;
+        transform: translateX(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .jq-toast-wrap,
+    .jq-toast-wrap.top-right,
+    .jq-toast-wrap.top-left,
+    .jq-toast-wrap.bottom-right,
+    .jq-toast-wrap.bottom-left {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-width: none;
+    }
+
+    .jq-toast-wrap.top-right,
+    .jq-toast-wrap.top-left {
+        top: 12px;
+    }
+
+    .jq-toast-wrap.bottom-right,
+    .jq-toast-wrap.bottom-left {
+        bottom: 140px;
+    }
+
+    .jq-toast-wrap .jq-toast-single {
+        font-size: 13px;
+    }
+}
+
+/* =========================================
+   ACCESSIBILITÀ
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .jq-toast-wrap .jq-toast-single {
+        animation: none;
+    }
+}
+
+/* ==========================================
+   CINEWAVE - EPISODE INFORMATION MODAL
+   #modalInformationEpisode
+========================================== */
+
+#modalInformationEpisode {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: rgba(5, 6, 12, .78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    padding: 25px 12px;
+}
+
+/* ==========================================
+   DIALOG / CONTENT
+========================================== */
+
+#modalInformationEpisode .modal-dialog {
+    width: calc(100% - 30px);
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: calc(100% - 50px);
+
+    display: flex;
+    align-items: center;
+}
+
+#modalInformationEpisode .modal-content {
+    width: 100%;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, .55),
+        0 0 35px rgba(155, 109, 255, .08);
+
+    animation: episodeModalIn .25s ease-out;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+#modalInformationEpisode .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 65px;
+    padding: 16px 24px;
+
+    background: linear-gradient(110deg,
+            rgba(233, 75, 90, .12),
+            rgba(155, 109, 255, .12));
+    border-bottom: 1px solid var(--border-color);
+}
+
+#modalInformationEpisode .modal-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+
+#modalInformationEpisode .modal-header .close {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 50%;
+
+    color: var(--text-secondary);
+    font-size: 25px;
+    line-height: 1;
+    text-shadow: none;
+
+    cursor: pointer;
+    opacity: 1;
+    transition: var(--transition);
+}
+
+#modalInformationEpisode .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalInformationEpisode .modal-header .close:hover {
+    color: #fff;
+    background: rgba(233, 75, 90, .2);
+    border-color: var(--color-cinema);
+    transform: rotate(90deg);
+}
+
+/* ==========================================
+   BODY
+========================================== */
+
+#modalInformationEpisode .modal-body {
+    padding: 25px 28px 28px;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-hover) transparent;
+}
+
+#modalInformationEpisode .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalInformationEpisode .modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#modalInformationEpisode .modal-body::-webkit-scrollbar-thumb {
+    background: var(--bg-hover);
+    border-radius: 10px;
+}
+
+/* ==========================================
+   IMMAGINE EPISODIO (fanart 16:9)
+========================================== */
+
+#modalInformationEpisode .thumb {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 340px;
+    margin-bottom: 26px;
+    overflow: hidden;
+
+    background: var(--bg-tertiary);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+}
+
+/* velo scuro in basso per staccare l'immagine dal contenuto */
+#modalInformationEpisode .thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(to top,
+            rgba(30, 32, 48, .55),
+            transparent 45%);
+    pointer-events: none;
+}
+
+#modalInformationEpisode .thumbFanart {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+/* ==========================================
+   TITOLO
+========================================== */
+
+#modalInformationEpisode .textinfo .title h1 {
+    position: relative;
+
+    margin: 0 0 22px;
+    padding-bottom: 14px;
+
+    color: var(--text-primary);
+    font-size: 27px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -.6px;
+    overflow-wrap: anywhere;
+}
+
+#modalInformationEpisode .textinfo .title h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 65px;
+    height: 4px;
+
+    background: linear-gradient(90deg,
+            var(--color-cinema),
+            var(--color-music));
+    border-radius: 5px;
+}
+
+/* ==========================================
+   RIGHE INFORMAZIONI (label / value)
+========================================== */
+
+#modalInformationEpisode .movieinfo {
+    display: grid;
+    grid-template-columns: 175px minmax(0, 1fr);
+    align-items: start;
+    gap: 15px;
+
+    margin-bottom: 7px;
+    padding: 13px 15px;
+
+    background: rgba(255, 255, 255, .025);
+    border: 1px solid rgba(255, 255, 255, .045);
+    border-radius: 9px;
+
+    transition: background .2s ease;
+}
+
+#modalInformationEpisode .movieinfo:last-child {
+    margin-bottom: 0;
+}
+
+#modalInformationEpisode .movieinfo:hover {
+    background: rgba(255, 255, 255, .045);
+}
+
+#modalInformationEpisode .movieinfo .label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#modalInformationEpisode .movieinfo .value {
+    min-width: 0;
+
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+/* Righe senza valore: nascoste */
+#modalInformationEpisode .movieinfo:has(> .value:empty) {
+    display: none;
+}
+
+/* Percorso file: è l'ultima riga (oppure aggiungi la classe .filelink come nella modale film) */
+#modalInformationEpisode .movieinfo.filelink .value,
+#modalInformationEpisode .movieinfo:last-child .value {
+    color: var(--text-secondary);
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 12px;
+}
+
+/* ==========================================
+   VOTAZIONE
+========================================== */
+
+#modalInformationEpisode .rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+#modalInformationEpisode .rating .star {
+    position: relative;
+    color: var(--bg-hover);
+    font-size: 19px;
+    line-height: 1;
+}
+
+#modalInformationEpisode .rating .star-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--color-rating);
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+#modalInformationEpisode .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 16px 24px;
+
+    background: rgba(0, 0, 0, .12);
+    border-top: 1px solid var(--border-color);
+}
+
+#modalInformationEpisode .modal-footer .btn-secondary {
+    padding: 10px 25px;
+
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 700;
+
+    background: var(--bg-tertiary);
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: var(--radius-sm);
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalInformationEpisode .modal-footer .btn-secondary:hover {
+    background: rgba(233, 75, 90, .18);
+    border-color: var(--color-cinema);
+    transform: translateY(-2px);
+}
+
+#modalInformationEpisode .close:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   ANIMAZIONE
+========================================== */
+
+@keyframes episodeModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+========================================== */
+
+@media (max-width: 768px) {
+    #modalInformationEpisode {
+        padding: 15px 10px;
+    }
+
+    #modalInformationEpisode .modal-dialog {
+        width: 100%;
+        min-height: calc(100% - 30px);
+    }
+
+    #modalInformationEpisode .modal-body {
+        padding: 22px 20px;
+    }
+
+    #modalInformationEpisode .thumb {
+        margin-bottom: 22px;
+    }
+
+    #modalInformationEpisode .movieinfo {
+        grid-template-columns: 135px minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    #modalInformationEpisode .textinfo .title h1 {
+        font-size: 24px;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE (a schermo intero)
+========================================== */
+
+@media (max-width: 520px) {
+    #modalInformationEpisode {
+        padding: 0;
+    }
+
+    #modalInformationEpisode .modal-dialog {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+    }
+
+    #modalInformationEpisode .modal-content {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    #modalInformationEpisode .modal-header {
+        padding: 14px 17px;
+    }
+
+    #modalInformationEpisode .modal-body {
+        flex: 1;
+        max-height: none;
+        padding: 18px 15px;
+    }
+
+    #modalInformationEpisode .thumb {
+        margin-bottom: 18px;
+        border-radius: 10px;
+    }
+
+    #modalInformationEpisode .textinfo .title h1 {
+        font-size: 21px;
+        margin-bottom: 18px;
+    }
+
+    #modalInformationEpisode .movieinfo {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 11px 12px;
+    }
+
+    #modalInformationEpisode .movieinfo .label {
+        color: var(--color-music);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    #modalInformationEpisode .modal-footer {
+        padding: 12px 15px;
+    }
+
+    #modalInformationEpisode .modal-footer .btn-secondary {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   ACCESSIBILITÀ
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #modalInformationEpisode *,
+    #modalInformationEpisode *::before,
+    #modalInformationEpisode *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* ==========================================
+   CINEWAVE - MUSIC VIDEO INFORMATION MODAL
+   #modalMusicVideoInformation
+========================================== */
+
+#modalMusicVideoInformation {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: rgba(8, 9, 17, .82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    padding: 25px 15px;
+}
+
+/* ==========================================
+   DIALOG / CONTENT
+========================================== */
+
+#modalMusicVideoInformation .modal-dialog {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    min-height: calc(100% - 50px);
+
+    display: flex;
+    align-items: center;
+}
+
+#modalMusicVideoInformation .modal-content {
+    width: 100%;
+    overflow: hidden;
+
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+
+    border: 1px solid rgba(155, 109, 255, .25);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 65px rgba(0, 0, 0, .55);
+
+    animation: musicVideoInfoModalIn .3s ease;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+#modalMusicVideoInformation .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 26px;
+
+    background: linear-gradient(110deg,
+            rgba(155, 109, 255, .22),
+            rgba(32, 201, 176, .10));
+    border-bottom: 1px solid rgba(155, 109, 255, .25);
+}
+
+#modalMusicVideoInformation .modal-title {
+    margin: 0;
+
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .5px;
+}
+
+#modalMusicVideoInformation .modal-header .close {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    color: var(--text-secondary);
+    font-size: 27px;
+    line-height: 1;
+    text-shadow: none;
+
+    background: rgba(255, 255, 255, .06);
+    border: 0;
+    border-radius: 50%;
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalMusicVideoInformation .modal-header .close__text {
+    position: absolute;
+    top: 2px;
+}
+
+#modalMusicVideoInformation .modal-header .close:hover {
+    color: #fff;
+    background: var(--color-music);
+    transform: rotate(90deg);
+}
+
+/* ==========================================
+   BODY: cover a sinistra, info a destra
+========================================== */
+
+#modalMusicVideoInformation .modal-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 28px;
+
+    max-height: 75vh;
+    padding: 28px 30px;
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-music) var(--bg-secondary);
+}
+
+#modalMusicVideoInformation .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalMusicVideoInformation .modal-body::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+#modalMusicVideoInformation .modal-body::-webkit-scrollbar-thumb {
+    background: var(--color-music);
+    border-radius: 10px;
+}
+
+/* ==========================================
+   THUMBNAIL (16:9)
+========================================== */
+
+#modalMusicVideoInformation .thumb {
+    position: relative;
+    overflow: hidden;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    background: var(--bg-tertiary);
+    border: 1px solid rgba(155, 109, 255, .3);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .4);
+}
+
+/* velo scuro in basso */
+#modalMusicVideoInformation .thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(to top,
+            rgba(30, 32, 48, .5),
+            transparent 45%);
+    pointer-events: none;
+}
+
+#modalMusicVideoInformation .thumbFanart {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition: transform .4s ease;
+}
+
+#modalMusicVideoInformation .thumb:hover .thumbFanart {
+    transform: scale(1.035);
+}
+
+/* ==========================================
+   COLONNA INFORMAZIONI
+========================================== */
+
+#modalMusicVideoInformation .textinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    min-width: 0;
+}
+
+#modalMusicVideoInformation .textinfo h1 {
+    position: relative;
+
+    margin: 0 0 14px;
+    padding-bottom: 16px;
+
+    color: var(--text-primary);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -.5px;
+    overflow-wrap: anywhere;
+}
+
+#modalMusicVideoInformation .textinfo h1.underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 75px;
+    height: 4px;
+
+    background: linear-gradient(90deg,
+            var(--color-music),
+            var(--color-interactive));
+    border-radius: 5px;
+}
+
+/* ==========================================
+   RIGHE INFORMAZIONI (label / value)
+========================================== */
+
+#modalMusicVideoInformation .movieinfo {
+    display: grid;
+    grid-template-columns: 125px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+
+    padding: 12px 15px;
+
+    background: rgba(255, 255, 255, .035);
+    border: 1px solid rgba(255, 255, 255, .045);
+    border-radius: 10px;
+
+    transition: background .2s ease, border-color .2s ease;
+}
+
+#modalMusicVideoInformation .movieinfo:hover {
+    background: rgba(155, 109, 255, .09);
+    border-color: rgba(155, 109, 255, .22);
+}
+
+#modalMusicVideoInformation .movieinfo .label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#modalMusicVideoInformation .movieinfo .value {
+    min-width: 0;
+
+    color: var(--text-primary);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+/* Valori vuoti (es. "Registi"): nascondo l'intera riga */
+#modalMusicVideoInformation .movieinfo:has(> .value:empty) {
+    display: none;
+}
+
+/* ==========================================
+   PERCORSO FILE
+========================================== */
+
+#modalMusicVideoInformation .movieinfo.filelink {
+    grid-template-columns: 1fr;
+    gap: 6px;
+
+    margin-top: 6px;
+    padding: 14px 15px;
+
+    background: rgba(0, 0, 0, .18);
+    border: 1px solid var(--border-color);
+}
+
+#modalMusicVideoInformation .movieinfo.filelink:hover {
+    border-color: rgba(155, 109, 255, .3);
+}
+
+#modalMusicVideoInformation .movieinfo.filelink .label {
+    color: var(--color-music);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
+#modalMusicVideoInformation .movieinfo.filelink .value {
+    color: var(--text-secondary);
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    word-break: break-word;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+#modalMusicVideoInformation .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 18px 26px;
+
+    background: rgba(0, 0, 0, .12);
+    border-top: 1px solid var(--border-color);
+}
+
+#modalMusicVideoInformation .modal-footer .btn.close {
+    padding: 10px 25px;
+
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    text-shadow: none;
+
+    background: linear-gradient(135deg, #9B6DFF, #7850D8);
+    border: 0;
+    border-radius: var(--radius-sm);
+    opacity: 1;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+#modalMusicVideoInformation .modal-footer .btn.close:hover {
+    background: linear-gradient(135deg, #20C9B0, #159F8C);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(32, 201, 176, .2);
+}
+
+#modalMusicVideoInformation .close:focus-visible {
+    outline: 2px solid var(--color-interactive);
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   ANIMAZIONE
+========================================== */
+
+@keyframes musicVideoInfoModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+========================================== */
+
+@media (max-width: 768px) {
+    #modalMusicVideoInformation {
+        padding: 15px 10px;
+    }
+
+    #modalMusicVideoInformation .modal-dialog {
+        min-height: calc(100% - 30px);
+    }
+
+    /* cover sopra, info sotto */
+    #modalMusicVideoInformation .modal-body {
+        grid-template-columns: 1fr;
+        gap: 22px;
+
+        max-height: 78vh;
+        padding: 22px 18px;
+    }
+
+    #modalMusicVideoInformation .textinfo h1 {
+        font-size: 25px;
+    }
+
+    #modalMusicVideoInformation .movieinfo {
+        grid-template-columns: 135px minmax(0, 1fr);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+========================================== */
+
+@media (max-width: 520px) {
+    #modalMusicVideoInformation {
+        padding: 10px;
+    }
+
+    #modalMusicVideoInformation .modal-content {
+        border-radius: 13px;
+    }
+
+    #modalMusicVideoInformation .modal-header {
+        padding: 16px 18px;
+    }
+
+    #modalMusicVideoInformation .modal-body {
+        gap: 18px;
+        padding: 20px 15px;
+    }
+
+    #modalMusicVideoInformation .textinfo h1 {
+        margin-bottom: 10px;
+        font-size: 22px;
+    }
+
+    #modalMusicVideoInformation .movieinfo {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 11px 12px;
+    }
+
+    #modalMusicVideoInformation .movieinfo .label {
+        color: var(--color-music);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    #modalMusicVideoInformation .modal-footer {
+        padding: 14px 16px;
+    }
+
+    #modalMusicVideoInformation .modal-footer .btn.close {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   ACCESSIBILITÀ
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #modalMusicVideoInformation *,
+    #modalMusicVideoInformation *::before,
+    #modalMusicVideoInformation *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
