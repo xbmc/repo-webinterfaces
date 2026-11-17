@@ -1,0 +1,144 @@
+{
+    "lang": "it",
+    "title": "ZuvoHome",
+    "save": "Save",
+    "information": "Informations",
+    "tooltip": {
+        "info": "Informations",
+        "enqueue": "Enqueue",
+        "play": "Play",
+        "songs": "Songs",
+        "add": "Add"
+    },
+    "alert": {
+        "added": "Added Successfully",
+        "played": "Played Successfully",
+        "scanned": "Scanned Successfully",
+        "cleaned": "Cleaned Successfully",
+        "exported": "Exported Successfully",
+        "enqueued": "Enqueued Successfully",
+        "saved": "Saved Successfully"
+    },
+    "footer": {
+        "next": "Next",
+        "now": "Now",
+        "remaining": "Remaining",
+        "total": "Total"
+    },
+    "loading": {
+        "loading": "Loading...",
+        "loadingApplication": "Application initialize..."
+    },
+    "gui": {
+        "enqueue": "Enqueue",
+        "title": "ZuvoHome",
+        "initialPage": "Home",
+        "information": "Informations",
+        "music": {
+            "title": "Music",
+            "artists": {
+                "title": "Artists",
+                "titles": "Titles",
+                "genres": "Genres"
+            },
+            "playlists": "Playlist",
+            "albums": {
+                "title": "Album",
+                "titles": "Titles",
+                "genres": "Genres",
+                "years": "Years",
+                "songs": "Songs"
+            },
+            "songs": {
+                "title": "Songs",
+                "titles": "Titles",
+                "artists": "Artists",
+                "years": "Years",
+                "genres": "Genres"
+            },
+            "files": "File",
+            "library": "Library"
+        },
+        "video": {
+            "title": "Video",
+            "movies": {
+                "title": "Movies",
+                "titles": "Titles",
+                "genres": "Genres",
+                "years": "Years"
+            },
+            "playlists": "Playlist",
+            "tvShows": {
+                "title": "TV Shows",
+                "titles": "Titles",
+                "genres": "Genres",
+                "years": "Years",
+                "seasons": "Seasons"
+            },
+            "musicVideo": {
+                "title": "Music video",
+                "titles": "Titles",
+                "genres": "Genres",
+                "years": "Years"
+            },
+            "files": "Files",
+            "library": {
+                "title": "Library",
+                "scan": "Scan library",
+                "clean": "Clean library",
+                "export": "Export library"
+            }
+        },
+        "settings": {
+            "title": "Settings",
+            "theme": "Theme",
+            "lang": "Language",
+            "error": "No addons available for this results.",
+            "startPage": "Start page"
+        },
+        "info": {
+            "title": "Informations",
+            "genre": "Genres",
+            "description": "Description",
+            "tags": "Tags",
+            "played": "Played",
+            "date": "Date",
+            "premiered": "Premiered",
+            "artists": "Artists",
+            "year": "Year",
+            "recordLabel": "Record label",
+            "lastPlayed": "Last played",
+            "yearactive": "Active years",
+            "albumlabel": "Album",
+            "episode": "Episode",
+            "season": "Season",
+            "duration": "Duration",
+            "rating": "Rating",
+            "firstaired": "First start",
+            "audioTrack": "Audio track",
+            "file": "File",
+            "direcotr": "Director"
+        },
+        "movie": {
+            "originaltitle": "Original title",
+            "runtime": "Duration",
+            "genre": "Genres",
+            "rating": "Rating",
+            "votes": "Votes",
+            "year": "Year",
+            "director": "Directors",
+            "writer": "Writers",
+            "studio": "Studio",
+            "tagline": "Tag line",
+            "tag": "Tags",
+            "trailer": "Trailer",
+            "set": "Set",
+            "lastplayed": "Last played",
+            "played": "Played",
+            "audio": "Audio",
+            "file": "File",
+            "enqueue": "Enqueue",
+            "play": "Play"
+        }
+    }
+}

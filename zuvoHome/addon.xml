@@ -1,0 +1,29 @@
+﻿﻿<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="webinterface.zuvoHome"
+  version="1.0.1"
+  name="zuvoHome"
+  provider-name="Alessandro Anselmi">
+  <requires>
+    <import addon="xbmc.json" version="6.0.0"/>
+  </requires>
+  <extension point="xbmc.webinterface" library="index.html" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="it">ZuvoHome - Interfaccia Web basata su Ajax per XBMC</summary>
+    <description lang="it">
+      Puoi usare questa interfaccia web per controllare le sezioni Audio/Video di XBMC: play/pausa/stop/salta,
+      mostra artisti/album/film/programmi tv, avviarli o aggiungerli alla playlist. E' disegnata per usare PC
+      o laptop con un browser come FireFox che supporti JavaScript. Requisiti Minimi: XBMC Frodo Browser
+      Testati: - FireFox - Chromium - Internet Explorer 9 Non supportati: Internet Explorer 6
+      Consiglio: Può essere necessario pulire la cache del browser prima di aprire la nuova interfaccia web browser.
+      E' altamente raccomandato l'utilizzo di un browser compatibile con i "web sockets". IE 9 non è uno di questi.
+    </description>
+    <language></language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+    <source>https://github.com/alessandroanselmi87/zuvoHome</source>
+    <assets>
+			<icon>icon.png</icon>
+		</assets>
+  </extension>
+</addon>
