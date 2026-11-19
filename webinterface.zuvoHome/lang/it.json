@@ -1,0 +1,144 @@
+{
+    "lang": "it",
+    "title": "ZuvoHome",
+    "save": "Salva",
+    "information": "Informazioni",
+    "tooltip": {
+        "info": "Informazioni",
+        "enqueue": "Accoda",
+        "play": "Riproduci",
+        "songs": "Canzoni",
+        "add": "Aggiungi"
+    },
+    "alert": {
+        "added": "Aggiunto con successo",
+        "played": "Riproduzione avvenuta con successo",
+        "scanned": "Scannerizzazione avvenuta con successo",
+        "cleaned": "Pulizia avvenuta con successo",
+        "exported": "Export avvenuto con successo",
+        "enqueued": "Messo in coda con successo",
+        "saved": "Salvataggio avvenuto con successo"
+    },
+    "footer": {
+        "next": "Prossimo",
+        "now": "Ora",
+        "remaining": "Tempo rimanente",
+        "total": "Tempo totale"
+    },
+    "loading": {
+        "loading": "Caricamento dell'applicazione...",
+        "loadingApplication": "Inizializzazione dell'applicazione..."
+    },
+    "gui": {
+        "enqueue": "Metti in coda",
+        "title": "ZuvoHome",
+        "initialPage": "Pagina iniziale",
+        "information": "Informazioni",
+        "music": {
+            "title": "Musica",
+            "artists": {
+                "title": "Artisti",
+                "titles": "Titoli",
+                "genres": "Generi"
+            },
+            "playlists": "Playlist",
+            "albums": {
+                "title": "Album",
+                "titles": "Titoli",
+                "genres": "Generi",
+                "years": "Anno",
+                "songs": "Canzoni"
+            },
+            "songs": {
+                "title": "Canzoni",
+                "titles": "Titoli",
+                "artists": "Artisti",
+                "years": "Anno",
+                "genres": "Generi"
+            },
+            "files": "File",
+            "library": "Libreria"
+        },
+        "video": {
+            "title": "Video",
+            "movies": {
+                "title": "Film",
+                "titles": "Titoli",
+                "genres": "Generi",
+                "years": "Anno"
+            },
+            "playlists": "Playlist",
+            "tvShows": {
+                "title": "Serie TV",
+                "titles": "Titoli",
+                "genres": "Generi",
+                "years": "Anno",
+                "seasons": "Stagioni"
+            },
+            "musicVideo": {
+                "title": "Video musicali",
+                "titles": "Titoli",
+                "genres": "Generi",
+                "years": "Anno"
+            },
+            "files": "File",
+            "library": {
+                "title": "Strumenti di libreria",
+                "scan": "Scan libreria",
+                "clean": "Pulizia libreria",
+                "export": "Esporta libreria"
+            }
+        },
+        "settings": {
+            "title": "Impostazioni",
+            "theme": "Tema",
+            "lang": "Lingua",
+            "error": "Non risulta alcun addon disponibile.",
+            "startPage": "Pagina iniziale"
+        },
+        "info": {
+            "title": "Informazioni",
+            "genre": "Genere",
+            "description": "Descrizione",
+            "tags": "Tags",
+            "played": "Numero di riproduzioni",
+            "date": "Data",
+            "premiered": "Votazione",
+            "artists": "Artisti",
+            "year": "Anno",
+            "recordLabel": "Registrazione",
+            "lastPlayed": "Ultima riproduzione",
+            "yearactive": "Anni di attività",
+            "albumlabel": "Album",
+            "episode": "Episodio",
+            "season": "Stagione",
+            "duration": "Durata",
+            "rating": "Votazione",
+            "firstaired": "Trasmesso",
+            "audioTrack": "Traccia audio",
+            "file": "File",
+            "direcotr": "Registi"
+        },
+        "movie": {
+            "originaltitle": "Titolo originale",
+            "runtime": "Durata",
+            "genre": "Generi",
+            "rating": "Votazione",
+            "votes": "Voti",
+            "year": "Anno",
+            "director": "Registi",
+            "writer": "Scritto da",
+            "studio": "Studio",
+            "tagline": "Tag line",
+            "tag": "Tags",
+            "trailer": "Trailer",
+            "set": "Set",
+            "lastplayed": "Ultima riproduzione",
+            "played": "Numero di riproduzioni",
+            "audio": "Traccia audio",
+            "file": "File",
+            "enqueue": "Accoda",
+            "play": "Guarda"
+        }
+    }
+}
